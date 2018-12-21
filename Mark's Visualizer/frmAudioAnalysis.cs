@@ -329,7 +329,7 @@ namespace AudioAnalysis
 
         string[] config = new string[10];
 
-        const string configPath = @"D:\src\GitHub\Audionce\Configs\";
+        const string configPath = @"..\..\..\Configs\";
 
         string currentConfig;
 
