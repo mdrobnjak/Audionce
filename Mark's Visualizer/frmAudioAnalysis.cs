@@ -311,7 +311,7 @@ namespace AudioAnalysis
             //Set Mode to 1.
             Mode = 1;
             //Set MasterScaleFFT to 1.
-            MasterScaleFFT = 2;
+            MasterScaleFFT = 1;
             //Set DropOffScale to 0.4.
             DropOffScale = 10;
             //Set N_FFT to 2048.
@@ -329,7 +329,7 @@ namespace AudioAnalysis
 
         string[] config = new string[10];
 
-        const string configPath = @"D:\src\Applications\Mark's Visualizer\Configs\";
+        const string configPath = @"D:\src\GitHub\Audionce\Configs\";
 
         string currentConfig;
 
@@ -434,7 +434,7 @@ namespace AudioAnalysis
             {
                 beatDetectors[rangeIndex].Scan(transformedData, rangeLows[rangeIndex], rangeHighs[rangeIndex], ref accumAudios[rangeIndex], ref newAudios[rangeIndex]);
 
-                DrawProgressBar(rangeIndex);
+                //DrawProgressBar(rangeIndex);
             }
         }
 
@@ -442,15 +442,13 @@ namespace AudioAnalysis
         {
             if (newAudios[rangeIndex] > thresholds[rangeIndex])
             {
-                ((ProgressBar)pnlBars.Controls[rangeIndex]).Minimum = (int)(thresholds[rangeIndex]);
-                //((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum = (int)((accumAudios[rangeIndex] / accumDivisor) > newAudios[rangeIndex] ? (accumAudios[rangeIndex] / accumDivisor) : newAudios[rangeIndex]);
-                if (newAudios[rangeIndex] < ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum)
+                ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum;
+            }
+            else
+            {
+                if (((ProgressBar)pnlBars.Controls[rangeIndex]).Value >= 3)
                 {
-                    ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = (int)(newAudios[rangeIndex]);
-                }
-                else
-                {
-                    ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum;
+                    ((ProgressBar)pnlBars.Controls[rangeIndex]).Value -= 3;
                 }
             }
         }
@@ -662,16 +660,11 @@ namespace AudioAnalysis
 
             trckbrMin.Value = rangeLows[selectedRange];
             trckbrMax.Value = rangeHighs[selectedRange];
-            if(thresholds[selectedRange] > trckbrThreshold.Maximum)
+            if (thresholds[selectedRange] > trckbrThreshold.Maximum)
             {
-                trckbrThreshold.Maximum = (int)(thresholds[selectedRange]*1.33);
+                trckbrThreshold.Maximum = (int)(thresholds[selectedRange] * 1.33);
             }
             trckbrThreshold.Value = (int)thresholds[selectedRange];
-            //set progress bar max to chart1 yaxis maximum
-            if (chart1.ChartAreas[0].AxisY.Maximum > ((ProgressBar)pnlBars.Controls[rangeIndex]).Value)
-            {
-                ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum = (int)chart1.ChartAreas[0].AxisY.Maximum; 
-            }
         }
 
         private void btnRange1_Click(object sender, EventArgs e)
