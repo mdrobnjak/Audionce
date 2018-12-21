@@ -76,20 +76,11 @@
       <DependentUpon>frmAudioAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="OSD.cs" />
-    <Compile Include="NovarStrikerVisualizer UNUSED.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NovarStrikerVisualizer UNUSED.Designer.cs">
-      <DependentUpon>NovarStrikerVisualizer UNUSED.cs</DependentUpon>
-    </Compile>
     <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmAudioAnalysis.resx">
       <DependentUpon>frmAudioAnalysis.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NovarStrikerVisualizer UNUSED.resx">
-      <DependentUpon>NovarStrikerVisualizer UNUSED.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -6,6 +6,8 @@ namespace AudioAnalysis.External
 {
     public class BeatDetector
     {
+        
+
         private int _evalLength = 0;
         private List<double> bassHis;
 
