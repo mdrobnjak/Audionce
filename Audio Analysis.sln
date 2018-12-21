@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mark's Visualizer", "Mark's Visualizer\Mark's Visualizer.csproj", "{6E309527-CFB6-41A1-916C-98ED67F1D981}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audio Analysis", "Mark's Visualizer\Audio Analysis.csproj", "{6E309527-CFB6-41A1-916C-98ED67F1D981}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScottPlot", "ScottPlot-2017-07-30\ScottPlot\ScottPlot.csproj", "{85C30C81-963A-40CB-8859-AD92B7EC4FA1}"
 EndProject

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Mark_s_Visualizer.External;
+using AudioAnalysis.External;
 
-namespace Mark_s_Visualizer
+namespace AudioAnalysis
 {
     class Node
     {

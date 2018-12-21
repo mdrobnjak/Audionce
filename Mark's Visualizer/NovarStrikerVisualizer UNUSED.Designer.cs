@@ -1,4 +1,4 @@
-﻿namespace Mark_s_Visualizer
+﻿namespace AudioAnalysis
 {
     partial class NovarStrikerVisualizer
     {

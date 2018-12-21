@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Mark_s_Visualizer
+namespace AudioAnalysis
 {
     public class Converter
     {

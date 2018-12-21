@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Mark_s_Visualizer
+namespace AudioAnalysis
 {
     static class Program
     {
@@ -14,7 +14,7 @@ namespace Mark_s_Visualizer
         [STAThread]
         static void Main()
         {
-            using (MarksVisualizer myapps = new MarksVisualizer())
+            using (frmAudioAnalysis myapps = new frmAudioAnalysis())
             {
                 //Application.EnableVisualStyles();
                 //Application.SetCompatibleTextRenderingDefault(false);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mark_s_Visualizer.External
+namespace AudioAnalysis.External
 {
     public class FFTProcessor
     {

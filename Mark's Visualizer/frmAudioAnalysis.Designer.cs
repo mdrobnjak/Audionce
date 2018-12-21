@@ -1,6 +1,6 @@
-﻿namespace Mark_s_Visualizer
+﻿namespace AudioAnalysis
 {
-    partial class MarksVisualizer
+    partial class frmAudioAnalysis
     {
         /// <summary>
         /// Required designer variable.
@@ -420,7 +420,7 @@
             this.Name = "MarksVisualizer";
             this.Text = "Mark\'s Visualizer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MarksVisualizer_FormClosing);
-            this.Load += new System.EventHandler(this.MarksVisualizer_Load);
+            this.Load += new System.EventHandler(this.frmAudioAnalysis_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.pnlSpectrum.ResumeLayout(false);
             this.pnlNewAudio.ResumeLayout(false);

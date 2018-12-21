@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mark_s_Visualizer.External
+namespace AudioAnalysis.External
 {
     public class ComplexNumber
     {

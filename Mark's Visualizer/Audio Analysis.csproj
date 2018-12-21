@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6E309527-CFB6-41A1-916C-98ED67F1D981}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Mark_s_Visualizer</RootNamespace>
-    <AssemblyName>Mark%27s Visualizer</AssemblyName>
+    <RootNamespace>AudioAnalysis</RootNamespace>
+    <AssemblyName>Audio Analysis</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,11 +46,8 @@
     <Reference Include="Accord.Math.Core, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>..\packages\Accord.Math.3.8.0\lib\net46\Accord.Math.Core.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="ParkSquare.Gracenote, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ParkSquare.Gracenote.1.6.4\lib\net40\ParkSquare.Gracenote.dll</HintPath>
+    <Reference Include="NAudio, Version=1.8.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.5\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,17 +69,11 @@
     <Compile Include="External\BeatDetector.cs" />
     <Compile Include="External\ComplexNumber.cs" />
     <Compile Include="External\FFTProcessor.cs" />
-    <Compile Include="frmAudionceUnity.cs">
+    <Compile Include="frmAudioAnalysis.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAudionceUnity.Designer.cs">
-      <DependentUpon>frmAudionceUnity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MarksVisualizer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MarksVisualizer.Designer.cs">
-      <DependentUpon>MarksVisualizer.cs</DependentUpon>
+    <Compile Include="frmAudioAnalysis.Designer.cs">
+      <DependentUpon>frmAudioAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="OSD.cs" />
     <Compile Include="NovarStrikerVisualizer UNUSED.cs">
@@ -94,11 +85,8 @@
     <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmAudionceUnity.resx">
-      <DependentUpon>frmAudionceUnity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MarksVisualizer.resx">
-      <DependentUpon>MarksVisualizer.cs</DependentUpon>
+    <EmbeddedResource Include="frmAudioAnalysis.resx">
+      <DependentUpon>frmAudioAnalysis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NovarStrikerVisualizer UNUSED.resx">
       <DependentUpon>NovarStrikerVisualizer UNUSED.cs</DependentUpon>
@@ -111,6 +99,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -131,9 +120,6 @@
       <Project>{85c30c81-963a-40cb-8859-ad92b7ec4fa1}</Project>
       <Name>ScottPlot</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />

@@ -8,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Mark_s_Visualizer.External;
+using AudioAnalysis.External;
 using NAudio.Wave;
 
-namespace Mark_s_Visualizer
+namespace AudioAnalysis
 {
     public partial class NovarStrikerVisualizer : Form
     {

@@ -9,23 +9,23 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Mark_s_Visualizer.External;
+using AudioAnalysis.External;
 using NAudio.Dsp;
 using NAudio.Wave;
 using System.Numerics;
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace Mark_s_Visualizer
+namespace AudioAnalysis
 {
-    public partial class frmAudionceUnity : Form
+    public partial class frmAudioAnalysis : Form
     {
-        public frmAudionceUnity()
+        public frmAudioAnalysis()
         {
             InitializeComponent();
         }
 
-        private async void frmAudionceUnity_Load(object sender, EventArgs e)
+        private async void frmAudioAnalysis_Load(object sender, EventArgs e)
         {
             InitBufferAndGraphic();
 
@@ -443,8 +443,15 @@ namespace Mark_s_Visualizer
             if (newAudios[rangeIndex] > thresholds[rangeIndex])
             {
                 ((ProgressBar)pnlBars.Controls[rangeIndex]).Minimum = (int)(thresholds[rangeIndex]);
-                ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum = (int)((accumAudios[rangeIndex] / accumDivisor) > newAudios[rangeIndex] ? (accumAudios[rangeIndex] / accumDivisor) : newAudios[rangeIndex]);
-                ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = (int)(newAudios[rangeIndex]);
+                //((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum = (int)((accumAudios[rangeIndex] / accumDivisor) > newAudios[rangeIndex] ? (accumAudios[rangeIndex] / accumDivisor) : newAudios[rangeIndex]);
+                if (newAudios[rangeIndex] < ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum)
+                {
+                    ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = (int)(newAudios[rangeIndex]);
+                }
+                else
+                {
+                    ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum;
+                }
             }
         }
 
@@ -593,7 +600,7 @@ namespace Mark_s_Visualizer
 
         }
 
-        private void frmAudionceUnity_FormClosing(object sender, FormClosingEventArgs e)
+        private void MarksVisualizer_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (waveInStream != null)
             {
@@ -660,6 +667,11 @@ namespace Mark_s_Visualizer
                 trckbrThreshold.Maximum = (int)(thresholds[selectedRange]*1.33);
             }
             trckbrThreshold.Value = (int)thresholds[selectedRange];
+            //set progress bar max to chart1 yaxis maximum
+            if (chart1.ChartAreas[0].AxisY.Maximum > ((ProgressBar)pnlBars.Controls[rangeIndex]).Value)
+            {
+                ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum = (int)chart1.ChartAreas[0].AxisY.Maximum; 
+            }
         }
 
         private void btnRange1_Click(object sender, EventArgs e)
