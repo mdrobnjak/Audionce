@@ -1,0 +1,9 @@
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\bin\Release\ScottPlot.dll
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\bin\Release\ScottPlot.pdb
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Release\ScottPlot.csprojAssemblyReference.cache
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Release\ScottPlot.ScottPlotUC.resources
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Release\ScottPlot.ucInteractive.resources
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Release\ScottPlot.csproj.GenerateResource.cache
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Release\ScottPlot.csproj.CoreCompileInputs.cache
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Release\ScottPlot.dll
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Release\ScottPlot.pdb

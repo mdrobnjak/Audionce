@@ -14,9 +14,13 @@ namespace Mark_s_Visualizer
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            using (MarksVisualizer myapps = new MarksVisualizer())
+            {
+                //Application.EnableVisualStyles();
+                //Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(myapps);
+
+            }
         }
     }
 }

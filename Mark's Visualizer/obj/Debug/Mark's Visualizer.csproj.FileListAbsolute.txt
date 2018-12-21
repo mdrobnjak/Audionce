@@ -1,0 +1,28 @@
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Mark's Visualizer.exe.config
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Mark's Visualizer.exe
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Mark's Visualizer.pdb
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\NAudio.dll
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\NAudio.xml
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark's Visualizer.csprojAssemblyReference.cache
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark_s_Visualizer.Properties.Resources.resources
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark's Visualizer.csproj.GenerateResource.cache
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark's Visualizer.csproj.CoreCompileInputs.cache
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark's Visualizer.csproj.CopyComplete
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark's Visualizer.exe
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark's Visualizer.pdb
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark_s_Visualizer.MarksVisualizer.resources
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark_s_Visualizer.NovarStrikerVisualizer.resources
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\ScottPlot.dll
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\ScottPlot.pdb
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\ScottPlot.xml
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Accord.dll.config
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Accord.Audio.dll
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Accord.dll
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Accord.Math.Core.dll
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Accord.Math.dll
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Accord.xml
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Accord.Audio.xml
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Accord.Math.xml
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\Accord.Math.Core.xml
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\bin\Debug\ParkSquare.Gracenote.dll
+D:\src\Applications\Mark's Visualizer\Mark's Visualizer\obj\Debug\Mark_s_Visualizer.frmAudionceUnity.resources

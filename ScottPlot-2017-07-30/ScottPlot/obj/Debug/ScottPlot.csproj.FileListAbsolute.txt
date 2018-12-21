@@ -1,0 +1,20 @@
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\bin\Debug\ScottPlot.xml
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\bin\Debug\ScottPlot.dll
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\bin\Debug\ScottPlot.pdb
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csprojAssemblyReference.cache
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.ScottPlotUC.resources
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.ucInteractive.resources
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csproj.GenerateResource.cache
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csproj.CoreCompileInputs.cache
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.dll
+C:\src\Projects\Csharp-Data-Visualization-master\Csharp-Data-Visualization-master\projects\17-07-16_microphone\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.pdb
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\bin\Debug\ScottPlot.xml
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\bin\Debug\ScottPlot.dll
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\bin\Debug\ScottPlot.pdb
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csprojAssemblyReference.cache
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.ScottPlotUC.resources
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.ucInteractive.resources
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csproj.GenerateResource.cache
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csproj.CoreCompileInputs.cache
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.dll
+D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.pdb
