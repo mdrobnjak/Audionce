@@ -63,6 +63,12 @@
             this.cboSongNames = new System.Windows.Forms.ComboBox();
             this.btnSaveSong = new System.Windows.Forms.Button();
             this.btnArduino = new System.Windows.Forms.Button();
+            this.cboArduinoCommands = new System.Windows.Forms.ComboBox();
+            this.btnPlus10Percent = new System.Windows.Forms.Button();
+            this.btnMinus10Percent = new System.Windows.Forms.Button();
+            this.btnCalibrateTrackbar = new System.Windows.Forms.Button();
+            this.btnIncreaseMax = new System.Windows.Forms.Button();
+            this.btnDecreaseMax = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.pnlSpectrum.SuspendLayout();
             this.pnlNewAudio.SuspendLayout();
@@ -106,6 +112,11 @@
             this.pnlSpectrum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlSpectrum.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlSpectrum.Controls.Add(this.btnDecreaseMax);
+            this.pnlSpectrum.Controls.Add(this.btnIncreaseMax);
+            this.pnlSpectrum.Controls.Add(this.btnCalibrateTrackbar);
+            this.pnlSpectrum.Controls.Add(this.btnMinus10Percent);
+            this.pnlSpectrum.Controls.Add(this.btnPlus10Percent);
             this.pnlSpectrum.Controls.Add(this.pnlNewAudio);
             this.pnlSpectrum.Controls.Add(this.pnlAccumAudio);
             this.pnlSpectrum.Controls.Add(this.pnlBars);
@@ -380,7 +391,7 @@
             this.cboSongNames.BackColor = System.Drawing.Color.Black;
             this.cboSongNames.ForeColor = System.Drawing.Color.White;
             this.cboSongNames.FormattingEnabled = true;
-            this.cboSongNames.Location = new System.Drawing.Point(530, 378);
+            this.cboSongNames.Location = new System.Drawing.Point(453, 378);
             this.cboSongNames.Name = "cboSongNames";
             this.cboSongNames.Size = new System.Drawing.Size(294, 21);
             this.cboSongNames.TabIndex = 28;
@@ -390,7 +401,7 @@
             // 
             this.btnSaveSong.BackColor = System.Drawing.Color.Black;
             this.btnSaveSong.ForeColor = System.Drawing.Color.White;
-            this.btnSaveSong.Location = new System.Drawing.Point(830, 376);
+            this.btnSaveSong.Location = new System.Drawing.Point(753, 376);
             this.btnSaveSong.Name = "btnSaveSong";
             this.btnSaveSong.Size = new System.Drawing.Size(75, 23);
             this.btnSaveSong.TabIndex = 29;
@@ -400,13 +411,71 @@
             // 
             // btnArduino
             // 
-            this.btnArduino.Location = new System.Drawing.Point(981, 376);
+            this.btnArduino.Location = new System.Drawing.Point(852, 395);
             this.btnArduino.Name = "btnArduino";
-            this.btnArduino.Size = new System.Drawing.Size(75, 39);
+            this.btnArduino.Size = new System.Drawing.Size(204, 39);
             this.btnArduino.TabIndex = 30;
             this.btnArduino.Text = "Arduino Button";
             this.btnArduino.UseVisualStyleBackColor = true;
             this.btnArduino.Click += new System.EventHandler(this.btnArduino_Click);
+            // 
+            // cboArduinoCommands
+            // 
+            this.cboArduinoCommands.FormattingEnabled = true;
+            this.cboArduinoCommands.Location = new System.Drawing.Point(852, 368);
+            this.cboArduinoCommands.Name = "cboArduinoCommands";
+            this.cboArduinoCommands.Size = new System.Drawing.Size(204, 21);
+            this.cboArduinoCommands.TabIndex = 31;
+            // 
+            // btnPlus10Percent
+            // 
+            this.btnPlus10Percent.Location = new System.Drawing.Point(889, 277);
+            this.btnPlus10Percent.Name = "btnPlus10Percent";
+            this.btnPlus10Percent.Size = new System.Drawing.Size(49, 23);
+            this.btnPlus10Percent.TabIndex = 33;
+            this.btnPlus10Percent.Text = "+10%";
+            this.btnPlus10Percent.UseVisualStyleBackColor = true;
+            this.btnPlus10Percent.Click += new System.EventHandler(this.btnPlus10Percent_Click);
+            // 
+            // btnMinus10Percent
+            // 
+            this.btnMinus10Percent.Location = new System.Drawing.Point(718, 277);
+            this.btnMinus10Percent.Name = "btnMinus10Percent";
+            this.btnMinus10Percent.Size = new System.Drawing.Size(49, 23);
+            this.btnMinus10Percent.TabIndex = 34;
+            this.btnMinus10Percent.Text = "-10%";
+            this.btnMinus10Percent.UseVisualStyleBackColor = true;
+            this.btnMinus10Percent.Click += new System.EventHandler(this.btnMinus10Percent_Click);
+            // 
+            // btnCalibrateTrackbar
+            // 
+            this.btnCalibrateTrackbar.Location = new System.Drawing.Point(773, 277);
+            this.btnCalibrateTrackbar.Name = "btnCalibrateTrackbar";
+            this.btnCalibrateTrackbar.Size = new System.Drawing.Size(110, 23);
+            this.btnCalibrateTrackbar.TabIndex = 35;
+            this.btnCalibrateTrackbar.Text = "Calibrate Trackbar";
+            this.btnCalibrateTrackbar.UseVisualStyleBackColor = true;
+            this.btnCalibrateTrackbar.Click += new System.EventHandler(this.btnCalibrateTrackbar_Click);
+            // 
+            // btnIncreaseMax
+            // 
+            this.btnIncreaseMax.Location = new System.Drawing.Point(944, 277);
+            this.btnIncreaseMax.Name = "btnIncreaseMax";
+            this.btnIncreaseMax.Size = new System.Drawing.Size(52, 23);
+            this.btnIncreaseMax.TabIndex = 36;
+            this.btnIncreaseMax.Text = "MAX++";
+            this.btnIncreaseMax.UseVisualStyleBackColor = true;
+            this.btnIncreaseMax.Click += new System.EventHandler(this.btnIncreaseMax_Click);
+            // 
+            // btnDecreaseMax
+            // 
+            this.btnDecreaseMax.Location = new System.Drawing.Point(660, 277);
+            this.btnDecreaseMax.Name = "btnDecreaseMax";
+            this.btnDecreaseMax.Size = new System.Drawing.Size(52, 23);
+            this.btnDecreaseMax.TabIndex = 37;
+            this.btnDecreaseMax.Text = "MAX--";
+            this.btnDecreaseMax.UseVisualStyleBackColor = true;
+            this.btnDecreaseMax.Click += new System.EventHandler(this.btnDecreaseMax_Click);
             // 
             // frmAudioAnalysis
             // 
@@ -414,6 +483,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1068, 614);
+            this.Controls.Add(this.cboArduinoCommands);
             this.Controls.Add(this.btnArduino);
             this.Controls.Add(this.btnSaveSong);
             this.Controls.Add(this.cboSongNames);
@@ -481,6 +551,12 @@
         private System.Windows.Forms.ComboBox cboSongNames;
         private System.Windows.Forms.Button btnSaveSong;
         private System.Windows.Forms.Button btnArduino;
+        private System.Windows.Forms.ComboBox cboArduinoCommands;
+        private System.Windows.Forms.Button btnMinus10Percent;
+        private System.Windows.Forms.Button btnPlus10Percent;
+        private System.Windows.Forms.Button btnCalibrateTrackbar;
+        private System.Windows.Forms.Button btnDecreaseMax;
+        private System.Windows.Forms.Button btnIncreaseMax;
     }
 }
 

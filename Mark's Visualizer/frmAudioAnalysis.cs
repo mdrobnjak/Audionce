@@ -81,9 +81,20 @@ namespace AudioAnalysis
             pnlRangeButtons.Controls.SetChildIndex(btnRange2, 1);
             pnlRangeButtons.Controls.SetChildIndex(btnRange3, 2);
 
+            for (int i = 0; i < numRanges; i++)
+            {
+                if (i > 0)
+                {
+                    rangeLows[i] = rangeHighs[i] = trckbrMax.Maximum;
+                }
+                pnlRangeButtons.Controls[i].BackColor = colors[i];
+                pnlBars.Controls[i].ForeColor = colors[i];
+            }
+
             txtMasterScaleFFT.Text = AudioIn.MasterScaleFFT.ToString();
             txtTimer1Interval.Text = timer1.Interval.ToString();
 
+            cboArduinoCommands.Items.AddRange(ArduinoCode.arduinoCommands);
             #endregion
 
             this.spectrumGraphics = pnlSpectrum.CreateGraphics();
@@ -98,17 +109,6 @@ namespace AudioAnalysis
             while (!spectrumCounted)
             {
                 await Task.Delay(10);
-            }
-
-            //Init All Ranges besides 1 to upper end of bandwidth
-            for (int i = 0; i < numRanges; i++)
-            {
-                if (i > 0)
-                {
-                    rangeLows[i] = rangeHighs[i] = trckbrMax.Maximum;
-                }
-                pnlRangeButtons.Controls[i].BackColor = colors[i];
-                pnlBars.Controls[i].ForeColor = colors[i];
             }
 
             readConfig();
@@ -249,8 +249,8 @@ namespace AudioAnalysis
                         });
         ImageAttributes imgAttribute;
 
-        #endregion 
-        
+        #endregion
+
         #region File I/O
         /*
          * 0. MasterScaleFFT
@@ -279,7 +279,7 @@ namespace AudioAnalysis
             {
                 config[2] += rangeLows[i] + ",";
                 config[3] += rangeHighs[i] + ",";
-                config[4] += thresholds[i] + ",";
+                config[4] += (int)thresholds[i] + ",";
             }
             for (int i = 2; i < 5; i++)
             {
@@ -327,7 +327,7 @@ namespace AudioAnalysis
         }
 
         #endregion
-        
+
         const int numRanges = 3;
 
         BeatDetector[] beatDetectors = new BeatDetector[numRanges];
@@ -386,7 +386,6 @@ namespace AudioAnalysis
                     (chart1.Series[0].Points.Count() > 200 ? (chart1.Series[0].Points.Count() - 200) : chart1.Series[0].Points.Count() - 1)
 
                     ).YValues[0];
-
                 chart1.ChartAreas[0].AxisX.Minimum = chart1.ChartAreas[0].AxisX.Maximum - 250;
             }
         }
@@ -399,7 +398,7 @@ namespace AudioAnalysis
         OSD osdPanel = new OSD();
 
 
-        
+
 
         private void MarksVisualizer_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -508,16 +507,9 @@ namespace AudioAnalysis
 
         private void trckbrThreshold_ValueChanged(object sender, EventArgs e)
         {
-            if (trckbrThreshold.Value < chart1.ChartAreas[0].AxisY.Maximum)
-            {
-                trckbrThreshold.Maximum = (int)chart1.ChartAreas[0].AxisY.Maximum;
-            }
-
-            thresholds[selectedRange] = trckbrThreshold.Value;
+            stripline.IntervalOffset = thresholds[selectedRange] = trckbrThreshold.Value;
 
             txtThreshold.Text = trckbrThreshold.Value.ToString();
-
-            stripline.IntervalOffset = thresholds[selectedRange];
         }
 
         #endregion
@@ -571,7 +563,45 @@ namespace AudioAnalysis
 
         private void btnArduino_Click(object sender, EventArgs e)
         {
-            ArduinoCode.Toggle();
+            ArduinoCode.InterpretCommand(cboArduinoCommands.Text);
+        }
+
+        private void btnPlus10Percent_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < numRanges; i++)
+            {
+                thresholds[i] += thresholds[i] * 0.1;
+            }
+            trckbrThreshold.Value = (int)thresholds[selectedRange];
+            trckbrThreshold_ValueChanged(null, null);
+        }
+
+        private void btnMinus10Percent_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < numRanges; i++)
+            {
+                thresholds[i] -= thresholds[i] * 0.1;
+            }
+            trckbrThreshold.Value = (int)thresholds[selectedRange];
+            trckbrThreshold_ValueChanged(null, null);
+        }
+
+        private void btnCalibrateTrackbar_Click(object sender, EventArgs e)
+        {
+            trckbrThreshold.Maximum = (int)chart1.ChartAreas[0].AxisY.Maximum;
+            trckbrThreshold_ValueChanged(null, null);
+        }
+
+        private void btnIncreaseMax_Click(object sender, EventArgs e)
+        {
+            trckbrThreshold.Maximum += (int)((double)trckbrThreshold.Maximum * 0.1) ;
+            trckbrThreshold_ValueChanged(null, null);
+        }
+
+        private void btnDecreaseMax_Click(object sender, EventArgs e)
+        {
+            trckbrThreshold.Maximum -= (int)((double)trckbrThreshold.Maximum * 0.1);
+            trckbrThreshold_ValueChanged(null, null);
         }
     }
 }

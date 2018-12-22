@@ -11,7 +11,27 @@ namespace AudioAnalysis
     {
         public static SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
 
-        public static bool enable = false;
+        public static bool enabled = false;
+
+        public static string[] arduinoCommands = { "ON: 1", "OFF: 0", "Density 1: s", "Density 2: t", "Density 3: u", "Density 4: v" };
+
+        public static void InterpretCommand(string arduinoCommand)
+        {
+            string commandChar = arduinoCommand[arduinoCommand.Length - 1].ToString();
+
+            if (commandChar == "0")
+            {
+                port.Close();
+                return;
+            }
+            else if(commandChar == "1")
+            {
+                port.Open();
+                return;
+            }
+
+            Write(commandChar);
+        }
 
         public static void Write(string msg)
         {
@@ -20,24 +40,22 @@ namespace AudioAnalysis
 
         public static void Toggle()
         {
-            if (enable)
+            if (port.IsOpen)
             {
-                enable = false;
                 port.Close();
             }
             else
             {
                 port.Open();
-                enable = true;
             }
         }
 
         public static void Trigger(int rangeIndex)
         {
-            if (enable)
+            if (port.IsOpen)
             {
-                if (rangeIndex == 0) ArduinoCode.Write("b");
-                else if (rangeIndex == 1) ArduinoCode.Write("m");
+                if (rangeIndex == 0) Write("b");
+                else if (rangeIndex == 1) Write("m");
             }
         }
 
