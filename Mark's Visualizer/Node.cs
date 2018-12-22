@@ -5,7 +5,7 @@ using AudioAnalysis.External;
 
 namespace AudioAnalysis
 {
-    class Node
+    public class Node
     {
 
         public Node(ComplexNumber value)

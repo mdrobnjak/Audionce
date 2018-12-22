@@ -39,7 +39,7 @@ namespace AudioAnalysis
             //Force high priority if needed
             //System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High;
 
-            InitSoundCapture();
+            AudioIn.InitSoundCapture();
 
             #region just to try in a another manner
             //if (t != null)
@@ -81,7 +81,7 @@ namespace AudioAnalysis
             pnlRangeButtons.Controls.SetChildIndex(btnRange2, 1);
             pnlRangeButtons.Controls.SetChildIndex(btnRange3, 2);
 
-            txtMasterScaleFFT.Text = MasterScaleFFT.ToString();
+            txtMasterScaleFFT.Text = AudioIn.MasterScaleFFT.ToString();
             txtTimer1Interval.Text = timer1.Interval.ToString();
 
             #endregion
@@ -120,7 +120,7 @@ namespace AudioAnalysis
         private void InitCoordinator()
         {
             //Set baseScale to 4096/N_FFT.
-            double baseScale = 4096d / (double)N_FFT;
+            double baseScale = 4096d / (double)FFTProcessor.N_FFT;
             //Set Converter cvt to a new Converter
             cvt = new Converter(0, pnlSpectrum.Location.Y + pnlSpectrum.Height /*/ 2*/, 1, baseScale);
 
@@ -196,12 +196,12 @@ namespace AudioAnalysis
         private void DrawData(double[] data, Graphics g, Converter cvter)
         {
             var chkpoint2 = DateTime.Now;
-            if (data == null || data.Length == 0 || sourceData == null)
+            if (data == null || data.Length == 0 || AudioIn.sourceData == null)
                 return;
 
             float ratioFreq = (float)pnlSpectrum.Width / (float)data.Length; ;
             float ratioFreqTest = (float)pnlSpectrum.Width / 200;
-            float ratioWave = (float)pnlSpectrum.Width / (float)sourceData.Length;
+            float ratioWave = (float)pnlSpectrum.Width / (float)AudioIn.sourceData.Length;
             float value = 0;
 
 
@@ -250,74 +250,7 @@ namespace AudioAnalysis
         ImageAttributes imgAttribute;
 
         #endregion 
-
-        private const int RATE = 44100;
-        Node dataList = new Node(new ComplexNumber(0, 0));
-        Node endingNode;
-        WaveIn waveInStream;
-        BufferedWaveProvider bwp;
-        int BUFFERSIZE = (int)Math.Pow(2, 11); // must be a multiple of 2
-
-        #region Settings
-        public int Mode
-        {
-            get;
-            set;
-        }
-        public double MasterScaleFFT
-        {
-            get;
-            set;
-        }
-        public double DropOffScale
-        {
-            get;
-            set;
-        }
-        public int N_FFT
-        {
-            get;
-            set;
-        }
-        #endregion
-
-        private void InitSoundCapture()
-        {
-            //Set endingNode equal to dataList.
-            //What is a node?
-            endingNode = dataList;
-
-            //Prepare a Wave input device for recording.
-            waveInStream = new WaveIn();
-
-            waveInStream.DeviceNumber = 0;
-
-            //Set NumberOfBuffers to 5.
-            waveInStream.NumberOfBuffers = 5;
-            //Set BufferMilliseconds to 10.
-            waveInStream.BufferMilliseconds = (int)((double)BUFFERSIZE / (double)RATE * 1000.0);
-            //Create a new 16 bit Wave format with sample rate = samplingFrequency and channel count = 1
-            waveInStream.WaveFormat = new WaveFormat(RATE, 1);
-            //Create new EventHandler for when data is available to the Wave input device.
-            waveInStream.DataAvailable += new EventHandler<WaveInEventArgs>(waveInStream_DataAvailable);
-
-            bwp = new BufferedWaveProvider(waveInStream.WaveFormat);
-            bwp.BufferLength = BUFFERSIZE * 2;
-            bwp.DiscardOnBufferOverflow = true;
-
-            //Start recording to the Wave input device.
-            waveInStream.StartRecording();
-
-            //Set Mode to 1.
-            Mode = 1;
-            //Set MasterScaleFFT to 1.
-            MasterScaleFFT = 1;
-            //Set DropOffScale to 0.4.
-            DropOffScale = 10;
-            //Set N_FFT to 2048.
-            N_FFT = 2048;
-        }
-
+        
         #region File I/O
         /*
          * 0. MasterScaleFFT
@@ -337,7 +270,7 @@ namespace AudioAnalysis
         {
             //System.IO.File.WriteAllText(@"D:\src\Applications\Mark's Visualizer\Config.txt", "");
 
-            config[0] = MasterScaleFFT.ToString();
+            config[0] = AudioIn.MasterScaleFFT.ToString();
             config[1] = timer1.Interval.ToString();
 
             config[2] = config[3] = config[4] = "";
@@ -368,7 +301,7 @@ namespace AudioAnalysis
 
             config = System.IO.File.ReadAllLines(configPath + fileName + ".txt");
 
-            MasterScaleFFT = Int32.Parse(config[0]);
+            AudioIn.MasterScaleFFT = Int32.Parse(config[0]);
             timer1.Interval = Int32.Parse(config[1]);
             for (int i = 0; i < numRanges; i++)
             {
@@ -394,27 +327,7 @@ namespace AudioAnalysis
         }
 
         #endregion
-
-        double[] sourceData;
-
-        private void waveInStream_DataAvailable(object sender, WaveInEventArgs e)
-        {
-            if (sourceData == null)
-                sourceData = new double[e.BytesRecorded / 2];
-
-            for (int i = 0; i < e.BytesRecorded; i += 2)
-            {
-                short sampleL = (short)((e.Buffer[i + 1] << 8) | e.Buffer[i + 0]);
-                //  short sampleR = (short)((e.Buffer[i + 1+2] << 8) | e.Buffer[i + 2]);
-                double sample32 = (sampleL) / 32722d;
-                sourceData[i / 2] = sample32;// (double)(e.Buffer[i]) / 255;
-            }
-
-            bwp.AddSamples(e.Buffer, 0, e.BytesRecorded);
-
-            AppendData(sourceData);
-        }
-
+        
         const int numRanges = 3;
 
         BeatDetector[] beatDetectors = new BeatDetector[numRanges];
@@ -458,8 +371,8 @@ namespace AudioAnalysis
         {
             if (newAudios[rangeIndex] > thresholds[rangeIndex])
             {
-                pnlAccumAudio.Controls[rangeIndex].Text = ((int)accumAudios[rangeIndex] / MasterScaleFFT).ToString();
-                pnlNewAudio.Controls[rangeIndex].Text = ((int)newAudios[rangeIndex] / MasterScaleFFT).ToString();
+                pnlAccumAudio.Controls[rangeIndex].Text = ((int)accumAudios[rangeIndex] / AudioIn.MasterScaleFFT).ToString();
+                pnlNewAudio.Controls[rangeIndex].Text = ((int)newAudios[rangeIndex] / AudioIn.MasterScaleFFT).ToString();
             }
         }
 
@@ -467,7 +380,7 @@ namespace AudioAnalysis
         {
             if (newAudios[selectedRange] > thresholds[selectedRange] || true)
             {
-                chart1.Series[0].Points.AddY(newAudios[selectedRange] / MasterScaleFFT);
+                chart1.Series[0].Points.AddY(newAudios[selectedRange] / AudioIn.MasterScaleFFT);
                 chart1.ChartAreas[0].AxisY.Maximum = chart1.Series[0].Points.FindMaxByValue("Y1",
 
                     (chart1.Series[0].Points.Count() > 200 ? (chart1.Series[0].Points.Count() - 200) : chart1.Series[0].Points.Count() - 1)
@@ -478,135 +391,19 @@ namespace AudioAnalysis
             }
         }
 
-        int distance2Node = 0;
-
-        private void AppendData(double[] newData)
-        {
-            int N = 10000;
-            //double[] data = new double[N];
-
-            var prevNode = dataList;
-            var shiftNode = dataList;
 
 
-            for (int j = 0; j < newData.Length; j++)
-            {
-                endingNode.NextNode = new Node(new ComplexNumber(newData[j], 0));
-                endingNode.NextNode.PrevNode = endingNode;
-                endingNode = endingNode.NextNode;
-                if (j == newData.Length - 1)
-                    endingNode.isEndPoint = true;
-                // data[thresholdCounter] = runningNode.Value;
-                distance2Node++;
-            }
-            if (distance2Node > N)
-            {
-                for (int j = 0; j < newData.Length; j++)
-                {
-                    dataList = dataList.NextNode;
-                }
-                dataList.isStartPoint = true;
-                dataList.PrevNode = null;
-                distance2Node = distance2Node - newData.Length;
-            }
 
-        }
 
         double[] transformedData;
         OSD osdPanel = new OSD();
 
-        int[] chunk_freq = { 800, 1600, 3200, 6400, 12800, 30000 };
-        int[] chunk_freq_jump = { 1, 2, 4, 6, 8, 10, 16 };
-        double lastDelay = 0;
 
-        private double[] FFT(double[] lastData)
-        {
-            DateTime chkpoint1 = DateTime.Now;
-            if (dataList == null)
-                return null;
-            int actualN = distance2Node + 1;
-
-            if (actualN < N_FFT)
-                return new double[0];
-
-            bool transformed = false;
-            if (lastData == null || lastData.Length == 0)
-            {
-                lastData = new double[N_FFT];
-            }
-            else
-            {
-                transformed = true;
-            }
-            ComplexNumber[] data = new ComplexNumber[N_FFT];
-            var runningNode = endingNode;
-            for (int i = 0; i < N_FFT; i++)
-            {
-                data[i] = runningNode.Value;
-                if (runningNode.PrevNode == null)
-                {
-                }
-                runningNode = runningNode.PrevNode;
-            }
-            var result = FFTProcessor.FFT(data);
-            double N2 = result.Length / 2;
-            double[] finalresult = new double[lastData.Length];
-            int k = 1, transformedDataIndex = 0;
-            double value = 0;
-
-            double refFeq = 250;
-
-            int i_ref = (int)(refFeq * N2 / 22050);
-            for (int i = 0; i < N2; i += k)
-            {
-                value = 0;
-                //k = i / i_ref;
-                //k = k == 0 ? 1 : k;
-                var mappedFreq = i * RATE / 2 / N2;
-                for (int l = 0; l < chunk_freq.Length; l++)
-                {
-                    if (mappedFreq < chunk_freq[l] || l == chunk_freq.Length - 1)
-                    {
-                        k = chunk_freq_jump[l];//chunk_freq[l] / chunk_freq[0];
-                        break;
-                    }
-                }
-
-                for (int j = i; j < i + k && j < N2; j++)
-                {
-                    value += result[j].Magnitude;
-                }
-
-
-                value = value * MasterScaleFFT;
-                lastData[transformedDataIndex] -= lastDelay * DropOffScale;
-                if (Mode == 0)
-                    finalresult[transformedDataIndex] = value;
-                else
-                    finalresult[transformedDataIndex] = value > lastData[transformedDataIndex] ? value : lastData[transformedDataIndex];
-                transformedDataIndex++;
-            }
-
-
-            if (!transformed)
-                Array.Resize<double>(ref finalresult, transformedDataIndex);
-
-
-            DateTime chkpoint1_end = DateTime.Now;
-            lastDelay = chkpoint1_end.Subtract(chkpoint1).TotalMilliseconds;
-            osdPanel.AddSet("FFT delay(ms)", lastDelay.ToString());
-            return finalresult;
-
-        }
+        
 
         private void MarksVisualizer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (waveInStream != null)
-            {
-                waveInStream.StopRecording();
-                waveInStream.Dispose();
-                waveInStream = null;
-            }
+            AudioIn.Dispose();
 
             writeConfig(currentConfig);
             System.IO.File.WriteAllText(configPath + @"\LastConfig\LastConfig.txt", currentConfig);
@@ -617,7 +414,7 @@ namespace AudioAnalysis
 
         public void timer1_Tick(object sender, EventArgs e)
         {
-            transformedData = FFT(transformedData);
+            transformedData = FFTProcessor.FFT(transformedData);
 
             #region Calibrate Trackbars
             if (!spectrumCounted && transformedData.Count() != 0)
@@ -742,7 +539,7 @@ namespace AudioAnalysis
             {
                 if (Int32.TryParse(txtMasterScaleFFT.Text, out intFromTextBox))
                 {
-                    MasterScaleFFT = intFromTextBox;
+                    AudioIn.MasterScaleFFT = intFromTextBox;
                 }
             }
         }

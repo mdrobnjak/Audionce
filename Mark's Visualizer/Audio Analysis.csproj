@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArduinoCode.cs" />
+    <Compile Include="AudioIn.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="External\BeatDetector.cs" />
