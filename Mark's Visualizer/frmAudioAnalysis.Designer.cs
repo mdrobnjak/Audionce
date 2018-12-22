@@ -62,6 +62,7 @@
             this.lblThreshold = new System.Windows.Forms.Label();
             this.cboSongNames = new System.Windows.Forms.ComboBox();
             this.btnSaveSong = new System.Windows.Forms.Button();
+            this.btnArduino = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.pnlSpectrum.SuspendLayout();
             this.pnlNewAudio.SuspendLayout();
@@ -397,12 +398,23 @@
             this.btnSaveSong.UseVisualStyleBackColor = false;
             this.btnSaveSong.Click += new System.EventHandler(this.btnSaveSong_Click);
             // 
-            // MarksVisualizer
+            // btnArduino
+            // 
+            this.btnArduino.Location = new System.Drawing.Point(981, 376);
+            this.btnArduino.Name = "btnArduino";
+            this.btnArduino.Size = new System.Drawing.Size(75, 39);
+            this.btnArduino.TabIndex = 30;
+            this.btnArduino.Text = "Arduino Button";
+            this.btnArduino.UseVisualStyleBackColor = true;
+            this.btnArduino.Click += new System.EventHandler(this.btnArduino_Click);
+            // 
+            // frmAudioAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1068, 614);
+            this.Controls.Add(this.btnArduino);
             this.Controls.Add(this.btnSaveSong);
             this.Controls.Add(this.cboSongNames);
             this.Controls.Add(this.txtThreshold);
@@ -417,7 +429,7 @@
             this.Controls.Add(this.trckbrThreshold);
             this.Controls.Add(this.pnlSpectrum);
             this.Controls.Add(this.trckbrMin);
-            this.Name = "MarksVisualizer";
+            this.Name = "frmAudioAnalysis";
             this.Text = "Mark\'s Visualizer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MarksVisualizer_FormClosing);
             this.Load += new System.EventHandler(this.frmAudioAnalysis_Load);
@@ -468,6 +480,7 @@
         private System.Windows.Forms.Label lblThreshold;
         private System.Windows.Forms.ComboBox cboSongNames;
         private System.Windows.Forms.Button btnSaveSong;
+        private System.Windows.Forms.Button btnArduino;
     }
 }
 

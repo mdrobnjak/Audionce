@@ -443,6 +443,7 @@ namespace AudioAnalysis
             if (newAudios[rangeIndex] > thresholds[rangeIndex])
             {
                 ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum;
+                ArduinoCode.Trigger(rangeIndex);
             }
             else
             {
@@ -609,6 +610,7 @@ namespace AudioAnalysis
 
             writeConfig(currentConfig);
             System.IO.File.WriteAllText(configPath + @"\LastConfig\LastConfig.txt", currentConfig);
+
         }
 
         bool spectrumCounted = false;
@@ -768,6 +770,11 @@ namespace AudioAnalysis
         {
             writeConfig(cboSongNames.Text);
             initSongNames();
+        }
+
+        private void btnArduino_Click(object sender, EventArgs e)
+        {
+            ArduinoCode.Toggle();
         }
     }
 }

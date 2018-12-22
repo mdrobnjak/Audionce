@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArduinoCode.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="External\BeatDetector.cs" />
