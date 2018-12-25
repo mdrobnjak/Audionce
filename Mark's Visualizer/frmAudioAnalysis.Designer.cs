@@ -29,12 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.pnlSpectrum = new System.Windows.Forms.Panel();
+            this.btnDecreaseMax = new System.Windows.Forms.Button();
+            this.btnIncreaseMax = new System.Windows.Forms.Button();
+            this.btnCalibrate = new System.Windows.Forms.Button();
+            this.btnMinus10Percent = new System.Windows.Forms.Button();
+            this.btnPlus10Percent = new System.Windows.Forms.Button();
             this.pnlNewAudio = new System.Windows.Forms.Panel();
             this.txtNewAudio3 = new System.Windows.Forms.TextBox();
             this.txtNewAudio2 = new System.Windows.Forms.TextBox();
@@ -47,37 +52,32 @@
             this.barRange3 = new System.Windows.Forms.ProgressBar();
             this.barRange1 = new System.Windows.Forms.ProgressBar();
             this.barRange2 = new System.Windows.Forms.ProgressBar();
-            this.trckbrThreshold = new System.Windows.Forms.TrackBar();
+            this.trkbrThreshold = new System.Windows.Forms.TrackBar();
             this.txtThreshold = new System.Windows.Forms.TextBox();
             this.pnlRangeButtons = new System.Windows.Forms.Panel();
             this.btnRange3 = new System.Windows.Forms.Button();
             this.btnRange2 = new System.Windows.Forms.Button();
             this.btnRange1 = new System.Windows.Forms.Button();
-            this.trckbrMin = new System.Windows.Forms.TrackBar();
-            this.trckbrMax = new System.Windows.Forms.TrackBar();
-            this.txtMasterScaleFFT = new System.Windows.Forms.TextBox();
+            this.trkbrMin = new System.Windows.Forms.TrackBar();
+            this.trkbrMax = new System.Windows.Forms.TrackBar();
             this.txtTimer1Interval = new System.Windows.Forms.TextBox();
-            this.lblMasterScaleFFT = new System.Windows.Forms.Label();
             this.lblRefreshRate = new System.Windows.Forms.Label();
             this.lblThreshold = new System.Windows.Forms.Label();
             this.cboSongNames = new System.Windows.Forms.ComboBox();
             this.btnSaveSong = new System.Windows.Forms.Button();
             this.btnArduino = new System.Windows.Forms.Button();
             this.cboArduinoCommands = new System.Windows.Forms.ComboBox();
-            this.btnPlus10Percent = new System.Windows.Forms.Button();
-            this.btnMinus10Percent = new System.Windows.Forms.Button();
-            this.btnCalibrateTrackbar = new System.Windows.Forms.Button();
-            this.btnIncreaseMax = new System.Windows.Forms.Button();
-            this.btnDecreaseMax = new System.Windows.Forms.Button();
+            this.btnAutoRange = new System.Windows.Forms.Button();
+            this.btnFullSpectrum = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.pnlSpectrum.SuspendLayout();
             this.pnlNewAudio.SuspendLayout();
             this.pnlAccumAudio.SuspendLayout();
             this.pnlBars.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trckbrThreshold)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.pnlRangeButtons.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trckbrMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trckbrMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -89,20 +89,20 @@
             // chart1
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.AxisX.LabelStyle.Enabled = false;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea3.AxisX.LabelStyle.Enabled = false;
+            chartArea3.AxisX.MajorGrid.Enabled = false;
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart1.Legends.Add(legend3);
             this.chart1.Location = new System.Drawing.Point(57, 439);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Color = System.Drawing.Color.Black;
-            series1.IsVisibleInLegend = false;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Color = System.Drawing.Color.Black;
+            series3.IsVisibleInLegend = false;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(999, 165);
             this.chart1.TabIndex = 16;
             this.chart1.Text = "chart1";
@@ -114,7 +114,7 @@
             this.pnlSpectrum.BackColor = System.Drawing.SystemColors.Control;
             this.pnlSpectrum.Controls.Add(this.btnDecreaseMax);
             this.pnlSpectrum.Controls.Add(this.btnIncreaseMax);
-            this.pnlSpectrum.Controls.Add(this.btnCalibrateTrackbar);
+            this.pnlSpectrum.Controls.Add(this.btnCalibrate);
             this.pnlSpectrum.Controls.Add(this.btnMinus10Percent);
             this.pnlSpectrum.Controls.Add(this.btnPlus10Percent);
             this.pnlSpectrum.Controls.Add(this.pnlNewAudio);
@@ -125,6 +125,56 @@
             this.pnlSpectrum.Size = new System.Drawing.Size(999, 303);
             this.pnlSpectrum.TabIndex = 19;
             this.pnlSpectrum.SizeChanged += new System.EventHandler(this.pnlSpectrum_SizeChanged);
+            // 
+            // btnDecreaseMax
+            // 
+            this.btnDecreaseMax.Location = new System.Drawing.Point(660, 277);
+            this.btnDecreaseMax.Name = "btnDecreaseMax";
+            this.btnDecreaseMax.Size = new System.Drawing.Size(52, 23);
+            this.btnDecreaseMax.TabIndex = 37;
+            this.btnDecreaseMax.Text = "MAX--";
+            this.btnDecreaseMax.UseVisualStyleBackColor = true;
+            this.btnDecreaseMax.Click += new System.EventHandler(this.btnDecreaseMax_Click);
+            // 
+            // btnIncreaseMax
+            // 
+            this.btnIncreaseMax.Location = new System.Drawing.Point(944, 277);
+            this.btnIncreaseMax.Name = "btnIncreaseMax";
+            this.btnIncreaseMax.Size = new System.Drawing.Size(52, 23);
+            this.btnIncreaseMax.TabIndex = 36;
+            this.btnIncreaseMax.Text = "MAX++";
+            this.btnIncreaseMax.UseVisualStyleBackColor = true;
+            this.btnIncreaseMax.Click += new System.EventHandler(this.btnIncreaseMax_Click);
+            // 
+            // btnCalibrate
+            // 
+            this.btnCalibrate.Location = new System.Drawing.Point(773, 277);
+            this.btnCalibrate.Name = "btnCalibrate";
+            this.btnCalibrate.Size = new System.Drawing.Size(110, 23);
+            this.btnCalibrate.TabIndex = 35;
+            this.btnCalibrate.Text = "Calibrate";
+            this.btnCalibrate.UseVisualStyleBackColor = true;
+            this.btnCalibrate.Click += new System.EventHandler(this.btnCalibrate_Click);
+            // 
+            // btnMinus10Percent
+            // 
+            this.btnMinus10Percent.Location = new System.Drawing.Point(718, 277);
+            this.btnMinus10Percent.Name = "btnMinus10Percent";
+            this.btnMinus10Percent.Size = new System.Drawing.Size(49, 23);
+            this.btnMinus10Percent.TabIndex = 34;
+            this.btnMinus10Percent.Text = "-10%";
+            this.btnMinus10Percent.UseVisualStyleBackColor = true;
+            this.btnMinus10Percent.Click += new System.EventHandler(this.btnMinus10Percent_Click);
+            // 
+            // btnPlus10Percent
+            // 
+            this.btnPlus10Percent.Location = new System.Drawing.Point(889, 277);
+            this.btnPlus10Percent.Name = "btnPlus10Percent";
+            this.btnPlus10Percent.Size = new System.Drawing.Size(49, 23);
+            this.btnPlus10Percent.TabIndex = 33;
+            this.btnPlus10Percent.Text = "+10%";
+            this.btnPlus10Percent.UseVisualStyleBackColor = true;
+            this.btnPlus10Percent.Click += new System.EventHandler(this.btnPlus10Percent_Click);
             // 
             // pnlNewAudio
             // 
@@ -246,17 +296,17 @@
             this.barRange2.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.barRange2.TabIndex = 1;
             // 
-            // trckbrThreshold
+            // trkbrThreshold
             // 
-            this.trckbrThreshold.BackColor = System.Drawing.SystemColors.Control;
-            this.trckbrThreshold.Location = new System.Drawing.Point(6, 12);
-            this.trckbrThreshold.Maximum = 10000;
-            this.trckbrThreshold.Name = "trckbrThreshold";
-            this.trckbrThreshold.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trckbrThreshold.Size = new System.Drawing.Size(45, 361);
-            this.trckbrThreshold.TabIndex = 17;
-            this.trckbrThreshold.TickFrequency = 10;
-            this.trckbrThreshold.ValueChanged += new System.EventHandler(this.trckbrThreshold_ValueChanged);
+            this.trkbrThreshold.BackColor = System.Drawing.SystemColors.Control;
+            this.trkbrThreshold.Location = new System.Drawing.Point(6, 12);
+            this.trkbrThreshold.Maximum = 10000;
+            this.trkbrThreshold.Name = "trkbrThreshold";
+            this.trkbrThreshold.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trkbrThreshold.Size = new System.Drawing.Size(45, 361);
+            this.trkbrThreshold.TabIndex = 17;
+            this.trkbrThreshold.TickFrequency = 10;
+            this.trkbrThreshold.ValueChanged += new System.EventHandler(this.trkbrThreshold_ValueChanged);
             // 
             // txtThreshold
             // 
@@ -315,37 +365,25 @@
             this.btnRange1.UseVisualStyleBackColor = false;
             this.btnRange1.Click += new System.EventHandler(this.btnRange1_Click);
             // 
-            // trckbrMin
+            // trkbrMin
             // 
-            this.trckbrMin.BackColor = System.Drawing.SystemColors.Control;
-            this.trckbrMin.Location = new System.Drawing.Point(45, 310);
-            this.trckbrMin.Name = "trckbrMin";
-            this.trckbrMin.Size = new System.Drawing.Size(1020, 45);
-            this.trckbrMin.TabIndex = 21;
-            this.trckbrMin.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.trckbrMin.ValueChanged += new System.EventHandler(this.trckbrMin_ValueChanged);
+            this.trkbrMin.BackColor = System.Drawing.SystemColors.Control;
+            this.trkbrMin.Location = new System.Drawing.Point(45, 310);
+            this.trkbrMin.Name = "trkbrMin";
+            this.trkbrMin.Size = new System.Drawing.Size(1020, 45);
+            this.trkbrMin.TabIndex = 21;
+            this.trkbrMin.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.trkbrMin.ValueChanged += new System.EventHandler(this.trkbrMin_ValueChanged);
             // 
-            // trckbrMax
+            // trkbrMax
             // 
-            this.trckbrMax.BackColor = System.Drawing.SystemColors.Control;
-            this.trckbrMax.Location = new System.Drawing.Point(45, 339);
-            this.trckbrMax.Name = "trckbrMax";
-            this.trckbrMax.Size = new System.Drawing.Size(1020, 45);
-            this.trckbrMax.TabIndex = 22;
-            this.trckbrMax.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.trckbrMax.ValueChanged += new System.EventHandler(this.trckbrMax_ValueChanged);
-            // 
-            // txtMasterScaleFFT
-            // 
-            this.txtMasterScaleFFT.BackColor = System.Drawing.Color.Black;
-            this.txtMasterScaleFFT.ForeColor = System.Drawing.Color.White;
-            this.txtMasterScaleFFT.Location = new System.Drawing.Point(298, 380);
-            this.txtMasterScaleFFT.Name = "txtMasterScaleFFT";
-            this.txtMasterScaleFFT.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMasterScaleFFT.Size = new System.Drawing.Size(42, 20);
-            this.txtMasterScaleFFT.TabIndex = 23;
-            this.txtMasterScaleFFT.Text = "0";
-            this.txtMasterScaleFFT.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMasterScaleFFT_KeyDown);
+            this.trkbrMax.BackColor = System.Drawing.SystemColors.Control;
+            this.trkbrMax.Location = new System.Drawing.Point(45, 339);
+            this.trkbrMax.Name = "trkbrMax";
+            this.trkbrMax.Size = new System.Drawing.Size(1020, 45);
+            this.trkbrMax.TabIndex = 22;
+            this.trkbrMax.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.trkbrMax.ValueChanged += new System.EventHandler(this.trkbrMax_ValueChanged);
             // 
             // txtTimer1Interval
             // 
@@ -358,15 +396,6 @@
             this.txtTimer1Interval.TabIndex = 24;
             this.txtTimer1Interval.Text = "0";
             this.txtTimer1Interval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTimer1Interval_KeyDown);
-            // 
-            // lblMasterScaleFFT
-            // 
-            this.lblMasterScaleFFT.AutoSize = true;
-            this.lblMasterScaleFFT.Location = new System.Drawing.Point(346, 383);
-            this.lblMasterScaleFFT.Name = "lblMasterScaleFFT";
-            this.lblMasterScaleFFT.Size = new System.Drawing.Size(66, 13);
-            this.lblMasterScaleFFT.TabIndex = 25;
-            this.lblMasterScaleFFT.Text = "FFT Y Scale";
             // 
             // lblRefreshRate
             // 
@@ -427,55 +456,25 @@
             this.cboArduinoCommands.Size = new System.Drawing.Size(204, 21);
             this.cboArduinoCommands.TabIndex = 31;
             // 
-            // btnPlus10Percent
+            // btnAutoRange
             // 
-            this.btnPlus10Percent.Location = new System.Drawing.Point(889, 277);
-            this.btnPlus10Percent.Name = "btnPlus10Percent";
-            this.btnPlus10Percent.Size = new System.Drawing.Size(49, 23);
-            this.btnPlus10Percent.TabIndex = 33;
-            this.btnPlus10Percent.Text = "+10%";
-            this.btnPlus10Percent.UseVisualStyleBackColor = true;
-            this.btnPlus10Percent.Click += new System.EventHandler(this.btnPlus10Percent_Click);
+            this.btnAutoRange.Location = new System.Drawing.Point(444, 413);
+            this.btnAutoRange.Name = "btnAutoRange";
+            this.btnAutoRange.Size = new System.Drawing.Size(75, 23);
+            this.btnAutoRange.TabIndex = 32;
+            this.btnAutoRange.Text = "Auto Range";
+            this.btnAutoRange.UseVisualStyleBackColor = true;
+            this.btnAutoRange.Click += new System.EventHandler(this.btnAutoRange_Click);
             // 
-            // btnMinus10Percent
+            // btnFullSpectrum
             // 
-            this.btnMinus10Percent.Location = new System.Drawing.Point(718, 277);
-            this.btnMinus10Percent.Name = "btnMinus10Percent";
-            this.btnMinus10Percent.Size = new System.Drawing.Size(49, 23);
-            this.btnMinus10Percent.TabIndex = 34;
-            this.btnMinus10Percent.Text = "-10%";
-            this.btnMinus10Percent.UseVisualStyleBackColor = true;
-            this.btnMinus10Percent.Click += new System.EventHandler(this.btnMinus10Percent_Click);
-            // 
-            // btnCalibrateTrackbar
-            // 
-            this.btnCalibrateTrackbar.Location = new System.Drawing.Point(773, 277);
-            this.btnCalibrateTrackbar.Name = "btnCalibrateTrackbar";
-            this.btnCalibrateTrackbar.Size = new System.Drawing.Size(110, 23);
-            this.btnCalibrateTrackbar.TabIndex = 35;
-            this.btnCalibrateTrackbar.Text = "Calibrate Trackbar";
-            this.btnCalibrateTrackbar.UseVisualStyleBackColor = true;
-            this.btnCalibrateTrackbar.Click += new System.EventHandler(this.btnCalibrateTrackbar_Click);
-            // 
-            // btnIncreaseMax
-            // 
-            this.btnIncreaseMax.Location = new System.Drawing.Point(944, 277);
-            this.btnIncreaseMax.Name = "btnIncreaseMax";
-            this.btnIncreaseMax.Size = new System.Drawing.Size(52, 23);
-            this.btnIncreaseMax.TabIndex = 36;
-            this.btnIncreaseMax.Text = "MAX++";
-            this.btnIncreaseMax.UseVisualStyleBackColor = true;
-            this.btnIncreaseMax.Click += new System.EventHandler(this.btnIncreaseMax_Click);
-            // 
-            // btnDecreaseMax
-            // 
-            this.btnDecreaseMax.Location = new System.Drawing.Point(660, 277);
-            this.btnDecreaseMax.Name = "btnDecreaseMax";
-            this.btnDecreaseMax.Size = new System.Drawing.Size(52, 23);
-            this.btnDecreaseMax.TabIndex = 37;
-            this.btnDecreaseMax.Text = "MAX--";
-            this.btnDecreaseMax.UseVisualStyleBackColor = true;
-            this.btnDecreaseMax.Click += new System.EventHandler(this.btnDecreaseMax_Click);
+            this.btnFullSpectrum.Location = new System.Drawing.Point(525, 413);
+            this.btnFullSpectrum.Name = "btnFullSpectrum";
+            this.btnFullSpectrum.Size = new System.Drawing.Size(87, 23);
+            this.btnFullSpectrum.TabIndex = 33;
+            this.btnFullSpectrum.Text = "Full Spectrum";
+            this.btnFullSpectrum.UseVisualStyleBackColor = true;
+            this.btnFullSpectrum.Click += new System.EventHandler(this.btnFullSpectrum_Click);
             // 
             // frmAudioAnalysis
             // 
@@ -483,6 +482,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1068, 614);
+            this.Controls.Add(this.btnFullSpectrum);
+            this.Controls.Add(this.btnAutoRange);
             this.Controls.Add(this.cboArduinoCommands);
             this.Controls.Add(this.btnArduino);
             this.Controls.Add(this.btnSaveSong);
@@ -490,15 +491,13 @@
             this.Controls.Add(this.txtThreshold);
             this.Controls.Add(this.lblThreshold);
             this.Controls.Add(this.lblRefreshRate);
-            this.Controls.Add(this.lblMasterScaleFFT);
             this.Controls.Add(this.txtTimer1Interval);
-            this.Controls.Add(this.txtMasterScaleFFT);
-            this.Controls.Add(this.trckbrMax);
+            this.Controls.Add(this.trkbrMax);
             this.Controls.Add(this.pnlRangeButtons);
             this.Controls.Add(this.chart1);
-            this.Controls.Add(this.trckbrThreshold);
+            this.Controls.Add(this.trkbrThreshold);
             this.Controls.Add(this.pnlSpectrum);
-            this.Controls.Add(this.trckbrMin);
+            this.Controls.Add(this.trkbrMin);
             this.Name = "frmAudioAnalysis";
             this.Text = "Mark\'s Visualizer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MarksVisualizer_FormClosing);
@@ -510,10 +509,10 @@
             this.pnlAccumAudio.ResumeLayout(false);
             this.pnlAccumAudio.PerformLayout();
             this.pnlBars.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trckbrThreshold)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).EndInit();
             this.pnlRangeButtons.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trckbrMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trckbrMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -523,19 +522,18 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Panel pnlSpectrum;
-        private System.Windows.Forms.TrackBar trckbrThreshold;
+        private System.Windows.Forms.TrackBar trkbrThreshold;
         private System.Windows.Forms.TextBox txtThreshold;
         private System.Windows.Forms.Panel pnlRangeButtons;
         private System.Windows.Forms.Button btnRange3;
         private System.Windows.Forms.Button btnRange2;
         private System.Windows.Forms.Button btnRange1;
-        private System.Windows.Forms.TrackBar trckbrMin;
-        private System.Windows.Forms.TrackBar trckbrMax;
+        private System.Windows.Forms.TrackBar trkbrMin;
+        private System.Windows.Forms.TrackBar trkbrMax;
         private System.Windows.Forms.Panel pnlBars;
         private System.Windows.Forms.ProgressBar barRange3;
         private System.Windows.Forms.ProgressBar barRange2;
         private System.Windows.Forms.ProgressBar barRange1;
-        private System.Windows.Forms.TextBox txtMasterScaleFFT;
         private System.Windows.Forms.TextBox txtAccumAudio3;
         private System.Windows.Forms.TextBox txtAccumAudio2;
         private System.Windows.Forms.TextBox txtAccumAudio1;
@@ -545,7 +543,6 @@
         private System.Windows.Forms.TextBox txtNewAudio3;
         private System.Windows.Forms.TextBox txtNewAudio2;
         private System.Windows.Forms.TextBox txtNewAudio1;
-        private System.Windows.Forms.Label lblMasterScaleFFT;
         private System.Windows.Forms.Label lblRefreshRate;
         private System.Windows.Forms.Label lblThreshold;
         private System.Windows.Forms.ComboBox cboSongNames;
@@ -554,9 +551,11 @@
         private System.Windows.Forms.ComboBox cboArduinoCommands;
         private System.Windows.Forms.Button btnMinus10Percent;
         private System.Windows.Forms.Button btnPlus10Percent;
-        private System.Windows.Forms.Button btnCalibrateTrackbar;
+        private System.Windows.Forms.Button btnCalibrate;
         private System.Windows.Forms.Button btnDecreaseMax;
         private System.Windows.Forms.Button btnIncreaseMax;
+        private System.Windows.Forms.Button btnAutoRange;
+        private System.Windows.Forms.Button btnFullSpectrum;
     }
 }
 

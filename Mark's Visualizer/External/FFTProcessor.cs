@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AudioAnalysis.External
@@ -7,6 +8,7 @@ namespace AudioAnalysis.External
     public class FFTProcessor
     {
         public static int N_FFT = 2048;
+        public static int N_Spectrum = 512;
 
         static int[] chunk_freq = { 800, 1600, 3200, 6400, 12800, 30000 };
         static int[] chunk_freq_jump = { 1, 2, 4, 6, 8, 10, 16 };
@@ -47,7 +49,7 @@ namespace AudioAnalysis.External
             return X;
         }
 
-        public static double[] FFT(double[] lastData)
+        public static double[] FFTWithProcessing(double[] lastData)
         {
             DateTime chkpoint1 = DateTime.Now;
             if (AudioIn.dataList==null)
@@ -76,7 +78,12 @@ namespace AudioAnalysis.External
                 }
                 runningNode = runningNode.PrevNode;
             }
-            var result = FFTProcessor.FFT(data);
+            var result = FFT(data);
+            //
+            //var resultDouble = result.Select(x => x.Magnitude).ToArray();
+            //Array.Resize(ref resultDouble, N_Spectrum);
+            //return resultDouble;
+            //
             double N2 = result.Length / 2;
             double[] finalresult = new double[lastData.Length];
             int k = 1, transformedDataIndex = 0;
@@ -105,8 +112,7 @@ namespace AudioAnalysis.External
                     value += result[j].Magnitude;
                 }
 
-
-                value = value * AudioIn.MasterScaleFFT;
+                
                 lastData[transformedDataIndex] -= lastDelay * AudioIn.DropOffScale;
                 if (AudioIn.Mode == 0)
                     finalresult[transformedDataIndex] = value;

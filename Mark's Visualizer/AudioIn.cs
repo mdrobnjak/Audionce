@@ -25,11 +25,6 @@ namespace AudioAnalysis
             get;
             set;
         }
-        public static double MasterScaleFFT
-        {
-            get;
-            set;
-        }
         public static double DropOffScale
         {
             get;
@@ -66,8 +61,6 @@ namespace AudioAnalysis
 
             //Set Mode to 1.
             Mode = 1;
-            //Set MasterScaleFFT to 1.
-            MasterScaleFFT = 1;
             //Set DropOffScale to 0.4.
             DropOffScale = 10;
         }
