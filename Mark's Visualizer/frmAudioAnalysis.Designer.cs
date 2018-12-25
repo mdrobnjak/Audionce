@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.pnlSpectrum = new System.Windows.Forms.Panel();
@@ -68,7 +68,12 @@
             this.btnArduino = new System.Windows.Forms.Button();
             this.cboArduinoCommands = new System.Windows.Forms.ComboBox();
             this.btnAutoRange = new System.Windows.Forms.Button();
-            this.btnFullSpectrum = new System.Windows.Forms.Button();
+            this.btnSpectrumMode = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabFFTSettings = new System.Windows.Forms.TabPage();
+            this.cboN_FFT = new System.Windows.Forms.ComboBox();
+            this.lblN_FFT = new System.Windows.Forms.Label();
+            this.btnCommitFFTSettings = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.pnlSpectrum.SuspendLayout();
             this.pnlNewAudio.SuspendLayout();
@@ -78,31 +83,32 @@
             this.pnlRangeButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabFFTSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
             // 
-            this.timer1.Enabled = true;
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // chart1
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea3.AxisX.LabelStyle.Enabled = false;
-            chartArea3.AxisX.MajorGrid.Enabled = false;
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chart1.Legends.Add(legend3);
-            this.chart1.Location = new System.Drawing.Point(57, 439);
+            chartArea2.AxisX.LabelStyle.Enabled = false;
+            chartArea2.AxisX.MajorGrid.Enabled = false;
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
+            this.chart1.Location = new System.Drawing.Point(57, 440);
             this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.Color = System.Drawing.Color.Black;
-            series3.IsVisibleInLegend = false;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
+            series2.ChartArea = "ChartArea1";
+            series2.Color = System.Drawing.Color.Black;
+            series2.IsVisibleInLegend = false;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(999, 165);
             this.chart1.TabIndex = 16;
             this.chart1.Text = "chart1";
@@ -329,7 +335,7 @@
             this.pnlRangeButtons.Controls.Add(this.btnRange1);
             this.pnlRangeButtons.Location = new System.Drawing.Point(57, 380);
             this.pnlRangeButtons.Name = "pnlRangeButtons";
-            this.pnlRangeButtons.Size = new System.Drawing.Size(235, 54);
+            this.pnlRangeButtons.Size = new System.Drawing.Size(408, 54);
             this.pnlRangeButtons.TabIndex = 20;
             // 
             // btnRange3
@@ -466,23 +472,76 @@
             this.btnAutoRange.UseVisualStyleBackColor = true;
             this.btnAutoRange.Click += new System.EventHandler(this.btnAutoRange_Click);
             // 
-            // btnFullSpectrum
+            // btnSpectrumMode
             // 
-            this.btnFullSpectrum.Location = new System.Drawing.Point(525, 413);
-            this.btnFullSpectrum.Name = "btnFullSpectrum";
-            this.btnFullSpectrum.Size = new System.Drawing.Size(87, 23);
-            this.btnFullSpectrum.TabIndex = 33;
-            this.btnFullSpectrum.Text = "Full Spectrum";
-            this.btnFullSpectrum.UseVisualStyleBackColor = true;
-            this.btnFullSpectrum.Click += new System.EventHandler(this.btnFullSpectrum_Click);
+            this.btnSpectrumMode.Location = new System.Drawing.Point(525, 413);
+            this.btnSpectrumMode.Name = "btnSpectrumMode";
+            this.btnSpectrumMode.Size = new System.Drawing.Size(87, 23);
+            this.btnSpectrumMode.TabIndex = 33;
+            this.btnSpectrumMode.Text = "Spectrum Mode";
+            this.btnSpectrumMode.UseVisualStyleBackColor = true;
+            this.btnSpectrumMode.Click += new System.EventHandler(this.btnSpectrumMode_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabFFTSettings);
+            this.tabControl1.Location = new System.Drawing.Point(1059, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(184, 593);
+            this.tabControl1.TabIndex = 34;
+            // 
+            // tabFFTSettings
+            // 
+            this.tabFFTSettings.Controls.Add(this.cboN_FFT);
+            this.tabFFTSettings.Controls.Add(this.lblN_FFT);
+            this.tabFFTSettings.Controls.Add(this.btnCommitFFTSettings);
+            this.tabFFTSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabFFTSettings.Name = "tabFFTSettings";
+            this.tabFFTSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tabFFTSettings.Size = new System.Drawing.Size(176, 567);
+            this.tabFFTSettings.TabIndex = 0;
+            this.tabFFTSettings.Text = "FFT Settings";
+            this.tabFFTSettings.UseVisualStyleBackColor = true;
+            // 
+            // cboN_FFT
+            // 
+            this.cboN_FFT.BackColor = System.Drawing.Color.Black;
+            this.cboN_FFT.ForeColor = System.Drawing.Color.White;
+            this.cboN_FFT.FormattingEnabled = true;
+            this.cboN_FFT.Location = new System.Drawing.Point(6, 33);
+            this.cboN_FFT.Name = "cboN_FFT";
+            this.cboN_FFT.Size = new System.Drawing.Size(114, 21);
+            this.cboN_FFT.TabIndex = 35;
+            this.cboN_FFT.Tag = "";
+            // 
+            // lblN_FFT
+            // 
+            this.lblN_FFT.AutoSize = true;
+            this.lblN_FFT.Location = new System.Drawing.Point(126, 36);
+            this.lblN_FFT.Name = "lblN_FFT";
+            this.lblN_FFT.Size = new System.Drawing.Size(40, 13);
+            this.lblN_FFT.TabIndex = 39;
+            this.lblN_FFT.Text = "N_FFT";
+            // 
+            // btnCommitFFTSettings
+            // 
+            this.btnCommitFFTSettings.Location = new System.Drawing.Point(6, 4);
+            this.btnCommitFFTSettings.Name = "btnCommitFFTSettings";
+            this.btnCommitFFTSettings.Size = new System.Drawing.Size(164, 23);
+            this.btnCommitFFTSettings.TabIndex = 38;
+            this.btnCommitFFTSettings.Text = "Commit";
+            this.btnCommitFFTSettings.UseVisualStyleBackColor = true;
+            this.btnCommitFFTSettings.Click += new System.EventHandler(this.btnCommitFFTSettings_Click);
             // 
             // frmAudioAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1068, 614);
-            this.Controls.Add(this.btnFullSpectrum);
+            this.ClientSize = new System.Drawing.Size(1241, 614);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.btnSpectrumMode);
             this.Controls.Add(this.btnAutoRange);
             this.Controls.Add(this.cboArduinoCommands);
             this.Controls.Add(this.btnArduino);
@@ -500,7 +559,7 @@
             this.Controls.Add(this.trkbrMin);
             this.Name = "frmAudioAnalysis";
             this.Text = "Mark\'s Visualizer";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MarksVisualizer_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AudioAnalysis_FormClosing);
             this.Load += new System.EventHandler(this.frmAudioAnalysis_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.pnlSpectrum.ResumeLayout(false);
@@ -513,6 +572,9 @@
             this.pnlRangeButtons.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabFFTSettings.ResumeLayout(false);
+            this.tabFFTSettings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -555,7 +617,12 @@
         private System.Windows.Forms.Button btnDecreaseMax;
         private System.Windows.Forms.Button btnIncreaseMax;
         private System.Windows.Forms.Button btnAutoRange;
-        private System.Windows.Forms.Button btnFullSpectrum;
+        private System.Windows.Forms.Button btnSpectrumMode;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabFFTSettings;
+        private System.Windows.Forms.Label lblN_FFT;
+        private System.Windows.Forms.Button btnCommitFFTSettings;
+        private System.Windows.Forms.ComboBox cboN_FFT;
     }
 }
 

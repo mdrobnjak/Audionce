@@ -44,7 +44,7 @@ namespace AudioAnalysis
             //t.Start();
             #endregion
         }
-        
+
         private void frmAudioAnalysis_Load(object sender, EventArgs e)
         {
 
@@ -52,13 +52,16 @@ namespace AudioAnalysis
 
             InitBufferAndGraphicForSpectrum();
 
-            InitSpectrumSettings(0,300,5000,20000);
+            Spectrum.SyncBandsAndFreqs();
+            Spectrum.InitFullSpectrum();
 
             InitChart1();
 
             InitCoordinator();
 
             InitControls();
+
+            InitTabFFTSettings();
 
             #region Init BeatDetectors
             //Init BeatDetectors with an evaluateLength of 50.
@@ -73,9 +76,13 @@ namespace AudioAnalysis
             ReadConfig();
             LoadSongNames();
             #endregion
+
+            timer1.Enabled = true;
         }
 
         #region Init Methods
+
+
 
         Image mainBuffer;
         Graphics gMainBuffer;
@@ -130,44 +137,11 @@ namespace AudioAnalysis
             this.spectrumGraphics = pnlSpectrum.CreateGraphics();
         }
 
-        int hzPerBand = AudioIn.RATE / FFTProcessor.N_FFT;
-        int[] bandsPerRange, bandsBefore;
-
-        private void InitSpectrumSettings()
-        {
-            bandsPerRange = new int[]
-            {
-                transformedData.Length, transformedData.Length, transformedData.Length
-            };
-            bandsBefore = new int[]
-            {
-                0,0,0
-            };
-        }
-
-        private void InitSpectrumSettings(int freqMin, int freq1, int freq2, int freqMax)
-        {
-            bandsPerRange = new int[]
-            {
-                BandsPerRange(freq1 - freqMin), BandsPerRange(freq2 - freq1), BandsPerRange(freqMax - freq2)
-            };
-
-            bandsBefore = new int[]
-            {
-                0,bandsPerRange[0],bandsPerRange[0]+bandsPerRange[1]
-            };
-        }
-
-        private int BandsPerRange(int bandwidthInHz)
-        {
-            return bandwidthInHz / hzPerBand;
-        }
-        
         Color[] colors = new Color[numRanges];
 
         private void InitControls()
         {
-            updateControlsByRange();
+            UpdateControls();
 
             pnlBars.Controls.SetChildIndex(barRange1, 0);
             pnlBars.Controls.SetChildIndex(barRange2, 1);
@@ -213,17 +187,22 @@ namespace AudioAnalysis
             cvt = new Converter(0, pnlSpectrum.Location.Y + pnlSpectrum.Height /*/ 2*/, 1, baseScale);
         }
 
+        private void InitTabFFTSettings()
+        {
+            string[] n = { "8192", "4096", "2048", "1024", "512", "256", "128", "64", "32", "16", "8", "4", "2", "1" };
+            cboN_FFT.Items.AddRange(n);
+            cboN_FFT.Text = FFT.N_FFT.ToString();
+        }
+
         #endregion
 
         #region Draw Spectrum
         bool paintInitiated = false;
-        bool drawing = false;
         Font pen;
         OSD osdPanel = new OSD();
 
         private void PaintSpectrum()
         {
-            drawing = true;
             if (!paintInitiated)
             {
                 pen = new Font("Arial", 12);
@@ -246,8 +225,6 @@ namespace AudioAnalysis
             }
 
             DrawData(transformedData, spectrumGraphics, cvt);
-
-            drawing = false;
         }
 
         private void DrawData(double[] data, Graphics g, Converter cvter)
@@ -256,7 +233,7 @@ namespace AudioAnalysis
             if (data == null || data.Length == 0 || AudioIn.sourceData == null)
                 return;
 
-            float ratioFreq = (float)pnlSpectrum.Width / bandsPerRange[selectedRange];
+            float ratioFreq = (float)pnlSpectrum.Width / Spectrum.bandsPerRange[selectedRange];
             float ratioFreqTest = (float)pnlSpectrum.Width / 200;
             float ratioWave = (float)pnlSpectrum.Width / (float)AudioIn.sourceData.Length;
             float value = 0;
@@ -277,7 +254,7 @@ namespace AudioAnalysis
 
             #region Fill Rectangles
             int bandIndexRelative = 0;
-            int bandIndexAbsolute = bandsBefore[selectedRange];
+            int bandIndexAbsolute = Spectrum.bandsBefore[selectedRange];
 
             for (; bandIndexRelative < trkbrMin.Value; bandIndexRelative++, bandIndexAbsolute++)
             {
@@ -291,7 +268,7 @@ namespace AudioAnalysis
                 value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
                 g.FillRectangle(Constants.Brushes.redBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
             }
-            for (; bandIndexRelative < bandsPerRange[selectedRange] && bandIndexRelative < FFTProcessor.N_Spectrum - 1; bandIndexRelative++, bandIndexAbsolute++)
+            for (; bandIndexRelative < Spectrum.bandsPerRange[selectedRange] && bandIndexRelative < Spectrum.numBands; bandIndexRelative++, bandIndexAbsolute++)
             {
                 cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
                 value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
@@ -302,8 +279,8 @@ namespace AudioAnalysis
             osdPanel.AddSet("Drawing delay(ms):", DateTime.Now.Subtract(chkpoint2).TotalMilliseconds.ToString());
         }
 
-        #endregion 
-        
+        #endregion
+
         #region File I/O
 
         string[] config = new string[10];
@@ -376,7 +353,7 @@ namespace AudioAnalysis
         }
 
         #endregion
-        
+
         const int numRanges = 3;
         int selectedRange = 0;
 
@@ -442,34 +419,42 @@ namespace AudioAnalysis
 
         public void timer1_Tick(object sender, EventArgs e)
         {
-
-            transformedData = FFTProcessor.FFTWithProcessing(transformedData);
+            if (FFT.N_FFT != FFT.N_FFTBuffer)
+            {
+                FFT.N_FFT = FFT.N_FFTBuffer;
+                transformedData = null;
+            }
+            transformedData = FFT.FFTWithProcessing(transformedData);
 
             //execute once
             PaintSpectrum();
             DrawChart1(selectedRange);
 
-            if(AutoSettings.autoRanging)
+            if (AutoSet.ranging)
             {
-                AutoSettings.CollectFFTData(0, transformedData.Length, transformedData);
+                AutoSet.CollectFFTData(0, transformedData.Length, transformedData);
             }
-            else if(AutoSettings.readyToProcess)
+            else if (AutoSet.readyToProcess)
             {
-                //Range1
-                trkbrMin.Value = AutoSettings.MostDynamic(0, BandsPerRange(300));
-                trkbrMax.Value = trkbrMin.Value + 1;
-                trkbrThreshold.Maximum = (int)(AutoSettings.AutoThreshold()*1.33);
-                trkbrThreshold.Value = AutoSettings.AutoThreshold();
-                //Range2
-                rangeLows[1] = AutoSettings.MostDynamic(BandsPerRange(1000), BandsPerRange(10000));
-                rangeHighs[1] = rangeLows[1] + 1;
-                thresholds[1] = AutoSettings.AutoThreshold();
-                //Range3
-                rangeLows[2] = AutoSettings.MostDynamic(BandsPerRange(10000), BandsPerRange(20000));
-                rangeHighs[2] = rangeLows[2] + 1;
-                thresholds[2] = AutoSettings.AutoThreshold();
 
-                AutoSettings.Reset();
+                //Range1
+                rangeLows[0] = AutoSet.MostDynamic(Spectrum.GetBandForFreq(fmin), Spectrum.GetBandForFreq(f1)) - AutoSet.bandwidth / 2;
+                rangeLows[0] = Math.Max(rangeLows[0],0);
+                rangeHighs[0] = rangeLows[0] + 1 + AutoSet.bandwidth / 2;
+                thresholds[0] = AutoSet.Threshold();
+                //Range2
+                rangeLows[1] = AutoSet.MostDynamic(Spectrum.GetBandForFreq(f1), Spectrum.GetBandForFreq(f2)) - AutoSet.bandwidth / 2;
+                rangeHighs[1] = rangeLows[1] + 1 + AutoSet.bandwidth / 2;
+                thresholds[1] = AutoSet.Threshold();
+                //Range3
+                rangeLows[2] = AutoSet.MostDynamic(Spectrum.GetBandForFreq(f2), Spectrum.GetBandForFreq(fmax)) - AutoSet.bandwidth / 2;
+                rangeHighs[2] = rangeLows[2] + 1 + AutoSet.bandwidth / 2;
+                thresholds[2] = AutoSet.Threshold();
+                //SelectedRange
+                trkbrThreshold.Maximum = (int)(thresholds[selectedRange] * 1.33);
+                UpdateControls();
+
+                AutoSet.Reset();
             }
 
             //execute per Range
@@ -487,7 +472,7 @@ namespace AudioAnalysis
 
         }
 
-        private void MarksVisualizer_FormClosing(object sender, FormClosingEventArgs e)
+        private void AudioAnalysis_FormClosing(object sender, FormClosingEventArgs e)
         {
             AudioIn.Dispose();
 
@@ -500,16 +485,16 @@ namespace AudioAnalysis
             cvt._yCenter = pnlSpectrum.Location.Y + pnlSpectrum.Height;
         }
 
-        private void updateControlsByRange()
+        private void UpdateControls()
         {
 
-            trkbrMax.Maximum = trkbrMin.Maximum = bandsPerRange[selectedRange];
+            trkbrMax.Maximum = trkbrMin.Maximum = Spectrum.bandsPerRange[selectedRange];
 
             trkbrMin.BackColor = trkbrMax.BackColor = trkbrThreshold.BackColor
                 = chart1.Series[0].Color = this.BackColor = colors[selectedRange];
 
-            trkbrMin.Value = rangeLows[selectedRange];
-            trkbrMax.Value = rangeHighs[selectedRange];
+            trkbrMin.Value = Math.Min(rangeLows[selectedRange], trkbrMin.Maximum);
+            trkbrMax.Value = Math.Min(rangeHighs[selectedRange], trkbrMax.Maximum);
             if (thresholds[selectedRange] > trkbrThreshold.Maximum)
             {
                 trkbrThreshold.Maximum = (int)(thresholds[selectedRange] * 1.33);
@@ -521,14 +506,14 @@ namespace AudioAnalysis
         {
             selectedRange = 0;
 
-            updateControlsByRange();
+            UpdateControls();
         }
 
         private void btnRange2_Click(object sender, EventArgs e)
         {
             selectedRange = 1;
 
-            updateControlsByRange();
+            UpdateControls();
 
         }
 
@@ -536,7 +521,7 @@ namespace AudioAnalysis
         {
             selectedRange = 2;
 
-            updateControlsByRange();
+            UpdateControls();
         }
 
         int intFromTextBox = 0;
@@ -564,12 +549,12 @@ namespace AudioAnalysis
 
         private void trkbrMin_ValueChanged(object sender, EventArgs e)
         {
-            rangeLows[selectedRange] = trkbrMin.Value;
+            rangeLows[selectedRange] = trkbrMin.Value + Spectrum.bandsBefore[selectedRange];
         }
 
         private void trkbrMax_ValueChanged(object sender, EventArgs e)
         {
-            rangeHighs[selectedRange] = trkbrMax.Value;
+            rangeHighs[selectedRange] = trkbrMax.Value + Spectrum.bandsBefore[selectedRange];
         }
 
         private void txtTimer1Interval_KeyDown(object sender, KeyEventArgs e)
@@ -631,25 +616,42 @@ namespace AudioAnalysis
 
         private void btnIncreaseMax_Click(object sender, EventArgs e)
         {
-            trkbrThreshold.Maximum += (int)((double)trkbrThreshold.Maximum * 0.1);
+            trkbrThreshold.Maximum += (int)(trkbrThreshold.Maximum * 0.1);
             trkbrThreshold_ValueChanged(null, null);
         }
 
         private void btnAutoRange_Click(object sender, EventArgs e)
         {
-            AutoSettings.BeginAutoRange();
+            AutoSet.BeginRanging();
         }
 
-        private void btnFullSpectrum_Click(object sender, EventArgs e)
+        const int fmin = 0, f1 = 300, f2 = 5000, fmax = 20000;
+
+        private void btnSpectrumMode_Click(object sender, EventArgs e)
         {
-            InitSpectrumSettings();
-            updateControlsByRange();
+            if (Spectrum.bandsBefore[2] > 0)
+            {
+                Spectrum.InitFullSpectrum();
+            }
+            else
+            {
+                Spectrum.InitSplitSpectrum(fmin, f1, f2, fmax);
+            }
+            UpdateControls();
         }
 
         private void btnDecreaseMax_Click(object sender, EventArgs e)
         {
             trkbrThreshold.Maximum -= (int)((double)trkbrThreshold.Maximum * 0.1);
             trkbrThreshold_ValueChanged(null, null);
+        }
+
+        private void btnCommitFFTSettings_Click(object sender, EventArgs e)
+        {
+            FFT.N_FFTBuffer = Int32.Parse(cboN_FFT.Text);
+            Spectrum.SyncBandsAndFreqs();
+            Spectrum.InitFullSpectrum();
+            UpdateControls();
         }
     }
 }

@@ -6,23 +6,26 @@ using System.Threading.Tasks;
 
 namespace AudioAnalysis
 {
-    public static class AutoSettings
+    public static class AutoSet
     {
 
-        public static double highestPeak = 0;
-        public static int AutoThreshold()
+        public static double highestPeak = 0, highestPeakBandwidth = 0;
+        public static int Threshold()
         {
-            return (int)(highestPeak * 0.75);
+            SetHighestPeakInBandwidth();
+            return (int)(highestPeakBandwidth * 0.75);
         }
 
         private static List<List<double>> fftDataHistory = null;
-        public static bool autoRanging = false, readyToProcess = false;
+        public static bool ranging = false, readyToProcess = false;
         public static int startBand;
+        public static int mostDynamicIndex;
         public static double secondsToCollect = 2.0;
+        public static int bandwidth = 6;
 
-        public static void BeginAutoRange()
+        public static void BeginRanging()
         {
-            autoRanging = true;
+            ranging = true;
         }
 
         public static void CollectFFTData(int minBandIndex, int maxBandIndex, double[] fftData)
@@ -32,7 +35,7 @@ namespace AudioAnalysis
                 fftDataHistory = new List<List<double>>();
                 for (int i = minBandIndex; i <= maxBandIndex; i++)
                 {
-                    fftDataHistory.Add(new List<double>());                    
+                    fftDataHistory.Add(new List<double>());
                 }
             }
 
@@ -45,7 +48,7 @@ namespace AudioAnalysis
 
             if (secondsToCollect <= 0.0)
             {
-                autoRanging = false;
+                ranging = false;
                 readyToProcess = true;
             }
         }
@@ -54,7 +57,7 @@ namespace AudioAnalysis
         {
             highestPeak = 0;
             double peakToAverageRatio = 0;
-            int mostDynamicIndex = 0;
+            mostDynamicIndex = 0;
             for (int i = minBandIndex; i < maxBandIndex; i++)
             {
                 double peak = 0, sum = 0, average = 0;
@@ -77,6 +80,19 @@ namespace AudioAnalysis
             return mostDynamicIndex;
         }
 
+        public static void SetHighestPeakInBandwidth()
+        {
+            highestPeakBandwidth = highestPeak;
+            for (int i = Math.Max((mostDynamicIndex - bandwidth / 2), 0); i < mostDynamicIndex + bandwidth / 2; i++)
+            {
+                for (int j = 0; j < fftDataHistory[i].Count(); j++)
+                {
+                    if (fftDataHistory[i][j] > highestPeakBandwidth)
+                        highestPeakBandwidth = fftDataHistory[i][j];
+                }
+            }
+        }
+
         public static void Reset()
         {
             if (fftDataHistory != null)
@@ -86,7 +102,7 @@ namespace AudioAnalysis
             }
             secondsToCollect = 2.0;
             readyToProcess = false;
-            highestPeak = 0;
+            highestPeak = highestPeakBandwidth = 0;
         }
     }
 }

@@ -5,16 +5,17 @@ using System.Text;
 
 namespace AudioAnalysis.External
 {
-    public class FFTProcessor
+    public class FFT
     {
-        public static int N_FFT = 2048;
-        public static int N_Spectrum = 512;
+        public static int N_FFT = 4096;
+        public static int N_FFTBuffer = N_FFT;
+        public static bool rawFFT = false;
 
-        static int[] chunk_freq = { 800, 1600, 3200, 6400, 12800, 30000 };
-        static int[] chunk_freq_jump = { 1, 2, 4, 6, 8, 10, 16 };
+        public static int[] chunk_freq = { 800, 1600, 3200, 6400, 12800, 30000 };
+        public static int[] chunk_freq_jump = { 1, 2, 4, 6, 8, 10, 16 };
         static double lastDelay = 0;
 
-        private static ComplexNumber[] FFT(ComplexNumber[] data)
+        private static ComplexNumber[] RawFFT(ComplexNumber[] data)
         {
             int N = data.Length;
             ComplexNumber[] X = new ComplexNumber[N];
@@ -33,8 +34,8 @@ namespace AudioAnalysis.External
                 e[k] = data[k * 2];
                 d[k] = data[k * 2 + 1];
             }
-            E = FFT(e);
-            D = FFT(d);
+            E = RawFFT(e);
+            D = RawFFT(d);
 
             for (k = 0; k < N / 2; k++)
             {
@@ -78,25 +79,23 @@ namespace AudioAnalysis.External
                 }
                 runningNode = runningNode.PrevNode;
             }
-            var result = FFT(data);
-            //
-            //var resultDouble = result.Select(x => x.Magnitude).ToArray();
-            //Array.Resize(ref resultDouble, N_Spectrum);
-            //return resultDouble;
-            //
+            var result = RawFFT(data);
+
+            if (rawFFT)
+            {
+                var resultDouble = result.Select(x => x.Magnitude).ToArray();
+                Array.Resize(ref resultDouble, Spectrum.numBands);
+                return resultDouble;
+            }
+
             double N2 = result.Length / 2;
             double[] finalresult = new double[lastData.Length];
             int k = 1, transformedDataIndex = 0;
             double value = 0;
 
-            double refFeq = 250;
-
-            int i_ref = (int)(refFeq * N2 / 22050);
             for (int i = 0; i < N2; i += k)
             {
                 value = 0;
-                //k = i / i_ref;
-                //k = k == 0 ? 1 : k;
                 var mappedFreq = i * AudioIn.RATE / 2 / N2;
                 for (int l = 0; l < chunk_freq.Length; l++)
                 {
