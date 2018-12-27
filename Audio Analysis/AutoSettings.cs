@@ -10,10 +10,13 @@ namespace AudioAnalysis
     {
 
         public static double highestPeak = 0, highestPeakBandwidth = 0;
-        public static int Threshold()
+        public static int Threshold(double max = 0)
         {
-            SetHighestPeakInBandwidth();
-            return (int)(highestPeakBandwidth * 0.75);
+            if(max == 0)
+            {
+                HighestPeakBandwidth(out max);
+            }
+            return (int)(max * 0.75);
         }
 
         private static List<List<double>> fftDataHistory = null;
@@ -80,7 +83,7 @@ namespace AudioAnalysis
             return mostDynamicIndex;
         }
 
-        public static void SetHighestPeakInBandwidth()
+        public static void HighestPeakBandwidth(out double highestPeakBandwidth)
         {
             highestPeakBandwidth = highestPeak;
             for (int i = Math.Max((mostDynamicIndex - bandwidth / 2), 0); i < mostDynamicIndex + bandwidth / 2; i++)

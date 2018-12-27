@@ -7,9 +7,10 @@ namespace AudioAnalysis.External
 {
     public class FFT
     {
-        public static int N_FFT = 4096;
+        public static int N_FFT = 1024;
         public static int N_FFTBuffer = N_FFT;
         public static bool rawFFT = false;
+        public static double dropOffScale = 1;
 
         public static int[] chunk_freq = { 800, 1600, 3200, 6400, 12800, 30000 };
         public static int[] chunk_freq_jump = { 1, 2, 4, 6, 8, 10, 16 };
@@ -112,7 +113,7 @@ namespace AudioAnalysis.External
                 }
 
                 
-                lastData[transformedDataIndex] -= lastDelay * AudioIn.DropOffScale;
+                lastData[transformedDataIndex] -= lastDelay * dropOffScale;
                 if (AudioIn.Mode == 0)
                     finalresult[transformedDataIndex] = value;
                 else

@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.pnlSpectrum = new System.Windows.Forms.Panel();
+            this.pnlSpectrum = new Spectrum();//= new System.Windows.Forms.Panel();
             this.btnDecreaseMax = new System.Windows.Forms.Button();
             this.btnIncreaseMax = new System.Windows.Forms.Button();
             this.btnCalibrate = new System.Windows.Forms.Button();
@@ -70,10 +70,15 @@
             this.btnAutoRange = new System.Windows.Forms.Button();
             this.btnSpectrumMode = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabFFTSettings = new System.Windows.Forms.TabPage();
+            this.tabFFT = new System.Windows.Forms.TabPage();
             this.cboN_FFT = new System.Windows.Forms.ComboBox();
             this.lblN_FFT = new System.Windows.Forms.Label();
             this.btnCommitFFTSettings = new System.Windows.Forms.Button();
+            this.lblSpectrumScale = new System.Windows.Forms.Label();
+            this.txtSpectrumScale = new System.Windows.Forms.TextBox();
+            this.tabArduino = new System.Windows.Forms.TabPage();
+            this.txtDropOffScale = new System.Windows.Forms.TextBox();
+            this.lblDropOffScale = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.pnlSpectrum.SuspendLayout();
             this.pnlNewAudio.SuspendLayout();
@@ -84,7 +89,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).BeginInit();
             this.tabControl1.SuspendLayout();
-            this.tabFFTSettings.SuspendLayout();
+            this.tabFFT.SuspendLayout();
+            this.tabArduino.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -95,20 +101,20 @@
             // chart1
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.AxisX.LabelStyle.Enabled = false;
-            chartArea2.AxisX.MajorGrid.Enabled = false;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea1.AxisX.LabelStyle.Enabled = false;
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(57, 440);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.Color = System.Drawing.Color.Black;
-            series2.IsVisibleInLegend = false;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Color = System.Drawing.Color.Black;
+            series1.IsVisibleInLegend = false;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(999, 165);
             this.chart1.TabIndex = 16;
             this.chart1.Text = "chart1";
@@ -395,10 +401,10 @@
             // 
             this.txtTimer1Interval.BackColor = System.Drawing.Color.Black;
             this.txtTimer1Interval.ForeColor = System.Drawing.Color.White;
-            this.txtTimer1Interval.Location = new System.Drawing.Point(298, 414);
+            this.txtTimer1Interval.Location = new System.Drawing.Point(6, 86);
             this.txtTimer1Interval.Name = "txtTimer1Interval";
             this.txtTimer1Interval.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTimer1Interval.Size = new System.Drawing.Size(42, 20);
+            this.txtTimer1Interval.Size = new System.Drawing.Size(62, 20);
             this.txtTimer1Interval.TabIndex = 24;
             this.txtTimer1Interval.Text = "0";
             this.txtTimer1Interval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTimer1Interval_KeyDown);
@@ -406,7 +412,7 @@
             // lblRefreshRate
             // 
             this.lblRefreshRate.AutoSize = true;
-            this.lblRefreshRate.Location = new System.Drawing.Point(346, 418);
+            this.lblRefreshRate.Location = new System.Drawing.Point(74, 89);
             this.lblRefreshRate.Name = "lblRefreshRate";
             this.lblRefreshRate.Size = new System.Drawing.Size(92, 13);
             this.lblRefreshRate.TabIndex = 26;
@@ -446,20 +452,20 @@
             // 
             // btnArduino
             // 
-            this.btnArduino.Location = new System.Drawing.Point(852, 395);
+            this.btnArduino.Location = new System.Drawing.Point(3, 30);
             this.btnArduino.Name = "btnArduino";
-            this.btnArduino.Size = new System.Drawing.Size(204, 39);
+            this.btnArduino.Size = new System.Drawing.Size(170, 39);
             this.btnArduino.TabIndex = 30;
-            this.btnArduino.Text = "Arduino Button";
+            this.btnArduino.Text = "Execute";
             this.btnArduino.UseVisualStyleBackColor = true;
             this.btnArduino.Click += new System.EventHandler(this.btnArduino_Click);
             // 
             // cboArduinoCommands
             // 
             this.cboArduinoCommands.FormattingEnabled = true;
-            this.cboArduinoCommands.Location = new System.Drawing.Point(852, 368);
+            this.cboArduinoCommands.Location = new System.Drawing.Point(3, 3);
             this.cboArduinoCommands.Name = "cboArduinoCommands";
-            this.cboArduinoCommands.Size = new System.Drawing.Size(204, 21);
+            this.cboArduinoCommands.Size = new System.Drawing.Size(170, 21);
             this.cboArduinoCommands.TabIndex = 31;
             // 
             // btnAutoRange
@@ -476,7 +482,7 @@
             // 
             this.btnSpectrumMode.Location = new System.Drawing.Point(525, 413);
             this.btnSpectrumMode.Name = "btnSpectrumMode";
-            this.btnSpectrumMode.Size = new System.Drawing.Size(87, 23);
+            this.btnSpectrumMode.Size = new System.Drawing.Size(130, 23);
             this.btnSpectrumMode.TabIndex = 33;
             this.btnSpectrumMode.Text = "Spectrum Mode";
             this.btnSpectrumMode.UseVisualStyleBackColor = true;
@@ -484,25 +490,32 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabFFTSettings);
+            this.tabControl1.Controls.Add(this.tabFFT);
+            this.tabControl1.Controls.Add(this.tabArduino);
             this.tabControl1.Location = new System.Drawing.Point(1059, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(184, 593);
             this.tabControl1.TabIndex = 34;
             // 
-            // tabFFTSettings
+            // tabFFT
             // 
-            this.tabFFTSettings.Controls.Add(this.cboN_FFT);
-            this.tabFFTSettings.Controls.Add(this.lblN_FFT);
-            this.tabFFTSettings.Controls.Add(this.btnCommitFFTSettings);
-            this.tabFFTSettings.Location = new System.Drawing.Point(4, 22);
-            this.tabFFTSettings.Name = "tabFFTSettings";
-            this.tabFFTSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFFTSettings.Size = new System.Drawing.Size(176, 567);
-            this.tabFFTSettings.TabIndex = 0;
-            this.tabFFTSettings.Text = "FFT Settings";
-            this.tabFFTSettings.UseVisualStyleBackColor = true;
+            this.tabFFT.Controls.Add(this.txtDropOffScale);
+            this.tabFFT.Controls.Add(this.lblDropOffScale);
+            this.tabFFT.Controls.Add(this.lblSpectrumScale);
+            this.tabFFT.Controls.Add(this.cboN_FFT);
+            this.tabFFT.Controls.Add(this.txtSpectrumScale);
+            this.tabFFT.Controls.Add(this.lblN_FFT);
+            this.tabFFT.Controls.Add(this.btnCommitFFTSettings);
+            this.tabFFT.Controls.Add(this.txtTimer1Interval);
+            this.tabFFT.Controls.Add(this.lblRefreshRate);
+            this.tabFFT.Location = new System.Drawing.Point(4, 22);
+            this.tabFFT.Name = "tabFFT";
+            this.tabFFT.Padding = new System.Windows.Forms.Padding(3);
+            this.tabFFT.Size = new System.Drawing.Size(176, 567);
+            this.tabFFT.TabIndex = 0;
+            this.tabFFT.Text = "FFT";
+            this.tabFFT.UseVisualStyleBackColor = true;
             // 
             // cboN_FFT
             // 
@@ -534,6 +547,57 @@
             this.btnCommitFFTSettings.UseVisualStyleBackColor = true;
             this.btnCommitFFTSettings.Click += new System.EventHandler(this.btnCommitFFTSettings_Click);
             // 
+            // lblSpectrumScale
+            // 
+            this.lblSpectrumScale.AutoSize = true;
+            this.lblSpectrumScale.Location = new System.Drawing.Point(84, 63);
+            this.lblSpectrumScale.Name = "lblSpectrumScale";
+            this.lblSpectrumScale.Size = new System.Drawing.Size(82, 13);
+            this.lblSpectrumScale.TabIndex = 36;
+            this.lblSpectrumScale.Text = "Spectrum Scale";
+            // 
+            // txtSpectrumScale
+            // 
+            this.txtSpectrumScale.BackColor = System.Drawing.Color.Black;
+            this.txtSpectrumScale.ForeColor = System.Drawing.Color.White;
+            this.txtSpectrumScale.Location = new System.Drawing.Point(6, 60);
+            this.txtSpectrumScale.Name = "txtSpectrumScale";
+            this.txtSpectrumScale.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtSpectrumScale.Size = new System.Drawing.Size(72, 20);
+            this.txtSpectrumScale.TabIndex = 35;
+            this.txtSpectrumScale.Text = "0";
+            // 
+            // tabArduino
+            // 
+            this.tabArduino.Controls.Add(this.cboArduinoCommands);
+            this.tabArduino.Controls.Add(this.btnArduino);
+            this.tabArduino.Location = new System.Drawing.Point(4, 22);
+            this.tabArduino.Name = "tabArduino";
+            this.tabArduino.Size = new System.Drawing.Size(176, 567);
+            this.tabArduino.TabIndex = 1;
+            this.tabArduino.Text = "Arduino";
+            this.tabArduino.UseVisualStyleBackColor = true;
+            // 
+            // txtDropOffScale
+            // 
+            this.txtDropOffScale.BackColor = System.Drawing.Color.Black;
+            this.txtDropOffScale.ForeColor = System.Drawing.Color.White;
+            this.txtDropOffScale.Location = new System.Drawing.Point(6, 112);
+            this.txtDropOffScale.Name = "txtDropOffScale";
+            this.txtDropOffScale.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDropOffScale.Size = new System.Drawing.Size(82, 20);
+            this.txtDropOffScale.TabIndex = 40;
+            this.txtDropOffScale.Text = "0";
+            // 
+            // lblDropOffScale
+            // 
+            this.lblDropOffScale.AutoSize = true;
+            this.lblDropOffScale.Location = new System.Drawing.Point(94, 115);
+            this.lblDropOffScale.Name = "lblDropOffScale";
+            this.lblDropOffScale.Size = new System.Drawing.Size(72, 13);
+            this.lblDropOffScale.TabIndex = 41;
+            this.lblDropOffScale.Text = "Dropoff Scale";
+            // 
             // frmAudioAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -543,14 +607,10 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnSpectrumMode);
             this.Controls.Add(this.btnAutoRange);
-            this.Controls.Add(this.cboArduinoCommands);
-            this.Controls.Add(this.btnArduino);
             this.Controls.Add(this.btnSaveSong);
             this.Controls.Add(this.cboSongNames);
             this.Controls.Add(this.txtThreshold);
             this.Controls.Add(this.lblThreshold);
-            this.Controls.Add(this.lblRefreshRate);
-            this.Controls.Add(this.txtTimer1Interval);
             this.Controls.Add(this.trkbrMax);
             this.Controls.Add(this.pnlRangeButtons);
             this.Controls.Add(this.chart1);
@@ -573,8 +633,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            this.tabFFTSettings.ResumeLayout(false);
-            this.tabFFTSettings.PerformLayout();
+            this.tabFFT.ResumeLayout(false);
+            this.tabFFT.PerformLayout();
+            this.tabArduino.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -619,10 +680,15 @@
         private System.Windows.Forms.Button btnAutoRange;
         private System.Windows.Forms.Button btnSpectrumMode;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabFFTSettings;
+        private System.Windows.Forms.TabPage tabFFT;
         private System.Windows.Forms.Label lblN_FFT;
         private System.Windows.Forms.Button btnCommitFFTSettings;
         private System.Windows.Forms.ComboBox cboN_FFT;
+        private System.Windows.Forms.Label lblSpectrumScale;
+        private System.Windows.Forms.TextBox txtSpectrumScale;
+        private System.Windows.Forms.TabPage tabArduino;
+        private System.Windows.Forms.TextBox txtDropOffScale;
+        private System.Windows.Forms.Label lblDropOffScale;
     }
 }
 

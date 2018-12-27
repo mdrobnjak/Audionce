@@ -1,14 +1,22 @@
 ﻿using AudioAnalysis.External;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AudioAnalysis
 {
-    public class Spectrum
+    public class Spectrum : System.Windows.Forms.Panel
     {
+        public Spectrum()
+        {
+
+        }
+
         public static int numBands;
         public static int[] bandsPerRange, bandsBefore;
         public static Dictionary<int, int> freqOfBand;

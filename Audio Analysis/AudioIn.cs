@@ -25,11 +25,6 @@ namespace AudioAnalysis
             get;
             set;
         }
-        public static double DropOffScale
-        {
-            get;
-            set;
-        }
         #endregion
 
         public static void InitSoundCapture()
@@ -61,8 +56,6 @@ namespace AudioAnalysis
 
             //Set Mode to 1.
             Mode = 1;
-            //Set DropOffScale to 0.4.
-            DropOffScale = 10;
         }
 
         private static void waveInStream_DataAvailable(object sender, WaveInEventArgs e)
