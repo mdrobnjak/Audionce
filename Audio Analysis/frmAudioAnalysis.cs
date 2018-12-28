@@ -24,6 +24,10 @@ namespace AudioAnalysis
         {
             InitializeComponent();
 
+            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+
             #region Alternate Methods
             //Force high priority if needed
             //System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High;
@@ -102,7 +106,7 @@ namespace AudioAnalysis
                         });
         ImageAttributes imgAttribute;
 
-        Graphics spectrumGraphics;
+        Graphics gSpectrum;
 
         private void InitBufferAndGraphicForSpectrum()
         {
@@ -134,7 +138,7 @@ namespace AudioAnalysis
             //(3 SolidBrushes are initialized.)
             Constants.Init();
 
-            this.spectrumGraphics = pnlSpectrum.CreateGraphics();
+            this.gSpectrum = pnlSpectrum.CreateGraphics();
         }
 
         Color[] colors = new Color[numRanges];
@@ -227,10 +231,50 @@ namespace AudioAnalysis
                 paintInitiated = true;
             }
 
-            DrawData(transformedData, spectrumGraphics, cvt);
+            DrawData(transformedData, gSpectrum, cvt);
         }
 
         private void DrawData(double[] data, Graphics g, Converter cvter)
+        {
+            if (data == null || data.Length == 0 || AudioIn.sourceData == null)
+                return;
+
+            float ratioFreq = (float)pnlSpectrum.Width / Spectrum.bandsPerRange[selectedRange];
+            float ratioFreqTest = (float)pnlSpectrum.Width / 200;
+            float ratioWave = pnlSpectrum.Width / AudioIn.sourceData.Length;
+            float value = 0;
+            
+            g.Clear(Color.White);
+
+            int sx, sy;
+            
+            #region Fill Rectangles
+            int bandIndexRelative = 0;
+            int bandIndexAbsolute = Spectrum.bandsBefore[selectedRange];
+
+            for (; bandIndexRelative < trkbrMin.Value; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
+                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
+                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+            }
+            for (; bandIndexRelative < trkbrMax.Value; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
+                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
+                g.FillRectangle(Constants.Brushes.redBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+            }
+            for (; bandIndexRelative < Spectrum.bandsPerRange[selectedRange] && bandIndexRelative < Spectrum.numBands; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
+                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
+                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+            }
+            #endregion
+        }
+
+
+        private void DrawData_Original(double[] data, Graphics g, Converter cvter)
         {
             var chkpoint2 = DateTime.Now;
             if (data == null || data.Length == 0 || AudioIn.sourceData == null)
@@ -641,6 +685,11 @@ namespace AudioAnalysis
         }
 
         const int fmin = 0, f1 = 300, f2 = 5000, fmax = 20000;
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            //gSpectrum.Clear(Color.White);
+        }
 
         private void btnSpectrumMode_Click(object sender, EventArgs e)
         {

@@ -34,7 +34,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.pnlSpectrum = new Spectrum();//= new System.Windows.Forms.Panel();
+            this.pnlSpectrum = new AudioAnalysis.Spectrum();
             this.btnDecreaseMax = new System.Windows.Forms.Button();
             this.btnIncreaseMax = new System.Windows.Forms.Button();
             this.btnCalibrate = new System.Windows.Forms.Button();
@@ -71,14 +71,15 @@
             this.btnSpectrumMode = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabFFT = new System.Windows.Forms.TabPage();
-            this.cboN_FFT = new System.Windows.Forms.ComboBox();
-            this.lblN_FFT = new System.Windows.Forms.Label();
-            this.btnCommitFFTSettings = new System.Windows.Forms.Button();
-            this.lblSpectrumScale = new System.Windows.Forms.Label();
-            this.txtSpectrumScale = new System.Windows.Forms.TextBox();
-            this.tabArduino = new System.Windows.Forms.TabPage();
             this.txtDropOffScale = new System.Windows.Forms.TextBox();
             this.lblDropOffScale = new System.Windows.Forms.Label();
+            this.lblSpectrumScale = new System.Windows.Forms.Label();
+            this.cboN_FFT = new System.Windows.Forms.ComboBox();
+            this.txtSpectrumScale = new System.Windows.Forms.TextBox();
+            this.lblN_FFT = new System.Windows.Forms.Label();
+            this.btnCommitFFTSettings = new System.Windows.Forms.Button();
+            this.tabArduino = new System.Windows.Forms.TabPage();
+            this.btnTest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.pnlSpectrum.SuspendLayout();
             this.pnlNewAudio.SuspendLayout();
@@ -341,7 +342,7 @@
             this.pnlRangeButtons.Controls.Add(this.btnRange1);
             this.pnlRangeButtons.Location = new System.Drawing.Point(57, 380);
             this.pnlRangeButtons.Name = "pnlRangeButtons";
-            this.pnlRangeButtons.Size = new System.Drawing.Size(408, 54);
+            this.pnlRangeButtons.Size = new System.Drawing.Size(235, 54);
             this.pnlRangeButtons.TabIndex = 20;
             // 
             // btnRange3
@@ -470,7 +471,7 @@
             // 
             // btnAutoRange
             // 
-            this.btnAutoRange.Location = new System.Drawing.Point(444, 413);
+            this.btnAutoRange.Location = new System.Drawing.Point(453, 411);
             this.btnAutoRange.Name = "btnAutoRange";
             this.btnAutoRange.Size = new System.Drawing.Size(75, 23);
             this.btnAutoRange.TabIndex = 32;
@@ -480,7 +481,7 @@
             // 
             // btnSpectrumMode
             // 
-            this.btnSpectrumMode.Location = new System.Drawing.Point(525, 413);
+            this.btnSpectrumMode.Location = new System.Drawing.Point(534, 411);
             this.btnSpectrumMode.Name = "btnSpectrumMode";
             this.btnSpectrumMode.Size = new System.Drawing.Size(130, 23);
             this.btnSpectrumMode.TabIndex = 33;
@@ -517,67 +518,6 @@
             this.tabFFT.Text = "FFT";
             this.tabFFT.UseVisualStyleBackColor = true;
             // 
-            // cboN_FFT
-            // 
-            this.cboN_FFT.BackColor = System.Drawing.Color.Black;
-            this.cboN_FFT.ForeColor = System.Drawing.Color.White;
-            this.cboN_FFT.FormattingEnabled = true;
-            this.cboN_FFT.Location = new System.Drawing.Point(6, 33);
-            this.cboN_FFT.Name = "cboN_FFT";
-            this.cboN_FFT.Size = new System.Drawing.Size(114, 21);
-            this.cboN_FFT.TabIndex = 35;
-            this.cboN_FFT.Tag = "";
-            // 
-            // lblN_FFT
-            // 
-            this.lblN_FFT.AutoSize = true;
-            this.lblN_FFT.Location = new System.Drawing.Point(126, 36);
-            this.lblN_FFT.Name = "lblN_FFT";
-            this.lblN_FFT.Size = new System.Drawing.Size(40, 13);
-            this.lblN_FFT.TabIndex = 39;
-            this.lblN_FFT.Text = "N_FFT";
-            // 
-            // btnCommitFFTSettings
-            // 
-            this.btnCommitFFTSettings.Location = new System.Drawing.Point(6, 4);
-            this.btnCommitFFTSettings.Name = "btnCommitFFTSettings";
-            this.btnCommitFFTSettings.Size = new System.Drawing.Size(164, 23);
-            this.btnCommitFFTSettings.TabIndex = 38;
-            this.btnCommitFFTSettings.Text = "Commit";
-            this.btnCommitFFTSettings.UseVisualStyleBackColor = true;
-            this.btnCommitFFTSettings.Click += new System.EventHandler(this.btnCommitFFTSettings_Click);
-            // 
-            // lblSpectrumScale
-            // 
-            this.lblSpectrumScale.AutoSize = true;
-            this.lblSpectrumScale.Location = new System.Drawing.Point(84, 63);
-            this.lblSpectrumScale.Name = "lblSpectrumScale";
-            this.lblSpectrumScale.Size = new System.Drawing.Size(82, 13);
-            this.lblSpectrumScale.TabIndex = 36;
-            this.lblSpectrumScale.Text = "Spectrum Scale";
-            // 
-            // txtSpectrumScale
-            // 
-            this.txtSpectrumScale.BackColor = System.Drawing.Color.Black;
-            this.txtSpectrumScale.ForeColor = System.Drawing.Color.White;
-            this.txtSpectrumScale.Location = new System.Drawing.Point(6, 60);
-            this.txtSpectrumScale.Name = "txtSpectrumScale";
-            this.txtSpectrumScale.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSpectrumScale.Size = new System.Drawing.Size(72, 20);
-            this.txtSpectrumScale.TabIndex = 35;
-            this.txtSpectrumScale.Text = "0";
-            // 
-            // tabArduino
-            // 
-            this.tabArduino.Controls.Add(this.cboArduinoCommands);
-            this.tabArduino.Controls.Add(this.btnArduino);
-            this.tabArduino.Location = new System.Drawing.Point(4, 22);
-            this.tabArduino.Name = "tabArduino";
-            this.tabArduino.Size = new System.Drawing.Size(176, 567);
-            this.tabArduino.TabIndex = 1;
-            this.tabArduino.Text = "Arduino";
-            this.tabArduino.UseVisualStyleBackColor = true;
-            // 
             // txtDropOffScale
             // 
             this.txtDropOffScale.BackColor = System.Drawing.Color.Black;
@@ -598,12 +538,85 @@
             this.lblDropOffScale.TabIndex = 41;
             this.lblDropOffScale.Text = "Dropoff Scale";
             // 
+            // lblSpectrumScale
+            // 
+            this.lblSpectrumScale.AutoSize = true;
+            this.lblSpectrumScale.Location = new System.Drawing.Point(84, 63);
+            this.lblSpectrumScale.Name = "lblSpectrumScale";
+            this.lblSpectrumScale.Size = new System.Drawing.Size(82, 13);
+            this.lblSpectrumScale.TabIndex = 36;
+            this.lblSpectrumScale.Text = "Spectrum Scale";
+            // 
+            // cboN_FFT
+            // 
+            this.cboN_FFT.BackColor = System.Drawing.Color.Black;
+            this.cboN_FFT.ForeColor = System.Drawing.Color.White;
+            this.cboN_FFT.FormattingEnabled = true;
+            this.cboN_FFT.Location = new System.Drawing.Point(6, 33);
+            this.cboN_FFT.Name = "cboN_FFT";
+            this.cboN_FFT.Size = new System.Drawing.Size(114, 21);
+            this.cboN_FFT.TabIndex = 35;
+            this.cboN_FFT.Tag = "";
+            // 
+            // txtSpectrumScale
+            // 
+            this.txtSpectrumScale.BackColor = System.Drawing.Color.Black;
+            this.txtSpectrumScale.ForeColor = System.Drawing.Color.White;
+            this.txtSpectrumScale.Location = new System.Drawing.Point(6, 60);
+            this.txtSpectrumScale.Name = "txtSpectrumScale";
+            this.txtSpectrumScale.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtSpectrumScale.Size = new System.Drawing.Size(72, 20);
+            this.txtSpectrumScale.TabIndex = 35;
+            this.txtSpectrumScale.Text = "0";
+            // 
+            // lblN_FFT
+            // 
+            this.lblN_FFT.AutoSize = true;
+            this.lblN_FFT.Location = new System.Drawing.Point(126, 36);
+            this.lblN_FFT.Name = "lblN_FFT";
+            this.lblN_FFT.Size = new System.Drawing.Size(40, 13);
+            this.lblN_FFT.TabIndex = 39;
+            this.lblN_FFT.Text = "N_FFT";
+            // 
+            // btnCommitFFTSettings
+            // 
+            this.btnCommitFFTSettings.Location = new System.Drawing.Point(6, 4);
+            this.btnCommitFFTSettings.Name = "btnCommitFFTSettings";
+            this.btnCommitFFTSettings.Size = new System.Drawing.Size(164, 23);
+            this.btnCommitFFTSettings.TabIndex = 38;
+            this.btnCommitFFTSettings.Text = "Commit";
+            this.btnCommitFFTSettings.UseVisualStyleBackColor = true;
+            this.btnCommitFFTSettings.Click += new System.EventHandler(this.btnCommitFFTSettings_Click);
+            // 
+            // tabArduino
+            // 
+            this.tabArduino.Controls.Add(this.cboArduinoCommands);
+            this.tabArduino.Controls.Add(this.btnArduino);
+            this.tabArduino.Location = new System.Drawing.Point(4, 22);
+            this.tabArduino.Name = "tabArduino";
+            this.tabArduino.Size = new System.Drawing.Size(176, 567);
+            this.tabArduino.TabIndex = 1;
+            this.tabArduino.Text = "Arduino";
+            this.tabArduino.UseVisualStyleBackColor = true;
+            // 
+            // btnTest
+            // 
+            this.btnTest.BackColor = System.Drawing.SystemColors.Control;
+            this.btnTest.Location = new System.Drawing.Point(375, 378);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(72, 56);
+            this.btnTest.TabIndex = 3;
+            this.btnTest.Text = "TEST";
+            this.btnTest.UseVisualStyleBackColor = false;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
             // frmAudioAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1241, 614);
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnSpectrumMode);
             this.Controls.Add(this.btnAutoRange);
@@ -644,7 +657,6 @@
         #endregion
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.Panel pnlSpectrum;
         private System.Windows.Forms.TrackBar trkbrThreshold;
         private System.Windows.Forms.TextBox txtThreshold;
         private System.Windows.Forms.Panel pnlRangeButtons;
@@ -689,6 +701,8 @@
         private System.Windows.Forms.TabPage tabArduino;
         private System.Windows.Forms.TextBox txtDropOffScale;
         private System.Windows.Forms.Label lblDropOffScale;
+        private System.Windows.Forms.Button btnTest;
+        private Spectrum pnlSpectrum;
     }
 }
 
