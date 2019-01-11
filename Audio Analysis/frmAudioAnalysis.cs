@@ -497,6 +497,7 @@ namespace AudioAnalysis
                 FFT.N_FFT = FFT.N_FFTBuffer;
                 transformedData = null;
             }
+
             transformedData = FFT.FFTWithProcessing(transformedData);
 
             //execute once
