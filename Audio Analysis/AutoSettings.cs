@@ -12,7 +12,7 @@ namespace AudioAnalysis
         void InitAutoSettings()
         {
             AutoSet.secondsToCollect = 10;
-            AutoSet.bandwidth = 10;
+            AutoSet.bandwidth = 1;
             AutoSet.threshMultiplier = 0.5;
 
             txtSeconds.Text = AutoSet.secondsToCollect.ToString();
@@ -67,7 +67,7 @@ namespace AudioAnalysis
         public static void HighestPeakBandwidth(out double highestPeakBandwidth)
         {
             highestPeakBandwidth = highestPeak;
-            for (int i = Math.Max((mostDynamicIndex - bandwidth / 2), 0); i < mostDynamicIndex + bandwidth / 2; i++)
+            for (int i = Math.Max((centerBandIndex - bandwidth / 2), 0); i < centerBandIndex + bandwidth / 2; i++)
             {
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)
                 {
@@ -81,7 +81,7 @@ namespace AudioAnalysis
         #region Range
         private static List<List<double>> fftDataHistory = null;
         public static bool ranging = false, readyToProcess = false;
-        public static int mostDynamicIndex;
+        public static int centerBandIndex;
         public static double secondsToCollect;
         public static int bandwidth;
         public static DateTime started;
@@ -115,11 +115,79 @@ namespace AudioAnalysis
             }
         }
 
-        public static int MostDynamic(int minBandIndex, int maxBandIndex)
+        public static int CenterFreqSelector(int minBandIndex, int maxBandIndex)
+        {
+            return HighestAverageChange(minBandIndex, maxBandIndex);
+        }
+
+        //Good for bass.
+        public static int HighestAverageChange(int minBandIndex, int maxBandIndex)
+        {
+            highestPeak = 0;
+            double averageChange = 0;
+            centerBandIndex = 0;
+            for (int i = minBandIndex; i < maxBandIndex; i++)
+            {
+                double max = 0, totalChange = 0;
+                for (int j = 1; j < fftDataHistory[i].Count(); j++)
+                {
+                    if (fftDataHistory[i][j] > max)
+                    {
+                        max = fftDataHistory[i][j];
+                    }
+
+                    totalChange += Math.Abs(fftDataHistory[i][j] - fftDataHistory[i][j - 1]);
+                }
+                if (totalChange / fftDataHistory[i].Count > averageChange)
+                {
+                    averageChange = totalChange / fftDataHistory[i].Count;
+                    centerBandIndex = i;
+                }
+                if (max > highestPeak)
+                {
+                    highestPeak = max;
+                }
+            }
+            return centerBandIndex;
+        }
+
+        public static int HighestDynamicRange(int minBandIndex, int maxBandIndex)
+        {
+            highestPeak = 0;
+            double peakToPeak = 0;
+            centerBandIndex = 0;
+            for (int i = minBandIndex; i < maxBandIndex; i++)
+            {
+                double max = 0, min = Int32.MaxValue;
+                for (int j = 0; j < fftDataHistory[i].Count(); j++)
+                {
+                    if (fftDataHistory[i][j] > max)
+                    {
+                        max = fftDataHistory[i][j];
+                    }
+                    else if(fftDataHistory[i][j] < min)
+                    {
+                        min = fftDataHistory[i][j];
+                    }
+                }
+                if (max - min > peakToPeak)
+                {
+                    peakToPeak = max - min;
+                    centerBandIndex = i;
+                }
+                if (max > highestPeak)
+                {
+                    highestPeak = max;
+                }
+            }
+            return centerBandIndex;
+        }
+
+        public static int BestPeakToAverage(int minBandIndex, int maxBandIndex)
         {
             highestPeak = 0;
             double peakToAverageRatio = 0;
-            mostDynamicIndex = 0;
+            centerBandIndex = 0;
             for (int i = minBandIndex; i < maxBandIndex; i++)
             {
                 double peak = 0, sum = 0, average = 0;
@@ -131,19 +199,20 @@ namespace AudioAnalysis
                         peak = fftDataHistory[i][j];
                     }
                 }
-                average = sum / fftDataHistory[i].Count();
+                average = sum / fftDataHistory[i].Count;
                 if (peak / average > peakToAverageRatio)
                 {
                     peakToAverageRatio = peak / average;
-                    mostDynamicIndex = i;
+                    centerBandIndex = i;
                 }
                 if (peak > highestPeak)
                 {
                     highestPeak = peak;
                 }
             }
-            return mostDynamicIndex;
+            return centerBandIndex;
         }
+
         #endregion
 
     }

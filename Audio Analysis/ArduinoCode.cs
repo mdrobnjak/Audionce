@@ -24,6 +24,8 @@ namespace AudioAnalysis
 
         public static string[] arduinoCommands = { "ON: 1", "OFF: 0", "Density 1: s", "Density 2: t", "Density 3: u", "Density 4: v" };
 
+        public static int selectedRange = 0;
+
         public static void InterpretCommand(string arduinoCommand)
         {
             string commandChar = arduinoCommand[arduinoCommand.Length - 1].ToString();
@@ -63,8 +65,8 @@ namespace AudioAnalysis
         {
             if (port.IsOpen)
             {
-                if (rangeIndex == 0) Write("b");
-                else if (rangeIndex == 2) Write("m");
+                if (rangeIndex == selectedRange) Write("b");
+                //else if (rangeIndex == 2) Write("m");
             }
         }
 

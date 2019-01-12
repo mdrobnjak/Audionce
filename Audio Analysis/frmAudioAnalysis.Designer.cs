@@ -37,6 +37,8 @@
             this.trkbrThreshold = new System.Windows.Forms.TrackBar();
             this.txtThreshold = new System.Windows.Forms.TextBox();
             this.pnlRangeButtons = new System.Windows.Forms.Panel();
+            this.btnDecrementRangeBand = new System.Windows.Forms.Button();
+            this.btnIncrementRangeBand = new System.Windows.Forms.Button();
             this.btnRange3 = new System.Windows.Forms.Button();
             this.btnRange2 = new System.Windows.Forms.Button();
             this.btnRange1 = new System.Windows.Forms.Button();
@@ -157,6 +159,8 @@
             this.pnlRangeButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlRangeButtons.Controls.Add(this.btnDecrementRangeBand);
+            this.pnlRangeButtons.Controls.Add(this.btnIncrementRangeBand);
             this.pnlRangeButtons.Controls.Add(this.btnRange3);
             this.pnlRangeButtons.Controls.Add(this.btnRange2);
             this.pnlRangeButtons.Controls.Add(this.btnRange1);
@@ -166,6 +170,26 @@
             this.pnlRangeButtons.Name = "pnlRangeButtons";
             this.pnlRangeButtons.Size = new System.Drawing.Size(1000, 65);
             this.pnlRangeButtons.TabIndex = 20;
+            // 
+            // btnDecrementRangeBand
+            // 
+            this.btnDecrementRangeBand.Location = new System.Drawing.Point(237, 37);
+            this.btnDecrementRangeBand.Name = "btnDecrementRangeBand";
+            this.btnDecrementRangeBand.Size = new System.Drawing.Size(72, 21);
+            this.btnDecrementRangeBand.TabIndex = 31;
+            this.btnDecrementRangeBand.Text = "Decrement";
+            this.btnDecrementRangeBand.UseVisualStyleBackColor = true;
+            this.btnDecrementRangeBand.Click += new System.EventHandler(this.btnDecrementRangeBand_Click);
+            // 
+            // btnIncrementRangeBand
+            // 
+            this.btnIncrementRangeBand.Location = new System.Drawing.Point(237, 10);
+            this.btnIncrementRangeBand.Name = "btnIncrementRangeBand";
+            this.btnIncrementRangeBand.Size = new System.Drawing.Size(72, 23);
+            this.btnIncrementRangeBand.TabIndex = 30;
+            this.btnIncrementRangeBand.Text = "Increment";
+            this.btnIncrementRangeBand.UseVisualStyleBackColor = true;
+            this.btnIncrementRangeBand.Click += new System.EventHandler(this.btnIncrementRangeBand_Click);
             // 
             // btnRange3
             // 
@@ -756,6 +780,8 @@
         private System.Windows.Forms.Label lblSeconds;
         private System.Windows.Forms.TextBox txtThreshMultiplier;
         private System.Windows.Forms.Label lblThreshMultiplier;
+        private System.Windows.Forms.Button btnIncrementRangeBand;
+        private System.Windows.Forms.Button btnDecrementRangeBand;
     }
 }
 

@@ -302,16 +302,16 @@ namespace AudioAnalysis
             else if (AutoSet.readyToProcess)
             {
                 //Range1
-                rangeLows[0] = AutoSet.MostDynamic(Spectrum.GetBandForFreq(fmin), Spectrum.GetBandForFreq(f1)) - AutoSet.bandwidth / 2;
+                rangeLows[0] = AutoSet.CenterFreqSelector(Spectrum.GetBandForFreq(fmin), Spectrum.GetBandForFreq(f1)) - AutoSet.bandwidth / 2;
                 rangeLows[0] = Math.Max(rangeLows[0],0);
                 rangeHighs[0] = rangeLows[0] + 1 + AutoSet.bandwidth / 2;
                 thresholds[0] = AutoSet.Threshold();
                 //Range2
-                rangeLows[1] = AutoSet.MostDynamic(Spectrum.GetBandForFreq(f1), Spectrum.GetBandForFreq(f2)) - AutoSet.bandwidth / 2;
+                rangeLows[1] = AutoSet.CenterFreqSelector(Spectrum.GetBandForFreq(f1), Spectrum.GetBandForFreq(f2)) - AutoSet.bandwidth / 2;
                 rangeHighs[1] = rangeLows[1] + 1 + AutoSet.bandwidth / 2;
                 thresholds[1] = AutoSet.Threshold();
                 //Range3
-                rangeLows[2] = AutoSet.MostDynamic(Spectrum.GetBandForFreq(f2), Spectrum.GetBandForFreq(fmax)) - AutoSet.bandwidth / 2;
+                rangeLows[2] = AutoSet.CenterFreqSelector(Spectrum.GetBandForFreq(f2), Spectrum.GetBandForFreq(fmax)) - AutoSet.bandwidth / 2;
                 rangeHighs[2] = rangeLows[2] + 1 + AutoSet.bandwidth / 2;
                 thresholds[2] = AutoSet.Threshold();
                 //SelectedRange
@@ -350,14 +350,14 @@ namespace AudioAnalysis
         private void btnRange1_Click(object sender, EventArgs e)
         {
             selectedRange = 0;
-
+            ArduinoCode.selectedRange = 0;
             UpdateControls();
         }
 
         private void btnRange2_Click(object sender, EventArgs e)
         {
             selectedRange = 1;
-
+            ArduinoCode.selectedRange = 1;
             UpdateControls();
 
         }
@@ -365,7 +365,7 @@ namespace AudioAnalysis
         private void btnRange3_Click(object sender, EventArgs e)
         {
             selectedRange = 2;
-
+            ArduinoCode.selectedRange = 2;
             UpdateControls();
         }
 
@@ -396,6 +396,19 @@ namespace AudioAnalysis
         }
 
         #endregion
-        
+
+        private void btnIncrementRangeBand_Click(object sender, EventArgs e)
+        {
+            if (trkbrMax.Value == trkbrMax.Maximum) return;
+            trkbrMin.Value++;
+            trkbrMax.Value++;
+        }
+
+        private void btnDecrementRangeBand_Click(object sender, EventArgs e)
+        {
+            if (trkbrMin.Value == trkbrMin.Minimum) return;
+            trkbrMin.Value--;
+            trkbrMax.Value--;
+        }
     }
 }
