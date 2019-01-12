@@ -40,7 +40,7 @@ namespace AudioAnalysis
                 paintInitiated = true;
             }
 
-            DrawData(transformedData, gSpectrum, cvt);
+            if (Spectrum.drawSpectrum) DrawData(transformedData, gSpectrum, cvt);
         }
 
         private void DrawData(double[] data, Graphics g, Converter cvter)
@@ -156,10 +156,18 @@ namespace AudioAnalysis
         {
             cvt._yCenter = pnlSpectrum.Location.Y + pnlSpectrum.Height;
         }
+
+        private void btnToggleSpectrum_Click(object sender, EventArgs e)
+        {
+            Spectrum.drawSpectrum = !Spectrum.drawSpectrum;
+            gSpectrum.Clear(Color.White);
+        }
     }
 
     public class Spectrum : System.Windows.Forms.Panel
     {
+        public static bool drawSpectrum = true;
+
         public Spectrum()
         {
 

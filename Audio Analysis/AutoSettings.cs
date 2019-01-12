@@ -11,9 +11,9 @@ namespace AudioAnalysis
     {
         void InitAutoSettings()
         {
-            AutoSet.secondsToCollect = 10;
+            AutoSet.secondsToCollect = 5;
             AutoSet.bandwidth = 1;
-            AutoSet.threshMultiplier = 0.5;
+            AutoSet.threshMultiplier = 0.75;
 
             txtSeconds.Text = AutoSet.secondsToCollect.ToString();
             txtBandwidth.Text = AutoSet.bandwidth.ToString();

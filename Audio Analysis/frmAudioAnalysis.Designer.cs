@@ -70,6 +70,7 @@
             this.lblSeconds = new System.Windows.Forms.Label();
             this.btnCommitAutoSettings = new System.Windows.Forms.Button();
             this.pnlSpectrum = new AudioAnalysis.Spectrum();
+            this.btnToggleSpectrum = new System.Windows.Forms.Button();
             this.btnCalibrate = new System.Windows.Forms.Button();
             this.pnlNewAudio = new System.Windows.Forms.Panel();
             this.txtNewAudio3 = new System.Windows.Forms.TextBox();
@@ -526,6 +527,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlSpectrum.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlSpectrum.Controls.Add(this.btnToggleSpectrum);
             this.pnlSpectrum.Controls.Add(this.btnCalibrate);
             this.pnlSpectrum.Controls.Add(this.pnlNewAudio);
             this.pnlSpectrum.Controls.Add(this.btnSpectrumMode);
@@ -537,9 +539,19 @@
             this.pnlSpectrum.Size = new System.Drawing.Size(999, 303);
             this.pnlSpectrum.TabIndex = 19;
             // 
+            // btnToggleSpectrum
+            // 
+            this.btnToggleSpectrum.Location = new System.Drawing.Point(460, 8);
+            this.btnToggleSpectrum.Name = "btnToggleSpectrum";
+            this.btnToggleSpectrum.Size = new System.Drawing.Size(130, 23);
+            this.btnToggleSpectrum.TabIndex = 36;
+            this.btnToggleSpectrum.Text = "Toggle Spectrum";
+            this.btnToggleSpectrum.UseVisualStyleBackColor = true;
+            this.btnToggleSpectrum.Click += new System.EventHandler(this.btnToggleSpectrum_Click);
+            // 
             // btnCalibrate
             // 
-            this.btnCalibrate.Location = new System.Drawing.Point(596, 37);
+            this.btnCalibrate.Location = new System.Drawing.Point(596, 8);
             this.btnCalibrate.Name = "btnCalibrate";
             this.btnCalibrate.Size = new System.Drawing.Size(130, 23);
             this.btnCalibrate.TabIndex = 35;
@@ -592,7 +604,7 @@
             // 
             // btnSpectrumMode
             // 
-            this.btnSpectrumMode.Location = new System.Drawing.Point(596, 8);
+            this.btnSpectrumMode.Location = new System.Drawing.Point(460, 37);
             this.btnSpectrumMode.Name = "btnSpectrumMode";
             this.btnSpectrumMode.Size = new System.Drawing.Size(130, 23);
             this.btnSpectrumMode.TabIndex = 33;
@@ -645,7 +657,7 @@
             // 
             // btnAutoRange
             // 
-            this.btnAutoRange.Location = new System.Drawing.Point(596, 66);
+            this.btnAutoRange.Location = new System.Drawing.Point(596, 37);
             this.btnAutoRange.Name = "btnAutoRange";
             this.btnAutoRange.Size = new System.Drawing.Size(130, 23);
             this.btnAutoRange.TabIndex = 32;
@@ -782,6 +794,7 @@
         private System.Windows.Forms.Label lblThreshMultiplier;
         private System.Windows.Forms.Button btnIncrementRangeBand;
         private System.Windows.Forms.Button btnDecrementRangeBand;
+        private System.Windows.Forms.Button btnToggleSpectrum;
     }
 }
 
