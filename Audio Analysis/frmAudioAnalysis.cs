@@ -23,6 +23,10 @@ namespace AudioAnalysis
         {
             InitializeComponent();
 
+            using (System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess())
+                p.PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
+
+
             this.SetStyle(ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
