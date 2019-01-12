@@ -21,7 +21,6 @@ D:\src\Applications\Mark's Visualizer\ScottPlot-2017-07-30\ScottPlot\obj\Debug\S
 D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\bin\Debug\ScottPlot.xml
 D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\bin\Debug\ScottPlot.dll
 D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\bin\Debug\ScottPlot.pdb
-D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csprojAssemblyReference.cache
 D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.ScottPlotUC.resources
 D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.ucInteractive.resources
 D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csproj.GenerateResource.cache

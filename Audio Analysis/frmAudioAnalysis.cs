@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AudioAnalysis.External;
 using NAudio.Dsp;
 using NAudio.Wave;
 using System.Numerics;
@@ -67,6 +66,8 @@ namespace AudioAnalysis
 
             InitTabFFT();
 
+            InitAutoSettings();
+
             #region Init BeatDetectors
             //Init BeatDetectors with an evaluateLength of 50.
             for (int i = 0; i < beatDetectors.Count(); i++)
@@ -85,8 +86,6 @@ namespace AudioAnalysis
         }
 
         #region Init
-
-
 
         Image mainBuffer;
         Graphics gMainBuffer;
@@ -190,217 +189,8 @@ namespace AudioAnalysis
             cvt = new Converter(0, pnlSpectrum.Location.Y + pnlSpectrum.Height, 1, maxScaledY);
         }
 
-        private void InitTabFFT()
-        {
-            string[] n = { "8192", "4096", "2048", "1024", "512", "256", "128", "64", "32", "16", "8", "4", "2", "1" };
-            cboN_FFT.Items.AddRange(n);
-            cboN_FFT.Text = FFT.N_FFT.ToString();
-
-            txtSpectrumScale.Text = converterScale.ToString();
-            txtTimer1Interval.Text = timer1.Interval.ToString();
-            txtDropOffScale.Text = FFT.dropOffScale.ToString();
-        }
-
-        #endregion
-
-        #region Draw Spectrum
-        bool paintInitiated = false;
-        Font pen;
-        OSD osdPanel = new OSD();
-
-        private void PaintSpectrum()
-        {
-            if (!paintInitiated)
-            {
-                pen = new Font("Arial", 12);
-                osdPanel.ImplementDrawAction(delegate (object[] pars)
-                {
-
-                    Graphics g = pars[0] as System.Drawing.Graphics;
-                    OSD osd = pars[1] as OSD;
-                    if (osd.Info == null)
-                        return;
-                    int yIndex = 0;
-                    foreach (var key in osd.Info.Keys)
-                    {
-                        g.DrawString(string.Format("{0}:{1}", key, osdPanel.Info[key]), pen, new SolidBrush(Color.Red), new PointF(10, this.Height / 2 + yIndex * 20));
-                        yIndex++;
-                    }
-
-                });
-                paintInitiated = true;
-            }
-
-            DrawData(transformedData, gSpectrum, cvt);
-        }
-
-        private void DrawData(double[] data, Graphics g, Converter cvter)
-        {
-            if (data == null || data.Length == 0 || AudioIn.sourceData == null)
-                return;
-
-            float ratioFreq = (float)pnlSpectrum.Width / Spectrum.bandsPerRange[selectedRange];
-            float ratioFreqTest = (float)pnlSpectrum.Width / 200;
-            float ratioWave = pnlSpectrum.Width / AudioIn.sourceData.Length;
-            float value = 0;
-            
-            g.Clear(Color.White);
-
-            int sx, sy;
-            
-            #region Fill Rectangles
-            int bandIndexRelative = 0;
-            int bandIndexAbsolute = Spectrum.bandsBefore[selectedRange];
-
-            for (; bandIndexRelative < trkbrMin.Value; bandIndexRelative++, bandIndexAbsolute++)
-            {
-                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
-                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
-                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
-            }
-            for (; bandIndexRelative < trkbrMax.Value; bandIndexRelative++, bandIndexAbsolute++)
-            {
-                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
-                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
-                g.FillRectangle(Constants.Brushes.redBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
-            }
-            for (; bandIndexRelative < Spectrum.bandsPerRange[selectedRange] && bandIndexRelative < Spectrum.numBands; bandIndexRelative++, bandIndexAbsolute++)
-            {
-                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
-                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
-                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
-            }
-            #endregion
-        }
-
-
-        private void DrawData_Original(double[] data, Graphics g, Converter cvter)
-        {
-            var chkpoint2 = DateTime.Now;
-            if (data == null || data.Length == 0 || AudioIn.sourceData == null)
-                return;
-
-            float ratioFreq = (float)pnlSpectrum.Width / Spectrum.bandsPerRange[selectedRange];
-            float ratioFreqTest = (float)pnlSpectrum.Width / 200;
-            float ratioWave = (float)pnlSpectrum.Width / (float)AudioIn.sourceData.Length;
-            float value = 0;
-
-
-            gTempBuffer.DrawImage(mainBuffer, new Rectangle(0, 0, tempBuffer.Width, tempBuffer.Height), 0, 0, mainBuffer.Width, mainBuffer.Height, GraphicsUnit.Pixel);
-
-            //BitmapFilter.GaussianBlur(mainBuffer as Bitmap, 5);
-
-            gMainBuffer.DrawImage(tempBuffer, new Rectangle(-2, -1, mainBuffer.Width + 4, mainBuffer.Height + 3), 0, 0, tempBuffer.Width, tempBuffer.Height, GraphicsUnit.Pixel, imgAttribute);
-
-
-            int sx, sy;
-
-            g.DrawImage(mainBuffer, new Point(0, 0));
-
-            pnlSpectrum.Refresh();
-
-            #region Fill Rectangles
-            int bandIndexRelative = 0;
-            int bandIndexAbsolute = Spectrum.bandsBefore[selectedRange];
-
-            for (; bandIndexRelative < trkbrMin.Value; bandIndexRelative++, bandIndexAbsolute++)
-            {
-                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
-                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
-                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
-            }
-            for (; bandIndexRelative < trkbrMax.Value; bandIndexRelative++, bandIndexAbsolute++)
-            {
-                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
-                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
-                g.FillRectangle(Constants.Brushes.redBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
-            }
-            for (; bandIndexRelative < Spectrum.bandsPerRange[selectedRange] && bandIndexRelative < Spectrum.numBands; bandIndexRelative++, bandIndexAbsolute++)
-            {
-                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
-                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
-                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
-            }
-            #endregion
-
-            osdPanel.AddSet("Drawing delay(ms):", DateTime.Now.Subtract(chkpoint2).TotalMilliseconds.ToString());
-        }
-
-        #endregion
-
-        #region File I/O
-
-        string[] config = new string[5];
-        /*
-         * 0. 1
-         * 1. timer1.Interval
-         * 2. rangeLows
-         * 3. rangeHighs
-         * 4. thresholds
-         */
-        const string configPath = @"..\..\..\Configs\";
-        string currentConfig;
-
-        private void WriteConfig(string fileName = "Default")
-        {
-            config[0] = "1";
-            config[1] = timer1.Interval.ToString();
-
-            config[2] = config[3] = config[4] = "";
-
-            for (int i = 0; i < numRanges; i++)
-            {
-                config[2] += rangeLows[i] + ",";
-                config[3] += rangeHighs[i] + ",";
-                config[4] += (int)thresholds[i] + ",";
-            }
-            for (int i = 2; i < 5; i++)
-            {
-                config[i] = config[i].TrimEnd(',');
-            }
-
-            System.IO.File.WriteAllLines(configPath + fileName + ".txt", config);
-        }
-
-        private void ReadConfig(string fileName = null)
-        {
-            if (fileName == null)
-            {
-                fileName = System.IO.File.ReadAllText(configPath + @"\LastConfig\LastConfig.txt");
-                cboSongNames.Text = fileName;
-            }
-
-            currentConfig = fileName;
-
-            config = System.IO.File.ReadAllLines(configPath + fileName + ".txt");
-
-            //Int32.Parse(config[0]);
-            timer1.Interval = Int32.Parse(config[1]);
-            for (int i = 0; i < numRanges; i++)
-            {
-                rangeLows[i] = Int32.Parse(config[2].Split(',')[i]);
-                rangeHighs[i] = Int32.Parse(config[3].Split(',')[i]);
-                thresholds[i] = Int32.Parse(config[4].Split(',')[i]);
-            }
-
-            btnRange1_Click(null, null);
-        }
-
-        private void LoadSongNames()
-        {
-            cboSongNames.Items.Clear();
-
-            string songName = "";
-            foreach (string songPath in Directory.GetFiles(configPath))
-            {
-                songName = songPath.Replace(configPath, "");
-                songName = songName.Replace(".txt", "");
-                cboSongNames.Items.Add(songName);
-            }
-        }
-
-        #endregion
-
+        #endregion        
+        
         #region Secondary Processing
 
         const int numRanges = 3;
@@ -489,6 +279,7 @@ namespace AudioAnalysis
         }
 
         #region timer1_Tick()
+
         double[] transformedData;
         public void timer1_Tick(object sender, EventArgs e)
         {
@@ -555,12 +346,7 @@ namespace AudioAnalysis
             WriteConfig(currentConfig);
             System.IO.File.WriteAllText(configPath + @"\LastConfig\LastConfig.txt", currentConfig);
         }
-
-        private void pnlSpectrum_SizeChanged(object sender, EventArgs e)
-        {
-            cvt._yCenter = pnlSpectrum.Location.Y + pnlSpectrum.Height;
-        }
-
+        
         private void btnRange1_Click(object sender, EventArgs e)
         {
             selectedRange = 0;
@@ -583,20 +369,6 @@ namespace AudioAnalysis
             UpdateControls();
         }
 
-        int intFromTextBox = 0;
-
-        private void txtThreshold_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                if (Int32.TryParse(txtThreshold.Text, out intFromTextBox))
-                {
-                    if (intFromTextBox > trkbrThreshold.Maximum) trkbrThreshold.Maximum = intFromTextBox;
-                    trkbrThreshold.Value = intFromTextBox;
-                }
-            }
-        }
-
         StripLine stripline = new StripLine();
 
         private void trkbrThreshold_ValueChanged(object sender, EventArgs e)
@@ -615,121 +387,15 @@ namespace AudioAnalysis
         {
             rangeHighs[selectedRange] = trkbrMax.Value + Spectrum.bandsBefore[selectedRange];
         }
-
-        private void txtTimer1Interval_KeyDown(object sender, KeyEventArgs e)
-        {
-
-            if (e.KeyCode == Keys.Enter)
-            {
-                if (Int32.TryParse(txtTimer1Interval.Text, out intFromTextBox))
-                {
-                    timer1.Interval = intFromTextBox;
-                }
-            }
-
-        }
-
-        private void cboSongNames_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            string song = cboSongNames.Items[cboSongNames.SelectedIndex].ToString();
-            ReadConfig(song);
-        }
-
-        private void btnSaveSong_Click(object sender, EventArgs e)
-        {
-            WriteConfig(cboSongNames.Text);
-            LoadSongNames();
-        }
-
-        private void btnArduino_Click(object sender, EventArgs e)
-        {
-            ArduinoCode.InterpretCommand(cboArduinoCommands.Text);
-        }
-
-        private void btnPlus10Percent_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < numRanges; i++)
-            {
-                thresholds[i] += thresholds[i] * 0.1;
-            }
-            trkbrThreshold.Value = (int)thresholds[selectedRange];
-            trkbrThreshold_ValueChanged(null, null);
-        }
-
-        private void btnMinus10Percent_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < numRanges; i++)
-            {
-                thresholds[i] -= thresholds[i] * 0.1;
-            }
-            trkbrThreshold.Value = (int)thresholds[selectedRange];
-            trkbrThreshold_ValueChanged(null, null);
-        }
-
+        
         private void btnCalibrate_Click(object sender, EventArgs e)
         {
-
             trkbrThreshold.Maximum = (int)chart1.ChartAreas[0].AxisY.Maximum;
             trkbrThreshold.Value = AutoSet.Threshold(trkbrThreshold.Maximum);
             //trkbrThreshold_ValueChanged(null, null);
         }
 
-        private void btnIncreaseMax_Click(object sender, EventArgs e)
-        {
-            trkbrThreshold.Maximum += (int)(trkbrThreshold.Maximum * 0.1);
-            trkbrThreshold_ValueChanged(null, null);
-        }
-
-        private void btnAutoRange_Click(object sender, EventArgs e)
-        {
-            AutoSet.BeginRanging();
-        }
-
-        const int fmin = 0, f1 = 300, f2 = 5000, fmax = 20000;
-
-        private void btnTest_Click(object sender, EventArgs e)
-        {
-            //gSpectrum.Clear(Color.White);
-        }
-
-        private void btnSpectrumMode_Click(object sender, EventArgs e)
-        {
-            if (Spectrum.bandsBefore[2] > 0)
-            {
-                Spectrum.InitFullSpectrum();
-            }
-            else
-            {
-                Spectrum.InitSplitSpectrum(fmin, f1, f2, fmax);
-            }
-            UpdateControls();
-        }
-
-        private void btnDecreaseMax_Click(object sender, EventArgs e)
-        {
-            trkbrThreshold.Maximum -= (int)((double)trkbrThreshold.Maximum * 0.1);
-            trkbrThreshold_ValueChanged(null, null);
-        }
-
-        private void btnCommitFFTSettings_Click(object sender, EventArgs e)
-        {
-            int var;
-            double var2;
-
-            if (!Int32.TryParse(cboN_FFT.Text, out var)) return;
-            FFT.N_FFTBuffer = var;
-            Spectrum.SyncBandsAndFreqs();
-            Spectrum.InitFullSpectrum();
-            if (!Int32.TryParse(txtSpectrumScale.Text, out var)) return;            
-            InitConverter(var);
-            if (!Int32.TryParse(txtTimer1Interval.Text, out var)) return;
-            timer1.Interval = var;
-            if (!Double.TryParse(txtDropOffScale.Text, out var2)) return;
-            FFT.dropOffScale = var2;
-
-            UpdateControls();
-        }
-
         #endregion
+        
     }
 }

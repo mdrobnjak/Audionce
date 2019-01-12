@@ -1,5 +1,4 @@
-﻿using AudioAnalysis.External;
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,32 +28,29 @@ namespace AudioAnalysis
 
         public static void InitSoundCapture()
         {
-            //Set endingNode equal to dataList.
-            //What is a node?
             endingNode = dataList;
+            
+            waveInStream = new WaveIn
+            {
+                DeviceNumber = 0,
+                
+                NumberOfBuffers = 5,
 
-            //Prepare a Wave input device for recording.
-            waveInStream = new WaveIn();
+                BufferMilliseconds = (int)((double)BUFFERSIZE / (double)RATE * 1000.0),
 
-            waveInStream.DeviceNumber = 0;
+                WaveFormat = new WaveFormat(RATE, 1)
+            };
 
-            //Set NumberOfBuffers to 5.
-            waveInStream.NumberOfBuffers = 5;
-            //Set BufferMilliseconds to 10.
-            waveInStream.BufferMilliseconds = (int)((double)BUFFERSIZE / (double)RATE * 1000.0);
-            //Create a new 16 bit Wave format with sample rate = samplingFrequency and channel count = 1
-            waveInStream.WaveFormat = new WaveFormat(RATE, 1);
-            //Create new EventHandler for when data is available to the Wave input device.
             waveInStream.DataAvailable += new EventHandler<WaveInEventArgs>(waveInStream_DataAvailable);
 
-            bwp = new BufferedWaveProvider(waveInStream.WaveFormat);
-            bwp.BufferLength = BUFFERSIZE * 2;
-            bwp.DiscardOnBufferOverflow = true;
-
-            //Start recording to the Wave input device.
+            bwp = new BufferedWaveProvider(waveInStream.WaveFormat)
+            {
+                BufferLength = BUFFERSIZE * 2,
+                DiscardOnBufferOverflow = true
+            };
+            
             waveInStream.StartRecording();
-
-            //Set Mode to 1.
+            
             Mode = 1;
         }
 

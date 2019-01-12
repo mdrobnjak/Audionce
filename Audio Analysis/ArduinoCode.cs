@@ -4,9 +4,18 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AudioAnalysis
 {
+    public partial class frmAudioAnalysis : Form
+    {
+        private void btnArduino_Click(object sender, EventArgs e)
+        {
+            ArduinoCode.InterpretCommand(cboArduinoCommands.Text);
+        }
+    }
+
     public static class ArduinoCode
     {
         public static SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
@@ -55,7 +64,7 @@ namespace AudioAnalysis
             if (port.IsOpen)
             {
                 if (rangeIndex == 0) Write("b");
-                else if (rangeIndex == 1) Write("m");
+                else if (rangeIndex == 2) Write("m");
             }
         }
 

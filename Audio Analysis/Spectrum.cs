@@ -1,5 +1,4 @@
-﻿using AudioAnalysis.External;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -10,6 +9,155 @@ using System.Windows.Forms;
 
 namespace AudioAnalysis
 {
+    public partial class frmAudioAnalysis : Form
+    {
+
+        #region Draw Spectrum
+        bool paintInitiated = false;
+        Font pen;
+        OSD osdPanel = new OSD();
+
+        private void PaintSpectrum()
+        {
+            if (!paintInitiated)
+            {
+                pen = new Font("Arial", 12);
+                osdPanel.ImplementDrawAction(delegate (object[] pars)
+                {
+
+                    Graphics g = pars[0] as System.Drawing.Graphics;
+                    OSD osd = pars[1] as OSD;
+                    if (osd.Info == null)
+                        return;
+                    int yIndex = 0;
+                    foreach (var key in osd.Info.Keys)
+                    {
+                        g.DrawString(string.Format("{0}:{1}", key, osdPanel.Info[key]), pen, new SolidBrush(Color.Red), new PointF(10, this.Height / 2 + yIndex * 20));
+                        yIndex++;
+                    }
+
+                });
+                paintInitiated = true;
+            }
+
+            DrawData(transformedData, gSpectrum, cvt);
+        }
+
+        private void DrawData(double[] data, Graphics g, Converter cvter)
+        {
+            if (data == null || data.Length == 0 || AudioIn.sourceData == null)
+                return;
+
+            float ratioFreq = (float)pnlSpectrum.Width / Spectrum.bandsPerRange[selectedRange];
+            float ratioFreqTest = (float)pnlSpectrum.Width / 200;
+            float ratioWave = pnlSpectrum.Width / AudioIn.sourceData.Length;
+            float value = 0;
+
+            g.Clear(Color.White);
+
+            int sx, sy;
+
+            #region Fill Rectangles
+            int bandIndexRelative = 0;
+            int bandIndexAbsolute = Spectrum.bandsBefore[selectedRange];
+
+            for (; bandIndexRelative < trkbrMin.Value; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
+                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
+                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+            }
+            for (; bandIndexRelative < trkbrMax.Value; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
+                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
+                g.FillRectangle(Constants.Brushes.redBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+            }
+            for (; bandIndexRelative < Spectrum.bandsPerRange[selectedRange] && bandIndexRelative < Spectrum.numBands; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
+                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
+                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+            }
+            #endregion
+        }
+
+
+        private void DrawData_Original(double[] data, Graphics g, Converter cvter)
+        {
+            var chkpoint2 = DateTime.Now;
+            if (data == null || data.Length == 0 || AudioIn.sourceData == null)
+                return;
+
+            float ratioFreq = (float)pnlSpectrum.Width / Spectrum.bandsPerRange[selectedRange];
+            float ratioFreqTest = (float)pnlSpectrum.Width / 200;
+            float ratioWave = (float)pnlSpectrum.Width / (float)AudioIn.sourceData.Length;
+            float value = 0;
+
+
+            gTempBuffer.DrawImage(mainBuffer, new Rectangle(0, 0, tempBuffer.Width, tempBuffer.Height), 0, 0, mainBuffer.Width, mainBuffer.Height, GraphicsUnit.Pixel);
+
+            //BitmapFilter.GaussianBlur(mainBuffer as Bitmap, 5);
+
+            gMainBuffer.DrawImage(tempBuffer, new Rectangle(-2, -1, mainBuffer.Width + 4, mainBuffer.Height + 3), 0, 0, tempBuffer.Width, tempBuffer.Height, GraphicsUnit.Pixel, imgAttribute);
+
+
+            int sx, sy;
+
+            g.DrawImage(mainBuffer, new Point(0, 0));
+
+            pnlSpectrum.Refresh();
+
+            #region Fill Rectangles
+            int bandIndexRelative = 0;
+            int bandIndexAbsolute = Spectrum.bandsBefore[selectedRange];
+
+            for (; bandIndexRelative < trkbrMin.Value; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
+                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
+                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+            }
+            for (; bandIndexRelative < trkbrMax.Value; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
+                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
+                g.FillRectangle(Constants.Brushes.redBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+            }
+            for (; bandIndexRelative < Spectrum.bandsPerRange[selectedRange] && bandIndexRelative < Spectrum.numBands; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
+                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
+                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+            }
+            #endregion
+
+            osdPanel.AddSet("Drawing delay(ms):", DateTime.Now.Subtract(chkpoint2).TotalMilliseconds.ToString());
+        }
+
+        #endregion
+
+        const int fmin = 0, f1 = 300, f2 = 1000, fmax = 20000;
+
+        private void btnSpectrumMode_Click(object sender, EventArgs e)
+        {
+            if (Spectrum.bandsBefore[2] > 0)
+            {
+                Spectrum.InitFullSpectrum();
+            }
+            else
+            {
+                Spectrum.InitSplitSpectrum(fmin, f1, f2, fmax);
+            }
+            UpdateControls();
+        }
+
+        private void pnlSpectrum_SizeChanged(object sender, EventArgs e)
+        {
+            cvt._yCenter = pnlSpectrum.Location.Y + pnlSpectrum.Height;
+        }
+    }
+
     public class Spectrum : System.Windows.Forms.Panel
     {
         public Spectrum()
