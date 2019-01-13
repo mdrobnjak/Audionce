@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trkbrThreshold = new System.Windows.Forms.TrackBar();
@@ -62,11 +62,11 @@
             this.txtSpectrumScale = new System.Windows.Forms.TextBox();
             this.lblN_FFT = new System.Windows.Forms.Label();
             this.btnCommitFFTSettings = new System.Windows.Forms.Button();
-            this.tabArduino = new System.Windows.Forms.TabPage();
-            this.lblArduinoMRange = new System.Windows.Forms.Label();
-            this.btnArduinoMRange3 = new System.Windows.Forms.Button();
-            this.btnArduinoMRange2 = new System.Windows.Forms.Button();
-            this.cboPortNames = new System.Windows.Forms.ComboBox();
+            this.tabPostProcessing = new System.Windows.Forms.TabPage();
+            this.lblGetsSubtractedBy = new System.Windows.Forms.Label();
+            this.cboSubtractor = new System.Windows.Forms.ComboBox();
+            this.cboSubtractFrom = new System.Windows.Forms.ComboBox();
+            this.btnSubtract = new System.Windows.Forms.Button();
             this.tabAutoSettings = new System.Windows.Forms.TabPage();
             this.txtThreshMultiplier = new System.Windows.Forms.TextBox();
             this.lblThreshMultiplier = new System.Windows.Forms.Label();
@@ -75,7 +75,13 @@
             this.txtSeconds = new System.Windows.Forms.TextBox();
             this.lblSeconds = new System.Windows.Forms.Label();
             this.btnCommitAutoSettings = new System.Windows.Forms.Button();
+            this.tabArduino = new System.Windows.Forms.TabPage();
+            this.lblArduinoMRange = new System.Windows.Forms.Label();
+            this.btnArduinoMRange3 = new System.Windows.Forms.Button();
+            this.btnArduinoMRange2 = new System.Windows.Forms.Button();
+            this.cboPortNames = new System.Windows.Forms.ComboBox();
             this.pnlSpectrum = new AudioAnalysis.Spectrum();
+            this.btnToggleBars = new System.Windows.Forms.Button();
             this.btnToggleSpectrum = new System.Windows.Forms.Button();
             this.btnCalibrate = new System.Windows.Forms.Button();
             this.pnlNewAudio = new System.Windows.Forms.Panel();
@@ -100,8 +106,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabFFT.SuspendLayout();
-            this.tabArduino.SuspendLayout();
+            this.tabPostProcessing.SuspendLayout();
             this.tabAutoSettings.SuspendLayout();
+            this.tabArduino.SuspendLayout();
             this.pnlSpectrum.SuspendLayout();
             this.pnlNewAudio.SuspendLayout();
             this.pnlAccumAudio.SuspendLayout();
@@ -117,20 +124,20 @@
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea4.AxisX.LabelStyle.Enabled = false;
-            chartArea4.AxisX.MajorGrid.Enabled = false;
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chart1.Legends.Add(legend4);
+            chartArea1.AxisX.LabelStyle.Enabled = false;
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(57, 440);
             this.chart1.Name = "chart1";
-            series4.ChartArea = "ChartArea1";
-            series4.Color = System.Drawing.Color.Black;
-            series4.IsVisibleInLegend = false;
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.chart1.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.Color = System.Drawing.Color.Black;
+            series1.IsVisibleInLegend = false;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(999, 195);
             this.chart1.TabIndex = 16;
             this.chart1.Text = "chart1";
@@ -335,8 +342,9 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabFFT);
-            this.tabControl1.Controls.Add(this.tabArduino);
+            this.tabControl1.Controls.Add(this.tabPostProcessing);
             this.tabControl1.Controls.Add(this.tabAutoSettings);
+            this.tabControl1.Controls.Add(this.tabArduino);
             this.tabControl1.Location = new System.Drawing.Point(1059, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -455,61 +463,61 @@
             this.btnCommitFFTSettings.UseVisualStyleBackColor = true;
             this.btnCommitFFTSettings.Click += new System.EventHandler(this.btnCommitFFTSettings_Click);
             // 
-            // tabArduino
+            // tabPostProcessing
             // 
-            this.tabArduino.Controls.Add(this.lblArduinoMRange);
-            this.tabArduino.Controls.Add(this.btnArduinoMRange3);
-            this.tabArduino.Controls.Add(this.btnArduinoMRange2);
-            this.tabArduino.Controls.Add(this.cboPortNames);
-            this.tabArduino.Controls.Add(this.cboArduinoCommands);
-            this.tabArduino.Controls.Add(this.btnWriteArduino);
-            this.tabArduino.Location = new System.Drawing.Point(4, 22);
-            this.tabArduino.Name = "tabArduino";
-            this.tabArduino.Size = new System.Drawing.Size(176, 597);
-            this.tabArduino.TabIndex = 1;
-            this.tabArduino.Text = "Arduino";
-            this.tabArduino.UseVisualStyleBackColor = true;
+            this.tabPostProcessing.Controls.Add(this.lblGetsSubtractedBy);
+            this.tabPostProcessing.Controls.Add(this.cboSubtractor);
+            this.tabPostProcessing.Controls.Add(this.cboSubtractFrom);
+            this.tabPostProcessing.Controls.Add(this.btnSubtract);
+            this.tabPostProcessing.Location = new System.Drawing.Point(4, 22);
+            this.tabPostProcessing.Name = "tabPostProcessing";
+            this.tabPostProcessing.Size = new System.Drawing.Size(176, 597);
+            this.tabPostProcessing.TabIndex = 3;
+            this.tabPostProcessing.Text = "Post";
+            this.tabPostProcessing.UseVisualStyleBackColor = true;
             // 
-            // lblArduinoMRange
+            // lblGetsSubtractedBy
             // 
-            this.lblArduinoMRange.AutoSize = true;
-            this.lblArduinoMRange.Location = new System.Drawing.Point(7, 156);
-            this.lblArduinoMRange.Name = "lblArduinoMRange";
-            this.lblArduinoMRange.Size = new System.Drawing.Size(57, 13);
-            this.lblArduinoMRange.TabIndex = 35;
-            this.lblArduinoMRange.Text = "\'m\' Range:";
+            this.lblGetsSubtractedBy.AutoSize = true;
+            this.lblGetsSubtractedBy.Location = new System.Drawing.Point(38, 29);
+            this.lblGetsSubtractedBy.Name = "lblGetsSubtractedBy";
+            this.lblGetsSubtractedBy.Size = new System.Drawing.Size(97, 13);
+            this.lblGetsSubtractedBy.TabIndex = 38;
+            this.lblGetsSubtractedBy.Text = "gets subtracted by:";
             // 
-            // btnArduinoMRange3
+            // cboSubtractor
             // 
-            this.btnArduinoMRange3.Location = new System.Drawing.Point(91, 175);
-            this.btnArduinoMRange3.Name = "btnArduinoMRange3";
-            this.btnArduinoMRange3.Size = new System.Drawing.Size(75, 32);
-            this.btnArduinoMRange3.TabIndex = 34;
-            this.btnArduinoMRange3.Text = "Range 3";
-            this.btnArduinoMRange3.UseVisualStyleBackColor = true;
-            this.btnArduinoMRange3.Click += new System.EventHandler(this.btnArduinoMRange3_Click);
+            this.cboSubtractor.BackColor = System.Drawing.Color.Black;
+            this.cboSubtractor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSubtractor.ForeColor = System.Drawing.Color.White;
+            this.cboSubtractor.FormattingEnabled = true;
+            this.cboSubtractor.Location = new System.Drawing.Point(3, 49);
+            this.cboSubtractor.Name = "cboSubtractor";
+            this.cboSubtractor.Size = new System.Drawing.Size(170, 21);
+            this.cboSubtractor.TabIndex = 37;
+            this.cboSubtractor.Tag = "";
             // 
-            // btnArduinoMRange2
+            // cboSubtractFrom
             // 
-            this.btnArduinoMRange2.Location = new System.Drawing.Point(10, 175);
-            this.btnArduinoMRange2.Name = "btnArduinoMRange2";
-            this.btnArduinoMRange2.Size = new System.Drawing.Size(75, 32);
-            this.btnArduinoMRange2.TabIndex = 33;
-            this.btnArduinoMRange2.Text = "Range 2";
-            this.btnArduinoMRange2.UseVisualStyleBackColor = true;
-            this.btnArduinoMRange2.Click += new System.EventHandler(this.btnArduinoMRange2_Click);
+            this.cboSubtractFrom.BackColor = System.Drawing.Color.Black;
+            this.cboSubtractFrom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSubtractFrom.ForeColor = System.Drawing.Color.White;
+            this.cboSubtractFrom.FormattingEnabled = true;
+            this.cboSubtractFrom.Location = new System.Drawing.Point(3, 3);
+            this.cboSubtractFrom.Name = "cboSubtractFrom";
+            this.cboSubtractFrom.Size = new System.Drawing.Size(170, 21);
+            this.cboSubtractFrom.TabIndex = 36;
+            this.cboSubtractFrom.Tag = "";
             // 
-            // cboPortNames
+            // btnSubtract
             // 
-            this.cboPortNames.BackColor = System.Drawing.Color.Black;
-            this.cboPortNames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboPortNames.ForeColor = System.Drawing.Color.White;
-            this.cboPortNames.FormattingEnabled = true;
-            this.cboPortNames.Location = new System.Drawing.Point(3, 3);
-            this.cboPortNames.Name = "cboPortNames";
-            this.cboPortNames.Size = new System.Drawing.Size(170, 21);
-            this.cboPortNames.TabIndex = 32;
-            this.cboPortNames.SelectionChangeCommitted += new System.EventHandler(this.cboPortNames_SelectionChangeCommitted);
+            this.btnSubtract.Location = new System.Drawing.Point(3, 76);
+            this.btnSubtract.Name = "btnSubtract";
+            this.btnSubtract.Size = new System.Drawing.Size(170, 42);
+            this.btnSubtract.TabIndex = 0;
+            this.btnSubtract.Text = "Subtract";
+            this.btnSubtract.UseVisualStyleBackColor = true;
+            this.btnSubtract.Click += new System.EventHandler(this.btnSubtract_Click);
             // 
             // tabAutoSettings
             // 
@@ -524,7 +532,7 @@
             this.tabAutoSettings.Name = "tabAutoSettings";
             this.tabAutoSettings.Size = new System.Drawing.Size(176, 597);
             this.tabAutoSettings.TabIndex = 2;
-            this.tabAutoSettings.Text = "Auto Settings";
+            this.tabAutoSettings.Text = "Auto";
             this.tabAutoSettings.UseVisualStyleBackColor = true;
             // 
             // txtThreshMultiplier
@@ -597,12 +605,69 @@
             this.btnCommitAutoSettings.UseVisualStyleBackColor = true;
             this.btnCommitAutoSettings.Click += new System.EventHandler(this.btnCommitAutoSettings_Click);
             // 
+            // tabArduino
+            // 
+            this.tabArduino.Controls.Add(this.lblArduinoMRange);
+            this.tabArduino.Controls.Add(this.btnArduinoMRange3);
+            this.tabArduino.Controls.Add(this.btnArduinoMRange2);
+            this.tabArduino.Controls.Add(this.cboPortNames);
+            this.tabArduino.Controls.Add(this.cboArduinoCommands);
+            this.tabArduino.Controls.Add(this.btnWriteArduino);
+            this.tabArduino.Location = new System.Drawing.Point(4, 22);
+            this.tabArduino.Name = "tabArduino";
+            this.tabArduino.Size = new System.Drawing.Size(176, 597);
+            this.tabArduino.TabIndex = 1;
+            this.tabArduino.Text = "Arduino";
+            this.tabArduino.UseVisualStyleBackColor = true;
+            // 
+            // lblArduinoMRange
+            // 
+            this.lblArduinoMRange.AutoSize = true;
+            this.lblArduinoMRange.Location = new System.Drawing.Point(7, 156);
+            this.lblArduinoMRange.Name = "lblArduinoMRange";
+            this.lblArduinoMRange.Size = new System.Drawing.Size(57, 13);
+            this.lblArduinoMRange.TabIndex = 35;
+            this.lblArduinoMRange.Text = "\'m\' Range:";
+            // 
+            // btnArduinoMRange3
+            // 
+            this.btnArduinoMRange3.Location = new System.Drawing.Point(91, 175);
+            this.btnArduinoMRange3.Name = "btnArduinoMRange3";
+            this.btnArduinoMRange3.Size = new System.Drawing.Size(75, 32);
+            this.btnArduinoMRange3.TabIndex = 34;
+            this.btnArduinoMRange3.Text = "Range 3";
+            this.btnArduinoMRange3.UseVisualStyleBackColor = true;
+            this.btnArduinoMRange3.Click += new System.EventHandler(this.btnArduinoMRange3_Click);
+            // 
+            // btnArduinoMRange2
+            // 
+            this.btnArduinoMRange2.Location = new System.Drawing.Point(10, 175);
+            this.btnArduinoMRange2.Name = "btnArduinoMRange2";
+            this.btnArduinoMRange2.Size = new System.Drawing.Size(75, 32);
+            this.btnArduinoMRange2.TabIndex = 33;
+            this.btnArduinoMRange2.Text = "Range 2";
+            this.btnArduinoMRange2.UseVisualStyleBackColor = true;
+            this.btnArduinoMRange2.Click += new System.EventHandler(this.btnArduinoMRange2_Click);
+            // 
+            // cboPortNames
+            // 
+            this.cboPortNames.BackColor = System.Drawing.Color.Black;
+            this.cboPortNames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboPortNames.ForeColor = System.Drawing.Color.White;
+            this.cboPortNames.FormattingEnabled = true;
+            this.cboPortNames.Location = new System.Drawing.Point(3, 3);
+            this.cboPortNames.Name = "cboPortNames";
+            this.cboPortNames.Size = new System.Drawing.Size(170, 21);
+            this.cboPortNames.TabIndex = 32;
+            this.cboPortNames.SelectionChangeCommitted += new System.EventHandler(this.cboPortNames_SelectionChangeCommitted);
+            // 
             // pnlSpectrum
             // 
             this.pnlSpectrum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlSpectrum.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlSpectrum.Controls.Add(this.btnToggleBars);
             this.pnlSpectrum.Controls.Add(this.btnToggleSpectrum);
             this.pnlSpectrum.Controls.Add(this.btnCalibrate);
             this.pnlSpectrum.Controls.Add(this.pnlNewAudio);
@@ -615,6 +680,17 @@
             this.pnlSpectrum.Size = new System.Drawing.Size(999, 303);
             this.pnlSpectrum.TabIndex = 19;
             this.pnlSpectrum.SizeChanged += new System.EventHandler(this.pnlSpectrum_SizeChanged);
+            // 
+            // btnToggleBars
+            // 
+            this.btnToggleBars.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnToggleBars.Location = new System.Drawing.Point(885, 98);
+            this.btnToggleBars.Name = "btnToggleBars";
+            this.btnToggleBars.Size = new System.Drawing.Size(111, 23);
+            this.btnToggleBars.TabIndex = 37;
+            this.btnToggleBars.Text = "Toggle Bars";
+            this.btnToggleBars.UseVisualStyleBackColor = true;
+            this.btnToggleBars.Click += new System.EventHandler(this.btnToggleBars_Click);
             // 
             // btnToggleSpectrum
             // 
@@ -822,10 +898,12 @@
             this.tabControl1.ResumeLayout(false);
             this.tabFFT.ResumeLayout(false);
             this.tabFFT.PerformLayout();
-            this.tabArduino.ResumeLayout(false);
-            this.tabArduino.PerformLayout();
+            this.tabPostProcessing.ResumeLayout(false);
+            this.tabPostProcessing.PerformLayout();
             this.tabAutoSettings.ResumeLayout(false);
             this.tabAutoSettings.PerformLayout();
+            this.tabArduino.ResumeLayout(false);
+            this.tabArduino.PerformLayout();
             this.pnlSpectrum.ResumeLayout(false);
             this.pnlNewAudio.ResumeLayout(false);
             this.pnlNewAudio.PerformLayout();
@@ -899,6 +977,12 @@
         private System.Windows.Forms.Button btnArduinoMRange3;
         private System.Windows.Forms.Button btnArduinoMRange2;
         private System.Windows.Forms.Button btnToggleChart;
+        private System.Windows.Forms.TabPage tabPostProcessing;
+        private System.Windows.Forms.Label lblGetsSubtractedBy;
+        private System.Windows.Forms.ComboBox cboSubtractor;
+        private System.Windows.Forms.ComboBox cboSubtractFrom;
+        private System.Windows.Forms.Button btnSubtract;
+        private System.Windows.Forms.Button btnToggleBars;
     }
 }
 

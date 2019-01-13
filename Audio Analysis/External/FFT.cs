@@ -8,7 +8,7 @@ namespace AudioAnalysis
 {
     public partial class frmAudioAnalysis : Form
     {
-        private void InitTabFFT()
+        private void InitFFT()
         {
             string[] n = { "8192", "4096", "2048", "1024", "512", "256", "128", "64", "32", "16", "8", "4", "2", "1" };
             cboN_FFT.Items.AddRange(n);

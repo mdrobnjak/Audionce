@@ -69,11 +69,13 @@ namespace AudioAnalysis
 
             InitControls();
 
-            InitTabFFT();
+            InitFFT();
 
-            InitArduinoSettings();
+            InitPostProcessing();
 
             InitAutoSettings();
+
+            InitArduinoSettings();
 
             #region Init BeatDetectors
             //Init BeatDetectors with an evaluateLength of 50.
@@ -186,6 +188,17 @@ namespace AudioAnalysis
             stripline.StripWidth = 5;
             stripline.BackColor = Color.Red;
             chart1.ChartAreas[0].AxisY.StripLines.Add(stripline);
+        }
+
+        void InitPostProcessing()
+        {
+            for (int i = 0; i < numRanges; i++)
+            {
+                cboSubtractFrom.Items.Add(i);
+                cboSubtractor.Items.Add(i);
+            }
+            cboSubtractFrom.Text = "0";
+            cboSubtractor.Text = "1";
         }
 
         #endregion
@@ -327,12 +340,15 @@ namespace AudioAnalysis
             for (int rangeIndex = 0; rangeIndex < numRanges; rangeIndex++)
             {
                 BeatDetect(rangeIndex);
-                // [1] subtracts from [2]
-                //if (rangeIndex == 2)
-                //{
-                //    newAudios[rangeIndex] -= newAudios[rangeIndex - 1];
-                //}
-                PrintAudiosFromBeatDetect(rangeIndex);
+                if (subtract)
+                {
+                    if (rangeIndex == subtractFromIndex)
+                    {
+                        newAudios[rangeIndex] -= newAudios[subtractorIndex];
+                    }
+                }
+                //PrintAudiosFromBeatDetect(rangeIndex);
+                if (!drawBars) continue;
                 DrawProgressBar(rangeIndex);
             }
 
@@ -427,6 +443,30 @@ namespace AudioAnalysis
         private void btnToggleChart_Click(object sender, EventArgs e)
         {
             drawChart = !drawChart;
+        }
+
+        bool subtract = false;
+        int subtractorIndex, subtractFromIndex;
+
+        private void btnSubtract_Click(object sender, EventArgs e)
+        {
+            int intVar;
+
+            if (!int.TryParse(cboSubtractor.Text, out intVar)) return;
+            subtractorIndex = intVar;
+            if (!int.TryParse(cboSubtractFrom.Text, out intVar)) return;
+            subtractFromIndex = intVar;
+
+            subtract = !subtract;
+
+            btnSubtract.BackColor = subtract ? Color.LightGreen : Color.Transparent;
+        }
+
+        bool drawBars = true;
+
+        private void btnToggleBars_Click(object sender, EventArgs e)
+        {
+            drawBars = !drawBars;
         }
     }
 }
