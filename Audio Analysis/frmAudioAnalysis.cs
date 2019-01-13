@@ -228,10 +228,11 @@ namespace AudioAnalysis
         {
             if (newAudios[rangeIndex] > thresholds[rangeIndex])
             {
-                ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum;
                 ArduinoCode.Trigger(rangeIndex);
+                if (!drawBars) return;
+                ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum;
             }
-            else
+            else if(drawBars)
             {
                 if (((ProgressBar)pnlBars.Controls[rangeIndex]).Value >= 6)
                 {
@@ -348,7 +349,6 @@ namespace AudioAnalysis
                     }
                 }
                 //PrintAudiosFromBeatDetect(rangeIndex);
-                if (!drawBars) continue;
                 DrawProgressBar(rangeIndex);
             }
 
