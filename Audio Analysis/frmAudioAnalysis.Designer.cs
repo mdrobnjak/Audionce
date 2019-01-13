@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trkbrThreshold = new System.Windows.Forms.TrackBar();
@@ -53,6 +53,8 @@
             this.cboArduinoCommands = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabFFT = new System.Windows.Forms.TabPage();
+            this.txtMode = new System.Windows.Forms.TextBox();
+            this.lblMode = new System.Windows.Forms.Label();
             this.txtDropOffScale = new System.Windows.Forms.TextBox();
             this.lblDropOffScale = new System.Windows.Forms.Label();
             this.lblSpectrumScale = new System.Windows.Forms.Label();
@@ -61,6 +63,9 @@
             this.lblN_FFT = new System.Windows.Forms.Label();
             this.btnCommitFFTSettings = new System.Windows.Forms.Button();
             this.tabArduino = new System.Windows.Forms.TabPage();
+            this.lblArduinoMRange = new System.Windows.Forms.Label();
+            this.btnArduinoMRange3 = new System.Windows.Forms.Button();
+            this.btnArduinoMRange2 = new System.Windows.Forms.Button();
             this.cboPortNames = new System.Windows.Forms.ComboBox();
             this.tabAutoSettings = new System.Windows.Forms.TabPage();
             this.txtThreshMultiplier = new System.Windows.Forms.TextBox();
@@ -87,8 +92,7 @@
             this.barRange3 = new System.Windows.Forms.ProgressBar();
             this.barRange1 = new System.Windows.Forms.ProgressBar();
             this.barRange2 = new System.Windows.Forms.ProgressBar();
-            this.txtMode = new System.Windows.Forms.TextBox();
-            this.lblMode = new System.Windows.Forms.Label();
+            this.btnToggleChart = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.pnlRangeButtons.SuspendLayout();
@@ -113,20 +117,20 @@
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.AxisX.LabelStyle.Enabled = false;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea4.AxisX.LabelStyle.Enabled = false;
+            chartArea4.AxisX.MajorGrid.Enabled = false;
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart1.Legends.Add(legend4);
             this.chart1.Location = new System.Drawing.Point(57, 440);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Color = System.Drawing.Color.Black;
-            series1.IsVisibleInLegend = false;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series4.ChartArea = "ChartArea1";
+            series4.Color = System.Drawing.Color.Black;
+            series4.IsVisibleInLegend = false;
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart1.Series.Add(series4);
             this.chart1.Size = new System.Drawing.Size(999, 195);
             this.chart1.TabIndex = 16;
             this.chart1.Text = "chart1";
@@ -360,6 +364,26 @@
             this.tabFFT.Text = "FFT";
             this.tabFFT.UseVisualStyleBackColor = true;
             // 
+            // txtMode
+            // 
+            this.txtMode.BackColor = System.Drawing.Color.Black;
+            this.txtMode.ForeColor = System.Drawing.Color.White;
+            this.txtMode.Location = new System.Drawing.Point(6, 138);
+            this.txtMode.Name = "txtMode";
+            this.txtMode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtMode.Size = new System.Drawing.Size(120, 20);
+            this.txtMode.TabIndex = 42;
+            this.txtMode.Text = "0";
+            // 
+            // lblMode
+            // 
+            this.lblMode.AutoSize = true;
+            this.lblMode.Location = new System.Drawing.Point(132, 141);
+            this.lblMode.Name = "lblMode";
+            this.lblMode.Size = new System.Drawing.Size(34, 13);
+            this.lblMode.TabIndex = 43;
+            this.lblMode.Text = "Mode";
+            // 
             // txtDropOffScale
             // 
             this.txtDropOffScale.BackColor = System.Drawing.Color.Black;
@@ -433,6 +457,9 @@
             // 
             // tabArduino
             // 
+            this.tabArduino.Controls.Add(this.lblArduinoMRange);
+            this.tabArduino.Controls.Add(this.btnArduinoMRange3);
+            this.tabArduino.Controls.Add(this.btnArduinoMRange2);
             this.tabArduino.Controls.Add(this.cboPortNames);
             this.tabArduino.Controls.Add(this.cboArduinoCommands);
             this.tabArduino.Controls.Add(this.btnWriteArduino);
@@ -442,6 +469,35 @@
             this.tabArduino.TabIndex = 1;
             this.tabArduino.Text = "Arduino";
             this.tabArduino.UseVisualStyleBackColor = true;
+            // 
+            // lblArduinoMRange
+            // 
+            this.lblArduinoMRange.AutoSize = true;
+            this.lblArduinoMRange.Location = new System.Drawing.Point(7, 156);
+            this.lblArduinoMRange.Name = "lblArduinoMRange";
+            this.lblArduinoMRange.Size = new System.Drawing.Size(57, 13);
+            this.lblArduinoMRange.TabIndex = 35;
+            this.lblArduinoMRange.Text = "\'m\' Range:";
+            // 
+            // btnArduinoMRange3
+            // 
+            this.btnArduinoMRange3.Location = new System.Drawing.Point(91, 175);
+            this.btnArduinoMRange3.Name = "btnArduinoMRange3";
+            this.btnArduinoMRange3.Size = new System.Drawing.Size(75, 32);
+            this.btnArduinoMRange3.TabIndex = 34;
+            this.btnArduinoMRange3.Text = "Range 3";
+            this.btnArduinoMRange3.UseVisualStyleBackColor = true;
+            this.btnArduinoMRange3.Click += new System.EventHandler(this.btnArduinoMRange3_Click);
+            // 
+            // btnArduinoMRange2
+            // 
+            this.btnArduinoMRange2.Location = new System.Drawing.Point(10, 175);
+            this.btnArduinoMRange2.Name = "btnArduinoMRange2";
+            this.btnArduinoMRange2.Size = new System.Drawing.Size(75, 32);
+            this.btnArduinoMRange2.TabIndex = 33;
+            this.btnArduinoMRange2.Text = "Range 2";
+            this.btnArduinoMRange2.UseVisualStyleBackColor = true;
+            this.btnArduinoMRange2.Click += new System.EventHandler(this.btnArduinoMRange2_Click);
             // 
             // cboPortNames
             // 
@@ -727,25 +783,16 @@
             this.barRange2.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.barRange2.TabIndex = 1;
             // 
-            // txtMode
+            // btnToggleChart
             // 
-            this.txtMode.BackColor = System.Drawing.Color.Black;
-            this.txtMode.ForeColor = System.Drawing.Color.White;
-            this.txtMode.Location = new System.Drawing.Point(6, 138);
-            this.txtMode.Name = "txtMode";
-            this.txtMode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMode.Size = new System.Drawing.Size(120, 20);
-            this.txtMode.TabIndex = 42;
-            this.txtMode.Text = "0";
-            // 
-            // lblMode
-            // 
-            this.lblMode.AutoSize = true;
-            this.lblMode.Location = new System.Drawing.Point(132, 141);
-            this.lblMode.Name = "lblMode";
-            this.lblMode.Size = new System.Drawing.Size(34, 13);
-            this.lblMode.TabIndex = 43;
-            this.lblMode.Text = "Mode";
+            this.btnToggleChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnToggleChart.Location = new System.Drawing.Point(923, 449);
+            this.btnToggleChart.Name = "btnToggleChart";
+            this.btnToggleChart.Size = new System.Drawing.Size(130, 23);
+            this.btnToggleChart.TabIndex = 37;
+            this.btnToggleChart.Text = "Toggle Chart";
+            this.btnToggleChart.UseVisualStyleBackColor = true;
+            this.btnToggleChart.Click += new System.EventHandler(this.btnToggleChart_Click);
             // 
             // frmAudioAnalysis
             // 
@@ -753,6 +800,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1241, 635);
+            this.Controls.Add(this.btnToggleChart);
             this.Controls.Add(this.pnlSpectrum);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.txtThreshold);
@@ -775,6 +823,7 @@
             this.tabFFT.ResumeLayout(false);
             this.tabFFT.PerformLayout();
             this.tabArduino.ResumeLayout(false);
+            this.tabArduino.PerformLayout();
             this.tabAutoSettings.ResumeLayout(false);
             this.tabAutoSettings.PerformLayout();
             this.pnlSpectrum.ResumeLayout(false);
@@ -846,6 +895,10 @@
         private System.Windows.Forms.ComboBox cboPortNames;
         private System.Windows.Forms.TextBox txtMode;
         private System.Windows.Forms.Label lblMode;
+        private System.Windows.Forms.Label lblArduinoMRange;
+        private System.Windows.Forms.Button btnArduinoMRange3;
+        private System.Windows.Forms.Button btnArduinoMRange2;
+        private System.Windows.Forms.Button btnToggleChart;
     }
 }
 

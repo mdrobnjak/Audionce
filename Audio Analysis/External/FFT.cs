@@ -160,7 +160,7 @@ namespace AudioAnalysis
 
 
             if (!transformed)
-                Array.Resize<double>(ref finalresult, transformedDataIndex);
+                Array.Resize(ref finalresult, transformedDataIndex);
 
 
             DateTime chkpoint1_end = DateTime.Now;

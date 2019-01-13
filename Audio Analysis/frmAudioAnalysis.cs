@@ -236,8 +236,11 @@ namespace AudioAnalysis
             }
         }
 
+        bool drawChart = true;
+
         private void DrawChart1(int rangeIndex)
         {
+            if (!drawChart) return;
             if (newAudios[selectedRange] > thresholds[selectedRange] || true)
             {
                 chart1.Series[0].Points.AddY(newAudios[selectedRange]);
@@ -349,14 +352,12 @@ namespace AudioAnalysis
         private void btnRange1_Click(object sender, EventArgs e)
         {
             selectedRange = 0;
-            ArduinoCode.selectedRange = 0;
             UpdateControls();
         }
 
         private void btnRange2_Click(object sender, EventArgs e)
         {
             selectedRange = 1;
-            ArduinoCode.selectedRange = 1;
             UpdateControls();
 
         }
@@ -364,7 +365,6 @@ namespace AudioAnalysis
         private void btnRange3_Click(object sender, EventArgs e)
         {
             selectedRange = 2;
-            ArduinoCode.selectedRange = 2;
             UpdateControls();
         }
 
@@ -422,6 +422,11 @@ namespace AudioAnalysis
             if (trkbrMin.Value == trkbrMin.Minimum) return;
             trkbrMin.Value--;
             trkbrMax.Value--;
+        }
+
+        private void btnToggleChart_Click(object sender, EventArgs e)
+        {
+            drawChart = !drawChart;
         }
     }
 }

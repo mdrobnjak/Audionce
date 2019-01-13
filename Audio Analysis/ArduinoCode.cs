@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,8 @@ namespace AudioAnalysis
                 cboPortNames.Text = portName;
             }
             ArduinoCode.port = new SerialPort(cboPortNames.Text, 57600, Parity.None, 8, StopBits.One);
+
+            btnArduinoMRange2_Click(null,null);
         }
 
         private void btnWriteArduino_Click(object sender, EventArgs e)
@@ -29,6 +32,20 @@ namespace AudioAnalysis
         {
             ArduinoCode.port = new SerialPort(cboPortNames.Text, 57600, Parity.None, 8, StopBits.One);
         }
+
+        private void btnArduinoMRange2_Click(object sender, EventArgs e)
+        {
+            ArduinoCode.mRange = 1;
+            btnArduinoMRange2.BackColor = Color.LightGreen;
+            btnArduinoMRange3.BackColor = Color.Transparent;
+        }
+
+        private void btnArduinoMRange3_Click(object sender, EventArgs e)
+        {
+            ArduinoCode.mRange = 2;
+            btnArduinoMRange2.BackColor = Color.Transparent;
+            btnArduinoMRange3.BackColor = Color.LightGreen;
+        }
     }
 
     public static class ArduinoCode
@@ -37,10 +54,10 @@ namespace AudioAnalysis
 
         public static bool enabled = false;
 
-        public static string[] arduinoCommands = { "ON: 1", "OFF: 0", "Density 1: s", "Density 2: t", "Density 3: u", "Density 4: v" };
+        public static string[] arduinoCommands = { "ON: 1", "OFF: 0"};
 
-        public static int selectedRange = 0;
-
+        public static int bRange = 0, mRange;
+        
         public static void InterpretCommand(string arduinoCommand)
         {
             string commandChar = arduinoCommand[arduinoCommand.Length - 1].ToString();
@@ -86,8 +103,8 @@ namespace AudioAnalysis
         {
             if (port.IsOpen)
             {
-                if (rangeIndex == 0) Write("b");
-                else if (rangeIndex == 2) Write("m");
+                if (rangeIndex == bRange) Write("b");
+                else if (rangeIndex == mRange) Write("m");
             }
         }
 
