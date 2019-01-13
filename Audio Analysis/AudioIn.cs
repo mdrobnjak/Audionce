@@ -16,15 +16,7 @@ namespace AudioAnalysis
         static WaveIn waveInStream;
         static BufferedWaveProvider bwp;
         static int BUFFERSIZE = (int)Math.Pow(2, 11); // must be a multiple of 2
-        public static int distance2Node = 0;
-
-        #region Settings
-        public static int Mode
-        {
-            get;
-            set;
-        }
-        #endregion
+        public static int distance2Node = 0;        
 
         public static void InitSoundCapture()
         {
@@ -50,8 +42,6 @@ namespace AudioAnalysis
             };
             
             waveInStream.StartRecording();
-            
-            Mode = 1;
         }
 
         private static void waveInStream_DataAvailable(object sender, WaveInEventArgs e)

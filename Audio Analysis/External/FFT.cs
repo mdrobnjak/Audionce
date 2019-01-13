@@ -34,6 +34,8 @@ namespace AudioAnalysis
             timer1.Interval = intVar;
             if (!Double.TryParse(txtDropOffScale.Text, out dblVar)) return;
             FFT.dropOffScale = dblVar;
+            if (!Int32.TryParse(txtMode.Text, out intVar)) return;
+            FFT.mode = intVar;
 
             UpdateControls();
         }
@@ -45,6 +47,7 @@ namespace AudioAnalysis
         public static int N_FFTBuffer = N_FFT;
         public static bool rawFFT = false;
         public static double dropOffScale = 10;
+        public static int mode = 0;
 
         public static int[] chunk_freq = { 800, 1600, 3200, 6400, 12800, 30000 };
         public static int[] chunk_freq_jump = { 1, 2, 4, 6, 8, 10, 16 };
@@ -148,7 +151,7 @@ namespace AudioAnalysis
 
                 
                 lastData[transformedDataIndex] -= lastDelay * dropOffScale;
-                if (AudioIn.Mode == 0)
+                if (mode == 0)
                     finalresult[transformedDataIndex] = value;
                 else
                     finalresult[transformedDataIndex] = value > lastData[transformedDataIndex] ? value : lastData[transformedDataIndex];

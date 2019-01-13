@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trkbrThreshold = new System.Windows.Forms.TrackBar();
@@ -87,6 +87,8 @@
             this.barRange3 = new System.Windows.Forms.ProgressBar();
             this.barRange1 = new System.Windows.Forms.ProgressBar();
             this.barRange2 = new System.Windows.Forms.ProgressBar();
+            this.txtMode = new System.Windows.Forms.TextBox();
+            this.lblMode = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.pnlRangeButtons.SuspendLayout();
@@ -111,20 +113,20 @@
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea4.AxisX.LabelStyle.Enabled = false;
-            chartArea4.AxisX.MajorGrid.Enabled = false;
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chart1.Legends.Add(legend4);
+            chartArea1.AxisX.LabelStyle.Enabled = false;
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(57, 440);
             this.chart1.Name = "chart1";
-            series4.ChartArea = "ChartArea1";
-            series4.Color = System.Drawing.Color.Black;
-            series4.IsVisibleInLegend = false;
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.chart1.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.Color = System.Drawing.Color.Black;
+            series1.IsVisibleInLegend = false;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(999, 195);
             this.chart1.TabIndex = 16;
             this.chart1.Text = "chart1";
@@ -339,6 +341,8 @@
             // 
             // tabFFT
             // 
+            this.tabFFT.Controls.Add(this.txtMode);
+            this.tabFFT.Controls.Add(this.lblMode);
             this.tabFFT.Controls.Add(this.txtDropOffScale);
             this.tabFFT.Controls.Add(this.lblDropOffScale);
             this.tabFFT.Controls.Add(this.lblSpectrumScale);
@@ -723,6 +727,26 @@
             this.barRange2.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.barRange2.TabIndex = 1;
             // 
+            // txtMode
+            // 
+            this.txtMode.BackColor = System.Drawing.Color.Black;
+            this.txtMode.ForeColor = System.Drawing.Color.White;
+            this.txtMode.Location = new System.Drawing.Point(6, 138);
+            this.txtMode.Name = "txtMode";
+            this.txtMode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtMode.Size = new System.Drawing.Size(120, 20);
+            this.txtMode.TabIndex = 42;
+            this.txtMode.Text = "0";
+            // 
+            // lblMode
+            // 
+            this.lblMode.AutoSize = true;
+            this.lblMode.Location = new System.Drawing.Point(132, 141);
+            this.lblMode.Name = "lblMode";
+            this.lblMode.Size = new System.Drawing.Size(34, 13);
+            this.lblMode.TabIndex = 43;
+            this.lblMode.Text = "Mode";
+            // 
             // frmAudioAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -820,6 +844,8 @@
         private System.Windows.Forms.Button btnDecrementRangeBand;
         private System.Windows.Forms.Button btnToggleSpectrum;
         private System.Windows.Forms.ComboBox cboPortNames;
+        private System.Windows.Forms.TextBox txtMode;
+        private System.Windows.Forms.Label lblMode;
     }
 }
 
