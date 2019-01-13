@@ -117,18 +117,17 @@ namespace AudioAnalysis
 
         public static int CenterFreqSelector(int minBandIndex, int maxBandIndex)
         {
-            return HighestAverageChange(minBandIndex, maxBandIndex);
+            return HighestSingleChange(minBandIndex, maxBandIndex);
         }
 
-        //Good for bass.
-        public static int HighestAverageChange(int minBandIndex, int maxBandIndex)
+        public static int HighestSingleChange(int minBandIndex, int maxBandIndex)
         {
             highestPeak = 0;
-            double averageChange = 0;
+            double singleChange = 0;
             centerBandIndex = 0;
             for (int i = minBandIndex; i < maxBandIndex; i++)
             {
-                double max = 0, totalChange = 0;
+                double max = 0, changePerBand = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
                 {
                     if (fftDataHistory[i][j] > max)
@@ -136,11 +135,45 @@ namespace AudioAnalysis
                         max = fftDataHistory[i][j];
                     }
 
-                    totalChange += Math.Abs(fftDataHistory[i][j] - fftDataHistory[i][j - 1]);
+                    if (changePerBand < Math.Abs(fftDataHistory[i][j] - fftDataHistory[i][j - 1]))
+                    {
+                        changePerBand = Math.Abs(fftDataHistory[i][j] - fftDataHistory[i][j - 1]);
+                    }
                 }
-                if (totalChange / fftDataHistory[i].Count > averageChange)
+                if (changePerBand > singleChange)
                 {
-                    averageChange = totalChange / fftDataHistory[i].Count;
+                    singleChange = changePerBand;
+                    centerBandIndex = i;
+                }
+                if (max > highestPeak)
+                {
+                    highestPeak = max;
+                }
+            }
+            return centerBandIndex;
+        }
+
+        //Good for bass.
+        public static int HighestTotalChange(int minBandIndex, int maxBandIndex)
+        {
+            highestPeak = 0;
+            double totalChange = 0;
+            centerBandIndex = 0;
+            for (int i = minBandIndex; i < maxBandIndex; i++)
+            {
+                double max = 0, change = 0;
+                for (int j = 1; j < fftDataHistory[i].Count(); j++)
+                {
+                    if (fftDataHistory[i][j] > max)
+                    {
+                        max = fftDataHistory[i][j];
+                    }
+
+                    change += Math.Abs(fftDataHistory[i][j] - fftDataHistory[i][j - 1]);
+                }
+                if (change > totalChange)
+                {
+                    totalChange = change;
                     centerBandIndex = i;
                 }
                 if (max > highestPeak)

@@ -11,6 +11,30 @@ namespace AudioAnalysis
 {
     public partial class frmAudioAnalysis : Form
     {
+        public static int[,] trackbarLimits;
+
+        public static void DefineTrackbarLimitsAndInitFullSpectrum()
+        {
+            Spectrum.InitSplitSpectrum(fmin, f1, f2, fmax);
+
+            trackbarLimits = new int[numRanges, 2]
+            {
+                {Spectrum.bandsBefore[0], Spectrum.bandsBefore[0] + Spectrum.bandsPerRange[0]},
+                {Spectrum.bandsBefore[1], Spectrum.bandsBefore[1] + Spectrum.bandsPerRange[1]},
+                {Spectrum.bandsBefore[2], Spectrum.bandsBefore[2] + Spectrum.bandsPerRange[2]},
+            };
+
+            Spectrum.InitFullSpectrum();
+        }
+
+        Converter cvt;
+        int converterScale = 15;
+
+        private void InitConverter(int yMult)
+        {
+            double maxScaledY = (4096d / FFT.N_FFT) * yMult;
+            cvt = new Converter(0, pnlSpectrum.Location.Y + pnlSpectrum.Height, 1, maxScaledY);
+        }
 
         #region Draw Spectrum
         bool paintInitiated = false;
@@ -137,7 +161,7 @@ namespace AudioAnalysis
 
         #endregion
 
-        const int fmin = 0, f1 = 300, f2 = 1000, fmax = 20000;
+        const int fmin = 0, f1 = 300, f2 = 5000, fmax = 20000;
 
         private void btnSpectrumMode_Click(object sender, EventArgs e)
         {
@@ -154,6 +178,8 @@ namespace AudioAnalysis
 
         private void pnlSpectrum_SizeChanged(object sender, EventArgs e)
         {
+            InitBufferAndGraphicForSpectrum();
+            InitConverter(converterScale);
             cvt._yCenter = pnlSpectrum.Location.Y + pnlSpectrum.Height;
         }
 

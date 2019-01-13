@@ -60,7 +60,8 @@ namespace AudioAnalysis
             InitBufferAndGraphicForSpectrum();
 
             Spectrum.SyncBandsAndFreqs();
-            Spectrum.InitFullSpectrum();
+
+            DefineTrackbarLimitsAndInitFullSpectrum();
 
             InitChart1();
 
@@ -69,6 +70,8 @@ namespace AudioAnalysis
             InitControls();
 
             InitTabFFT();
+
+            InitArduinoSettings();
 
             InitAutoSettings();
 
@@ -148,6 +151,7 @@ namespace AudioAnalysis
 
         private void InitControls()
         {
+
             UpdateControls();
 
             pnlBars.Controls.SetChildIndex(barRange1, 0);
@@ -184,17 +188,8 @@ namespace AudioAnalysis
             chart1.ChartAreas[0].AxisY.StripLines.Add(stripline);
         }
 
-        Converter cvt;
-        int converterScale = 8;
+        #endregion
 
-        private void InitConverter(int yMult)
-        {
-            double maxScaledY = (4096d / FFT.N_FFT) * yMult;
-            cvt = new Converter(0, pnlSpectrum.Location.Y + pnlSpectrum.Height, 1, maxScaledY);
-        }
-
-        #endregion        
-        
         #region Secondary Processing
 
         const int numRanges = 3;
@@ -273,8 +268,8 @@ namespace AudioAnalysis
             trkbrMin.BackColor = trkbrMax.BackColor = trkbrThreshold.BackColor
                 = chart1.Series[0].Color = this.BackColor = colors[selectedRange];
 
-            trkbrMin.Value = Math.Min(rangeLows[selectedRange], trkbrMin.Maximum);
-            trkbrMax.Value = Math.Min(rangeHighs[selectedRange], trkbrMax.Maximum);
+            trkbrMin.Value = rangeLows[selectedRange] - Spectrum.bandsBefore[selectedRange];//Math.Min(rangeLows[selectedRange], trkbrMin.Maximum);
+            trkbrMax.Value = rangeHighs[selectedRange] - Spectrum.bandsBefore[selectedRange];//Math.Min(rangeHighs[selectedRange], trkbrMax.Maximum);
             if (thresholds[selectedRange] > trkbrThreshold.Maximum)
             {
                 trkbrThreshold.Maximum = (int)(thresholds[selectedRange] * 1.33);
@@ -307,7 +302,7 @@ namespace AudioAnalysis
             {
                 //Range1
                 rangeLows[0] = AutoSet.CenterFreqSelector(Spectrum.GetBandForFreq(fmin), Spectrum.GetBandForFreq(f1)) - AutoSet.bandwidth / 2;
-                rangeLows[0] = Math.Max(rangeLows[0],0);
+                rangeLows[0] = Math.Max(rangeLows[0], 0);
                 rangeHighs[0] = rangeLows[0] + 1 + AutoSet.bandwidth / 2;
                 thresholds[0] = AutoSet.Threshold();
                 //Range2
@@ -350,7 +345,7 @@ namespace AudioAnalysis
             WriteConfig(currentConfig);
             System.IO.File.WriteAllText(configPath + @"\LastConfig\LastConfig.txt", currentConfig);
         }
-        
+
         private void btnRange1_Click(object sender, EventArgs e)
         {
             selectedRange = 0;
@@ -384,14 +379,28 @@ namespace AudioAnalysis
 
         private void trkbrMin_ValueChanged(object sender, EventArgs e)
         {
-            rangeLows[selectedRange] = trkbrMin.Value + Spectrum.bandsBefore[selectedRange];
+            int trkbrIndex = trkbrMin.Value + Spectrum.bandsBefore[selectedRange];
+            if (trkbrIndex > trackbarLimits[selectedRange, 1] || trkbrIndex < trackbarLimits[selectedRange, 0])
+            {
+                //If out of range, revert.
+                trkbrMin.Value = rangeLows[selectedRange];
+            }
+            else
+                rangeLows[selectedRange] = trkbrIndex;
         }
 
         private void trkbrMax_ValueChanged(object sender, EventArgs e)
         {
-            rangeHighs[selectedRange] = trkbrMax.Value + Spectrum.bandsBefore[selectedRange];
+            int trkbrIndex = trkbrMax.Value + Spectrum.bandsBefore[selectedRange];
+            if (trkbrIndex > trackbarLimits[selectedRange, 1] || trkbrIndex < trackbarLimits[selectedRange, 0])
+            {
+                //If out of range, revert.
+                trkbrMax.Value = rangeHighs[selectedRange];
+            }
+            else
+                rangeHighs[selectedRange] = trkbrMax.Value + Spectrum.bandsBefore[selectedRange];
         }
-        
+
         private void btnCalibrate_Click(object sender, EventArgs e)
         {
             trkbrThreshold.Maximum = (int)chart1.ChartAreas[0].AxisY.Maximum;

@@ -10,15 +10,30 @@ namespace AudioAnalysis
 {
     public partial class frmAudioAnalysis : Form
     {
-        private void btnArduino_Click(object sender, EventArgs e)
+        private void InitArduinoSettings()
+        {
+            foreach (string portName in SerialPort.GetPortNames())
+            {
+                cboPortNames.Items.Add(portName);
+                cboPortNames.Text = portName;
+            }
+            ArduinoCode.port = new SerialPort(cboPortNames.Text, 57600, Parity.None, 8, StopBits.One);
+        }
+
+        private void btnWriteArduino_Click(object sender, EventArgs e)
         {
             ArduinoCode.InterpretCommand(cboArduinoCommands.Text);
+        }
+
+        private void cboPortNames_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ArduinoCode.port = new SerialPort(cboPortNames.Text, 57600, Parity.None, 8, StopBits.One);
         }
     }
 
     public static class ArduinoCode
     {
-        public static SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+        public static SerialPort port;
 
         public static bool enabled = false;
 
@@ -32,12 +47,18 @@ namespace AudioAnalysis
 
             if (commandChar == "0")
             {
-                port.Close();
+                if (port.IsOpen)
+                {
+                    port.Close();
+                }
                 return;
             }
             else if(commandChar == "1")
             {
-                port.Open();
+                if (!port.IsOpen)
+                {
+                    port.Open();
+                }
                 return;
             }
 
@@ -65,8 +86,8 @@ namespace AudioAnalysis
         {
             if (port.IsOpen)
             {
-                if (rangeIndex == selectedRange) Write("b");
-                //else if (rangeIndex == 2) Write("m");
+                if (rangeIndex == 0) Write("b");
+                else if (rangeIndex == 2) Write("m");
             }
         }
 

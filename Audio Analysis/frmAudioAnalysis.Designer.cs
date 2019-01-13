@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trkbrThreshold = new System.Windows.Forms.TrackBar();
@@ -49,7 +49,7 @@
             this.txtTimer1Interval = new System.Windows.Forms.TextBox();
             this.lblRefreshRate = new System.Windows.Forms.Label();
             this.lblThreshold = new System.Windows.Forms.Label();
-            this.btnArduino = new System.Windows.Forms.Button();
+            this.btnWriteArduino = new System.Windows.Forms.Button();
             this.cboArduinoCommands = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabFFT = new System.Windows.Forms.TabPage();
@@ -61,6 +61,7 @@
             this.lblN_FFT = new System.Windows.Forms.Label();
             this.btnCommitFFTSettings = new System.Windows.Forms.Button();
             this.tabArduino = new System.Windows.Forms.TabPage();
+            this.cboPortNames = new System.Windows.Forms.ComboBox();
             this.tabAutoSettings = new System.Windows.Forms.TabPage();
             this.txtThreshMultiplier = new System.Windows.Forms.TextBox();
             this.lblThreshMultiplier = new System.Windows.Forms.Label();
@@ -108,23 +109,22 @@
             // 
             // chart1
             // 
-            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.AxisX.LabelStyle.Enabled = false;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea4.AxisX.LabelStyle.Enabled = false;
+            chartArea4.AxisX.MajorGrid.Enabled = false;
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart1.Legends.Add(legend4);
             this.chart1.Location = new System.Drawing.Point(57, 440);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Color = System.Drawing.Color.Black;
-            series1.IsVisibleInLegend = false;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series4.ChartArea = "ChartArea1";
+            series4.Color = System.Drawing.Color.Black;
+            series4.IsVisibleInLegend = false;
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart1.Series.Add(series4);
             this.chart1.Size = new System.Drawing.Size(999, 195);
             this.chart1.TabIndex = 16;
             this.chart1.Text = "chart1";
@@ -157,8 +157,7 @@
             // 
             // pnlRangeButtons
             // 
-            this.pnlRangeButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.pnlRangeButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlRangeButtons.Controls.Add(this.btnDecrementRangeBand);
             this.pnlRangeButtons.Controls.Add(this.btnIncrementRangeBand);
@@ -227,6 +226,7 @@
             // 
             // btnSaveSong
             // 
+            this.btnSaveSong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveSong.BackColor = System.Drawing.Color.Black;
             this.btnSaveSong.ForeColor = System.Drawing.Color.White;
             this.btnSaveSong.Location = new System.Drawing.Point(922, 3);
@@ -239,6 +239,7 @@
             // 
             // cboSongNames
             // 
+            this.cboSongNames.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cboSongNames.BackColor = System.Drawing.Color.Black;
             this.cboSongNames.ForeColor = System.Drawing.Color.White;
             this.cboSongNames.FormattingEnabled = true;
@@ -250,8 +251,7 @@
             // 
             // trkbrMin
             // 
-            this.trkbrMin.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.trkbrMin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.trkbrMin.BackColor = System.Drawing.SystemColors.Control;
             this.trkbrMin.Location = new System.Drawing.Point(45, 310);
@@ -263,8 +263,7 @@
             // 
             // trkbrMax
             // 
-            this.trkbrMax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.trkbrMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.trkbrMax.BackColor = System.Drawing.SystemColors.Control;
             this.trkbrMax.Location = new System.Drawing.Point(45, 339);
@@ -304,20 +303,23 @@
             this.lblThreshold.TabIndex = 27;
             this.lblThreshold.Text = "Threshold";
             // 
-            // btnArduino
+            // btnWriteArduino
             // 
-            this.btnArduino.Location = new System.Drawing.Point(3, 30);
-            this.btnArduino.Name = "btnArduino";
-            this.btnArduino.Size = new System.Drawing.Size(170, 39);
-            this.btnArduino.TabIndex = 30;
-            this.btnArduino.Text = "Execute";
-            this.btnArduino.UseVisualStyleBackColor = true;
-            this.btnArduino.Click += new System.EventHandler(this.btnArduino_Click);
+            this.btnWriteArduino.Location = new System.Drawing.Point(3, 80);
+            this.btnWriteArduino.Name = "btnWriteArduino";
+            this.btnWriteArduino.Size = new System.Drawing.Size(170, 39);
+            this.btnWriteArduino.TabIndex = 30;
+            this.btnWriteArduino.Text = "Write";
+            this.btnWriteArduino.UseVisualStyleBackColor = true;
+            this.btnWriteArduino.Click += new System.EventHandler(this.btnWriteArduino_Click);
             // 
             // cboArduinoCommands
             // 
+            this.cboArduinoCommands.BackColor = System.Drawing.Color.Black;
+            this.cboArduinoCommands.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboArduinoCommands.ForeColor = System.Drawing.Color.White;
             this.cboArduinoCommands.FormattingEnabled = true;
-            this.cboArduinoCommands.Location = new System.Drawing.Point(3, 3);
+            this.cboArduinoCommands.Location = new System.Drawing.Point(3, 53);
             this.cboArduinoCommands.Name = "cboArduinoCommands";
             this.cboArduinoCommands.Size = new System.Drawing.Size(170, 21);
             this.cboArduinoCommands.TabIndex = 31;
@@ -386,6 +388,7 @@
             // cboN_FFT
             // 
             this.cboN_FFT.BackColor = System.Drawing.Color.Black;
+            this.cboN_FFT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboN_FFT.ForeColor = System.Drawing.Color.White;
             this.cboN_FFT.FormattingEnabled = true;
             this.cboN_FFT.Location = new System.Drawing.Point(6, 33);
@@ -426,14 +429,27 @@
             // 
             // tabArduino
             // 
+            this.tabArduino.Controls.Add(this.cboPortNames);
             this.tabArduino.Controls.Add(this.cboArduinoCommands);
-            this.tabArduino.Controls.Add(this.btnArduino);
+            this.tabArduino.Controls.Add(this.btnWriteArduino);
             this.tabArduino.Location = new System.Drawing.Point(4, 22);
             this.tabArduino.Name = "tabArduino";
             this.tabArduino.Size = new System.Drawing.Size(176, 597);
             this.tabArduino.TabIndex = 1;
             this.tabArduino.Text = "Arduino";
             this.tabArduino.UseVisualStyleBackColor = true;
+            // 
+            // cboPortNames
+            // 
+            this.cboPortNames.BackColor = System.Drawing.Color.Black;
+            this.cboPortNames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboPortNames.ForeColor = System.Drawing.Color.White;
+            this.cboPortNames.FormattingEnabled = true;
+            this.cboPortNames.Location = new System.Drawing.Point(3, 3);
+            this.cboPortNames.Name = "cboPortNames";
+            this.cboPortNames.Size = new System.Drawing.Size(170, 21);
+            this.cboPortNames.TabIndex = 32;
+            this.cboPortNames.SelectionChangeCommitted += new System.EventHandler(this.cboPortNames_SelectionChangeCommitted);
             // 
             // tabAutoSettings
             // 
@@ -538,9 +554,11 @@
             this.pnlSpectrum.Name = "pnlSpectrum";
             this.pnlSpectrum.Size = new System.Drawing.Size(999, 303);
             this.pnlSpectrum.TabIndex = 19;
+            this.pnlSpectrum.SizeChanged += new System.EventHandler(this.pnlSpectrum_SizeChanged);
             // 
             // btnToggleSpectrum
             // 
+            this.btnToggleSpectrum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToggleSpectrum.Location = new System.Drawing.Point(460, 8);
             this.btnToggleSpectrum.Name = "btnToggleSpectrum";
             this.btnToggleSpectrum.Size = new System.Drawing.Size(130, 23);
@@ -551,6 +569,7 @@
             // 
             // btnCalibrate
             // 
+            this.btnCalibrate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCalibrate.Location = new System.Drawing.Point(596, 8);
             this.btnCalibrate.Name = "btnCalibrate";
             this.btnCalibrate.Size = new System.Drawing.Size(130, 23);
@@ -561,6 +580,7 @@
             // 
             // pnlNewAudio
             // 
+            this.pnlNewAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlNewAudio.Controls.Add(this.txtNewAudio3);
             this.pnlNewAudio.Controls.Add(this.txtNewAudio2);
             this.pnlNewAudio.Controls.Add(this.txtNewAudio1);
@@ -604,6 +624,7 @@
             // 
             // btnSpectrumMode
             // 
+            this.btnSpectrumMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSpectrumMode.Location = new System.Drawing.Point(460, 37);
             this.btnSpectrumMode.Name = "btnSpectrumMode";
             this.btnSpectrumMode.Size = new System.Drawing.Size(130, 23);
@@ -614,6 +635,7 @@
             // 
             // pnlAccumAudio
             // 
+            this.pnlAccumAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlAccumAudio.Controls.Add(this.txtAccumAudio3);
             this.pnlAccumAudio.Controls.Add(this.txtAccumAudio2);
             this.pnlAccumAudio.Controls.Add(this.txtAccumAudio1);
@@ -657,6 +679,7 @@
             // 
             // btnAutoRange
             // 
+            this.btnAutoRange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAutoRange.Location = new System.Drawing.Point(596, 37);
             this.btnAutoRange.Name = "btnAutoRange";
             this.btnAutoRange.Size = new System.Drawing.Size(130, 23);
@@ -667,6 +690,7 @@
             // 
             // pnlBars
             // 
+            this.pnlBars.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBars.Controls.Add(this.barRange3);
             this.pnlBars.Controls.Add(this.barRange1);
             this.pnlBars.Controls.Add(this.barRange2);
@@ -705,6 +729,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1241, 635);
+            this.Controls.Add(this.pnlSpectrum);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.txtThreshold);
             this.Controls.Add(this.lblThreshold);
@@ -712,7 +737,6 @@
             this.Controls.Add(this.pnlRangeButtons);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.trkbrThreshold);
-            this.Controls.Add(this.pnlSpectrum);
             this.Controls.Add(this.trkbrMin);
             this.Name = "frmAudioAnalysis";
             this.Text = "Audio Analysis";
@@ -768,7 +792,7 @@
         private System.Windows.Forms.Label lblThreshold;
         private System.Windows.Forms.ComboBox cboSongNames;
         private System.Windows.Forms.Button btnSaveSong;
-        private System.Windows.Forms.Button btnArduino;
+        private System.Windows.Forms.Button btnWriteArduino;
         private System.Windows.Forms.ComboBox cboArduinoCommands;
         private System.Windows.Forms.Button btnCalibrate;
         private System.Windows.Forms.Button btnAutoRange;
@@ -795,6 +819,7 @@
         private System.Windows.Forms.Button btnIncrementRangeBand;
         private System.Windows.Forms.Button btnDecrementRangeBand;
         private System.Windows.Forms.Button btnToggleSpectrum;
+        private System.Windows.Forms.ComboBox cboPortNames;
     }
 }
 
