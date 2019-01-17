@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,18 @@ namespace AudioAnalysis
     {
         void InitAutoSettings()
         {
+            btnDynamicThresholds_Click(null,null);
+
             AutoSet.secondsToCollect = 5;
             AutoSet.bandwidth = 1;
-            AutoSet.threshMultiplier = 0.75;
+            AutoSet.threshMultipliers = new double[3] { 0.7, 0.6, 0.6 };
 
             txtSeconds.Text = AutoSet.secondsToCollect.ToString();
             txtBandwidth.Text = AutoSet.bandwidth.ToString();
-            txtThreshMultiplier.Text = AutoSet.threshMultiplier.ToString();
+
+            txtThreshMultiplier1.Text = AutoSet.threshMultipliers[0].ToString();
+            txtThreshMultiplier2.Text = AutoSet.threshMultipliers[1].ToString();
+            txtThreshMultiplier3.Text = AutoSet.threshMultipliers[2].ToString();
         }
 
         private void btnAutoRange_Click(object sender, EventArgs e)
@@ -34,8 +40,19 @@ namespace AudioAnalysis
             AutoSet.bandwidth = intVar;
             if (!Double.TryParse(txtSeconds.Text, out dblVar)) return;
             AutoSet.secondsToCollect = dblVar;
-            if (!Double.TryParse(txtThreshMultiplier.Text, out dblVar)) return;
-            AutoSet.threshMultiplier = dblVar;
+            if (!Double.TryParse(txtThreshMultiplier1.Text, out dblVar)) return;
+            AutoSet.threshMultipliers[0] = dblVar;
+            if (!Double.TryParse(txtThreshMultiplier2.Text, out dblVar)) return;
+            AutoSet.threshMultipliers[1] = dblVar;
+            if (!Double.TryParse(txtThreshMultiplier3.Text, out dblVar)) return;
+            AutoSet.threshMultipliers[2] = dblVar;
+        }
+
+        private void btnDynamicThresholds_Click(object sender, EventArgs e)
+        {
+            AutoSet.dynamicThresholds = !AutoSet.dynamicThresholds;
+            if(AutoSet.dynamicThresholds) btnDynamicThresholds.BackColor = Color.LightGreen;
+            else btnDynamicThresholds.BackColor = Color.Transparent;
         }
     }
 
@@ -48,25 +65,22 @@ namespace AudioAnalysis
                 fftDataHistory.Clear();
                 fftDataHistory = null;
             }
-            readyToProcess = false;
-            highestPeak = highestPeakBandwidth = 0;
+            highestPeakNewCenter = 0;
         }
 
         #region Threshold
-        public static double highestPeak = 0, highestPeakBandwidth = 0, threshMultiplier;
+        public static bool dynamicThresholds = false;
+        public static double highestPeakNewCenter = 0;
+        public static double[] threshMultipliers;
 
-        public static int Threshold(double max = 0)
+        public static int Threshold(int rangeIndex)
         {
-            if (max == 0)
-            {
-                HighestPeakBandwidth(out max);
-            }
-            return (int)(max * threshMultiplier);
+            return (int)(highestPeakNewCenter * threshMultipliers[rangeIndex]);
         }
 
-        public static void HighestPeakBandwidth(out double highestPeakBandwidth)
+        public static void HighestPeakNewBandwidth(out double highestPeakBandwidth)
         {
-            highestPeakBandwidth = highestPeak;
+            highestPeakBandwidth = highestPeakNewCenter;
             for (int i = Math.Max((centerBandIndex - bandwidth / 2), 0); i < centerBandIndex + bandwidth / 2; i++)
             {
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)
@@ -75,7 +89,7 @@ namespace AudioAnalysis
                         highestPeakBandwidth = fftDataHistory[i][j];
                 }
             }
-        }
+        }        
         #endregion
 
         #region Range
@@ -115,14 +129,47 @@ namespace AudioAnalysis
             }
         }
 
-        public static int CenterFreqSelector(int minBandIndex, int maxBandIndex)
+        public static int BassFreqSelector(int minBandIndex, int maxBandIndex)
         {
             return HighestSingleChange(minBandIndex, maxBandIndex);
         }
 
+        public static int SnareFreqSelector(int minBandIndex, int maxBandIndex)
+        {
+            return HighestPeak(minBandIndex, maxBandIndex);
+        }
+
+        public static int HatFreqSelector(int minBandIndex, int maxBandIndex)
+        {
+            return HighestSingleChange(minBandIndex, maxBandIndex);
+        }
+
+        public static int HighestPeak(int minBandIndex, int maxBandIndex)
+        {
+            highestPeakNewCenter = 0;
+            centerBandIndex = 0;
+            for (int i = minBandIndex; i < maxBandIndex; i++)
+            {
+                double max = 0;
+                for (int j = 1; j < fftDataHistory[i].Count(); j++)
+                {
+                    if (fftDataHistory[i][j] > max)
+                    {
+                        max = fftDataHistory[i][j];
+                    }                    
+                }
+                if (max > highestPeakNewCenter)
+                {
+                    highestPeakNewCenter = max;
+                    centerBandIndex = i;
+                }
+            }
+            return centerBandIndex;
+        }
+
         public static int HighestSingleChange(int minBandIndex, int maxBandIndex)
         {
-            highestPeak = 0;
+            highestPeakNewCenter = 0;
             double singleChange = 0;
             centerBandIndex = 0;
             for (int i = minBandIndex; i < maxBandIndex; i++)
@@ -144,19 +191,15 @@ namespace AudioAnalysis
                 {
                     singleChange = changePerBand;
                     centerBandIndex = i;
-                }
-                if (max > highestPeak)
-                {
-                    highestPeak = max;
+                    highestPeakNewCenter = max;
                 }
             }
             return centerBandIndex;
-        }
+        }        
 
-        //Good for bass.
         public static int HighestTotalChange(int minBandIndex, int maxBandIndex)
         {
-            highestPeak = 0;
+            highestPeakNewCenter = 0;
             double totalChange = 0;
             centerBandIndex = 0;
             for (int i = minBandIndex; i < maxBandIndex; i++)
@@ -175,10 +218,7 @@ namespace AudioAnalysis
                 {
                     totalChange = change;
                     centerBandIndex = i;
-                }
-                if (max > highestPeak)
-                {
-                    highestPeak = max;
+                    highestPeakNewCenter = max;
                 }
             }
             return centerBandIndex;
@@ -186,7 +226,7 @@ namespace AudioAnalysis
 
         public static int HighestDynamicRange(int minBandIndex, int maxBandIndex)
         {
-            highestPeak = 0;
+            highestPeakNewCenter = 0;
             double peakToPeak = 0;
             centerBandIndex = 0;
             for (int i = minBandIndex; i < maxBandIndex; i++)
@@ -207,10 +247,7 @@ namespace AudioAnalysis
                 {
                     peakToPeak = max - min;
                     centerBandIndex = i;
-                }
-                if (max > highestPeak)
-                {
-                    highestPeak = max;
+                    highestPeakNewCenter = max;
                 }
             }
             return centerBandIndex;
@@ -218,7 +255,7 @@ namespace AudioAnalysis
 
         public static int BestPeakToAverage(int minBandIndex, int maxBandIndex)
         {
-            highestPeak = 0;
+            highestPeakNewCenter = 0;
             double peakToAverageRatio = 0;
             centerBandIndex = 0;
             for (int i = minBandIndex; i < maxBandIndex; i++)
@@ -237,10 +274,7 @@ namespace AudioAnalysis
                 {
                     peakToAverageRatio = peak / average;
                     centerBandIndex = i;
-                }
-                if (peak > highestPeak)
-                {
-                    highestPeak = peak;
+                    highestPeakNewCenter = peak;
                 }
             }
             return centerBandIndex;

@@ -68,8 +68,10 @@
             this.cboSubtractFrom = new System.Windows.Forms.ComboBox();
             this.btnSubtract = new System.Windows.Forms.Button();
             this.tabAutoSettings = new System.Windows.Forms.TabPage();
-            this.txtThreshMultiplier = new System.Windows.Forms.TextBox();
-            this.lblThreshMultiplier = new System.Windows.Forms.Label();
+            this.txtThreshMultiplier3 = new System.Windows.Forms.TextBox();
+            this.txtThreshMultiplier2 = new System.Windows.Forms.TextBox();
+            this.txtThreshMultiplier1 = new System.Windows.Forms.TextBox();
+            this.lblThreshMultipliers = new System.Windows.Forms.Label();
             this.txtBandwidth = new System.Windows.Forms.TextBox();
             this.lblBandwidth = new System.Windows.Forms.Label();
             this.txtSeconds = new System.Windows.Forms.TextBox();
@@ -84,21 +86,14 @@
             this.btnToggleBars = new System.Windows.Forms.Button();
             this.btnToggleSpectrum = new System.Windows.Forms.Button();
             this.btnCalibrate = new System.Windows.Forms.Button();
-            this.pnlNewAudio = new System.Windows.Forms.Panel();
-            this.txtNewAudio3 = new System.Windows.Forms.TextBox();
-            this.txtNewAudio2 = new System.Windows.Forms.TextBox();
-            this.txtNewAudio1 = new System.Windows.Forms.TextBox();
             this.btnSpectrumMode = new System.Windows.Forms.Button();
-            this.pnlAccumAudio = new System.Windows.Forms.Panel();
-            this.txtAccumAudio3 = new System.Windows.Forms.TextBox();
-            this.txtAccumAudio2 = new System.Windows.Forms.TextBox();
-            this.txtAccumAudio1 = new System.Windows.Forms.TextBox();
             this.btnAutoRange = new System.Windows.Forms.Button();
             this.pnlBars = new System.Windows.Forms.Panel();
             this.barRange3 = new System.Windows.Forms.ProgressBar();
             this.barRange1 = new System.Windows.Forms.ProgressBar();
             this.barRange2 = new System.Windows.Forms.ProgressBar();
             this.btnToggleChart = new System.Windows.Forms.Button();
+            this.btnDynamicThresholds = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.pnlRangeButtons.SuspendLayout();
@@ -110,8 +105,6 @@
             this.tabAutoSettings.SuspendLayout();
             this.tabArduino.SuspendLayout();
             this.pnlSpectrum.SuspendLayout();
-            this.pnlNewAudio.SuspendLayout();
-            this.pnlAccumAudio.SuspendLayout();
             this.pnlBars.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -521,8 +514,11 @@
             // 
             // tabAutoSettings
             // 
-            this.tabAutoSettings.Controls.Add(this.txtThreshMultiplier);
-            this.tabAutoSettings.Controls.Add(this.lblThreshMultiplier);
+            this.tabAutoSettings.Controls.Add(this.btnDynamicThresholds);
+            this.tabAutoSettings.Controls.Add(this.txtThreshMultiplier3);
+            this.tabAutoSettings.Controls.Add(this.txtThreshMultiplier2);
+            this.tabAutoSettings.Controls.Add(this.txtThreshMultiplier1);
+            this.tabAutoSettings.Controls.Add(this.lblThreshMultipliers);
             this.tabAutoSettings.Controls.Add(this.txtBandwidth);
             this.tabAutoSettings.Controls.Add(this.lblBandwidth);
             this.tabAutoSettings.Controls.Add(this.txtSeconds);
@@ -535,25 +531,47 @@
             this.tabAutoSettings.Text = "Auto";
             this.tabAutoSettings.UseVisualStyleBackColor = true;
             // 
-            // txtThreshMultiplier
+            // txtThreshMultiplier3
             // 
-            this.txtThreshMultiplier.BackColor = System.Drawing.Color.Black;
-            this.txtThreshMultiplier.ForeColor = System.Drawing.Color.White;
-            this.txtThreshMultiplier.Location = new System.Drawing.Point(6, 85);
-            this.txtThreshMultiplier.Name = "txtThreshMultiplier";
-            this.txtThreshMultiplier.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtThreshMultiplier.Size = new System.Drawing.Size(62, 20);
-            this.txtThreshMultiplier.TabIndex = 46;
-            this.txtThreshMultiplier.Text = "0";
+            this.txtThreshMultiplier3.BackColor = System.Drawing.Color.Black;
+            this.txtThreshMultiplier3.ForeColor = System.Drawing.Color.White;
+            this.txtThreshMultiplier3.Location = new System.Drawing.Point(117, 108);
+            this.txtThreshMultiplier3.Name = "txtThreshMultiplier3";
+            this.txtThreshMultiplier3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtThreshMultiplier3.Size = new System.Drawing.Size(49, 20);
+            this.txtThreshMultiplier3.TabIndex = 49;
+            this.txtThreshMultiplier3.Text = "0";
             // 
-            // lblThreshMultiplier
+            // txtThreshMultiplier2
             // 
-            this.lblThreshMultiplier.AutoSize = true;
-            this.lblThreshMultiplier.Location = new System.Drawing.Point(74, 88);
-            this.lblThreshMultiplier.Name = "lblThreshMultiplier";
-            this.lblThreshMultiplier.Size = new System.Drawing.Size(98, 13);
-            this.lblThreshMultiplier.TabIndex = 47;
-            this.lblThreshMultiplier.Text = "Threshold Multiplier";
+            this.txtThreshMultiplier2.BackColor = System.Drawing.Color.Black;
+            this.txtThreshMultiplier2.ForeColor = System.Drawing.Color.White;
+            this.txtThreshMultiplier2.Location = new System.Drawing.Point(62, 108);
+            this.txtThreshMultiplier2.Name = "txtThreshMultiplier2";
+            this.txtThreshMultiplier2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtThreshMultiplier2.Size = new System.Drawing.Size(49, 20);
+            this.txtThreshMultiplier2.TabIndex = 48;
+            this.txtThreshMultiplier2.Text = "0";
+            // 
+            // txtThreshMultiplier1
+            // 
+            this.txtThreshMultiplier1.BackColor = System.Drawing.Color.Black;
+            this.txtThreshMultiplier1.ForeColor = System.Drawing.Color.White;
+            this.txtThreshMultiplier1.Location = new System.Drawing.Point(6, 108);
+            this.txtThreshMultiplier1.Name = "txtThreshMultiplier1";
+            this.txtThreshMultiplier1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtThreshMultiplier1.Size = new System.Drawing.Size(50, 20);
+            this.txtThreshMultiplier1.TabIndex = 46;
+            this.txtThreshMultiplier1.Text = "0";
+            // 
+            // lblThreshMultipliers
+            // 
+            this.lblThreshMultipliers.AutoSize = true;
+            this.lblThreshMultipliers.Location = new System.Drawing.Point(31, 86);
+            this.lblThreshMultipliers.Name = "lblThreshMultipliers";
+            this.lblThreshMultipliers.Size = new System.Drawing.Size(103, 13);
+            this.lblThreshMultipliers.TabIndex = 47;
+            this.lblThreshMultipliers.Text = "Threshold Multipliers";
             // 
             // txtBandwidth
             // 
@@ -670,9 +688,7 @@
             this.pnlSpectrum.Controls.Add(this.btnToggleBars);
             this.pnlSpectrum.Controls.Add(this.btnToggleSpectrum);
             this.pnlSpectrum.Controls.Add(this.btnCalibrate);
-            this.pnlSpectrum.Controls.Add(this.pnlNewAudio);
             this.pnlSpectrum.Controls.Add(this.btnSpectrumMode);
-            this.pnlSpectrum.Controls.Add(this.pnlAccumAudio);
             this.pnlSpectrum.Controls.Add(this.btnAutoRange);
             this.pnlSpectrum.Controls.Add(this.pnlBars);
             this.pnlSpectrum.Location = new System.Drawing.Point(57, 12);
@@ -695,7 +711,7 @@
             // btnToggleSpectrum
             // 
             this.btnToggleSpectrum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnToggleSpectrum.Location = new System.Drawing.Point(460, 8);
+            this.btnToggleSpectrum.Location = new System.Drawing.Point(617, 3);
             this.btnToggleSpectrum.Name = "btnToggleSpectrum";
             this.btnToggleSpectrum.Size = new System.Drawing.Size(130, 23);
             this.btnToggleSpectrum.TabIndex = 36;
@@ -706,7 +722,7 @@
             // btnCalibrate
             // 
             this.btnCalibrate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCalibrate.Location = new System.Drawing.Point(596, 8);
+            this.btnCalibrate.Location = new System.Drawing.Point(753, 3);
             this.btnCalibrate.Name = "btnCalibrate";
             this.btnCalibrate.Size = new System.Drawing.Size(130, 23);
             this.btnCalibrate.TabIndex = 35;
@@ -714,54 +730,10 @@
             this.btnCalibrate.UseVisualStyleBackColor = true;
             this.btnCalibrate.Click += new System.EventHandler(this.btnCalibrate_Click);
             // 
-            // pnlNewAudio
-            // 
-            this.pnlNewAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlNewAudio.Controls.Add(this.txtNewAudio3);
-            this.pnlNewAudio.Controls.Add(this.txtNewAudio2);
-            this.pnlNewAudio.Controls.Add(this.txtNewAudio1);
-            this.pnlNewAudio.Location = new System.Drawing.Point(732, 5);
-            this.pnlNewAudio.Name = "pnlNewAudio";
-            this.pnlNewAudio.Size = new System.Drawing.Size(74, 87);
-            this.pnlNewAudio.TabIndex = 28;
-            // 
-            // txtNewAudio3
-            // 
-            this.txtNewAudio3.BackColor = System.Drawing.Color.Black;
-            this.txtNewAudio3.ForeColor = System.Drawing.Color.White;
-            this.txtNewAudio3.Location = new System.Drawing.Point(3, 61);
-            this.txtNewAudio3.Name = "txtNewAudio3";
-            this.txtNewAudio3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNewAudio3.Size = new System.Drawing.Size(67, 20);
-            this.txtNewAudio3.TabIndex = 26;
-            this.txtNewAudio3.Text = "0";
-            // 
-            // txtNewAudio2
-            // 
-            this.txtNewAudio2.BackColor = System.Drawing.Color.Black;
-            this.txtNewAudio2.ForeColor = System.Drawing.Color.White;
-            this.txtNewAudio2.Location = new System.Drawing.Point(3, 32);
-            this.txtNewAudio2.Name = "txtNewAudio2";
-            this.txtNewAudio2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNewAudio2.Size = new System.Drawing.Size(67, 20);
-            this.txtNewAudio2.TabIndex = 25;
-            this.txtNewAudio2.Text = "0";
-            // 
-            // txtNewAudio1
-            // 
-            this.txtNewAudio1.BackColor = System.Drawing.Color.Black;
-            this.txtNewAudio1.ForeColor = System.Drawing.Color.White;
-            this.txtNewAudio1.Location = new System.Drawing.Point(3, 3);
-            this.txtNewAudio1.Name = "txtNewAudio1";
-            this.txtNewAudio1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNewAudio1.Size = new System.Drawing.Size(67, 20);
-            this.txtNewAudio1.TabIndex = 24;
-            this.txtNewAudio1.Text = "0";
-            // 
             // btnSpectrumMode
             // 
             this.btnSpectrumMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSpectrumMode.Location = new System.Drawing.Point(460, 37);
+            this.btnSpectrumMode.Location = new System.Drawing.Point(617, 32);
             this.btnSpectrumMode.Name = "btnSpectrumMode";
             this.btnSpectrumMode.Size = new System.Drawing.Size(130, 23);
             this.btnSpectrumMode.TabIndex = 33;
@@ -769,54 +741,10 @@
             this.btnSpectrumMode.UseVisualStyleBackColor = true;
             this.btnSpectrumMode.Click += new System.EventHandler(this.btnSpectrumMode_Click);
             // 
-            // pnlAccumAudio
-            // 
-            this.pnlAccumAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlAccumAudio.Controls.Add(this.txtAccumAudio3);
-            this.pnlAccumAudio.Controls.Add(this.txtAccumAudio2);
-            this.pnlAccumAudio.Controls.Add(this.txtAccumAudio1);
-            this.pnlAccumAudio.Location = new System.Drawing.Point(809, 5);
-            this.pnlAccumAudio.Name = "pnlAccumAudio";
-            this.pnlAccumAudio.Size = new System.Drawing.Size(74, 87);
-            this.pnlAccumAudio.TabIndex = 27;
-            // 
-            // txtAccumAudio3
-            // 
-            this.txtAccumAudio3.BackColor = System.Drawing.Color.Black;
-            this.txtAccumAudio3.ForeColor = System.Drawing.Color.White;
-            this.txtAccumAudio3.Location = new System.Drawing.Point(3, 61);
-            this.txtAccumAudio3.Name = "txtAccumAudio3";
-            this.txtAccumAudio3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtAccumAudio3.Size = new System.Drawing.Size(67, 20);
-            this.txtAccumAudio3.TabIndex = 26;
-            this.txtAccumAudio3.Text = "0";
-            // 
-            // txtAccumAudio2
-            // 
-            this.txtAccumAudio2.BackColor = System.Drawing.Color.Black;
-            this.txtAccumAudio2.ForeColor = System.Drawing.Color.White;
-            this.txtAccumAudio2.Location = new System.Drawing.Point(3, 32);
-            this.txtAccumAudio2.Name = "txtAccumAudio2";
-            this.txtAccumAudio2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtAccumAudio2.Size = new System.Drawing.Size(67, 20);
-            this.txtAccumAudio2.TabIndex = 25;
-            this.txtAccumAudio2.Text = "0";
-            // 
-            // txtAccumAudio1
-            // 
-            this.txtAccumAudio1.BackColor = System.Drawing.Color.Black;
-            this.txtAccumAudio1.ForeColor = System.Drawing.Color.White;
-            this.txtAccumAudio1.Location = new System.Drawing.Point(3, 3);
-            this.txtAccumAudio1.Name = "txtAccumAudio1";
-            this.txtAccumAudio1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtAccumAudio1.Size = new System.Drawing.Size(67, 20);
-            this.txtAccumAudio1.TabIndex = 24;
-            this.txtAccumAudio1.Text = "0";
-            // 
             // btnAutoRange
             // 
             this.btnAutoRange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAutoRange.Location = new System.Drawing.Point(596, 37);
+            this.btnAutoRange.Location = new System.Drawing.Point(753, 32);
             this.btnAutoRange.Name = "btnAutoRange";
             this.btnAutoRange.Size = new System.Drawing.Size(130, 23);
             this.btnAutoRange.TabIndex = 32;
@@ -870,6 +798,16 @@
             this.btnToggleChart.UseVisualStyleBackColor = true;
             this.btnToggleChart.Click += new System.EventHandler(this.btnToggleChart_Click);
             // 
+            // btnDynamicThresholds
+            // 
+            this.btnDynamicThresholds.Location = new System.Drawing.Point(3, 134);
+            this.btnDynamicThresholds.Name = "btnDynamicThresholds";
+            this.btnDynamicThresholds.Size = new System.Drawing.Size(163, 32);
+            this.btnDynamicThresholds.TabIndex = 50;
+            this.btnDynamicThresholds.Text = "Dynamic Thresholds";
+            this.btnDynamicThresholds.UseVisualStyleBackColor = true;
+            this.btnDynamicThresholds.Click += new System.EventHandler(this.btnDynamicThresholds_Click);
+            // 
             // frmAudioAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -905,10 +843,6 @@
             this.tabArduino.ResumeLayout(false);
             this.tabArduino.PerformLayout();
             this.pnlSpectrum.ResumeLayout(false);
-            this.pnlNewAudio.ResumeLayout(false);
-            this.pnlNewAudio.PerformLayout();
-            this.pnlAccumAudio.ResumeLayout(false);
-            this.pnlAccumAudio.PerformLayout();
             this.pnlBars.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -930,15 +864,7 @@
         private System.Windows.Forms.ProgressBar barRange3;
         private System.Windows.Forms.ProgressBar barRange2;
         private System.Windows.Forms.ProgressBar barRange1;
-        private System.Windows.Forms.TextBox txtAccumAudio3;
-        private System.Windows.Forms.TextBox txtAccumAudio2;
-        private System.Windows.Forms.TextBox txtAccumAudio1;
-        private System.Windows.Forms.Panel pnlAccumAudio;
         private System.Windows.Forms.TextBox txtTimer1Interval;
-        private System.Windows.Forms.Panel pnlNewAudio;
-        private System.Windows.Forms.TextBox txtNewAudio3;
-        private System.Windows.Forms.TextBox txtNewAudio2;
-        private System.Windows.Forms.TextBox txtNewAudio1;
         private System.Windows.Forms.Label lblRefreshRate;
         private System.Windows.Forms.Label lblThreshold;
         private System.Windows.Forms.ComboBox cboSongNames;
@@ -965,8 +891,8 @@
         private System.Windows.Forms.Label lblBandwidth;
         private System.Windows.Forms.TextBox txtSeconds;
         private System.Windows.Forms.Label lblSeconds;
-        private System.Windows.Forms.TextBox txtThreshMultiplier;
-        private System.Windows.Forms.Label lblThreshMultiplier;
+        private System.Windows.Forms.TextBox txtThreshMultiplier1;
+        private System.Windows.Forms.Label lblThreshMultipliers;
         private System.Windows.Forms.Button btnIncrementRangeBand;
         private System.Windows.Forms.Button btnDecrementRangeBand;
         private System.Windows.Forms.Button btnToggleSpectrum;
@@ -983,6 +909,9 @@
         private System.Windows.Forms.ComboBox cboSubtractFrom;
         private System.Windows.Forms.Button btnSubtract;
         private System.Windows.Forms.Button btnToggleBars;
+        private System.Windows.Forms.TextBox txtThreshMultiplier3;
+        private System.Windows.Forms.TextBox txtThreshMultiplier2;
+        private System.Windows.Forms.Button btnDynamicThresholds;
     }
 }
 

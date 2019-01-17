@@ -15,7 +15,7 @@ namespace AudioAnalysis
 
         public static void DefineTrackbarLimitsAndInitFullSpectrum()
         {
-            Spectrum.InitSplitSpectrum(fmin, f1, f2, fmax);
+            Spectrum.InitSplitSpectrum(rangeFreqs);
 
             trackbarLimits = new int[numRanges, 2]
             {
@@ -28,7 +28,7 @@ namespace AudioAnalysis
         }
 
         Converter cvt;
-        int converterScale = 15;
+        int converterScale = 8;
 
         private void InitConverter(int yMult)
         {
@@ -161,7 +161,9 @@ namespace AudioAnalysis
 
         #endregion
 
-        const int fmin = 0, f1 = 300, f2 = 5000, fmax = 20000;
+        //const int fmin = 0, f1 = 300, f2 = 1000, fmax = 20000;
+
+        static readonly int[,] rangeFreqs = { { 0, 300 }, { 1000, 20000 }, { 1000, 20000 } };
 
         private void btnSpectrumMode_Click(object sender, EventArgs e)
         {
@@ -171,7 +173,7 @@ namespace AudioAnalysis
             }
             else
             {
-                Spectrum.InitSplitSpectrum(fmin, f1, f2, fmax);
+                Spectrum.InitSplitSpectrum(rangeFreqs);
             }
             UpdateControls();
         }
@@ -285,16 +287,20 @@ namespace AudioAnalysis
             };
         }
 
-        public static void InitSplitSpectrum(int freqMin, int freq1, int freq2, int freqMax)
+        public static void InitSplitSpectrum(int[,] rangeFreqs)
         {
             bandsPerRange = new int[]
             {
-                GetNumBandsForFreqRange(freqMin,freq1), GetNumBandsForFreqRange(freq1,freq2), GetNumBandsForFreqRange(freq2,freqMax)
+                GetNumBandsForFreqRange(rangeFreqs[0,0],rangeFreqs[0,1]),
+                GetNumBandsForFreqRange(rangeFreqs[1,0],rangeFreqs[1,1]),
+                GetNumBandsForFreqRange(rangeFreqs[2,0],rangeFreqs[2,1])
             };
 
             bandsBefore = new int[]
             {
-                0,bandsPerRange[0],bandsPerRange[0]+bandsPerRange[1]
+                0,
+                GetNumBandsForFreqRange(0,rangeFreqs[1,0]),
+                GetNumBandsForFreqRange(0,rangeFreqs[2,0])
             };
         }
     }

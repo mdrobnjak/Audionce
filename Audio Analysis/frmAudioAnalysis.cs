@@ -76,7 +76,7 @@ namespace AudioAnalysis
             InitAutoSettings();
 
             InitArduinoSettings();
-
+            
             #region Init BeatDetectors
             //Init BeatDetectors with an evaluateLength of 50.
             for (int i = 0; i < beatDetectors.Count(); i++)
@@ -159,12 +159,6 @@ namespace AudioAnalysis
             pnlBars.Controls.SetChildIndex(barRange1, 0);
             pnlBars.Controls.SetChildIndex(barRange2, 1);
             pnlBars.Controls.SetChildIndex(barRange3, 2);
-            pnlAccumAudio.Controls.SetChildIndex(txtAccumAudio1, 0);
-            pnlAccumAudio.Controls.SetChildIndex(txtAccumAudio2, 1);
-            pnlAccumAudio.Controls.SetChildIndex(txtAccumAudio3, 2);
-            pnlNewAudio.Controls.SetChildIndex(txtNewAudio1, 0);
-            pnlNewAudio.Controls.SetChildIndex(txtNewAudio2, 1);
-            pnlNewAudio.Controls.SetChildIndex(txtNewAudio3, 2);
             pnlRangeButtons.Controls.SetChildIndex(btnRange1, 0);
             pnlRangeButtons.Controls.SetChildIndex(btnRange2, 1);
             pnlRangeButtons.Controls.SetChildIndex(btnRange3, 2);
@@ -224,6 +218,18 @@ namespace AudioAnalysis
             }
         }
 
+        private void GetRangeAudio(int rangeIndex)
+        {
+            if (transformedData.Count() > rangeHighs[rangeIndex])
+            {
+                newAudios[rangeIndex] = 0;
+                for (int i = rangeLows[rangeIndex]; i < rangeHighs[rangeIndex]; i++)
+                {
+                    newAudios[rangeIndex] += transformedData[i];
+                }
+            }
+        }
+
         private void DrawProgressBar(int rangeIndex)
         {
             if (newAudios[rangeIndex] > thresholds[rangeIndex])
@@ -232,7 +238,7 @@ namespace AudioAnalysis
                 if (!drawBars) return;
                 ((ProgressBar)pnlBars.Controls[rangeIndex]).Value = ((ProgressBar)pnlBars.Controls[rangeIndex]).Maximum;
             }
-            else if(drawBars)
+            else if (drawBars)
             {
                 if (((ProgressBar)pnlBars.Controls[rangeIndex]).Value >= 6)
                 {
@@ -241,29 +247,18 @@ namespace AudioAnalysis
             }
         }
 
-        private void PrintAudiosFromBeatDetect(int rangeIndex)
-        {
-            if (newAudios[rangeIndex] > thresholds[rangeIndex])
-            {
-                pnlAccumAudio.Controls[rangeIndex].Text = accumAudios[rangeIndex].ToString();
-                pnlNewAudio.Controls[rangeIndex].Text = newAudios[rangeIndex].ToString();
-            }
-        }
-
         bool drawChart = true;
+        float[] Ys;
 
         private void DrawChart1(int rangeIndex)
         {
             if (!drawChart) return;
-            if (newAudios[selectedRange] > thresholds[selectedRange] || true)
-            {
-                chart1.Series[0].Points.AddY(newAudios[selectedRange]);
-                chart1.ChartAreas[0].AxisY.Maximum = GetMaxYFromLast(200);
+            chart1.Series[0].Points.AddY(newAudios[selectedRange]);
+            chart1.ChartAreas[0].AxisY.Maximum = GetMaxYFromLast(200);
+            thresholds[rangeIndex] = chart1.ChartAreas[0].AxisY.Maximum * AutoSet.threshMultipliers[rangeIndex];
+            //cvt.MaxScaledY = 800 / chart1.ChartAreas[0].AxisY.Maximum; //AutoScaling Spectrum Y
 
-                //cvt.MaxScaledY = 800 / chart1.ChartAreas[0].AxisY.Maximum; //AutoScaling Spectrum Y
-
-                chart1.ChartAreas[0].AxisX.Minimum = chart1.ChartAreas[0].AxisX.Maximum - 250;
-            }
+            chart1.ChartAreas[0].AxisX.Minimum = chart1.ChartAreas[0].AxisX.Maximum - 250;
         }
 
         private double GetMaxYFromLast(int numPoints)
@@ -317,19 +312,24 @@ namespace AudioAnalysis
             }
             else if (AutoSet.readyToProcess)
             {
+                AutoSet.readyToProcess = false;
+
                 //Range1
-                rangeLows[0] = AutoSet.CenterFreqSelector(Spectrum.GetBandForFreq(fmin), Spectrum.GetBandForFreq(f1)) - AutoSet.bandwidth / 2;
+                rangeLows[0] = AutoSet.BassFreqSelector(Spectrum.GetBandForFreq(rangeFreqs[0, 0]), Spectrum.GetBandForFreq(rangeFreqs[0, 1])) - AutoSet.bandwidth / 2;
                 rangeLows[0] = Math.Max(rangeLows[0], 0);
                 rangeHighs[0] = rangeLows[0] + 1 + AutoSet.bandwidth / 2;
-                thresholds[0] = AutoSet.Threshold();
+                thresholds[0] = AutoSet.Threshold(0);
+
                 //Range2
-                rangeLows[1] = AutoSet.CenterFreqSelector(Spectrum.GetBandForFreq(f1), Spectrum.GetBandForFreq(f2)) - AutoSet.bandwidth / 2;
+                rangeLows[1] = AutoSet.SnareFreqSelector(Spectrum.GetBandForFreq(rangeFreqs[1, 0]), Spectrum.GetBandForFreq(rangeFreqs[1, 1])) - AutoSet.bandwidth / 2;
                 rangeHighs[1] = rangeLows[1] + 1 + AutoSet.bandwidth / 2;
-                thresholds[1] = AutoSet.Threshold();
+                thresholds[1] = AutoSet.Threshold(1);
+
                 //Range3
-                rangeLows[2] = AutoSet.CenterFreqSelector(Spectrum.GetBandForFreq(f2), Spectrum.GetBandForFreq(fmax)) - AutoSet.bandwidth / 2;
+                rangeLows[2] = AutoSet.HatFreqSelector(Spectrum.GetBandForFreq(rangeFreqs[2, 0]), Spectrum.GetBandForFreq(rangeFreqs[2, 1])) - AutoSet.bandwidth / 2;
                 rangeHighs[2] = rangeLows[2] + 1 + AutoSet.bandwidth / 2;
-                thresholds[2] = AutoSet.Threshold();
+                thresholds[2] = AutoSet.Threshold(2);
+
                 //SelectedRange
                 trkbrThreshold.Maximum = (int)(thresholds[selectedRange] * 1.33);
                 UpdateControls();
@@ -340,7 +340,8 @@ namespace AudioAnalysis
             //execute per Range
             for (int rangeIndex = 0; rangeIndex < numRanges; rangeIndex++)
             {
-                BeatDetect(rangeIndex);
+                //BeatDetect(rangeIndex);
+                GetRangeAudio(rangeIndex);
                 if (subtract)
                 {
                     if (rangeIndex == subtractFromIndex)
@@ -348,10 +349,8 @@ namespace AudioAnalysis
                         newAudios[rangeIndex] -= newAudios[subtractorIndex];
                     }
                 }
-                //PrintAudiosFromBeatDetect(rangeIndex);
                 DrawProgressBar(rangeIndex);
             }
-
         }
         #endregion
 
@@ -375,7 +374,6 @@ namespace AudioAnalysis
         {
             selectedRange = 1;
             UpdateControls();
-
         }
 
         private void btnRange3_Click(object sender, EventArgs e)
@@ -420,7 +418,7 @@ namespace AudioAnalysis
         private void btnCalibrate_Click(object sender, EventArgs e)
         {
             trkbrThreshold.Maximum = (int)chart1.ChartAreas[0].AxisY.Maximum;
-            trkbrThreshold.Value = AutoSet.Threshold(trkbrThreshold.Maximum);
+            trkbrThreshold.Value = AutoSet.Threshold(selectedRange);
             //trkbrThreshold_ValueChanged(null, null);
         }
 
