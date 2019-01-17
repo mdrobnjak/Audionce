@@ -27,3 +27,4 @@ D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csproj
 D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csproj.CoreCompileInputs.cache
 D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.dll
 D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.pdb
+D:\src\GitHub\Audionce\ScottPlot-2017-07-30\ScottPlot\obj\Debug\ScottPlot.csprojAssemblyReference.cache

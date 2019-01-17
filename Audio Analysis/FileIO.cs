@@ -39,11 +39,11 @@ namespace AudioAnalysis
 
             config[2] = config[3] = config[4] = "";
 
-            for (int i = 0; i < numRanges; i++)
+            for (int i = 0; i < Range.Count; i++)
             {
-                config[2] += rangeLows[i] + ",";
-                config[3] += rangeHighs[i] + ",";
-                config[4] += (int)thresholds[i] + ",";
+                config[2] += Ranges[i].BandLo + ",";
+                config[3] += Ranges[i].BandHi + ",";
+                config[4] += (int)Ranges[i].Threshold + ",";
             }
             for (int i = 2; i < 5; i++)
             {
@@ -67,11 +67,11 @@ namespace AudioAnalysis
 
             //Int32.Parse(config[0]);
             timer1.Interval = Int32.Parse(config[1]);
-            for (int i = 0; i < numRanges; i++)
+            for (int i = 0; i < Range.Count; i++)
             {
-                rangeLows[i] = Int32.Parse(config[2].Split(',')[i]);
-                rangeHighs[i] = Int32.Parse(config[3].Split(',')[i]);
-                thresholds[i] = Int32.Parse(config[4].Split(',')[i]);
+                Ranges[i].BandLo = Int32.Parse(config[2].Split(',')[i]);
+                Ranges[i].BandHi = Int32.Parse(config[3].Split(',')[i]);
+                Ranges[i].Threshold = Int32.Parse(config[4].Split(',')[i]);
             }
 
             btnRange1_Click(null, null);

@@ -14,21 +14,21 @@ namespace AudioAnalysis
         {
             btnDynamicThresholds_Click(null,null);
 
-            AutoSet.secondsToCollect = 5;
-            AutoSet.bandwidth = 1;
-            AutoSet.threshMultipliers = new double[3] { 0.7, 0.6, 0.6 };
+            AutoSettings.SecondsToCollect = 5;
 
-            txtSeconds.Text = AutoSet.secondsToCollect.ToString();
-            txtBandwidth.Text = AutoSet.bandwidth.ToString();
+            txtSeconds.Text = AutoSettings.SecondsToCollect.ToString();
+            txtBandwidth1.Text = Ranges[0].AutoSettings.Bandwidth.ToString();
+            txtBandwidth2.Text = Ranges[1].AutoSettings.Bandwidth.ToString();
+            txtBandwidth3.Text = Ranges[2].AutoSettings.Bandwidth.ToString();
 
-            txtThreshMultiplier1.Text = AutoSet.threshMultipliers[0].ToString();
-            txtThreshMultiplier2.Text = AutoSet.threshMultipliers[1].ToString();
-            txtThreshMultiplier3.Text = AutoSet.threshMultipliers[2].ToString();
+            txtThreshMultiplier1.Text = Ranges[0].AutoSettings.ThresholdMultiplier.ToString();
+            txtThreshMultiplier2.Text = Ranges[1].AutoSettings.ThresholdMultiplier.ToString();
+            txtThreshMultiplier3.Text = Ranges[2].AutoSettings.ThresholdMultiplier.ToString();
         }
 
         private void btnAutoRange_Click(object sender, EventArgs e)
         {
-            AutoSet.BeginRanging();
+            AutoSettings.BeginRanging();
         }
 
         private void btnCommitAutoSettings_Click(object sender, EventArgs e)
@@ -36,28 +36,44 @@ namespace AudioAnalysis
             int intVar;
             double dblVar;
 
-            if (!Int32.TryParse(txtBandwidth.Text, out intVar)) return;
-            AutoSet.bandwidth = intVar;
+            if (!Int32.TryParse(txtBandwidth1.Text, out intVar)) return;
+            Ranges[0].AutoSettings.Bandwidth = intVar;
+            if (!Int32.TryParse(txtBandwidth2.Text, out intVar)) return;
+            Ranges[1].AutoSettings.Bandwidth = intVar;
+            if (!Int32.TryParse(txtBandwidth3.Text, out intVar)) return;
+            Ranges[2].AutoSettings.Bandwidth = intVar;
+
             if (!Double.TryParse(txtSeconds.Text, out dblVar)) return;
-            AutoSet.secondsToCollect = dblVar;
+            AutoSettings.SecondsToCollect = dblVar;
+
             if (!Double.TryParse(txtThreshMultiplier1.Text, out dblVar)) return;
-            AutoSet.threshMultipliers[0] = dblVar;
+            Ranges[0].AutoSettings.ThresholdMultiplier = dblVar;
             if (!Double.TryParse(txtThreshMultiplier2.Text, out dblVar)) return;
-            AutoSet.threshMultipliers[1] = dblVar;
+            Ranges[1].AutoSettings.ThresholdMultiplier = dblVar;
             if (!Double.TryParse(txtThreshMultiplier3.Text, out dblVar)) return;
-            AutoSet.threshMultipliers[2] = dblVar;
+            Ranges[2].AutoSettings.ThresholdMultiplier = dblVar;
         }
 
         private void btnDynamicThresholds_Click(object sender, EventArgs e)
         {
-            AutoSet.dynamicThresholds = !AutoSet.dynamicThresholds;
-            if(AutoSet.dynamicThresholds) btnDynamicThresholds.BackColor = Color.LightGreen;
+            Ranges[0].AutoSettings.DynamicThreshold = !Ranges[0].AutoSettings.DynamicThreshold;
+            Ranges[1].AutoSettings.DynamicThreshold = !Ranges[1].AutoSettings.DynamicThreshold;
+            Ranges[2].AutoSettings.DynamicThreshold = !Ranges[2].AutoSettings.DynamicThreshold;
+            
+            if (Ranges[0].AutoSettings.DynamicThreshold) btnDynamicThresholds.BackColor = Color.LightGreen;
             else btnDynamicThresholds.BackColor = Color.Transparent;
         }
     }
 
-    public static class AutoSet
+    public class AutoSettings
     {
+        public Range Range;
+
+        public AutoSettings()
+        {
+
+        }
+
         public static void Reset()
         {
             if (fftDataHistory != null)
@@ -65,23 +81,22 @@ namespace AudioAnalysis
                 fftDataHistory.Clear();
                 fftDataHistory = null;
             }
-            highestPeakNewCenter = 0;
         }
 
         #region Threshold
-        public static bool dynamicThresholds = false;
-        public static double highestPeakNewCenter = 0;
-        public static double[] threshMultipliers;
+        public bool DynamicThreshold = true;
+        public double highestPeakNewCenter = 0;
+        public double ThresholdMultiplier;
 
-        public static int Threshold(int rangeIndex)
+        public void Threshold()
         {
-            return (int)(highestPeakNewCenter * threshMultipliers[rangeIndex]);
+            Range.Threshold = (int)(highestPeakNewCenter * ThresholdMultiplier);
         }
 
-        public static void HighestPeakNewBandwidth(out double highestPeakBandwidth)
+        public void HighestPeakNewBandwidth(out double highestPeakBandwidth)
         {
             highestPeakBandwidth = highestPeakNewCenter;
-            for (int i = Math.Max((centerBandIndex - bandwidth / 2), 0); i < centerBandIndex + bandwidth / 2; i++)
+            for (int i = Math.Max((centerBandIndex - Bandwidth / 2), 0); i < centerBandIndex + Bandwidth / 2; i++)
             {
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)
                 {
@@ -94,61 +109,67 @@ namespace AudioAnalysis
 
         #region Range
         private static List<List<double>> fftDataHistory = null;
-        public static bool ranging = false, readyToProcess = false;
-        public static int centerBandIndex;
-        public static double secondsToCollect;
-        public static int bandwidth;
+        public static bool Ranging = false, ReadyToProcess = false;
+        public int centerBandIndex;
+        public static double SecondsToCollect;
+        public int Bandwidth;
         public static DateTime started;
 
         public static void BeginRanging()
         {
-            ranging = true;
+            Ranging = true;
             started = DateTime.Now;
         }
 
-        public static void CollectFFTData(int minBandIndex, int maxBandIndex, double[] fftData)
+        public static void CollectFFTData(double[] fftData)
         {
             if (fftDataHistory == null)
             {
                 fftDataHistory = new List<List<double>>();
-                for (int i = minBandIndex; i <= maxBandIndex; i++)
+                for (int i = 0; i < fftData.Length; i++)
                 {
                     fftDataHistory.Add(new List<double>());
                 }
             }
 
-            for (int i = 0; i < maxBandIndex - minBandIndex; i++)
+            for (int i = 0; i < fftData.Length; i++)
             {
                 fftDataHistory[i].Add(fftData[i]);
             }
 
-            if ((DateTime.Now - started).TotalSeconds >= secondsToCollect)
+            if ((DateTime.Now - started).TotalSeconds >= SecondsToCollect)
             {
-                ranging = false;
-                readyToProcess = true;
+                Ranging = false;
+                ReadyToProcess = true;
             }
         }
 
-        public static int BassFreqSelector(int minBandIndex, int maxBandIndex)
+        public void BassFreqSelector()
         {
-            return HighestSingleChange(minBandIndex, maxBandIndex);
+            Range.BandLo = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
+            Range.BandHi = Range.BandLo + Bandwidth;
+            Threshold();
         }
 
-        public static int SnareFreqSelector(int minBandIndex, int maxBandIndex)
+        public void SnareFreqSelector()
         {
-            return HighestPeak(minBandIndex, maxBandIndex);
+            Range.BandLo = Math.Max(HighestPeak() - Bandwidth / 2, 0);
+            Range.BandHi = Range.BandLo + Bandwidth;
+            Threshold();
         }
 
-        public static int HatFreqSelector(int minBandIndex, int maxBandIndex)
+        public void HatFreqSelector()
         {
-            return HighestSingleChange(minBandIndex, maxBandIndex);
+            Range.BandLo = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
+            Range.BandHi = Range.BandLo + 1 + Bandwidth;
+            Threshold();
         }
 
-        public static int HighestPeak(int minBandIndex, int maxBandIndex)
+        public int HighestPeak()
         {
             highestPeakNewCenter = 0;
             centerBandIndex = 0;
-            for (int i = minBandIndex; i < maxBandIndex; i++)
+            for (int i = Range.BandLo; i < Range.BandHi; i++)
             {
                 double max = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
@@ -167,12 +188,12 @@ namespace AudioAnalysis
             return centerBandIndex;
         }
 
-        public static int HighestSingleChange(int minBandIndex, int maxBandIndex)
+        public int HighestSingleChange()
         {
             highestPeakNewCenter = 0;
             double singleChange = 0;
             centerBandIndex = 0;
-            for (int i = minBandIndex; i < maxBandIndex; i++)
+            for (int i = Range.BandLo; i < Range.BandHi; i++)
             {
                 double max = 0, changePerBand = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
@@ -197,12 +218,12 @@ namespace AudioAnalysis
             return centerBandIndex;
         }        
 
-        public static int HighestTotalChange(int minBandIndex, int maxBandIndex)
+        public int HighestTotalChange()
         {
             highestPeakNewCenter = 0;
             double totalChange = 0;
             centerBandIndex = 0;
-            for (int i = minBandIndex; i < maxBandIndex; i++)
+            for (int i = Range.BandLo; i < Range.BandHi; i++)
             {
                 double max = 0, change = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
@@ -224,12 +245,12 @@ namespace AudioAnalysis
             return centerBandIndex;
         }
 
-        public static int HighestDynamicRange(int minBandIndex, int maxBandIndex)
+        public int HighestDynamicRange()
         {
             highestPeakNewCenter = 0;
             double peakToPeak = 0;
             centerBandIndex = 0;
-            for (int i = minBandIndex; i < maxBandIndex; i++)
+            for (int i = Range.BandLo; i < Range.BandHi; i++)
             {
                 double max = 0, min = Int32.MaxValue;
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)
@@ -253,12 +274,12 @@ namespace AudioAnalysis
             return centerBandIndex;
         }
 
-        public static int BestPeakToAverage(int minBandIndex, int maxBandIndex)
+        public int BestPeakToAverage()
         {
             highestPeakNewCenter = 0;
             double peakToAverageRatio = 0;
             centerBandIndex = 0;
-            for (int i = minBandIndex; i < maxBandIndex; i++)
+            for (int i = Range.BandLo; i < Range.BandHi; i++)
             {
                 double peak = 0, sum = 0, average = 0;
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)
