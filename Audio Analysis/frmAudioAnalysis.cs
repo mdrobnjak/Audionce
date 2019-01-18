@@ -205,14 +205,6 @@ namespace AudioAnalysis
 
         #region Secondary Processing
 
-        //private void BeatDetect(int r)
-        //{
-        //    if (transformedData.Count() > Ranges[r].BandHi)
-        //    {
-        //        Ranges[r].beatDetector.Scan(transformedData, Ranges[r].BandLo, Ranges[r].BandHi, ref accumAudios[r], ref newAudios[r]);
-        //    }
-        //}
-
         private void Gate(int r)
         {
             if (transformedData.Count() > Ranges[r].HighCutIndex)
@@ -244,7 +236,6 @@ namespace AudioAnalysis
         }
 
         bool drawChart = true;
-        float[] Ys;
 
         private void DrawChart()
         {

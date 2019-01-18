@@ -32,15 +32,11 @@ D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\Accord.dll
 D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\Accord.Math.Core.dll
 D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\Accord.Math.dll
 D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\NAudio.dll
-D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\ScottPlot.dll
-D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\ScottPlot.pdb
-D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\ScottPlot.xml
 D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\Accord.xml
 D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\Accord.Audio.xml
 D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\Accord.Math.xml
 D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\Accord.Math.Core.xml
 D:\src\GitHub\Audionce\Audio Analysis\bin\Debug\NAudio.xml
-D:\src\GitHub\Audionce\Audio Analysis\obj\Debug\Audio Analysis.csprojAssemblyReference.cache
 D:\src\GitHub\Audionce\Audio Analysis\obj\Debug\AudioAnalysis.frmAudioAnalysis.resources
 D:\src\GitHub\Audionce\Audio Analysis\obj\Debug\AudioAnalysis.Properties.Resources.resources
 D:\src\GitHub\Audionce\Audio Analysis\obj\Debug\Audio Analysis.csproj.GenerateResource.cache
