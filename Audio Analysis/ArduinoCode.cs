@@ -18,7 +18,8 @@ namespace AudioAnalysis
                 cboPortNames.Items.Add(portName);
                 cboPortNames.Text = portName;
             }
-            ArduinoCode.port = new SerialPort(cboPortNames.Text, 57600, Parity.None, 8, StopBits.One);
+
+            ArduinoCode.port = new SerialPort(cboPortNames.Text != "" ? cboPortNames.Text : "No Serial Devices Available", 57600, Parity.None, 8, StopBits.One);
 
             btnArduinoMRange2_Click(null,null);
         }
