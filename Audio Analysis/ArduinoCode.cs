@@ -46,6 +46,26 @@ namespace AudioAnalysis
             btnArduinoMRange2.BackColor = Color.Transparent;
             btnArduinoMRange3.BackColor = Color.LightGreen;
         }
+
+        private void btnDisableAllGraphics_Click(object sender, EventArgs e)
+        {
+            if(drawBars)
+            {
+                drawBars = false;
+                Spectrum.drawSpectrum = false;
+                drawChart = false;
+                btnDisableAllGraphics.BackColor = Color.LightGreen;
+            }
+            else
+            {
+                drawBars = true;
+                Spectrum.drawSpectrum = true;
+                drawChart = true;
+                btnDisableAllGraphics.BackColor = Color.Transparent;
+            }
+            gSpectrum.Clear(Color.White);
+            chart1.Series[0].Points.Clear();
+        }
     }
 
     public static class ArduinoCode

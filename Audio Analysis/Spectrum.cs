@@ -56,7 +56,7 @@ namespace AudioAnalysis
             if (data == null || data.Length == 0 || AudioIn.sourceData == null)
                 return;
 
-            float ratioFreq = (float)pnlSpectrum.Width / Range.Active.NumBands;
+            float ratioFreq = (float)pnlSpectrum.Width / Spectrum.DisplayBands;
             float ratioFreqTest = (float)pnlSpectrum.Width / 200;
             float ratioWave = pnlSpectrum.Width / AudioIn.sourceData.Length;
             float value = 0;
@@ -67,7 +67,7 @@ namespace AudioAnalysis
 
             #region Fill Rectangles
             int bandIndexRelative = 0;
-            int bandIndexAbsolute = Range.Active.NumBandsBefore;
+            int bandIndexAbsolute = Spectrum.Full ? 0 : Range.Active.NumBandsBefore;
 
             for (; bandIndexRelative < trkbrMin.Value; bandIndexRelative++, bandIndexAbsolute++)
             {
@@ -81,7 +81,7 @@ namespace AudioAnalysis
                 value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
                 g.FillRectangle(Constants.Brushes.redBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
             }
-            for (; bandIndexRelative < Range.Active.NumBands && bandIndexRelative < Spectrum.numBands; bandIndexRelative++, bandIndexAbsolute++)
+            for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
             {
                 cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
                 value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
@@ -94,14 +94,7 @@ namespace AudioAnalysis
       
         private void btnSpectrumMode_Click(object sender, EventArgs e)
         {
-            if (Ranges[2].NumBandsBefore > 0)
-            {
-                Spectrum.InitFullSpectrum();
-            }
-            else
-            {
-                Spectrum.InitSplitSpectrum();
-            }
+            Spectrum.Full = !Spectrum.Full;
             UpdateControls();
         }
 
@@ -121,28 +114,34 @@ namespace AudioAnalysis
 
     public class Spectrum : System.Windows.Forms.Panel
     {
-        static Range[] Ranges;
-
         public static bool drawSpectrum = true;
 
         public Spectrum()
         {
-            Range.Init(ref Ranges);
+
         }
 
-        public static int numBands;
-        //public static int[] bandsPerRange, bandsBefore;
-        public static Dictionary<int, int> freqOfBand;
+        public static int TotalBands;
+        public static int DisplayBands
+        {
+            get
+            {
+                return Full ? TotalBands : Range.Active.NumBands;
+            }
+        }
+        public static bool Full = true;
+
+        public static Dictionary<int, int> FreqOfBand;
 
         public static void SyncBandsAndFreqs()
         {
-            freqOfBand = new Dictionary<int, int>();
+            FreqOfBand = new Dictionary<int, int>();
             if (FFT.rawFFT)
             {
-                numBands = FFT.N_FFTBuffer;
-                for (int i = 0; i < numBands; i++)
+                TotalBands = FFT.N_FFTBuffer;
+                for (int i = 0; i < TotalBands; i++)
                 {
-                    freqOfBand[i] = i * AudioIn.RATE / FFT.N_FFT;
+                    FreqOfBand[i] = i * AudioIn.RATE / FFT.N_FFT;
                 }
             }
             else
@@ -160,18 +159,18 @@ namespace AudioAnalysis
                             break;
                         }
                     }
-                    freqOfBand[n++] = mappedFreq;
+                    FreqOfBand[n++] = mappedFreq;
                 }
-                numBands = n;
+                TotalBands = n;
             }
         }
 
         public static int GetBandForFreq(int freqInHz)
         {
             int i;
-            for (i = 0; i < numBands; i++)
+            for (i = 0; i < TotalBands; i++)
             {
-                if (freqInHz <= freqOfBand[i])
+                if (freqInHz <= FreqOfBand[i])
                 {
                     break;
                 }
@@ -181,19 +180,19 @@ namespace AudioAnalysis
 
         public static int GetNumBandsForFreqRange(int freqMin, int freqMax)
         {
-            int i, minBand = 0, maxBand = numBands;
-            for (i = 0; i < numBands; i++)
+            int i, minBand = 0, maxBand = TotalBands;
+            for (i = 0; i < TotalBands; i++)
             {
-                if (freqMin <= freqOfBand[i])
+                if (freqMin <= FreqOfBand[i])
                 {
                     minBand = i;
                     break;
                 }
             }
 
-            for (i = minBand; i < numBands; i++)
+            for (i = minBand; i < TotalBands; i++)
             {
-                if (freqMax <= freqOfBand[i])
+                if (freqMax <= FreqOfBand[i])
                 {
                     maxBand = i;
                     break;
@@ -201,25 +200,6 @@ namespace AudioAnalysis
             }
 
             return maxBand - minBand;
-        }
-
-
-        public static void InitFullSpectrum()
-        {
-            for (int i = 0; i < Range.Count; i++)
-            {
-                Ranges[i].NumBands = GetBandForFreq(22050);
-                Ranges[i].NumBandsBefore = 0;
-            }
-        }
-
-        public static void InitSplitSpectrum()
-        {
-            for (int i = 0; i < Range.Count; i++)
-            {
-                Ranges[i].NumBands = GetNumBandsForFreqRange(Ranges[i].FreqLo, Ranges[i].FreqHi);
-                Ranges[i].NumBandsBefore = GetNumBandsForFreqRange(0, Ranges[i].FreqLo);
-            }
         }
     }
 }

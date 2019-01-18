@@ -41,8 +41,8 @@ namespace AudioAnalysis
 
             for (int i = 0; i < Range.Count; i++)
             {
-                config[2] += Ranges[i].BandLo + ",";
-                config[3] += Ranges[i].BandHi + ",";
+                config[2] += Ranges[i].LowCutIndex + ",";
+                config[3] += Ranges[i].HighCutIndex + ",";
                 config[4] += (int)Ranges[i].Threshold + ",";
             }
             for (int i = 2; i < 5; i++)
@@ -69,8 +69,8 @@ namespace AudioAnalysis
             timer1.Interval = Int32.Parse(config[1]);
             for (int i = 0; i < Range.Count; i++)
             {
-                Ranges[i].BandLo = Int32.Parse(config[2].Split(',')[i]);
-                Ranges[i].BandHi = Int32.Parse(config[3].Split(',')[i]);
+                Ranges[i].LowCutIndex = Int32.Parse(config[2].Split(',')[i]);
+                Ranges[i].HighCutIndex = Int32.Parse(config[3].Split(',')[i]);
                 Ranges[i].Threshold = Int32.Parse(config[4].Split(',')[i]);
             }
 

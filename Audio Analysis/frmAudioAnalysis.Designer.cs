@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trkbrThreshold = new System.Windows.Forms.TrackBar();
@@ -68,11 +68,14 @@
             this.cboSubtractFrom = new System.Windows.Forms.ComboBox();
             this.btnSubtract = new System.Windows.Forms.Button();
             this.tabAutoSettings = new System.Windows.Forms.TabPage();
+            this.txtBandwidth3 = new System.Windows.Forms.TextBox();
+            this.txtBandwidth2 = new System.Windows.Forms.TextBox();
             this.btnDynamicThresholds = new System.Windows.Forms.Button();
             this.txtThreshMultiplier3 = new System.Windows.Forms.TextBox();
             this.txtThreshMultiplier2 = new System.Windows.Forms.TextBox();
             this.txtThreshMultiplier1 = new System.Windows.Forms.TextBox();
             this.lblThreshMultipliers = new System.Windows.Forms.Label();
+            this.txtBandwidth1 = new System.Windows.Forms.TextBox();
             this.lblBandwidths = new System.Windows.Forms.Label();
             this.txtSeconds = new System.Windows.Forms.TextBox();
             this.lblSeconds = new System.Windows.Forms.Label();
@@ -93,9 +96,7 @@
             this.barRange1 = new System.Windows.Forms.ProgressBar();
             this.barRange2 = new System.Windows.Forms.ProgressBar();
             this.btnToggleChart = new System.Windows.Forms.Button();
-            this.txtBandwidth3 = new System.Windows.Forms.TextBox();
-            this.txtBandwidth2 = new System.Windows.Forms.TextBox();
-            this.txtBandwidth1 = new System.Windows.Forms.TextBox();
+            this.btnDisableAllGraphics = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.pnlRangeButtons.SuspendLayout();
@@ -119,20 +120,20 @@
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.AxisX.LabelStyle.Enabled = false;
-            chartArea2.AxisX.MajorGrid.Enabled = false;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea1.AxisX.LabelStyle.Enabled = false;
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(57, 440);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.Color = System.Drawing.Color.Black;
-            series2.IsVisibleInLegend = false;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Color = System.Drawing.Color.Black;
+            series1.IsVisibleInLegend = false;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(999, 195);
             this.chart1.TabIndex = 16;
             this.chart1.Text = "chart1";
@@ -535,6 +536,28 @@
             this.tabAutoSettings.Text = "Auto";
             this.tabAutoSettings.UseVisualStyleBackColor = true;
             // 
+            // txtBandwidth3
+            // 
+            this.txtBandwidth3.BackColor = System.Drawing.Color.Black;
+            this.txtBandwidth3.ForeColor = System.Drawing.Color.White;
+            this.txtBandwidth3.Location = new System.Drawing.Point(117, 86);
+            this.txtBandwidth3.Name = "txtBandwidth3";
+            this.txtBandwidth3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtBandwidth3.Size = new System.Drawing.Size(49, 20);
+            this.txtBandwidth3.TabIndex = 53;
+            this.txtBandwidth3.Text = "0";
+            // 
+            // txtBandwidth2
+            // 
+            this.txtBandwidth2.BackColor = System.Drawing.Color.Black;
+            this.txtBandwidth2.ForeColor = System.Drawing.Color.White;
+            this.txtBandwidth2.Location = new System.Drawing.Point(62, 86);
+            this.txtBandwidth2.Name = "txtBandwidth2";
+            this.txtBandwidth2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtBandwidth2.Size = new System.Drawing.Size(49, 20);
+            this.txtBandwidth2.TabIndex = 52;
+            this.txtBandwidth2.Text = "0";
+            // 
             // btnDynamicThresholds
             // 
             this.btnDynamicThresholds.Location = new System.Drawing.Point(3, 165);
@@ -587,6 +610,17 @@
             this.lblThreshMultipliers.TabIndex = 47;
             this.lblThreshMultipliers.Text = "Threshold Multipliers";
             // 
+            // txtBandwidth1
+            // 
+            this.txtBandwidth1.BackColor = System.Drawing.Color.Black;
+            this.txtBandwidth1.ForeColor = System.Drawing.Color.White;
+            this.txtBandwidth1.Location = new System.Drawing.Point(6, 86);
+            this.txtBandwidth1.Name = "txtBandwidth1";
+            this.txtBandwidth1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtBandwidth1.Size = new System.Drawing.Size(50, 20);
+            this.txtBandwidth1.TabIndex = 44;
+            this.txtBandwidth1.Text = "0";
+            // 
             // lblBandwidths
             // 
             this.lblBandwidths.AutoSize = true;
@@ -628,6 +662,7 @@
             // 
             // tabArduino
             // 
+            this.tabArduino.Controls.Add(this.btnDisableAllGraphics);
             this.tabArduino.Controls.Add(this.lblArduinoMRange);
             this.tabArduino.Controls.Add(this.btnArduinoMRange3);
             this.tabArduino.Controls.Add(this.btnArduinoMRange2);
@@ -801,38 +836,15 @@
             this.btnToggleChart.UseVisualStyleBackColor = true;
             this.btnToggleChart.Click += new System.EventHandler(this.btnToggleChart_Click);
             // 
-            // txtBandwidth3
+            // btnDisableAllGraphics
             // 
-            this.txtBandwidth3.BackColor = System.Drawing.Color.Black;
-            this.txtBandwidth3.ForeColor = System.Drawing.Color.White;
-            this.txtBandwidth3.Location = new System.Drawing.Point(117, 86);
-            this.txtBandwidth3.Name = "txtBandwidth3";
-            this.txtBandwidth3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBandwidth3.Size = new System.Drawing.Size(49, 20);
-            this.txtBandwidth3.TabIndex = 53;
-            this.txtBandwidth3.Text = "0";
-            // 
-            // txtBandwidth2
-            // 
-            this.txtBandwidth2.BackColor = System.Drawing.Color.Black;
-            this.txtBandwidth2.ForeColor = System.Drawing.Color.White;
-            this.txtBandwidth2.Location = new System.Drawing.Point(62, 86);
-            this.txtBandwidth2.Name = "txtBandwidth2";
-            this.txtBandwidth2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBandwidth2.Size = new System.Drawing.Size(49, 20);
-            this.txtBandwidth2.TabIndex = 52;
-            this.txtBandwidth2.Text = "0";
-            // 
-            // txtBandwidth1
-            // 
-            this.txtBandwidth1.BackColor = System.Drawing.Color.Black;
-            this.txtBandwidth1.ForeColor = System.Drawing.Color.White;
-            this.txtBandwidth1.Location = new System.Drawing.Point(6, 86);
-            this.txtBandwidth1.Name = "txtBandwidth1";
-            this.txtBandwidth1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBandwidth1.Size = new System.Drawing.Size(50, 20);
-            this.txtBandwidth1.TabIndex = 44;
-            this.txtBandwidth1.Text = "0";
+            this.btnDisableAllGraphics.Location = new System.Drawing.Point(3, 242);
+            this.btnDisableAllGraphics.Name = "btnDisableAllGraphics";
+            this.btnDisableAllGraphics.Size = new System.Drawing.Size(170, 39);
+            this.btnDisableAllGraphics.TabIndex = 36;
+            this.btnDisableAllGraphics.Text = "Disable All Graphics";
+            this.btnDisableAllGraphics.UseVisualStyleBackColor = true;
+            this.btnDisableAllGraphics.Click += new System.EventHandler(this.btnDisableAllGraphics_Click);
             // 
             // frmAudioAnalysis
             // 
@@ -940,6 +952,7 @@
         private System.Windows.Forms.TextBox txtBandwidth3;
         private System.Windows.Forms.TextBox txtBandwidth2;
         private System.Windows.Forms.TextBox txtBandwidth1;
+        private System.Windows.Forms.Button btnDisableAllGraphics;
     }
 }
 

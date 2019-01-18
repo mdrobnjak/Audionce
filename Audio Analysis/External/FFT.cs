@@ -27,7 +27,7 @@ namespace AudioAnalysis
             if (!Int32.TryParse(cboN_FFT.Text, out intVar)) return;
             FFT.N_FFTBuffer = intVar;
             Spectrum.SyncBandsAndFreqs();
-            Spectrum.InitFullSpectrum();
+            //Spectrum.InitFullSpectrum();
             if (!Int32.TryParse(txtSpectrumScale.Text, out intVar)) return;
             InitConverter(intVar);
             if (!Int32.TryParse(txtTimer1Interval.Text, out intVar)) return;
@@ -122,7 +122,7 @@ namespace AudioAnalysis
             if (rawFFT)
             {
                 var resultDouble = result.Select(x => x.Magnitude).ToArray();
-                Array.Resize(ref resultDouble, Spectrum.numBands);
+                Array.Resize(ref resultDouble, Spectrum.TotalBands);
                 return resultDouble;
             }
 

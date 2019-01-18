@@ -57,10 +57,12 @@ namespace AudioAnalysis
 
             AudioIn.InitSoundCapture();
 
+            InitSpectrum();
+
             Range.Init(ref Ranges);
 
             InitGUI();
-
+            
             InitSettings();
 
             LoadSaveData();
@@ -74,8 +76,6 @@ namespace AudioAnalysis
 
         void InitGUI()
         {
-            InitSpectrum();
-
             InitChart();
 
             InitControls();
@@ -104,8 +104,6 @@ namespace AudioAnalysis
             InitBufferAndGraphicForSpectrum();
 
             Spectrum.SyncBandsAndFreqs();
-
-            Spectrum.InitFullSpectrum();
 
             InitConverter(converterScale);
         }
@@ -215,22 +213,22 @@ namespace AudioAnalysis
         //    }
         //}
 
-        private void GetRangeAudio(int r)
+        private void Gate(int r)
         {
-            if (transformedData.Count() > Ranges[r].BandHi)
+            if (transformedData.Count() > Ranges[r].HighCutIndex)
             {
                 double temp = 0;
-                for (int i = Ranges[r].BandLo; i < Ranges[r].BandHi; i++)
+                for (int i = Ranges[r].LowCutAbsolute; i < Ranges[r].HighCutAbsolute; i++)
                 {
                     temp += transformedData[i];
                 }
-                Ranges[r].NewAudio = temp;
+                Ranges[r].GateAudio = temp;
             }
         }
 
         private void DrawProgressBar(int r)
         {
-            if (Ranges[r].NewAudio > Ranges[r].Threshold)
+            if (Ranges[r].GateAudio > Ranges[r].Threshold)
             {
                 ArduinoCode.Trigger(r);
                 if (!drawBars) return;
@@ -251,7 +249,7 @@ namespace AudioAnalysis
         private void DrawChart()
         {
             if (!drawChart) return;
-            chart1.Series[0].Points.AddY(Range.Active.NewAudio);
+            chart1.Series[0].Points.AddY(Range.Active.GateAudio);
             chart1.ChartAreas[0].AxisY.Maximum = GetMaxYFromLast(200);
 
             stripline.IntervalOffset = Range.Active.Threshold;
@@ -274,14 +272,13 @@ namespace AudioAnalysis
 
         private void UpdateControls()
         {
-
-            trkbrMax.Maximum = trkbrMin.Maximum = Range.Active.NumBands;
+            trkbrMax.Maximum = trkbrMin.Maximum = Spectrum.DisplayBands;
 
             trkbrMin.BackColor = trkbrMax.BackColor = trkbrThreshold.BackColor
                 = chart1.Series[0].Color = this.BackColor = Range.Active.Color;
 
-            trkbrMin.Value = Range.Active.BandLo - Range.Active.NumBandsBefore;//Math.Min(rangeLows[selectedRange], trkbrMin.Maximum);
-            trkbrMax.Value = Range.Active.BandHi - Range.Active.NumBandsBefore;//Math.Min(Range.Active.BandHi, trkbrMax.Maximum);
+            trkbrMin.Value = Range.Active.LowCutIndex;
+            trkbrMax.Value = Range.Active.HighCutIndex;
             if (Range.Active.Threshold > trkbrThreshold.Maximum)
             {
                 trkbrThreshold.Maximum = (int)(Range.Active.Threshold * 1.33);
@@ -334,15 +331,15 @@ namespace AudioAnalysis
             for (int r = 0; r < Range.Count; r++)
             {
                 //BeatDetect(rangeIndex);
-                GetRangeAudio(r);
+                Gate(r);
 
-                if (Ranges[r].AutoSettings.DynamicThreshold) Ranges[r].Threshold = Ranges[r].GetMaxFromLast() * Ranges[r].AutoSettings.ThresholdMultiplier;
+                if (Ranges[r].AutoSettings.DynamicThreshold) Ranges[r].Threshold = Ranges[r].GetMaxAudioFromLast200() * Ranges[r].AutoSettings.ThresholdMultiplier;
 
                 if (subtract)
                 {
                     if (r == subtractFromIndex)
                     {
-                        Ranges[r].NewAudio -= Ranges[subtractorIndex].NewAudio;
+                        Ranges[r].GateAudio -= Ranges[subtractorIndex].GateAudio;
                     }
                 }
                 DrawProgressBar(r);
@@ -389,24 +386,12 @@ namespace AudioAnalysis
 
         private void trkbrMin_ValueChanged(object sender, EventArgs e)
         {
-            int trkbrIndex = trkbrMin.Value + Range.Active.NumBandsBefore;
-            if (trkbrIndex > Range.Active.NumBandsBefore + Range.Active.NumBands || trkbrIndex < Range.Active.NumBandsBefore)
-            {
-                //If out of range, revert.
-                trkbrMin.Value = Range.Active.BandLo;
-            }
-            else Range.Active.BandLo = trkbrIndex;
+            Range.Active.LowCutIndex = trkbrMin.Value;
         }
 
         private void trkbrMax_ValueChanged(object sender, EventArgs e)
         {
-            int trkbrIndex = trkbrMax.Value + Range.Active.NumBandsBefore;
-            if (trkbrIndex > Range.Active.NumBandsBefore + Range.Active.NumBands || trkbrIndex < Range.Active.NumBandsBefore)
-            {
-                //If out of range, revert.
-                trkbrMax.Value = Range.Active.BandHi;
-            }
-            else Range.Active.BandHi = trkbrMax.Value + Range.Active.NumBandsBefore;
+            Range.Active.HighCutIndex = trkbrMax.Value;
         }
 
         private void btnCalibrate_Click(object sender, EventArgs e)
@@ -455,7 +440,7 @@ namespace AudioAnalysis
         }
 
         bool drawBars = true;
-
+        
         private void btnToggleBars_Click(object sender, EventArgs e)
         {
             drawBars = !drawBars;

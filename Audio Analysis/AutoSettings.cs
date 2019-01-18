@@ -146,22 +146,22 @@ namespace AudioAnalysis
 
         public void BassFreqSelector()
         {
-            Range.BandLo = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
-            Range.BandHi = Range.BandLo + Bandwidth;
+            Range.LowCutIndex = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
+            Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
             Threshold();
         }
 
         public void SnareFreqSelector()
         {
-            Range.BandLo = Math.Max(HighestPeak() - Bandwidth / 2, 0);
-            Range.BandHi = Range.BandLo + Bandwidth;
+            Range.LowCutIndex = Math.Max(HighestPeak() - Bandwidth / 2, 0);
+            Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
             Threshold();
         }
 
         public void HatFreqSelector()
         {
-            Range.BandLo = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
-            Range.BandHi = Range.BandLo + 1 + Bandwidth;
+            Range.LowCutIndex = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
+            Range.HighCutIndex = Range.LowCutIndex + 1 + Bandwidth;
             Threshold();
         }
 
@@ -169,7 +169,7 @@ namespace AudioAnalysis
         {
             highestPeakNewCenter = 0;
             centerBandIndex = 0;
-            for (int i = Range.BandLo; i < Range.BandHi; i++)
+            for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double max = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
@@ -193,7 +193,7 @@ namespace AudioAnalysis
             highestPeakNewCenter = 0;
             double singleChange = 0;
             centerBandIndex = 0;
-            for (int i = Range.BandLo; i < Range.BandHi; i++)
+            for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double max = 0, changePerBand = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
@@ -223,7 +223,7 @@ namespace AudioAnalysis
             highestPeakNewCenter = 0;
             double totalChange = 0;
             centerBandIndex = 0;
-            for (int i = Range.BandLo; i < Range.BandHi; i++)
+            for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double max = 0, change = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
@@ -250,7 +250,7 @@ namespace AudioAnalysis
             highestPeakNewCenter = 0;
             double peakToPeak = 0;
             centerBandIndex = 0;
-            for (int i = Range.BandLo; i < Range.BandHi; i++)
+            for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double max = 0, min = Int32.MaxValue;
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)
@@ -279,7 +279,7 @@ namespace AudioAnalysis
             highestPeakNewCenter = 0;
             double peakToAverageRatio = 0;
             centerBandIndex = 0;
-            for (int i = Range.BandLo; i < Range.BandHi; i++)
+            for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double peak = 0, sum = 0, average = 0;
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)

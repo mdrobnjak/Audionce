@@ -33,46 +33,54 @@ namespace AudioAnalysis
 
         public const int Count = 3;
 
+        int Index;
+
         static int ActiveIndex;
 
         static Range[] Ranges = new Range[Count]
         {
-            new Range()
-            {
-                FreqLo = 0, FreqHi = 300,
-
-                AutoSettings = new AutoSettings()
+                new Range()
                 {
-                    Bandwidth = 1,
-                    ThresholdMultiplier = 0.7
+                    Index = 0,
+
+                    LowFreq = 0, HighFreq = 300,
+
+                    AutoSettings = new AutoSettings()
+                    {
+                        Bandwidth = 1,
+                        ThresholdMultiplier = 0.7
+                    },
+
+                    Color = Color.Pink
                 },
-
-                Color = Color.Pink
-            },
-            new Range()
-            {
-                FreqLo = 1000, FreqHi = 20000,
-
-                AutoSettings = new AutoSettings()
+                new Range()
                 {
-                    Bandwidth = 10,
-                    ThresholdMultiplier = 0.6
+                    Index = 1,
+
+                    LowFreq = 1000, HighFreq = 20000,
+
+                    AutoSettings = new AutoSettings()
+                    {
+                        Bandwidth = 10,
+                        ThresholdMultiplier = 0.6
+                    },
+
+                    Color = Color.LightBlue
                 },
-
-                Color = Color.LightBlue
-            },
-            new Range()
-            {
-                FreqLo = 1000, FreqHi = 20000,
-
-                AutoSettings = new AutoSettings()
+                new Range()
                 {
-                    Bandwidth = 5,
-                    ThresholdMultiplier = 0.6
-                },
+                    Index = 2,
 
-                Color = Color.Gold
-            }
+                    LowFreq = 1000, HighFreq = 20000,
+
+                    AutoSettings = new AutoSettings()
+                    {
+                        Bandwidth = 5,
+                        ThresholdMultiplier = 0.6
+                    },
+
+                    Color = Color.Gold
+                }
         };
 
         public static ref Range Active
@@ -80,78 +88,96 @@ namespace AudioAnalysis
             get { return ref Ranges[ActiveIndex]; }
         }
 
-        private double threshold;
-        public double Threshold
+        public double Threshold { get; set; }
+
+        public int LowCutAbsolute { get; private set; }
+        private int lowCutFreq;
+        public int LowCutIndex
         {
             get
             {
-                return threshold;
+                return Spectrum.Full ? Spectrum.GetBandForFreq(lowCutFreq) : Math.Max(0, Spectrum.GetBandForFreq(lowCutFreq) - NumBandsBefore);
             }
             set
             {
-                threshold = value;
+                lowCutFreq = Spectrum.Full ? Spectrum.FreqOfBand[value] : Spectrum.FreqOfBand[value + NumBandsBefore];
+                LowCutAbsolute = Spectrum.Full ? value : value + NumBandsBefore;
             }
         }
 
-        public int BandLo { get; set; }
-        public int BandHi { get; set; }
-
-        private int freqLo;
-        public int FreqLo
+        public int HighCutAbsolute { get; private set; }
+        private int highCutFreq;
+        public int HighCutIndex
         {
             get
             {
-                return freqLo;
+                return Spectrum.Full ? Spectrum.GetBandForFreq(highCutFreq) : Math.Max(0, Spectrum.GetBandForFreq(highCutFreq) - NumBandsBefore);
             }
             set
             {
-                freqLo = value;
-                BandLo = Spectrum.GetBandForFreq(value);
+                highCutFreq = Spectrum.Full ? Spectrum.FreqOfBand[value] : Spectrum.FreqOfBand[value + NumBandsBefore];
+                HighCutAbsolute = Spectrum.Full ? value : value + NumBandsBefore;
             }
         }
 
-        private int freqHi;
-        public int FreqHi
+        public int LowFreq;
+        public int HighFreq;
+
+        public int LowFreqIndex
         {
             get
             {
-                return freqHi;
-            }
-            set
-            {
-                freqHi = value;
-                BandHi = Spectrum.GetBandForFreq(value);
+                return Spectrum.GetBandForFreq(LowFreq);
             }
         }
 
-        //NewAudio needs renaming
-        private List<double> newAudios = new List<double>();
-        private double newAudio;
-        public double NewAudio
+        public int HighFreqIndex
         {
             get
             {
-                return newAudio;
+                return Spectrum.GetBandForFreq(HighFreq);
+            }
+        }
+
+        private List<double> gateAudios = new List<double>();
+        private double gateAudio;
+        public double GateAudio
+        {
+            get
+            {
+                return gateAudio;
             }
             set
             {
-                newAudio = value;
+                gateAudio = value;
 
-                newAudios.Add(value);
-                if (newAudios.Count > 199) newAudios.RemoveAt(0);
+                gateAudios.Add(value);
+                if (gateAudios.Count > 199) gateAudios.RemoveAt(0);
             }
         }
 
-        public double GetMaxFromLast()
+        public double GetMaxAudioFromLast200()
         {
-            return newAudios.Max();
+            return gateAudios.Max();
         }
-
 
         public AutoSettings AutoSettings;
 
-        public int NumBands;
-        public int NumBandsBefore;
+        public int NumBands
+        {
+            get
+            {
+                return Spectrum.GetNumBandsForFreqRange(LowFreq, HighFreq);
+            }
+        }
+
+        public int NumBandsBefore
+        {
+            get
+            {
+                return Spectrum.GetNumBandsForFreqRange(0, LowFreq);
+            }
+        }
 
         public Color Color;
     }
