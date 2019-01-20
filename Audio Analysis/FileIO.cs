@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AudioAnalysis
+namespace AudioAnalyzer
 {
-    public partial class frmAudioAnalysis
+    public partial class frmAudioAnalyzer
     {
         private void cboSongNames_SelectionChangeCommitted(object sender, EventArgs e)
         {

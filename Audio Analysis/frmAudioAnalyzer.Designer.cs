@@ -1,6 +1,6 @@
-﻿namespace AudioAnalysis
+﻿namespace AudioAnalyzer
 {
-    partial class frmAudioAnalysis
+    partial class frmAudioAnalyzer
     {
         /// <summary>
         /// Required designer variable.
@@ -85,7 +85,7 @@
             this.btnArduinoMRange3 = new System.Windows.Forms.Button();
             this.btnArduinoMRange2 = new System.Windows.Forms.Button();
             this.cboPortNames = new System.Windows.Forms.ComboBox();
-            this.pnlSpectrum = new AudioAnalysis.Spectrum();
+            this.pnlSpectrum = new AudioAnalyzer.Spectrum();
             this.btnToggleBars = new System.Windows.Forms.Button();
             this.btnToggleSpectrum = new System.Windows.Forms.Button();
             this.btnCalibrate = new System.Windows.Forms.Button();
@@ -865,7 +865,7 @@
             this.Name = "frmAudioAnalysis";
             this.Text = "Audio Analysis";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AudioAnalysis_FormClosing);
-            this.Load += new System.EventHandler(this.frmAudioAnalysis_Load);
+            this.Load += new System.EventHandler(this.frmAudioAnalyzer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).EndInit();
             this.pnlRangeButtons.ResumeLayout(false);
@@ -922,7 +922,7 @@
         private System.Windows.Forms.TabPage tabArduino;
         private System.Windows.Forms.TextBox txtDropOffScale;
         private System.Windows.Forms.Label lblDropOffScale;
-        private AudioAnalysis.Spectrum pnlSpectrum;
+        private AudioAnalyzer.Spectrum pnlSpectrum;
         private System.Windows.Forms.TabPage tabAutoSettings;
         private System.Windows.Forms.Button btnCommitAutoSettings;
         private System.Windows.Forms.Label lblBandwidths;

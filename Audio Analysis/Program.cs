@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AudioAnalysis
+namespace AudioAnalyzer
 {
     static class Program
     {
@@ -14,7 +14,7 @@ namespace AudioAnalysis
         [STAThread]
         static void Main()
         {
-            using (frmAudioAnalysis myapps = new frmAudioAnalysis())
+            using (frmAudioAnalyzer myapps = new frmAudioAnalyzer())
             {
                 //Application.EnableVisualStyles();
                 //Application.SetCompatibleTextRenderingDefault(false);

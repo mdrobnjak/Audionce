@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AudioAnalysis
+namespace AudioAnalyzer
 {
     public class Range
     {
@@ -48,7 +48,7 @@ namespace AudioAnalysis
                     AutoSettings = new AutoSettings()
                     {
                         Bandwidth = 1,
-                        ThresholdMultiplier = 0.7
+                        ThresholdMultiplier = 0.6
                     },
 
                     Color = Color.Pink
@@ -57,11 +57,11 @@ namespace AudioAnalysis
                 {
                     Index = 1,
 
-                    LowFreq = 1000, HighFreq = 20000,
+                    LowFreq = 200, HighFreq = 1200,
 
                     AutoSettings = new AutoSettings()
                     {
-                        Bandwidth = 10,
+                        Bandwidth = 1,
                         ThresholdMultiplier = 0.6
                     },
 
@@ -75,7 +75,7 @@ namespace AudioAnalysis
 
                     AutoSettings = new AutoSettings()
                     {
-                        Bandwidth = 5,
+                        Bandwidth = Spectrum.TotalBands / 7,
                         ThresholdMultiplier = 0.6
                     },
 

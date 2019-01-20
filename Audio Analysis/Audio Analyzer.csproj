@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6E309527-CFB6-41A1-916C-98ED67F1D981}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>AudioAnalysis</RootNamespace>
-    <AssemblyName>Audio Analysis</AssemblyName>
+    <RootNamespace>AudioAnalyzer</RootNamespace>
+    <AssemblyName>Audio Analyzer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -90,11 +90,11 @@
     <Compile Include="FileIO.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAudioAnalysis.cs">
+    <Compile Include="frmAudioAnalyzer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAudioAnalysis.Designer.cs">
-      <DependentUpon>frmAudioAnalysis.cs</DependentUpon>
+    <Compile Include="frmAudioAnalyzer.Designer.cs">
+      <DependentUpon>frmAudioAnalyzer.cs</DependentUpon>
     </Compile>
     <Compile Include="OSD.cs" />
     <Compile Include="Node.cs" />
@@ -104,8 +104,8 @@
     <Compile Include="Spectrum.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="frmAudioAnalysis.resx">
-      <DependentUpon>frmAudioAnalysis.cs</DependentUpon>
+    <EmbeddedResource Include="frmAudioAnalyzer.resx">
+      <DependentUpon>frmAudioAnalyzer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

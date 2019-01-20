@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AudioAnalysis
+namespace AudioAnalyzer
 {
-    public partial class frmAudioAnalysis : Form
+    public partial class frmAudioAnalyzer : Form
     {
         private void InitArduinoSettings()
         {

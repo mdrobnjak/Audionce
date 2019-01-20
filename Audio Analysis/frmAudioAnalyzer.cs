@@ -15,11 +15,11 @@ using System.Numerics;
 using System.IO;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace AudioAnalysis
+namespace AudioAnalyzer
 {
-    public partial class frmAudioAnalysis : Form
+    public partial class frmAudioAnalyzer : Form
     {
-        public frmAudioAnalysis()
+        public frmAudioAnalyzer()
         {
             InitializeComponent();
 
@@ -52,7 +52,7 @@ namespace AudioAnalysis
             #endregion
         }
 
-        private void frmAudioAnalysis_Load(object sender, EventArgs e)
+        private void frmAudioAnalyzer_Load(object sender, EventArgs e)
         {
 
             AudioIn.InitSoundCapture();
