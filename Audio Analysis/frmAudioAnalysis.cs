@@ -62,7 +62,7 @@ namespace AudioAnalysis
             Range.Init(ref Ranges);
 
             InitGUI();
-            
+
             InitSettings();
 
             LoadSaveData();
@@ -205,32 +205,39 @@ namespace AudioAnalysis
 
         #region Secondary Processing
 
-        private void Gate(int r)
+        double tmpGateAudio;
+        private void Gate()
         {
-            if (transformedData.Count() > Ranges[r].HighCutIndex)
+            for (int r = 0; r < Range.Count; r++)
             {
-                double temp = 0;
-                for (int i = Ranges[r].LowCutAbsolute; i < Ranges[r].HighCutAbsolute; i++)
+                if (transformedData.Count() > Ranges[r].HighCutAbsolute)
                 {
-                    temp += transformedData[i];
+                    tmpGateAudio = 0;
+                    for (int i = Ranges[r].LowCutAbsolute; i < Ranges[r].HighCutAbsolute; i++)
+                    {
+                        tmpGateAudio += transformedData[i];
+                    }
+                    Ranges[r].GateAudio = tmpGateAudio;
                 }
-                Ranges[r].GateAudio = temp;
             }
         }
 
-        private void DrawProgressBar(int r)
+        private void DrawProgressBars()
         {
-            if (Ranges[r].GateAudio > Ranges[r].Threshold)
+            for (int r = 0; r < Range.Count; r++)
             {
-                ArduinoCode.Trigger(r);
-                if (!drawBars) return;
-                ((ProgressBar)pnlBars.Controls[r]).Value = ((ProgressBar)pnlBars.Controls[r]).Maximum;
-            }
-            else if (drawBars)
-            {
-                if (((ProgressBar)pnlBars.Controls[r]).Value >= 6)
+                if (Ranges[r].GateAudio > Ranges[r].Threshold)
                 {
-                    ((ProgressBar)pnlBars.Controls[r]).Value -= 6;
+                    ArduinoCode.Trigger(r);
+                    if (!drawBars) return;
+                    ((ProgressBar)pnlBars.Controls[r]).Value = ((ProgressBar)pnlBars.Controls[r]).Maximum;
+                }
+                else if (drawBars)
+                {
+                    if (((ProgressBar)pnlBars.Controls[r]).Value >= 6)
+                    {
+                        ((ProgressBar)pnlBars.Controls[r]).Value -= 6;
+                    }
                 }
             }
         }
@@ -279,6 +286,27 @@ namespace AudioAnalysis
 
         #region timer1_Tick()
 
+        delegate void DrawsCallback();
+
+        private void Draws()
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (pnlSpectrum.InvokeRequired)
+            {
+                DrawsCallback d = new DrawsCallback(Draws);
+                this.Invoke(d);
+            }
+            else
+            {
+                PaintSpectrum();
+                DrawChart();
+                DrawProgressBars();
+            }
+        }
+
+
         double[] transformedData;
         public void timer1_Tick(object sender, EventArgs e)
         {
@@ -291,8 +319,8 @@ namespace AudioAnalysis
             transformedData = FFT.FFTWithProcessing(transformedData);
 
             //execute once
-            PaintSpectrum();
-            DrawChart();
+            Gate();
+            Task.Run(() => Draws());
 
             if (AutoSettings.Ranging)
             {
@@ -322,7 +350,6 @@ namespace AudioAnalysis
             for (int r = 0; r < Range.Count; r++)
             {
                 //BeatDetect(rangeIndex);
-                Gate(r);
 
                 if (Ranges[r].AutoSettings.DynamicThreshold) Ranges[r].Threshold = Ranges[r].GetMaxAudioFromLast200() * Ranges[r].AutoSettings.ThresholdMultiplier;
 
@@ -333,7 +360,6 @@ namespace AudioAnalysis
                         Ranges[r].GateAudio -= Ranges[subtractorIndex].GateAudio;
                     }
                 }
-                DrawProgressBar(r);
             }
         }
         #endregion
@@ -391,9 +417,6 @@ namespace AudioAnalysis
             trkbrThreshold.Value = (int)(trkbrThreshold.Maximum * Range.Active.AutoSettings.ThresholdMultiplier);
             //trkbrThreshold_ValueChanged(null, null);
         }
-
-        #endregion
-
         private void btnIncrementRangeBand_Click(object sender, EventArgs e)
         {
             if (trkbrMax.Value == trkbrMax.Maximum) return;
@@ -431,10 +454,13 @@ namespace AudioAnalysis
         }
 
         bool drawBars = true;
-        
+
         private void btnToggleBars_Click(object sender, EventArgs e)
         {
             drawBars = !drawBars;
         }
+        #endregion
+
+
     }
 }

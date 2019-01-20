@@ -44,3 +44,4 @@ D:\src\GitHub\Audionce\Audio Analysis\obj\Debug\Audio Analysis.csproj.CoreCompil
 D:\src\GitHub\Audionce\Audio Analysis\obj\Debug\Audio Analysis.csproj.CopyComplete
 D:\src\GitHub\Audionce\Audio Analysis\obj\Debug\Audio Analysis.exe
 D:\src\GitHub\Audionce\Audio Analysis\obj\Debug\Audio Analysis.pdb
+D:\src\GitHub\Audionce\Audio Analysis\obj\Debug\Audio Analysis.csprojAssemblyReference.cache
