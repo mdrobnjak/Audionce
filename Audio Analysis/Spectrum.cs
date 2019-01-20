@@ -48,7 +48,7 @@ namespace AudioAnalyzer
                 paintInitiated = true;
             }
 
-            if (Spectrum.drawSpectrum) DrawData(transformedData, gSpectrum, cvt);
+            DrawData(transformedData, gSpectrum, cvt);
         }
 
         private void DrawData(double[] data, Graphics g, Converter cvter)

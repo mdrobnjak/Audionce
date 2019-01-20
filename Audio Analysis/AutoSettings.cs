@@ -12,7 +12,7 @@ namespace AudioAnalyzer
     {
         void InitAutoSettings()
         {
-            btnDynamicThresholds_Click(null,null);
+            btnDynamicThresholds_Click(null, null);
 
             AutoSettings.SecondsToCollect = 5;
 
@@ -59,7 +59,7 @@ namespace AudioAnalyzer
             Ranges[0].AutoSettings.DynamicThreshold = !Ranges[0].AutoSettings.DynamicThreshold;
             Ranges[1].AutoSettings.DynamicThreshold = !Ranges[1].AutoSettings.DynamicThreshold;
             Ranges[2].AutoSettings.DynamicThreshold = !Ranges[2].AutoSettings.DynamicThreshold;
-            
+
             if (Ranges[0].AutoSettings.DynamicThreshold) btnDynamicThresholds.BackColor = Color.LightGreen;
             else btnDynamicThresholds.BackColor = Color.Transparent;
         }
@@ -88,6 +88,11 @@ namespace AudioAnalyzer
         public double highestPeakNewCenter = 0;
         public double ThresholdMultiplier;
 
+        public void ApplyAutoSettings()
+        {
+            if (Range.AutoSettings.DynamicThreshold) Range.Threshold = Range.GetMaxAudioFromLast200() * Range.AutoSettings.ThresholdMultiplier;
+        }
+
         public void Threshold()
         {
             Range.Threshold = (int)(highestPeakNewCenter * ThresholdMultiplier);
@@ -104,7 +109,7 @@ namespace AudioAnalyzer
                         highestPeakBandwidth = fftDataHistory[i][j];
                 }
             }
-        }        
+        }
         #endregion
 
         #region Range
@@ -144,21 +149,21 @@ namespace AudioAnalyzer
             }
         }
 
-        public void BassFreqSelector()
+        public void KickSelector()
         {
             Range.LowCutIndex = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
             Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
             Threshold();
         }
 
-        public void SnareFreqSelector()
+        public void SnareSelector()
         {
             Range.LowCutIndex = Math.Max(HighestPeak() - Bandwidth / 2, 0);
             Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
             Threshold();
         }
 
-        public void HatFreqSelector()
+        public void HatSelector()
         {
             Range.LowCutIndex = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
             Range.HighCutIndex = Range.LowCutIndex + 1 + Bandwidth;
@@ -177,13 +182,15 @@ namespace AudioAnalyzer
                     if (fftDataHistory[i][j] > max)
                     {
                         max = fftDataHistory[i][j];
-                    }                    
+                    }
                 }
                 if (max > highestPeakNewCenter)
                 {
                     highestPeakNewCenter = max;
                     centerBandIndex = i;
                 }
+                //Band Analysis:
+                PassAlgorithmData(max);
             }
             return centerBandIndex;
         }
@@ -214,9 +221,11 @@ namespace AudioAnalyzer
                     centerBandIndex = i;
                     highestPeakNewCenter = max;
                 }
+                //Band Analysis:
+                PassAlgorithmData(changePerBand);
             }
             return centerBandIndex;
-        }        
+        }
 
         public int HighestTotalChange()
         {
@@ -241,6 +250,8 @@ namespace AudioAnalyzer
                     centerBandIndex = i;
                     highestPeakNewCenter = max;
                 }
+                //Band Analysis:
+                PassAlgorithmData(change);
             }
             return centerBandIndex;
         }
@@ -259,7 +270,7 @@ namespace AudioAnalyzer
                     {
                         max = fftDataHistory[i][j];
                     }
-                    else if(fftDataHistory[i][j] < min)
+                    else if (fftDataHistory[i][j] < min)
                     {
                         min = fftDataHistory[i][j];
                     }
@@ -270,6 +281,8 @@ namespace AudioAnalyzer
                     centerBandIndex = i;
                     highestPeakNewCenter = max;
                 }
+                //Band Analysis:
+                PassAlgorithmData(max - min);
             }
             return centerBandIndex;
         }
@@ -297,8 +310,48 @@ namespace AudioAnalyzer
                     centerBandIndex = i;
                     highestPeakNewCenter = peak;
                 }
+                //Band Analysis:
+                PassAlgorithmData(peak / average);
             }
             return centerBandIndex;
+        }
+
+        #endregion
+
+        #region BandAnalysis
+
+        Dictionary<string,List<double>> AlgorithmNamesAndDatas = null;
+
+        void PassAlgorithmData(double data)
+        {
+            if (AlgorithmNamesAndDatas == null) return;
+            
+            AlgorithmNamesAndDatas[AlgorithmNamesAndDatas.Last().Key].Add(data);
+        }
+
+        public Dictionary<string, List<double>> DoBandAnalysis()
+        {
+            AlgorithmNamesAndDatas = new Dictionary<string, List<double>>();
+
+            AlgorithmNamesAndDatas["HighestSingleChange"] = new List<double>();
+            HighestSingleChange();
+
+            AlgorithmNamesAndDatas["HighestTotalChange"] = new List<double>();
+            HighestTotalChange();
+
+            AlgorithmNamesAndDatas["BestPeakToAverage"] = new List<double>();
+            BestPeakToAverage();
+
+            AlgorithmNamesAndDatas["HgihestDynamicRange"] = new List<double>();
+            HighestDynamicRange();
+
+            AlgorithmNamesAndDatas["HighestPeak"] = new List<double>();
+            HighestPeak();
+
+            Dictionary<string, List<double>> copy = new Dictionary<string, List<double>>(AlgorithmNamesAndDatas);
+            AlgorithmNamesAndDatas = null;
+
+            return copy;
         }
 
         #endregion

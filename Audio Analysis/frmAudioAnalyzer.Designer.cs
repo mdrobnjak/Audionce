@@ -51,7 +51,7 @@
             this.lblThreshold = new System.Windows.Forms.Label();
             this.btnWriteArduino = new System.Windows.Forms.Button();
             this.cboArduinoCommands = new System.Windows.Forms.ComboBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabctrlSettings = new System.Windows.Forms.TabControl();
             this.tabFFT = new System.Windows.Forms.TabPage();
             this.txtMode = new System.Windows.Forms.TextBox();
             this.lblMode = new System.Windows.Forms.Label();
@@ -68,6 +68,7 @@
             this.cboSubtractFrom = new System.Windows.Forms.ComboBox();
             this.btnSubtract = new System.Windows.Forms.Button();
             this.tabAutoSettings = new System.Windows.Forms.TabPage();
+            this.tabctrlBandAnalysis = new System.Windows.Forms.TabControl();
             this.txtBandwidth3 = new System.Windows.Forms.TextBox();
             this.txtBandwidth2 = new System.Windows.Forms.TextBox();
             this.btnDynamicThresholds = new System.Windows.Forms.Button();
@@ -81,6 +82,7 @@
             this.lblSeconds = new System.Windows.Forms.Label();
             this.btnCommitAutoSettings = new System.Windows.Forms.Button();
             this.tabArduino = new System.Windows.Forms.TabPage();
+            this.btnDisableAllGraphics = new System.Windows.Forms.Button();
             this.lblArduinoMRange = new System.Windows.Forms.Label();
             this.btnArduinoMRange3 = new System.Windows.Forms.Button();
             this.btnArduinoMRange2 = new System.Windows.Forms.Button();
@@ -96,13 +98,12 @@
             this.barRange1 = new System.Windows.Forms.ProgressBar();
             this.barRange2 = new System.Windows.Forms.ProgressBar();
             this.btnToggleChart = new System.Windows.Forms.Button();
-            this.btnDisableAllGraphics = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.pnlRangeButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            this.tabctrlSettings.SuspendLayout();
             this.tabFFT.SuspendLayout();
             this.tabPostProcessing.SuspendLayout();
             this.tabAutoSettings.SuspendLayout();
@@ -333,19 +334,19 @@
             this.cboArduinoCommands.Size = new System.Drawing.Size(170, 21);
             this.cboArduinoCommands.TabIndex = 31;
             // 
-            // tabControl1
+            // tabctrlSettings
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabctrlSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabFFT);
-            this.tabControl1.Controls.Add(this.tabPostProcessing);
-            this.tabControl1.Controls.Add(this.tabAutoSettings);
-            this.tabControl1.Controls.Add(this.tabArduino);
-            this.tabControl1.Location = new System.Drawing.Point(1059, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(184, 623);
-            this.tabControl1.TabIndex = 34;
+            this.tabctrlSettings.Controls.Add(this.tabFFT);
+            this.tabctrlSettings.Controls.Add(this.tabPostProcessing);
+            this.tabctrlSettings.Controls.Add(this.tabAutoSettings);
+            this.tabctrlSettings.Controls.Add(this.tabArduino);
+            this.tabctrlSettings.Location = new System.Drawing.Point(1059, 12);
+            this.tabctrlSettings.Name = "tabctrlSettings";
+            this.tabctrlSettings.SelectedIndex = 0;
+            this.tabctrlSettings.Size = new System.Drawing.Size(184, 623);
+            this.tabctrlSettings.TabIndex = 34;
             // 
             // tabFFT
             // 
@@ -517,6 +518,7 @@
             // 
             // tabAutoSettings
             // 
+            this.tabAutoSettings.Controls.Add(this.tabctrlBandAnalysis);
             this.tabAutoSettings.Controls.Add(this.txtBandwidth3);
             this.tabAutoSettings.Controls.Add(this.txtBandwidth2);
             this.tabAutoSettings.Controls.Add(this.btnDynamicThresholds);
@@ -535,6 +537,17 @@
             this.tabAutoSettings.TabIndex = 2;
             this.tabAutoSettings.Text = "Auto";
             this.tabAutoSettings.UseVisualStyleBackColor = true;
+            // 
+            // tabctrlBandAnalysis
+            // 
+            this.tabctrlBandAnalysis.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabctrlBandAnalysis.Location = new System.Drawing.Point(3, 203);
+            this.tabctrlBandAnalysis.Name = "tabctrlBandAnalysis";
+            this.tabctrlBandAnalysis.SelectedIndex = 0;
+            this.tabctrlBandAnalysis.Size = new System.Drawing.Size(173, 391);
+            this.tabctrlBandAnalysis.TabIndex = 55;
             // 
             // txtBandwidth3
             // 
@@ -675,6 +688,16 @@
             this.tabArduino.TabIndex = 1;
             this.tabArduino.Text = "Arduino";
             this.tabArduino.UseVisualStyleBackColor = true;
+            // 
+            // btnDisableAllGraphics
+            // 
+            this.btnDisableAllGraphics.Location = new System.Drawing.Point(3, 242);
+            this.btnDisableAllGraphics.Name = "btnDisableAllGraphics";
+            this.btnDisableAllGraphics.Size = new System.Drawing.Size(170, 39);
+            this.btnDisableAllGraphics.TabIndex = 36;
+            this.btnDisableAllGraphics.Text = "Disable All Graphics";
+            this.btnDisableAllGraphics.UseVisualStyleBackColor = true;
+            this.btnDisableAllGraphics.Click += new System.EventHandler(this.btnDisableAllGraphics_Click);
             // 
             // lblArduinoMRange
             // 
@@ -836,17 +859,7 @@
             this.btnToggleChart.UseVisualStyleBackColor = true;
             this.btnToggleChart.Click += new System.EventHandler(this.btnToggleChart_Click);
             // 
-            // btnDisableAllGraphics
-            // 
-            this.btnDisableAllGraphics.Location = new System.Drawing.Point(3, 242);
-            this.btnDisableAllGraphics.Name = "btnDisableAllGraphics";
-            this.btnDisableAllGraphics.Size = new System.Drawing.Size(170, 39);
-            this.btnDisableAllGraphics.TabIndex = 36;
-            this.btnDisableAllGraphics.Text = "Disable All Graphics";
-            this.btnDisableAllGraphics.UseVisualStyleBackColor = true;
-            this.btnDisableAllGraphics.Click += new System.EventHandler(this.btnDisableAllGraphics_Click);
-            // 
-            // frmAudioAnalysis
+            // frmAudioAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -854,7 +867,7 @@
             this.ClientSize = new System.Drawing.Size(1241, 635);
             this.Controls.Add(this.btnToggleChart);
             this.Controls.Add(this.pnlSpectrum);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabctrlSettings);
             this.Controls.Add(this.txtThreshold);
             this.Controls.Add(this.lblThreshold);
             this.Controls.Add(this.trkbrMax);
@@ -862,7 +875,7 @@
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.trkbrThreshold);
             this.Controls.Add(this.trkbrMin);
-            this.Name = "frmAudioAnalysis";
+            this.Name = "frmAudioAnalyzer";
             this.Text = "Audio Analysis";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AudioAnalysis_FormClosing);
             this.Load += new System.EventHandler(this.frmAudioAnalyzer_Load);
@@ -871,7 +884,7 @@
             this.pnlRangeButtons.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            this.tabctrlSettings.ResumeLayout(false);
             this.tabFFT.ResumeLayout(false);
             this.tabFFT.PerformLayout();
             this.tabPostProcessing.ResumeLayout(false);
@@ -912,7 +925,7 @@
         private System.Windows.Forms.Button btnCalibrate;
         private System.Windows.Forms.Button btnAutoRange;
         private System.Windows.Forms.Button btnSpectrumMode;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabctrlSettings;
         private System.Windows.Forms.TabPage tabFFT;
         private System.Windows.Forms.Label lblN_FFT;
         private System.Windows.Forms.Button btnCommitFFTSettings;
@@ -953,6 +966,7 @@
         private System.Windows.Forms.TextBox txtBandwidth2;
         private System.Windows.Forms.TextBox txtBandwidth1;
         private System.Windows.Forms.Button btnDisableAllGraphics;
+        private System.Windows.Forms.TabControl tabctrlBandAnalysis;
     }
 }
 

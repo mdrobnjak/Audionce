@@ -121,8 +121,6 @@ namespace AudioAnalyzer
         }
 
         public int LowFreq;
-        public int HighFreq;
-
         public int LowFreqIndex
         {
             get
@@ -131,6 +129,7 @@ namespace AudioAnalyzer
             }
         }
 
+        public int HighFreq;
         public int HighFreqIndex
         {
             get
@@ -139,26 +138,28 @@ namespace AudioAnalyzer
             }
         }
 
-        private List<double> gateAudios = new List<double>();
-        private double gateAudio;
-        public double GateAudio
+        //public bool SignalPassed = false;
+
+        private List<double> audios = new List<double>();
+        private double audio;
+        public double Audio
         {
             get
             {
-                return gateAudio;
+                return audio;
             }
             set
             {
-                gateAudio = value;
+                audio = value;
 
-                gateAudios.Add(value);
-                if (gateAudios.Count > 199) gateAudios.RemoveAt(0);
+                audios.Add(value);
+                if (audios.Count > 199) audios.RemoveAt(0);
             }
         }
 
         public double GetMaxAudioFromLast200()
         {
-            return gateAudios.Max();
+            return audios.Max();
         }
 
         public AutoSettings AutoSettings;
