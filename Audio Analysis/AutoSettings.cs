@@ -354,6 +354,11 @@ namespace AudioAnalyzer
             return copy;
         }
 
+        void ExportToExcel()
+        {
+
+        }
+
         #endregion
 
     }

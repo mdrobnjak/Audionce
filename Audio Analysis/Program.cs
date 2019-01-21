@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,12 +15,17 @@ namespace AudioAnalyzer
         [STAThread]
         static void Main()
         {
+            MLContext mlContext = new MLContext(seed: 1);  //Seed set to any number so you have a deterministic environment
+
+            ProductModelHelper.TrainAndSaveModel(mlContext, "BandSelectionData.csv");
+            ProductModelHelper.TestPrediction(mlContext);
+
             using (frmAudioAnalyzer myapps = new frmAudioAnalyzer())
             {
                 //Application.EnableVisualStyles();
                 //Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(myapps);
 
+                Application.Run(myapps);
             }
         }
     }

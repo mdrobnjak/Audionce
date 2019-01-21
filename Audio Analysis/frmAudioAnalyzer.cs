@@ -324,8 +324,8 @@ namespace AudioAnalyzer
 
                 if (Gate(r))
                 {
-                    SetProgressBars(r);
                     ArduinoCode.Trigger(r);
+                    SetProgressBars(r);
                 }
                 else
                 {
@@ -479,6 +479,7 @@ namespace AudioAnalyzer
         }
         #endregion
 
+        Dictionary<string, List<double>> AlgorithmDatas;
 
         //Band Analysis:        
         void PrintBandAnalysis(Dictionary<string, List<double>> AlgorithmDatas)
@@ -514,6 +515,13 @@ namespace AudioAnalyzer
 
                 i++;
             }
+
+            this.AlgorithmDatas = new Dictionary<string,List<double>>(AlgorithmDatas);
+        }
+
+        void ExportToExcel()
+        {
+            //AlgorithmDatas["Mark"] = trkbrMin.Value;
         }
     }
 }
