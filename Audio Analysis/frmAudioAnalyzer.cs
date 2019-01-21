@@ -525,10 +525,12 @@ namespace AudioAnalyzer
             }
 
             csvRow = csvRow.Remove(csvRow.Length - 1, 1);
+            csvRow += Environment.NewLine;
 
             this.AlgorithmDatas = new Dictionary<string, List<double>>(AlgorithmDatas);
         }
 
+        static readonly string _testDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "BandSelectionData-test.csv");
         static readonly string _trainDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "BandSelectionData-train.csv");
         string csvRow;
 
