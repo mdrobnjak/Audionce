@@ -459,7 +459,7 @@ namespace AudioAnalyzer
             if (!int.TryParse(cboSubtractFrom.Text, out intVar)) return;
             subtractFromIndex = intVar;
 
-            if(subtract)
+            if (subtract)
             {
                 subtract = false;
                 btnSubtract.BackColor = Color.Transparent;
@@ -502,13 +502,21 @@ namespace AudioAnalyzer
 
             i = 0;
 
+            csvRow = "";
+
             foreach (string algName in AlgorithmDatas.Keys)
             {
                 string dataToPrint = "";
-
+                double max = 0;
                 for (int j = 0; j < AlgorithmDatas[algName].Count; j++)
                 {
                     dataToPrint += "[" + (j + 1) + "]: " + ((int)AlgorithmDatas[algName][j]).ToString() + "\r\n";
+                    if (AlgorithmDatas[algName][j] > max) max = AlgorithmDatas[algName][j];
+                }
+
+                for (int j = 0; j < AlgorithmDatas[algName].Count; j++)
+                {
+                    csvRow += (AlgorithmDatas[algName][j] / max).ToString() + ",";
                 }
 
                 tabctrlBandAnalysis.TabPages[i].Controls[0].Text = dataToPrint;
@@ -516,12 +524,26 @@ namespace AudioAnalyzer
                 i++;
             }
 
-            this.AlgorithmDatas = new Dictionary<string,List<double>>(AlgorithmDatas);
+            csvRow = csvRow.Remove(csvRow.Length - 1, 1);
+
+            AppendCSV();
+
+            this.AlgorithmDatas = new Dictionary<string, List<double>>(AlgorithmDatas);
         }
 
-        void ExportToExcel()
+        static readonly string _trainDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "BandSelectionData-train.csv");
+        string csvRow;
+
+        private void btnTrain_Click(object sender, EventArgs e)
         {
-            //AlgorithmDatas["Mark"] = trkbrMin.Value;
+
+        }
+
+        void AppendCSV()
+        {
+            csvRow.Insert(0, trkbrMin.Value.ToString() + ",");
+            Console.WriteLine(csvRow);
+            //File.AppendAllText(_trainDataPath, csvRow);
         }
     }
 }

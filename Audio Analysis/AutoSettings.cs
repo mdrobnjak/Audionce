@@ -333,20 +333,20 @@ namespace AudioAnalyzer
         {
             AlgorithmNamesAndDatas = new Dictionary<string, List<double>>();
 
+            AlgorithmNamesAndDatas["HighestPeak"] = new List<double>();
+            HighestPeak();
+
             AlgorithmNamesAndDatas["HighestSingleChange"] = new List<double>();
             HighestSingleChange();
 
             AlgorithmNamesAndDatas["HighestTotalChange"] = new List<double>();
             HighestTotalChange();
 
-            AlgorithmNamesAndDatas["BestPeakToAverage"] = new List<double>();
-            BestPeakToAverage();
-
             AlgorithmNamesAndDatas["HgihestDynamicRange"] = new List<double>();
             HighestDynamicRange();
 
-            AlgorithmNamesAndDatas["HighestPeak"] = new List<double>();
-            HighestPeak();
+            AlgorithmNamesAndDatas["BestPeakToAverage"] = new List<double>();
+            BestPeakToAverage();
 
             Dictionary<string, List<double>> copy = new Dictionary<string, List<double>>(AlgorithmNamesAndDatas);
             AlgorithmNamesAndDatas = null;

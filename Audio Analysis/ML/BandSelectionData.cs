@@ -12,8 +12,12 @@ namespace AudioAnalyzer
         [LoadColumn(0)]
         public double BandIndex;
 
-        [LoadColumn(1)]
-        public double HighestPeak1;
+        [LoadColumn(1, 40)]
+        [VectorType(40)]
+        public double[] AlgorithmDatas;
+
+        //[LoadColumn(1)]
+        //public double HighestPeak1;
         //[LoadColumn(2)]
         //public double HighestPeak2;
         //[LoadColumn(3)]
@@ -53,8 +57,8 @@ namespace AudioAnalyzer
         //[LoadColumn(20)]
         //public double HighestPeak20;
 
-        [LoadColumn(21)]
-        public double HighestSingleChange21;
+        //[LoadColumn(21)]
+        //public double HighestSingleChange21;
         //[LoadColumn(22)]
         //public double HighestSingleChange22;
         //[LoadColumn(23)]
@@ -217,5 +221,11 @@ namespace AudioAnalyzer
         //[LoadColumn("100", name: "BestPeakToAverage100")]
         //public double BestPeakToAverage100;
 
+    }
+
+    public class BandSelectionPrediction
+    {
+        [ColumnName("Score")]
+        public float BandIndex;
     }
 }
