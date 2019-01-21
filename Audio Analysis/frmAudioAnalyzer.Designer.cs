@@ -87,7 +87,7 @@
             this.btnArduinoMRange3 = new System.Windows.Forms.Button();
             this.btnArduinoMRange2 = new System.Windows.Forms.Button();
             this.cboPortNames = new System.Windows.Forms.ComboBox();
-            this.pnlSpectrum = new AudioAnalyzer.Spectrum();
+            this.pnlSpectrum = new System.Windows.Forms.Panel();
             this.btnToggleBars = new System.Windows.Forms.Button();
             this.btnToggleSpectrum = new System.Windows.Forms.Button();
             this.btnCalibrate = new System.Windows.Forms.Button();
@@ -98,6 +98,7 @@
             this.barRange1 = new System.Windows.Forms.ProgressBar();
             this.barRange2 = new System.Windows.Forms.ProgressBar();
             this.btnToggleChart = new System.Windows.Forms.Button();
+            this.btnTrain = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.pnlRangeButtons.SuspendLayout();
@@ -518,6 +519,7 @@
             // 
             // tabAutoSettings
             // 
+            this.tabAutoSettings.Controls.Add(this.btnTrain);
             this.tabAutoSettings.Controls.Add(this.tabctrlBandAnalysis);
             this.tabAutoSettings.Controls.Add(this.txtBandwidth3);
             this.tabAutoSettings.Controls.Add(this.txtBandwidth2);
@@ -546,7 +548,7 @@
             this.tabctrlBandAnalysis.Location = new System.Drawing.Point(3, 203);
             this.tabctrlBandAnalysis.Name = "tabctrlBandAnalysis";
             this.tabctrlBandAnalysis.SelectedIndex = 0;
-            this.tabctrlBandAnalysis.Size = new System.Drawing.Size(173, 391);
+            this.tabctrlBandAnalysis.Size = new System.Drawing.Size(173, 352);
             this.tabctrlBandAnalysis.TabIndex = 55;
             // 
             // txtBandwidth3
@@ -859,6 +861,16 @@
             this.btnToggleChart.UseVisualStyleBackColor = true;
             this.btnToggleChart.Click += new System.EventHandler(this.btnToggleChart_Click);
             // 
+            // btnTrain
+            // 
+            this.btnTrain.Location = new System.Drawing.Point(7, 561);
+            this.btnTrain.Name = "btnTrain";
+            this.btnTrain.Size = new System.Drawing.Size(163, 32);
+            this.btnTrain.TabIndex = 56;
+            this.btnTrain.Text = "Train";
+            this.btnTrain.UseVisualStyleBackColor = true;
+            this.btnTrain.Click += new System.EventHandler(this.btnTrain_Click);
+            // 
             // frmAudioAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -935,7 +947,7 @@
         private System.Windows.Forms.TabPage tabArduino;
         private System.Windows.Forms.TextBox txtDropOffScale;
         private System.Windows.Forms.Label lblDropOffScale;
-        private AudioAnalyzer.Spectrum pnlSpectrum;
+        private System.Windows.Forms.Panel pnlSpectrum;
         private System.Windows.Forms.TabPage tabAutoSettings;
         private System.Windows.Forms.Button btnCommitAutoSettings;
         private System.Windows.Forms.Label lblBandwidths;
@@ -967,6 +979,7 @@
         private System.Windows.Forms.TextBox txtBandwidth1;
         private System.Windows.Forms.Button btnDisableAllGraphics;
         private System.Windows.Forms.TabControl tabctrlBandAnalysis;
+        private System.Windows.Forms.Button btnTrain;
     }
 }
 

@@ -526,8 +526,6 @@ namespace AudioAnalyzer
 
             csvRow = csvRow.Remove(csvRow.Length - 1, 1);
 
-            AppendCSV();
-
             this.AlgorithmDatas = new Dictionary<string, List<double>>(AlgorithmDatas);
         }
 
@@ -536,14 +534,13 @@ namespace AudioAnalyzer
 
         private void btnTrain_Click(object sender, EventArgs e)
         {
-
+            AppendCSV();
         }
 
         void AppendCSV()
         {
-            csvRow.Insert(0, trkbrMin.Value.ToString() + ",");
-            Console.WriteLine(csvRow);
-            //File.AppendAllText(_trainDataPath, csvRow);
+            csvRow = csvRow.Insert(0, trkbrMin.Value.ToString() + ",");
+            File.AppendAllText(_trainDataPath, csvRow);
         }
     }
 }
