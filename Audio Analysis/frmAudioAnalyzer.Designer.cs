@@ -68,6 +68,7 @@
             this.cboSubtractFrom = new System.Windows.Forms.ComboBox();
             this.btnSubtract = new System.Windows.Forms.Button();
             this.tabAutoSettings = new System.Windows.Forms.TabPage();
+            this.btnTrain = new System.Windows.Forms.Button();
             this.tabctrlBandAnalysis = new System.Windows.Forms.TabControl();
             this.txtBandwidth3 = new System.Windows.Forms.TextBox();
             this.txtBandwidth2 = new System.Windows.Forms.TextBox();
@@ -98,7 +99,8 @@
             this.barRange1 = new System.Windows.Forms.ProgressBar();
             this.barRange2 = new System.Windows.Forms.ProgressBar();
             this.btnToggleChart = new System.Windows.Forms.Button();
-            this.btnTrain = new System.Windows.Forms.Button();
+            this.txtPrediction = new System.Windows.Forms.TextBox();
+            this.lblPrediction = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.pnlRangeButtons.SuspendLayout();
@@ -519,6 +521,8 @@
             // 
             // tabAutoSettings
             // 
+            this.tabAutoSettings.Controls.Add(this.lblPrediction);
+            this.tabAutoSettings.Controls.Add(this.txtPrediction);
             this.tabAutoSettings.Controls.Add(this.btnTrain);
             this.tabAutoSettings.Controls.Add(this.tabctrlBandAnalysis);
             this.tabAutoSettings.Controls.Add(this.txtBandwidth3);
@@ -540,6 +544,16 @@
             this.tabAutoSettings.Text = "Auto";
             this.tabAutoSettings.UseVisualStyleBackColor = true;
             // 
+            // btnTrain
+            // 
+            this.btnTrain.Location = new System.Drawing.Point(7, 561);
+            this.btnTrain.Name = "btnTrain";
+            this.btnTrain.Size = new System.Drawing.Size(163, 32);
+            this.btnTrain.TabIndex = 56;
+            this.btnTrain.Text = "Train";
+            this.btnTrain.UseVisualStyleBackColor = true;
+            this.btnTrain.Click += new System.EventHandler(this.btnTrain_Click);
+            // 
             // tabctrlBandAnalysis
             // 
             this.tabctrlBandAnalysis.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -548,7 +562,7 @@
             this.tabctrlBandAnalysis.Location = new System.Drawing.Point(3, 203);
             this.tabctrlBandAnalysis.Name = "tabctrlBandAnalysis";
             this.tabctrlBandAnalysis.SelectedIndex = 0;
-            this.tabctrlBandAnalysis.Size = new System.Drawing.Size(173, 352);
+            this.tabctrlBandAnalysis.Size = new System.Drawing.Size(173, 316);
             this.tabctrlBandAnalysis.TabIndex = 55;
             // 
             // txtBandwidth3
@@ -861,15 +875,25 @@
             this.btnToggleChart.UseVisualStyleBackColor = true;
             this.btnToggleChart.Click += new System.EventHandler(this.btnToggleChart_Click);
             // 
-            // btnTrain
+            // txtPrediction
             // 
-            this.btnTrain.Location = new System.Drawing.Point(7, 561);
-            this.btnTrain.Name = "btnTrain";
-            this.btnTrain.Size = new System.Drawing.Size(163, 32);
-            this.btnTrain.TabIndex = 56;
-            this.btnTrain.Text = "Train";
-            this.btnTrain.UseVisualStyleBackColor = true;
-            this.btnTrain.Click += new System.EventHandler(this.btnTrain_Click);
+            this.txtPrediction.BackColor = System.Drawing.Color.Black;
+            this.txtPrediction.ForeColor = System.Drawing.Color.White;
+            this.txtPrediction.Location = new System.Drawing.Point(117, 535);
+            this.txtPrediction.Name = "txtPrediction";
+            this.txtPrediction.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtPrediction.Size = new System.Drawing.Size(49, 20);
+            this.txtPrediction.TabIndex = 57;
+            this.txtPrediction.Text = "0";
+            // 
+            // lblPrediction
+            // 
+            this.lblPrediction.AutoSize = true;
+            this.lblPrediction.Location = new System.Drawing.Point(4, 538);
+            this.lblPrediction.Name = "lblPrediction";
+            this.lblPrediction.Size = new System.Drawing.Size(57, 13);
+            this.lblPrediction.TabIndex = 58;
+            this.lblPrediction.Text = "Prediction:";
             // 
             // frmAudioAnalyzer
             // 
@@ -980,6 +1004,8 @@
         private System.Windows.Forms.Button btnDisableAllGraphics;
         private System.Windows.Forms.TabControl tabctrlBandAnalysis;
         private System.Windows.Forms.Button btnTrain;
+        private System.Windows.Forms.Label lblPrediction;
+        private System.Windows.Forms.TextBox txtPrediction;
     }
 }
 

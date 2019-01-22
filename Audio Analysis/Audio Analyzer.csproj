@@ -172,6 +172,7 @@
       <DependentUpon>frmAudioAnalyzer.cs</DependentUpon>
     </Compile>
     <Compile Include="ML\BandSelectionData.cs" />
+    <Compile Include="ML\MachineLearning.cs" />
     <Compile Include="OSD.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />

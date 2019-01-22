@@ -54,7 +54,6 @@ namespace AudioAnalyzer
 
         private void frmAudioAnalyzer_Load(object sender, EventArgs e)
         {
-
             AudioIn.InitSoundCapture();
 
             InitSpectrum();
@@ -66,6 +65,8 @@ namespace AudioAnalyzer
             InitSettings();
 
             LoadSaveData();
+
+            ML.Predict();
 
             timer1.Enabled = true;
         }
@@ -481,6 +482,24 @@ namespace AudioAnalyzer
 
         Dictionary<string, List<double>> AlgorithmDatas;
 
+        float[] ToArray(Dictionary<string, List<double>> algDatas)
+        {
+            float[] arr = new float[100];
+
+            int a = 0;
+
+            foreach (string key in algDatas.Keys)
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    arr[i + a] = (float)algDatas[key][i];
+                }
+                a += 20;
+            }
+
+            return arr;
+        }
+
         //Band Analysis:        
         void PrintBandAnalysis(Dictionary<string, List<double>> AlgorithmDatas)
         {
@@ -510,7 +529,7 @@ namespace AudioAnalyzer
                 double max = 0;
                 for (int j = 0; j < AlgorithmDatas[algName].Count; j++)
                 {
-                    dataToPrint += "[" + (j + 1) + "]: " + ((int)AlgorithmDatas[algName][j]).ToString() + "\r\n";
+                    dataToPrint += "[" + j + "]: " + ((int)AlgorithmDatas[algName][j]).ToString() + "\r\n";
                     if (AlgorithmDatas[algName][j] > max) max = AlgorithmDatas[algName][j];
                 }
 
@@ -528,10 +547,10 @@ namespace AudioAnalyzer
             csvRow += Environment.NewLine;
 
             this.AlgorithmDatas = new Dictionary<string, List<double>>(AlgorithmDatas);
+
+            txtPrediction.Text = ML.PredictRealTime(ML.mlContext, Array.ConvertAll(csvRow.Split(','), float.Parse)).ToString();
         }
 
-        static readonly string _testDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "BandSelectionData-test.csv");
-        static readonly string _trainDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "BandSelectionData-train.csv");
         string csvRow;
 
         private void btnTrain_Click(object sender, EventArgs e)
@@ -542,7 +561,7 @@ namespace AudioAnalyzer
         void AppendCSV()
         {
             csvRow = csvRow.Insert(0, trkbrMin.Value.ToString() + ",");
-            File.AppendAllText(_trainDataPath, csvRow);
+            File.AppendAllText(ML._trainDataPath, csvRow);
         }
     }
 }

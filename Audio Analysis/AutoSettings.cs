@@ -151,7 +151,7 @@ namespace AudioAnalyzer
 
         public void KickSelector()
         {
-            Range.LowCutIndex = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
+            Range.LowCutIndex = Math.Max(HighestPositiveChange() - Bandwidth / 2, 0);
             Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
             Threshold();
         }
@@ -165,7 +165,7 @@ namespace AudioAnalyzer
 
         public void HatSelector()
         {
-            Range.LowCutIndex = Math.Max(HighestSingleChange() - Bandwidth / 2, 0);
+            Range.LowCutIndex = Math.Max(HighestPositiveChange() - Bandwidth / 2, 0);
             Range.HighCutIndex = Range.LowCutIndex + 1 + Bandwidth;
             Threshold();
         }
@@ -195,7 +195,7 @@ namespace AudioAnalyzer
             return centerBandIndex;
         }
 
-        public int HighestSingleChange()
+        public int HighestPositiveChange()
         {
             highestPeakNewCenter = 0;
             double singleChange = 0;
@@ -210,9 +210,9 @@ namespace AudioAnalyzer
                         max = fftDataHistory[i][j];
                     }
 
-                    if (changePerBand < Math.Abs(fftDataHistory[i][j] - fftDataHistory[i][j - 1]))
+                    if (changePerBand < fftDataHistory[i][j] - fftDataHistory[i][j - 1])
                     {
-                        changePerBand = Math.Abs(fftDataHistory[i][j] - fftDataHistory[i][j - 1]);
+                        changePerBand = fftDataHistory[i][j] - fftDataHistory[i][j - 1];
                     }
                 }
                 if (changePerBand > singleChange)
@@ -337,7 +337,7 @@ namespace AudioAnalyzer
             HighestPeak();
 
             AlgorithmNamesAndDatas["HighestSingleChange"] = new List<double>();
-            HighestSingleChange();
+            HighestPositiveChange();
 
             AlgorithmNamesAndDatas["HighestTotalChange"] = new List<double>();
             HighestTotalChange();
