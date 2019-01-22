@@ -101,7 +101,7 @@ namespace AudioAnalyzer
         public void HighestPeakNewBandwidth(out double highestPeakBandwidth)
         {
             highestPeakBandwidth = highestPeakNewCenter;
-            for (int i = Math.Max((centerBandIndex - Bandwidth / 2), 0); i < centerBandIndex + Bandwidth / 2; i++)
+            for (int i = Math.Max((autoBandIndex - Bandwidth / 2), 0); i < autoBandIndex + Bandwidth / 2; i++)
             {
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)
                 {
@@ -115,7 +115,7 @@ namespace AudioAnalyzer
         #region Range
         private static List<List<double>> fftDataHistory = null;
         public static bool Ranging = false, ReadyToProcess = false;
-        public int centerBandIndex;
+        public int autoBandIndex;
         public static double SecondsToCollect;
         public int Bandwidth;
         public static DateTime started;
@@ -151,7 +151,7 @@ namespace AudioAnalyzer
 
         public void KickSelector()
         {
-            Range.LowCutIndex = Math.Max(SingleChangePositive() - Bandwidth / 2, 0);
+            Range.LowCutIndex = Math.Max(SCPtoSA() - Bandwidth / 2, 0);
             Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
             Threshold();
         }
@@ -173,7 +173,7 @@ namespace AudioAnalyzer
         public int Peak()
         {
             highestPeakNewCenter = 0;
-            centerBandIndex = 0;
+            autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double max = 0;
@@ -187,19 +187,19 @@ namespace AudioAnalyzer
                 if (max > highestPeakNewCenter)
                 {
                     highestPeakNewCenter = max;
-                    centerBandIndex = i;
+                    autoBandIndex = i;
                 }
                 //Band Analysis:
                 PassAlgorithmData(max);
             }
-            return centerBandIndex;
+            return autoBandIndex;
         }
 
         public int SingleChange()
         {
             highestPeakNewCenter = 0;
             double singleChange = 0;
-            centerBandIndex = 0;
+            autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double max = 0, changePerBand = 0;
@@ -218,20 +218,20 @@ namespace AudioAnalyzer
                 if (changePerBand > singleChange)
                 {
                     singleChange = changePerBand;
-                    centerBandIndex = i;
+                    autoBandIndex = i;
                     highestPeakNewCenter = max;
                 }
                 //Band Analysis:
                 //PassAlgorithmData(changePerBand);
             }
-            return centerBandIndex;
+            return autoBandIndex;
         }
 
         public int SingleChangePositive()
         {
             highestPeakNewCenter = 0;
             double singleChange = 0;
-            centerBandIndex = 0;
+            autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double max = 0, changePerBand = 0;
@@ -250,20 +250,70 @@ namespace AudioAnalyzer
                 if (changePerBand > singleChange)
                 {
                     singleChange = changePerBand;
-                    centerBandIndex = i;
+                    autoBandIndex = i;
                     highestPeakNewCenter = max;
                 }
                 //Band Analysis:
                 PassAlgorithmData(changePerBand);
             }
-            return centerBandIndex;
+            return autoBandIndex;
+        }
+
+        /// <summary>
+        /// Single Change Positive to Subsequent Average
+        /// </summary>
+        /// <returns></returns>
+        public int SCPtoSA()
+        {
+            highestPeakNewCenter = 0;
+            double scpToSa = 0;
+            autoBandIndex = 0;
+            for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
+            {
+                double max = 0, scpPerBand = 0, subsequentAverage = 0, scpToSaPerBand = 0;
+                int scpIndex = 0;
+                for (int j = 1; j < fftDataHistory[i].Count(); j++)
+                {
+                    if (fftDataHistory[i][j] > max)
+                    {
+                        max = fftDataHistory[i][j];
+                    }
+
+                    if (scpPerBand < fftDataHistory[i][j] - fftDataHistory[i][j - 1])
+                    {
+                        scpPerBand = fftDataHistory[i][j] - fftDataHistory[i][j - 1];
+                        scpIndex = j;
+                    }
+                }
+
+                double sum = 0;
+                int count = 0;
+                for (int j = scpIndex; j < fftDataHistory[i].Count(); j++)
+                {
+                    sum += fftDataHistory[i][j];
+                    count++;
+                }
+
+                subsequentAverage = sum / count;
+                scpToSaPerBand = scpPerBand / subsequentAverage;
+
+                if (scpToSaPerBand > scpToSa)
+                {
+                    scpToSa = scpPerBand;
+                    autoBandIndex = i;
+                    highestPeakNewCenter = max;
+                }
+                //Band Analysis:
+                PassAlgorithmData(scpPerBand);
+            }
+            return autoBandIndex;
         }
 
         public int TotalChange()
         {
             highestPeakNewCenter = 0;
             double totalChange = 0;
-            centerBandIndex = 0;
+            autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double max = 0, change = 0;
@@ -279,20 +329,20 @@ namespace AudioAnalyzer
                 if (change > totalChange)
                 {
                     totalChange = change;
-                    centerBandIndex = i;
+                    autoBandIndex = i;
                     highestPeakNewCenter = max;
                 }
                 //Band Analysis:
                 PassAlgorithmData(change);
             }
-            return centerBandIndex;
+            return autoBandIndex;
         }
 
         public int DynamicRange()
         {
             highestPeakNewCenter = 0;
             double peakToPeak = 0;
-            centerBandIndex = 0;
+            autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double max = 0, min = Int32.MaxValue;
@@ -310,20 +360,20 @@ namespace AudioAnalyzer
                 if (max - min > peakToPeak)
                 {
                     peakToPeak = max - min;
-                    centerBandIndex = i;
+                    autoBandIndex = i;
                     highestPeakNewCenter = max;
                 }
                 //Band Analysis:
                 PassAlgorithmData(max - min);
             }
-            return centerBandIndex;
+            return autoBandIndex;
         }
 
         public int PeakToAverage()
         {
             highestPeakNewCenter = 0;
             double peakToAverageRatio = 0;
-            centerBandIndex = 0;
+            autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
                 double peak = 0, sum = 0, average = 0;
@@ -339,25 +389,25 @@ namespace AudioAnalyzer
                 if (peak / average > peakToAverageRatio)
                 {
                     peakToAverageRatio = peak / average;
-                    centerBandIndex = i;
+                    autoBandIndex = i;
                     highestPeakNewCenter = peak;
                 }
                 //Band Analysis:
                 PassAlgorithmData(peak / average);
             }
-            return centerBandIndex;
+            return autoBandIndex;
         }
 
         #endregion
 
         #region BandAnalysis
 
-        Dictionary<string,List<double>> AlgorithmNamesAndDatas = null;
+        Dictionary<string, List<double>> AlgorithmNamesAndDatas = null;
 
         void PassAlgorithmData(double data)
         {
             if (AlgorithmNamesAndDatas == null) return;
-            
+
             AlgorithmNamesAndDatas[AlgorithmNamesAndDatas.Last().Key].Add(data);
         }
 
@@ -384,11 +434,6 @@ namespace AudioAnalyzer
             AlgorithmNamesAndDatas = null;
 
             return copy;
-        }
-
-        void ExportToExcel()
-        {
-
         }
 
         #endregion
