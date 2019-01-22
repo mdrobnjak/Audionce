@@ -151,26 +151,26 @@ namespace AudioAnalyzer
 
         public void KickSelector()
         {
-            Range.LowCutIndex = Math.Max(HighestPositiveChange() - Bandwidth / 2, 0);
+            Range.LowCutIndex = Math.Max(SingleChangePositive() - Bandwidth / 2, 0);
             Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
             Threshold();
         }
 
         public void SnareSelector()
         {
-            Range.LowCutIndex = Math.Max(HighestPeak() - Bandwidth / 2, 0);
+            Range.LowCutIndex = Math.Max(Peak() - Bandwidth / 2, 0);
             Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
             Threshold();
         }
 
         public void HatSelector()
         {
-            Range.LowCutIndex = Math.Max(HighestPositiveChange() - Bandwidth / 2, 0);
+            Range.LowCutIndex = Math.Max(SingleChangePositive() - Bandwidth / 2, 0);
             Range.HighCutIndex = Range.LowCutIndex + 1 + Bandwidth;
             Threshold();
         }
 
-        public int HighestPeak()
+        public int Peak()
         {
             highestPeakNewCenter = 0;
             centerBandIndex = 0;
@@ -195,7 +195,39 @@ namespace AudioAnalyzer
             return centerBandIndex;
         }
 
-        public int HighestPositiveChange()
+        public int SingleChange()
+        {
+            highestPeakNewCenter = 0;
+            double singleChange = 0;
+            centerBandIndex = 0;
+            for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
+            {
+                double max = 0, changePerBand = 0;
+                for (int j = 1; j < fftDataHistory[i].Count(); j++)
+                {
+                    if (fftDataHistory[i][j] > max)
+                    {
+                        max = fftDataHistory[i][j];
+                    }
+
+                    if (changePerBand < Math.Abs(fftDataHistory[i][j] - fftDataHistory[i][j - 1]))
+                    {
+                        changePerBand = Math.Abs(fftDataHistory[i][j] - fftDataHistory[i][j - 1]);
+                    }
+                }
+                if (changePerBand > singleChange)
+                {
+                    singleChange = changePerBand;
+                    centerBandIndex = i;
+                    highestPeakNewCenter = max;
+                }
+                //Band Analysis:
+                //PassAlgorithmData(changePerBand);
+            }
+            return centerBandIndex;
+        }
+
+        public int SingleChangePositive()
         {
             highestPeakNewCenter = 0;
             double singleChange = 0;
@@ -227,7 +259,7 @@ namespace AudioAnalyzer
             return centerBandIndex;
         }
 
-        public int HighestTotalChange()
+        public int TotalChange()
         {
             highestPeakNewCenter = 0;
             double totalChange = 0;
@@ -256,7 +288,7 @@ namespace AudioAnalyzer
             return centerBandIndex;
         }
 
-        public int HighestDynamicRange()
+        public int DynamicRange()
         {
             highestPeakNewCenter = 0;
             double peakToPeak = 0;
@@ -287,7 +319,7 @@ namespace AudioAnalyzer
             return centerBandIndex;
         }
 
-        public int BestPeakToAverage()
+        public int PeakToAverage()
         {
             highestPeakNewCenter = 0;
             double peakToAverageRatio = 0;
@@ -334,19 +366,19 @@ namespace AudioAnalyzer
             AlgorithmNamesAndDatas = new Dictionary<string, List<double>>();
 
             AlgorithmNamesAndDatas["HighestPeak"] = new List<double>();
-            HighestPeak();
+            Peak();
 
             AlgorithmNamesAndDatas["HighestSingleChange"] = new List<double>();
-            HighestPositiveChange();
+            SingleChangePositive();
 
             AlgorithmNamesAndDatas["HighestTotalChange"] = new List<double>();
-            HighestTotalChange();
+            TotalChange();
 
             AlgorithmNamesAndDatas["HgihestDynamicRange"] = new List<double>();
-            HighestDynamicRange();
+            DynamicRange();
 
             AlgorithmNamesAndDatas["BestPeakToAverage"] = new List<double>();
-            BestPeakToAverage();
+            PeakToAverage();
 
             Dictionary<string, List<double>> copy = new Dictionary<string, List<double>>(AlgorithmNamesAndDatas);
             AlgorithmNamesAndDatas = null;
