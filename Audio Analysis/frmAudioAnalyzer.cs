@@ -66,7 +66,7 @@ namespace AudioAnalyzer
 
             LoadSaveData();
 
-            ML.Predict();
+            //ML.Predict();
 
             timer1.Enabled = true;
         }
