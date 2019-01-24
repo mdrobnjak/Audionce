@@ -6,41 +6,6 @@ using System.Windows.Forms;
 
 namespace AudioAnalyzer
 {
-    public partial class frmAudioAnalyzer : Form
-    {
-        private void InitFFT()
-        {
-            string[] n = { "8192", "4096", "2048", "1024", "512", "256", "128", "64", "32", "16", "8", "4", "2", "1" };
-            cboN_FFT.Items.AddRange(n);
-            cboN_FFT.Text = FFT.N_FFT.ToString();
-
-            txtSpectrumScale.Text = converterScale.ToString();
-            txtTimer1Interval.Text = timer1.Interval.ToString();
-            txtDropOffScale.Text = FFT.dropOffScale.ToString();
-        }
-
-        private void btnCommitFFTSettings_Click(object sender, EventArgs e)
-        {
-            int intVar;
-            double dblVar;
-
-            if (!Int32.TryParse(cboN_FFT.Text, out intVar)) return;
-            FFT.N_FFTBuffer = intVar;
-            Spectrum.SyncBandsAndFreqs();
-            //Spectrum.InitFullSpectrum();
-            if (!Int32.TryParse(txtSpectrumScale.Text, out intVar)) return;
-            InitConverter(intVar);
-            if (!Int32.TryParse(txtTimer1Interval.Text, out intVar)) return;
-            timer1.Interval = intVar;
-            if (!Double.TryParse(txtDropOffScale.Text, out dblVar)) return;
-            FFT.dropOffScale = dblVar;
-            if (!Int32.TryParse(txtMode.Text, out intVar)) return;
-            FFT.mode = intVar;
-
-            UpdateControls();
-        }
-    }
-
     public class FFT
     {
         public static double[] transformedData;

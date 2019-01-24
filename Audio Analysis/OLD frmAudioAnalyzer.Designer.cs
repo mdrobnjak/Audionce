@@ -122,7 +122,7 @@
 //            // 
 //            // chart1
 //            // 
-//            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+//            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 //            | System.Windows.Forms.AnchorStyles.Right)));
 //            chartArea1.AxisX.LabelStyle.Enabled = false;
 //            chartArea1.AxisX.MajorGrid.Enabled = false;
@@ -144,7 +144,7 @@
 //            // 
 //            // trkbrThreshold
 //            // 
-//            this.trkbrThreshold.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+//            this.trkbrThreshold.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 //            | System.Windows.Forms.AnchorStyles.Left)));
 //            this.trkbrThreshold.BackColor = System.Drawing.SystemColors.Control;
 //            this.trkbrThreshold.Location = new System.Drawing.Point(6, 12);
@@ -170,7 +170,7 @@
 //            // 
 //            // pnlRangeButtons
 //            // 
-//            this.pnlRangeButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+//            this.pnlRangeButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 //            | System.Windows.Forms.AnchorStyles.Right)));
 //            this.pnlRangeButtons.Controls.Add(this.btnDecrementRangeBand);
 //            this.pnlRangeButtons.Controls.Add(this.btnIncrementRangeBand);
@@ -264,7 +264,7 @@
 //            // 
 //            // trkbrMin
 //            // 
-//            this.trkbrMin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+//            this.trkbrMin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 //            | System.Windows.Forms.AnchorStyles.Right)));
 //            this.trkbrMin.BackColor = System.Drawing.SystemColors.Control;
 //            this.trkbrMin.Location = new System.Drawing.Point(45, 310);
@@ -276,7 +276,7 @@
 //            // 
 //            // trkbrMax
 //            // 
-//            this.trkbrMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+//            this.trkbrMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 //            | System.Windows.Forms.AnchorStyles.Right)));
 //            this.trkbrMax.BackColor = System.Drawing.SystemColors.Control;
 //            this.trkbrMax.Location = new System.Drawing.Point(45, 339);
@@ -339,7 +339,7 @@
 //            // 
 //            // tabctrlSettings
 //            // 
-//            this.tabctrlSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+//            this.tabctrlSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 //            | System.Windows.Forms.AnchorStyles.Right)));
 //            this.tabctrlSettings.Controls.Add(this.tabFFT);
 //            this.tabctrlSettings.Controls.Add(this.tabPostProcessing);
@@ -556,8 +556,8 @@
 //            // 
 //            // tabctrlBandAnalysis
 //            // 
-//            this.tabctrlBandAnalysis.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-//            | System.Windows.Forms.AnchorStyles.Left) 
+//            this.tabctrlBandAnalysis.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+//            | System.Windows.Forms.AnchorStyles.Left)
 //            | System.Windows.Forms.AnchorStyles.Right)));
 //            this.tabctrlBandAnalysis.Location = new System.Drawing.Point(3, 203);
 //            this.tabctrlBandAnalysis.Name = "tabctrlBandAnalysis";
@@ -758,8 +758,8 @@
 //            // 
 //            // pnlSpectrum
 //            // 
-//            this.pnlSpectrum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-//            | System.Windows.Forms.AnchorStyles.Left) 
+//            this.pnlSpectrum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+//            | System.Windows.Forms.AnchorStyles.Left)
 //            | System.Windows.Forms.AnchorStyles.Right)));
 //            this.pnlSpectrum.BackColor = System.Drawing.SystemColors.Control;
 //            this.pnlSpectrum.Controls.Add(this.btnToggleBars);

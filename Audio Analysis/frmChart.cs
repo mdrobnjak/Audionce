@@ -13,7 +13,7 @@ namespace AudioAnalyzer
 {
     public partial class frmChart : Form
     {
-        bool Enabled = true;
+        new bool Enabled = true;
         StripLine stripline = new StripLine();
 
         public frmChart()
@@ -86,6 +86,11 @@ namespace AudioAnalyzer
             stripline.IntervalOffset = Range.Active.Threshold = trkbrThreshold.Value;
 
             txtThreshold.Text = trkbrThreshold.Value.ToString();
+        }
+
+        public void AutoThreshold()
+        {
+            trkbrThreshold.Value = (int)(Range.Active.AutoSettings.ThresholdMultiplier * chartAmplitude.ChartAreas[0].AxisY.Maximum);
         }
     }
 }

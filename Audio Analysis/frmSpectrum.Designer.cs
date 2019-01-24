@@ -31,8 +31,8 @@
             this.pnlSpectrum = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.msSpectrumSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.msiActiveRangeOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.msiScale = new System.Windows.Forms.ToolStripMenuItem();
+            this.msActiveRangeOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.msScale = new System.Windows.Forms.ToolStripMenuItem();
             this.txtmsiScale = new System.Windows.Forms.ToolStripTextBox();
             this.trkbrMax = new System.Windows.Forms.TrackBar();
             this.trkbrMin = new System.Windows.Forms.TrackBar();
@@ -62,38 +62,38 @@
             this.menuStrip1.Size = new System.Drawing.Size(821, 24);
             this.menuStrip1.TabIndex = 20;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.Visible = false;
             // 
             // msSpectrumSettings
             // 
             this.msSpectrumSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.msiActiveRangeOnly,
-            this.msiScale});
+            this.msActiveRangeOnly,
+            this.msScale});
             this.msSpectrumSettings.Name = "msSpectrumSettings";
             this.msSpectrumSettings.Size = new System.Drawing.Size(70, 20);
             this.msSpectrumSettings.Text = "Spectrum";
             // 
-            // msiActiveRangeOnly
+            // msActiveRangeOnly
             // 
-            this.msiActiveRangeOnly.CheckOnClick = true;
-            this.msiActiveRangeOnly.Name = "msiActiveRangeOnly";
-            this.msiActiveRangeOnly.Size = new System.Drawing.Size(171, 22);
-            this.msiActiveRangeOnly.Text = "Active Range Only";
-            this.msiActiveRangeOnly.CheckStateChanged += new System.EventHandler(this.msiActiveRangeOnly_CheckStateChanged);
+            this.msActiveRangeOnly.CheckOnClick = true;
+            this.msActiveRangeOnly.Name = "msActiveRangeOnly";
+            this.msActiveRangeOnly.Size = new System.Drawing.Size(180, 22);
+            this.msActiveRangeOnly.Text = "Active Range Only";
+            this.msActiveRangeOnly.CheckStateChanged += new System.EventHandler(this.msActiveRangeOnly_CheckStateChanged);
+            this.msActiveRangeOnly.Click += new System.EventHandler(this.msActiveRangeOnly_Click);
             // 
-            // msiScale
+            // msScale
             // 
-            this.msiScale.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.msScale.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.txtmsiScale});
-            this.msiScale.Name = "msiScale";
-            this.msiScale.Size = new System.Drawing.Size(171, 22);
-            this.msiScale.Text = "Scale";
+            this.msScale.Name = "msScale";
+            this.msScale.Size = new System.Drawing.Size(180, 22);
+            this.msScale.Text = "Scale";
             // 
             // txtmsiScale
             // 
             this.txtmsiScale.Name = "txtmsiScale";
             this.txtmsiScale.Size = new System.Drawing.Size(100, 23);
-            this.txtmsiScale.TextChanged += new System.EventHandler(this.txtmsiScale_TextChanged);
+            this.txtmsiScale.TextChanged += new System.EventHandler(this.txtmsScale_TextChanged);
             // 
             // trkbrMax
             // 
@@ -124,10 +124,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(821, 350);
-            this.Controls.Add(this.pnlSpectrum);
             this.Controls.Add(this.trkbrMax);
             this.Controls.Add(this.trkbrMin);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.pnlSpectrum);
             this.Name = "frmSpectrum";
             this.Text = "Spectrum";
             this.menuStrip1.ResumeLayout(false);
@@ -143,10 +143,10 @@
         private System.Windows.Forms.Panel pnlSpectrum;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem msSpectrumSettings;
-        private System.Windows.Forms.ToolStripMenuItem msiActiveRangeOnly;
+        private System.Windows.Forms.ToolStripMenuItem msActiveRangeOnly;
         private System.Windows.Forms.TrackBar trkbrMax;
         private System.Windows.Forms.TrackBar trkbrMin;
-        private System.Windows.Forms.ToolStripMenuItem msiScale;
+        private System.Windows.Forms.ToolStripMenuItem msScale;
         private System.Windows.Forms.ToolStripTextBox txtmsiScale;
     }
 }

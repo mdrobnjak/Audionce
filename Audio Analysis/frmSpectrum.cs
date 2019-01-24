@@ -14,7 +14,7 @@ namespace AudioAnalyzer
     public partial class frmSpectrum : Form
     {
 
-        public static bool Enabled = true;
+        public static new bool Enabled = true;
         public static bool Full = true;
 
         public static int TotalBands;
@@ -266,6 +266,20 @@ namespace AudioAnalyzer
             trkbrMax.Value = Range.Active.HighCutIndex;
         }
 
+        public void IncrementRange()
+        {
+            if (trkbrMax.Value == trkbrMax.Maximum) return;
+            trkbrMin.Value++;
+            trkbrMax.Value++;
+        }
+
+        public void DecrementRange()
+        {
+            if (trkbrMin.Value == trkbrMin.Minimum) return;
+            trkbrMin.Value--;
+            trkbrMax.Value--;
+        }
+
         private void pnlSpectrum_SizeChanged(object sender, EventArgs e)
         {
             InitBufferAndGraphicForSpectrum();
@@ -273,7 +287,7 @@ namespace AudioAnalyzer
             cvt._yCenter = pnlSpectrum.Location.Y + pnlSpectrum.Height;
         }
 
-        private void msiActiveRangeOnly_CheckStateChanged(object sender, EventArgs e)
+        private void msActiveRangeOnly_CheckStateChanged(object sender, EventArgs e)
         {
 
         }
@@ -288,12 +302,18 @@ namespace AudioAnalyzer
             Range.Active.HighCutIndex = trkbrMax.Value;
         }
 
-        private void txtmsiScale_TextChanged(object sender, EventArgs e)
+        private void txtmsScale_TextChanged(object sender, EventArgs e)
         {
             int intVar;
 
             if (!Int32.TryParse(txtmsiScale.Text, out intVar)) return;
             InitConverter(intVar);
+        }
+
+        private void msActiveRangeOnly_Click(object sender, EventArgs e)
+        {
+            Full = !Full;
+            UpdateControls();
         }
     }
 }

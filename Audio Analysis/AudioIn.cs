@@ -33,7 +33,7 @@ namespace AudioAnalyzer
                 WaveFormat = new WaveFormat(RATE, 1)
             };
 
-            //waveInStream.DataAvailable += new EventHandler<WaveInEventArgs>(waveInStream_DataAvailable);
+            waveInStream.DataAvailable += new EventHandler<WaveInEventArgs>(waveInStream_DataAvailable);
 
             bwp = new BufferedWaveProvider(waveInStream.WaveFormat)
             {
