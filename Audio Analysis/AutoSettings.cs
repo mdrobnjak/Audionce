@@ -1,90 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace AudioAnalyzer
 {
-    public partial class frmAutoSettings : Form
-    {
-        public static Range[] Ranges;
 
-        public frmAutoSettings()
-        {
-            InitializeComponent();
-
-            InitGV();
-
-            this.gvAutoSettings.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvAutoSettings_CellValueChanged);
-        }
-
-        void InitGV()
-        {
-            int[] bandwidths = new int[Range.Count];
-            double[] threshMults = new double[Range.Count];
-
-            gvAutoSettings.Columns.Add("Range", "Range " + 1);
-
-            //Per Range Rows
-            gvAutoSettings.Rows.Add();
-            gvAutoSettings.Rows[0].HeaderCell.Value = "Bandwidth (Bands)";
-
-            gvAutoSettings.Rows.Add();
-            gvAutoSettings.Rows[1].HeaderCell.Value = "Threshold Multiplier";
-            
-            for (int i = 0; i < Range.Count; i++)
-            {
-                gvAutoSettings.Columns.Add("Range", "Range " + (i + 1));
-                gvAutoSettings.Rows[0].Cells[i].Value = Ranges[i].AutoSettings.Bandwidth;
-                gvAutoSettings.Rows[1].Cells[i].Value = Ranges[i].AutoSettings.ThresholdMultiplier;
-            }
-
-            gvAutoSettings.Columns.RemoveAt(Range.Count);
-
-            //Single Rows
-            gvAutoSettings.Rows.Add(); //Spacer
-            gvAutoSettings.Rows.Add();
-            gvAutoSettings.Rows[3].HeaderCell.Value = "Seconds to Collect";
-            gvAutoSettings.Rows[3].Cells[0].Value = AutoSettings.SecondsToCollect;
-
-        }
-
-        private void gvAutoSettings_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                object cellValue = gvAutoSettings.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-
-                switch (e.RowIndex)
-                {
-                    case 0:
-                        Ranges[e.ColumnIndex].AutoSettings.Bandwidth = Convert.ToInt32(cellValue);
-                        break;
-                    case 1:
-                        Ranges[e.ColumnIndex].AutoSettings.ThresholdMultiplier = Convert.ToDouble(cellValue);
-                        break;
-                    case 3:
-                        AutoSettings.SecondsToCollect = Convert.ToDouble(cellValue);
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-            catch
-            {
-            }
-        }
-
-
-    }
-
-    public class AutoSettings : Form
+    public class AutoSettings
     {
         public Range Range;
 
@@ -103,7 +26,7 @@ namespace AudioAnalyzer
         }
 
         #region Threshold
-        public bool DynamicThreshold = false;//true;
+        public bool DynamicThreshold = false;
         public double highestPeakNewCenter = 0;
         public double ThresholdMultiplier;
 
@@ -165,6 +88,8 @@ namespace AudioAnalyzer
             {
                 Ranging = false;
                 ReadyToProcess = true;
+
+                BandAnalysis.CreateTrainingRowFromAudioData(fftDataHistory);
             }
         }
 
@@ -208,8 +133,6 @@ namespace AudioAnalyzer
                     highestPeakNewCenter = max;
                     autoBandIndex = i;
                 }
-                //Band Analysis:
-                PassAlgorithmData(max);
             }
             return autoBandIndex;
         }
@@ -240,8 +163,6 @@ namespace AudioAnalyzer
                     autoBandIndex = i;
                     highestPeakNewCenter = max;
                 }
-                //Band Analysis:
-                //PassAlgorithmData(changePerBand);
             }
             return autoBandIndex;
         }
@@ -272,8 +193,6 @@ namespace AudioAnalyzer
                     autoBandIndex = i;
                     highestPeakNewCenter = max;
                 }
-                //Band Analysis:
-                PassAlgorithmData(changePerBand);
             }
             return autoBandIndex;
         }
@@ -322,8 +241,6 @@ namespace AudioAnalyzer
                     autoBandIndex = i;
                     highestPeakNewCenter = max;
                 }
-                //Band Analysis:
-                PassAlgorithmData(scpPerBand);
             }
             return autoBandIndex;
         }
@@ -351,8 +268,6 @@ namespace AudioAnalyzer
                     autoBandIndex = i;
                     highestPeakNewCenter = max;
                 }
-                //Band Analysis:
-                PassAlgorithmData(change);
             }
             return autoBandIndex;
         }
@@ -382,8 +297,6 @@ namespace AudioAnalyzer
                     autoBandIndex = i;
                     highestPeakNewCenter = max;
                 }
-                //Band Analysis:
-                PassAlgorithmData(max - min);
             }
             return autoBandIndex;
         }
@@ -411,51 +324,10 @@ namespace AudioAnalyzer
                     autoBandIndex = i;
                     highestPeakNewCenter = peak;
                 }
-                //Band Analysis:
-                PassAlgorithmData(peak / average);
             }
             return autoBandIndex;
         }
 
         #endregion
-
-        #region BandAnalysis
-
-        Dictionary<string, List<double>> AlgorithmNamesAndDatas = null;
-
-        void PassAlgorithmData(double data)
-        {
-            if (AlgorithmNamesAndDatas == null) return;
-
-            AlgorithmNamesAndDatas[AlgorithmNamesAndDatas.Last().Key].Add(data);
-        }
-
-        public Dictionary<string, List<double>> DoBandAnalysis()
-        {
-            AlgorithmNamesAndDatas = new Dictionary<string, List<double>>();
-
-            AlgorithmNamesAndDatas["Peak"] = new List<double>();
-            Peak();
-
-            AlgorithmNamesAndDatas["SingleChangePositive"] = new List<double>();
-            SingleChangePositive();
-
-            AlgorithmNamesAndDatas["TotalChange"] = new List<double>();
-            TotalChange();
-
-            AlgorithmNamesAndDatas["DynamicRange"] = new List<double>();
-            DynamicRange();
-
-            AlgorithmNamesAndDatas["PeakToAverage"] = new List<double>();
-            PeakToAverage();
-
-            Dictionary<string, List<double>> copy = new Dictionary<string, List<double>>(AlgorithmNamesAndDatas);
-            AlgorithmNamesAndDatas = null;
-
-            return copy;
-        }
-
-        #endregion
-
     }
 }

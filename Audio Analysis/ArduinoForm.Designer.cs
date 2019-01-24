@@ -1,6 +1,6 @@
 ﻿namespace AudioAnalyzer
 {
-    partial class frmArduino
+    partial class ArduinoForm
     {
         /// <summary>
         /// Required designer variable.

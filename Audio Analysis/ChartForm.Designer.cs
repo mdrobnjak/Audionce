@@ -1,6 +1,6 @@
 ﻿namespace AudioAnalyzer
 {
-    partial class frmChart
+    partial class ChartForm
     {
         /// <summary>
         /// Required designer variable.

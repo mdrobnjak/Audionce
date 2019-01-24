@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AudioAnalyzer
 {
-    public partial class frmAudioAnalyzerMDI
+    public partial class AudioAnalyzerMDIForm
     {
         double tmpRangeAudio;
 

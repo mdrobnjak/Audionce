@@ -18,7 +18,7 @@ namespace AudioAnalyzer
         {
             ranges = new Range[Count];
 
-            for (int i = 0; i < Count; i++)
+            for (int i = Count - 1; i >= 0; i--)
             {
                 SetActive(i);
                 Active.AutoSettings.Range = Active;
@@ -75,7 +75,7 @@ namespace AudioAnalyzer
 
                     AutoSettings = new AutoSettings()
                     {
-                        Bandwidth = frmSpectrum.TotalBands / 7,
+                        Bandwidth = Spectrum.TotalBands / 7,
                         ThresholdMultiplier = 0.6
                     },
 
@@ -96,12 +96,12 @@ namespace AudioAnalyzer
         {
             get
             {
-                return frmSpectrum.Full ? frmSpectrum.GetBandForFreq(lowCutFreq) : Math.Max(0, frmSpectrum.GetBandForFreq(lowCutFreq) - NumBandsBefore);
+                return Spectrum.Full ? Spectrum.GetBandForFreq(lowCutFreq) : Math.Max(0, Spectrum.GetBandForFreq(lowCutFreq) - NumBandsBefore);
             }
             set
             {
-                lowCutFreq = frmSpectrum.Full ? frmSpectrum.FreqOfBand[value] : frmSpectrum.FreqOfBand[value + NumBandsBefore];
-                LowCutAbsolute = frmSpectrum.Full ? value : value + NumBandsBefore;
+                lowCutFreq = Spectrum.Full ? Spectrum.FreqOfBand[value] : Spectrum.FreqOfBand[value + NumBandsBefore];
+                LowCutAbsolute = Spectrum.Full ? value : value + NumBandsBefore;
             }
         }
 
@@ -111,12 +111,12 @@ namespace AudioAnalyzer
         {
             get
             {
-                return frmSpectrum.Full ? frmSpectrum.GetBandForFreq(highCutFreq) : Math.Max(0, frmSpectrum.GetBandForFreq(highCutFreq) - NumBandsBefore);
+                return Spectrum.Full ? Spectrum.GetBandForFreq(highCutFreq) : Math.Max(0, Spectrum.GetBandForFreq(highCutFreq) - NumBandsBefore);
             }
             set
             {
-                highCutFreq = frmSpectrum.Full ? frmSpectrum.FreqOfBand[value] : frmSpectrum.FreqOfBand[value + NumBandsBefore];
-                HighCutAbsolute = frmSpectrum.Full ? value : value + NumBandsBefore;
+                highCutFreq = Spectrum.Full ? Spectrum.FreqOfBand[value] : Spectrum.FreqOfBand[value + NumBandsBefore];
+                HighCutAbsolute = Spectrum.Full ? value : value + NumBandsBefore;
             }
         }
 
@@ -125,7 +125,7 @@ namespace AudioAnalyzer
         {
             get
             {
-                return frmSpectrum.GetBandForFreq(LowFreq);
+                return Spectrum.GetBandForFreq(LowFreq);
             }
         }
 
@@ -134,7 +134,7 @@ namespace AudioAnalyzer
         {
             get
             {
-                return frmSpectrum.GetBandForFreq(HighFreq);
+                return Spectrum.GetBandForFreq(HighFreq);
             }
         }
 
@@ -168,7 +168,7 @@ namespace AudioAnalyzer
         {
             get
             {
-                return frmSpectrum.GetNumBandsForFreqRange(LowFreq, HighFreq);
+                return Spectrum.GetNumBandsForFreqRange(LowFreq, HighFreq);
             }
         }
 
@@ -176,7 +176,7 @@ namespace AudioAnalyzer
         {
             get
             {
-                return frmSpectrum.GetNumBandsForFreqRange(0, LowFreq);
+                return Spectrum.GetNumBandsForFreqRange(0, LowFreq);
             }
         }
 

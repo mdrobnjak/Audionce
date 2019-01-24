@@ -1,6 +1,6 @@
 ﻿namespace AudioAnalyzer
 {
-    partial class frmSpectrum
+    partial class SpectrumForm
     {
         /// <summary>
         /// Required designer variable.

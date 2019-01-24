@@ -12,19 +12,19 @@ using System.Windows.Forms;
 
 namespace AudioAnalyzer
 {
-    public partial class frmAudioAnalyzerMDI : Form
+    public partial class AudioAnalyzerMDIForm : Form
     {
         private int childFormNumber = 0;
         MdiLayout DefaultLayout = MdiLayout.TileHorizontal;
 
-        frmSpectrum frmSpectrum;
-        frmChart frmChart;
-        frmArduino frmArduino;
-        frmAutoSettings frmAutoSettings;
+        SpectrumForm frmSpectrum;
+        ChartForm frmChart;
+        ArduinoForm frmArduino;
+        AutoSettingsForm frmAutoSettings;
 
         Range[] Ranges;
 
-        public frmAudioAnalyzerMDI()
+        public AudioAnalyzerMDIForm()
         {
             InitializeComponent();
 
@@ -33,12 +33,12 @@ namespace AudioAnalyzer
 
             Range.Init(ref this.Ranges);
             Range.Init(ref FileIO.Ranges);
-            Range.Init(ref frmAutoSettings.Ranges);
+            Range.Init(ref AutoSettingsForm.Ranges);
 
             AudioIn.InitSoundCapture();
-            frmSpectrum.SyncBandsAndFreqs();
+            Spectrum.SyncBandsAndFreqs();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
-            frmArduino.InitArduinoPort();
+            Arduino.InitPort();
 
             LoadChildForms();
 
@@ -47,7 +47,7 @@ namespace AudioAnalyzer
 
         private void frmAudioAnalyzerMDI_Load(object sender, EventArgs e)
         {
-            LayoutMdi(MdiLayout.TileHorizontal);
+            LayoutMdi(DefaultLayout);
         }
 
         void InitControls()
@@ -65,12 +65,12 @@ namespace AudioAnalyzer
 
         void LoadChildForms()
         {
-            frmSpectrum = new frmSpectrum();
+            frmSpectrum = new SpectrumForm();
             frmSpectrum.MdiParent = this;
             childFormNumber++;
             frmSpectrum.Show();
 
-            frmChart = new frmChart();
+            frmChart = new ChartForm();
             frmChart.MdiParent = this;
             childFormNumber++;
             frmChart.Show();
@@ -97,22 +97,21 @@ namespace AudioAnalyzer
 
                 Ranges[r].AutoSettings.ApplyAutoSettings();
 
+
+                lblDelay.Text = "Delays: Gate-" + (DateTime.Now - BeforeFFT).TotalMilliseconds + "ms";
                 if (Gate(r))
                 {
-                    lblDelay.Text = "FFT to Gate Delay: " + (DateTime.Now - BeforeFFT).TotalMilliseconds + " ms";
-                    frmArduino.Trigger(r);
+                    ArduinoForm.Trigger(r);
                     //SetProgressBars(r);
                 }
                 else
                 {
                     //FadeProgressBars(r);
                 }
-
             }
 
             Task.Run(() => frmSpectrum.Draw());
             Task.Run(() => frmChart.Draw());
-
 
             if (AutoSettings.Ranging)
             {
@@ -139,89 +138,6 @@ namespace AudioAnalyzer
             }
         }
 
-        ////Band Analysis:  
-        //Dictionary<string, List<double>> AlgorithmDatas;
-
-        //float[] ToArray(Dictionary<string, List<double>> algDatas)
-        //{
-        //    float[] arr = new float[100];
-
-        //    int a = 0;
-
-        //    foreach (string key in algDatas.Keys)
-        //    {
-        //        for (int i = 0; i < 20; i++)
-        //        {
-        //            arr[i + a] = (float)algDatas[key][i];
-        //        }
-        //        a += 20;
-        //    }
-
-        //    return arr;
-        //}
-
-        //void PrintBandAnalysis(Dictionary<string, List<double>> AlgorithmDatas)
-        //{
-        //    int i = 0;
-
-        //    //if (tabctrlBandAnalysis.TabPages.Count < 1)
-        //    //{
-        //    //    foreach (string algName in AlgorithmDatas.Keys)
-        //    //    {
-        //    //        tabctrlBandAnalysis.TabPages.Add(new TabPage(algName));
-        //    //        var txtAlgData = new TextBox();
-        //    //        txtAlgData.ScrollBars = ScrollBars.Both;
-        //    //        txtAlgData.Multiline = true;
-        //    //        txtAlgData.Dock = DockStyle.Fill;
-        //    //        tabctrlBandAnalysis.TabPages[i].Controls.Add(txtAlgData);
-        //    //        i++;
-        //    //    }
-        //    //}
-
-        //    i = 0;
-
-        //    csvRow = "";
-
-        //    foreach (string algName in AlgorithmDatas.Keys)
-        //    {
-        //        string dataToPrint = "";
-        //        double max = 0;
-        //        for (int j = 0; j < AlgorithmDatas[algName].Count; j++)
-        //        {
-        //            dataToPrint += "[" + j + "]: " + ((int)AlgorithmDatas[algName][j]).ToString() + "\r\n";
-        //            if (AlgorithmDatas[algName][j] > max) max = AlgorithmDatas[algName][j];
-        //        }
-
-        //        for (int j = 0; j < AlgorithmDatas[algName].Count; j++)
-        //        {
-        //            csvRow += (AlgorithmDatas[algName][j] / max).ToString() + ",";
-        //        }
-
-        //        //tabctrlBandAnalysis.TabPages[i].Controls[0].Text = dataToPrint;
-
-        //        i++;
-        //    }
-
-        //    csvRow = csvRow.Remove(csvRow.Length - 1, 1);
-        //    csvRow += Environment.NewLine;
-
-        //    this.AlgorithmDatas = new Dictionary<string, List<double>>(AlgorithmDatas);
-
-        //    //txtPrediction.Text = ML.PredictRealTime(ML.mlContext, Array.ConvertAll(csvRow.Split(','), float.Parse)).ToString();
-        //}
-
-        //string csvRow;
-
-        //private void btnTrain_Click(object sender, EventArgs e)
-        //{
-        //    AppendCSV();
-        //}
-
-        //void AppendCSV()
-        //{
-        //    csvRow = csvRow.Insert(0, Range.Active.LowCutAbsolute.ToString() + ",");
-        //    File.AppendAllText(ML._trainDataPath, csvRow);
-        //}
 
         #region Visual Studio Generated Code
 
@@ -353,13 +269,13 @@ namespace AudioAnalyzer
 
             if (!Int32.TryParse(((ToolStripMenuItem)(e.ClickedItem)).Text, out intVar)) return;
             FFT.N_FFTBuffer = intVar;
-            frmSpectrum.SyncBandsAndFreqs();
+            Spectrum.SyncBandsAndFreqs();
             frmSpectrum.UpdateControls();
         }
 
         private void arduinoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmArduino = new frmArduino();
+            frmArduino = new ArduinoForm();
             frmArduino.MdiParent = this;
             childFormNumber++;
             frmArduino.Show();
@@ -367,7 +283,7 @@ namespace AudioAnalyzer
 
         private void autoSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAutoSettings = new frmAutoSettings();
+            frmAutoSettings = new AutoSettingsForm();
             frmAutoSettings.MdiParent = this;
             childFormNumber++;
             frmAutoSettings.Show();

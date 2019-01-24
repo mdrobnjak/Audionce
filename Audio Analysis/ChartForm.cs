@@ -11,12 +11,12 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace AudioAnalyzer
 {
-    public partial class frmChart : Form
+    public partial class ChartForm : Form
     {
         new bool Enabled = true;
         StripLine stripline = new StripLine();
 
-        public frmChart()
+        public ChartForm()
         {
             InitializeComponent();
 

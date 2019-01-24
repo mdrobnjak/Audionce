@@ -11,25 +11,14 @@ using System.Windows.Forms;
 
 namespace AudioAnalyzer
 {
-    public partial class frmSpectrum : Form
+    public partial class SpectrumForm : Form
     {
-
         public static new bool Enabled = true;
-        public static bool Full = true;
-
-        public static int TotalBands;
-        public static int DisplayBands
-        {
-            get
-            {
-                return Full ? TotalBands : Range.Active.NumBands;
-            }
-        }
 
         Converter cvt;
         int converterScale = 8;
 
-        public frmSpectrum()
+        public SpectrumForm()
         {
             InitializeComponent();
 
@@ -150,7 +139,7 @@ namespace AudioAnalyzer
             if (data == null || data.Length == 0 || AudioIn.sourceData == null)
                 return;
 
-            float ratioFreq = (float)pnlSpectrum.Width / frmSpectrum.DisplayBands;
+            float ratioFreq = (float)pnlSpectrum.Width / Spectrum.DisplayBands;
             float ratioFreqTest = (float)pnlSpectrum.Width / 200;
             float ratioWave = pnlSpectrum.Width / AudioIn.sourceData.Length;
             float value = 0;
@@ -161,7 +150,7 @@ namespace AudioAnalyzer
 
             #region Fill Rectangles
             int bandIndexRelative = 0;
-            int bandIndexAbsolute = frmSpectrum.Full ? 0 : Range.Active.NumBandsBefore;
+            int bandIndexAbsolute = Spectrum.Full ? 0 : Range.Active.NumBandsBefore;
 
             for (; bandIndexRelative < trkbrMin.Value; bandIndexRelative++, bandIndexAbsolute++)
             {
@@ -175,7 +164,7 @@ namespace AudioAnalyzer
                 value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
                 g.FillRectangle(Constants.Brushes.redBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
             }
-            for (; bandIndexRelative < frmSpectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
+            for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
             {
                 cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
                 value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
@@ -187,80 +176,10 @@ namespace AudioAnalyzer
         #endregion
 
 
-        public static Dictionary<int, int> FreqOfBand;
-
-        public static void SyncBandsAndFreqs()
-        {
-            FreqOfBand = new Dictionary<int, int>();
-            if (FFT.rawFFT)
-            {
-                TotalBands = FFT.N_FFTBuffer;
-                for (int i = 0; i < TotalBands; i++)
-                {
-                    FreqOfBand[i] = i * AudioIn.RATE / FFT.N_FFT;
-                }
-            }
-            else
-            {
-                int k = 1, n = 0;
-                int mappedFreq;
-                for (int i = 0; i < FFT.N_FFTBuffer / 2; i += k)
-                {
-                    mappedFreq = i * AudioIn.RATE / 2 / (FFT.N_FFTBuffer / 2);
-                    for (int l = 0; l < FFT.chunk_freq.Length; l++)
-                    {
-                        if (mappedFreq < FFT.chunk_freq[l] || l == FFT.chunk_freq.Length - 1)
-                        {
-                            k = FFT.chunk_freq_jump[l];//chunk_freq[l] / chunk_freq[0];
-                            break;
-                        }
-                    }
-                    FreqOfBand[n++] = mappedFreq;
-                }
-                TotalBands = n;
-            }
-        }
-
-        public static int GetBandForFreq(int freqInHz)
-        {
-            int i;
-            for (i = 0; i < TotalBands; i++)
-            {
-                if (freqInHz <= FreqOfBand[i])
-                {
-                    break;
-                }
-            }
-            return i;
-        }
-
-        public static int GetNumBandsForFreqRange(int freqMin, int freqMax)
-        {
-            int i, minBand = 0, maxBand = TotalBands;
-            for (i = 0; i < TotalBands; i++)
-            {
-                if (freqMin <= FreqOfBand[i])
-                {
-                    minBand = i;
-                    break;
-                }
-            }
-
-            for (i = minBand; i < TotalBands; i++)
-            {
-                if (freqMax <= FreqOfBand[i])
-                {
-                    maxBand = i;
-                    break;
-                }
-            }
-
-            return maxBand - minBand;
-        }
 
         public void UpdateControls()
         {
-            trkbrMax.Maximum = trkbrMin.Maximum = DisplayBands;
+            trkbrMax.Maximum = trkbrMin.Maximum = Spectrum.DisplayBands;
 
             trkbrMin.Value = Range.Active.LowCutIndex;
             trkbrMax.Value = Range.Active.HighCutIndex;
@@ -312,7 +231,7 @@ namespace AudioAnalyzer
 
         private void msActiveRangeOnly_Click(object sender, EventArgs e)
         {
-            Full = !Full;
+            Spectrum.Full = !Spectrum.Full;
             UpdateControls();
         }
     }

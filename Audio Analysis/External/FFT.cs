@@ -74,9 +74,9 @@ namespace AudioAnalyzer
             {
                 transformed = true;
             }
-            ComplexNumber[] data = new ComplexNumber[N_FFT];
+            ComplexNumber[] data = new ComplexNumber[N_FFT/4]; //Save Resources
             var runningNode = AudioIn.endingNode;
-            for (int i = 0; i < N_FFT; i++)
+            for (int i = 0; i < N_FFT/4; i++) //Save Resources
             {
                 data[i] = runningNode.Value;
                 if (runningNode.PrevNode == null)
@@ -89,7 +89,7 @@ namespace AudioAnalyzer
             if (rawFFT)
             {
                 var resultDouble = result.Select(x => x.Magnitude).ToArray();
-                Array.Resize(ref resultDouble, frmSpectrum.TotalBands);
+                Array.Resize(ref resultDouble, Spectrum.TotalBands);
                 return resultDouble;
             }
 
@@ -102,6 +102,7 @@ namespace AudioAnalyzer
             {
                 value = 0;
                 var mappedFreq = i * AudioIn.RATE / 2 / N2;
+                if (mappedFreq > Range.Active.HighFreq) break; //Save Resources
                 for (int l = 0; l < chunk_freq.Length; l++)
                 {
                     if (mappedFreq < chunk_freq[l] || l == chunk_freq.Length - 1)
@@ -129,14 +130,10 @@ namespace AudioAnalyzer
             if (!transformed)
                 Array.Resize(ref finalresult, transformedDataIndex);
 
-
-            DateTime chkpoint1_end = DateTime.Now;
-            lastDelay = chkpoint1_end.Subtract(chkpoint1).TotalMilliseconds;
-            //osdPanel.AddSet("FFT delay(ms)", lastDelay.ToString());
+            
+            lastDelay = DateTime.Now.Subtract(chkpoint1).TotalMilliseconds;
+            Console.WriteLine(lastDelay);
             return finalresult;
-
         }
-        
-
     }
 }

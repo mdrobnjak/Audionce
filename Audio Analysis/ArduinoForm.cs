@@ -11,44 +11,26 @@ using System.Windows.Forms;
 
 namespace AudioAnalyzer
 {
-    public partial class frmArduino : Form
-    {
-        static List<string> AvailablePorts = new List<string>();
+    public partial class ArduinoForm : Form
+    {      
 
-        public static SerialPort ArduinoPort;
-
-        public static bool enabled = false;
-
-        public static string[] arduinoCommands = { "ON: 1", "OFF: 0" };
-
-        public static int bRange = 0, mRange;
-
-        public frmArduino()
+        public ArduinoForm()
         {
             InitializeComponent();
 
             InitControls();
         }
 
-        public static void InitArduinoPort()
-        {
-            foreach (string portName in SerialPort.GetPortNames())
-            {
-                AvailablePorts.Add(portName);
-            }
-
-            ArduinoPort = new SerialPort(AvailablePorts.Count > 0 ? AvailablePorts[0] : "No Serial Devices Available", 57600, Parity.None, 8, StopBits.One);
-        }
 
         private void InitControls()
         {
-            foreach (string portName in AvailablePorts)
+            foreach (string portName in Arduino.AvailablePorts)
             {
                 cboPortNames.Items.Add(portName);
                 cboPortNames.Text = portName;
             }
 
-            cboArduinoCommands.Items.AddRange(arduinoCommands);
+            cboArduinoCommands.Items.AddRange(Arduino.Commands);
 
             btnArduinoMRange2_Click(null, null);
         }
@@ -60,19 +42,19 @@ namespace AudioAnalyzer
 
         private void cboPortNames_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ArduinoPort = new SerialPort(cboPortNames.Text, 57600, Parity.None, 8, StopBits.One);
+            Arduino.Port = new SerialPort(cboPortNames.Text, 57600, Parity.None, 8, StopBits.One);
         }
 
         private void btnArduinoMRange2_Click(object sender, EventArgs e)
         {
-            mRange = 1;
+            Arduino.mRange = 1;
             btnArduinoMRange2.BackColor = Color.LightGreen;
             btnArduinoMRange3.BackColor = Color.Transparent;
         }
 
         private void btnArduinoMRange3_Click(object sender, EventArgs e)
         {
-            mRange = 2;
+            Arduino.mRange = 2;
             btnArduinoMRange2.BackColor = Color.Transparent;
             btnArduinoMRange3.BackColor = Color.LightGreen;
         }
@@ -83,17 +65,17 @@ namespace AudioAnalyzer
 
             if (commandChar == "0")
             {
-                if (ArduinoPort.IsOpen)
+                if (Arduino.Port.IsOpen)
                 {
-                    ArduinoPort.Close();
+                    Arduino.Port.Close();
                 }
                 return;
             }
             else if (commandChar == "1")
             {
-                if (!ArduinoPort.IsOpen)
+                if (!Arduino.Port.IsOpen)
                 {
-                    ArduinoPort.Open();
+                    Arduino.Port.Open();
                 }
                 return;
             }
@@ -103,27 +85,27 @@ namespace AudioAnalyzer
 
         public static void Write(string msg)
         {
-            ArduinoPort.Write(msg);
+            Arduino.Port.Write(msg);
         }
 
         public static void Toggle()
         {
-            if (ArduinoPort.IsOpen)
+            if (Arduino.Port.IsOpen)
             {
-                ArduinoPort.Close();
+                Arduino.Port.Close();
             }
             else
             {
-                ArduinoPort.Open();
+                Arduino.Port.Open();
             }
         }
 
         public static void Trigger(int rangeIndex)
         {
-            if (ArduinoPort.IsOpen)
+            if (Arduino.Port.IsOpen)
             {
-                if (rangeIndex == bRange) Write("b");
-                else if (rangeIndex == mRange) Write("m");
+                if (rangeIndex == Arduino.bRange) Write("b");
+                else if (rangeIndex == Arduino.mRange) Write("m");
             }
         }
     }

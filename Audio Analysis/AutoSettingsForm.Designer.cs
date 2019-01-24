@@ -1,6 +1,6 @@
 ﻿namespace AudioAnalyzer
 {
-    partial class frmAutoSettings
+    partial class AutoSettingsForm
     {
         /// <summary>
         /// Required designer variable.

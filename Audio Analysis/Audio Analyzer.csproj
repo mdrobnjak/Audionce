@@ -148,49 +148,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arduino.cs" />
     <Compile Include="AudioIn.cs" />
+    <Compile Include="AutoSettings.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="External\BeatDetector.cs" />
     <Compile Include="External\ComplexNumber.cs" />
     <Compile Include="External\FFT.cs" />
-    <Compile Include="External\Filtering.cs">
+    <Compile Include="AudioAnalyzerFiltering.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FileIO.cs" />
-    <Compile Include="frmArduino.cs">
+    <Compile Include="ArduinoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmArduino.Designer.cs">
-      <DependentUpon>frmArduino.cs</DependentUpon>
+    <Compile Include="ArduinoForm.Designer.cs">
+      <DependentUpon>ArduinoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ML\BandAnalysis.cs" />
     <Compile Include="OLD frmAudioAnalyzer.cs" />
     <Compile Include="OLD frmAudioAnalyzer.Designer.cs">
       <DependentUpon>OLD frmAudioAnalyzer.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAudioAnalyzerMDI.cs">
+    <Compile Include="AudioAnalyzerMDIForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAudioAnalyzerMDI.Designer.cs">
-      <DependentUpon>frmAudioAnalyzerMDI.cs</DependentUpon>
+    <Compile Include="AudioAnalyzerMDIForm.Designer.cs">
+      <DependentUpon>AudioAnalyzerMDIForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAutoSettings.cs">
+    <Compile Include="AutoSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAutoSettings.Designer.cs">
-      <DependentUpon>frmAutoSettings.cs</DependentUpon>
+    <Compile Include="AutoSettingsForm.Designer.cs">
+      <DependentUpon>AutoSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmChart.cs">
+    <Compile Include="ChartForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmChart.Designer.cs">
-      <DependentUpon>frmChart.cs</DependentUpon>
+    <Compile Include="ChartForm.Designer.cs">
+      <DependentUpon>ChartForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmSpectrum.cs">
+    <Compile Include="Spectrum.cs" />
+    <Compile Include="SpectrumForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSpectrum.Designer.cs">
-      <DependentUpon>frmSpectrum.cs</DependentUpon>
+    <Compile Include="SpectrumForm.Designer.cs">
+      <DependentUpon>SpectrumForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ML\BandSelectionData.cs" />
     <Compile Include="ML\MachineLearning.cs" />
@@ -199,24 +203,24 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
-    <EmbeddedResource Include="frmArduino.resx">
-      <DependentUpon>frmArduino.cs</DependentUpon>
+    <EmbeddedResource Include="ArduinoForm.resx">
+      <DependentUpon>ArduinoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OLD frmAudioAnalyzer.resx">
       <DependentUpon>OLD frmAudioAnalyzer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAudioAnalyzerMDI.resx">
-      <DependentUpon>frmAudioAnalyzerMDI.cs</DependentUpon>
+    <EmbeddedResource Include="AudioAnalyzerMDIForm.resx">
+      <DependentUpon>AudioAnalyzerMDIForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAutoSettings.resx">
-      <DependentUpon>frmAutoSettings.cs</DependentUpon>
+    <EmbeddedResource Include="AutoSettingsForm.resx">
+      <DependentUpon>AutoSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmChart.resx">
-      <DependentUpon>frmChart.cs</DependentUpon>
+    <EmbeddedResource Include="ChartForm.resx">
+      <DependentUpon>ChartForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSpectrum.resx">
-      <DependentUpon>frmSpectrum.cs</DependentUpon>
+    <EmbeddedResource Include="SpectrumForm.resx">
+      <DependentUpon>SpectrumForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

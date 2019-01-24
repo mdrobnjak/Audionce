@@ -10,7 +10,7 @@ namespace AudioAnalyzer
     public static class FileIO
     {
         public static Range[] Ranges;
-                
+
         public static string Path { get; private set; }
 
         public static void WriteConfig(string filePath)
@@ -40,7 +40,8 @@ namespace AudioAnalyzer
             Array.Resize(ref path, path.Count() - 3);
             Path = string.Join(@"\", path) + @"\Configs\";
 
-            ReadConfig(Path + System.IO.File.ReadAllText(Path + @"\LastConfig\LastConfig.txt") + ".txt");
+            ResetConfig();
+            //ReadConfig(Path + System.IO.File.ReadAllText(Path + @"\LastConfig\LastConfig.txt") + ".txt");
 
             return System.IO.File.ReadAllText(Path + @"\LastConfig\LastConfig.txt");
         }
@@ -65,7 +66,17 @@ namespace AudioAnalyzer
                 Ranges[i].LowCutIndex = Int32.Parse(config[2].Split(',')[i]);
                 Ranges[i].HighCutIndex = Int32.Parse(config[3].Split(',')[i]);
                 Ranges[i].Threshold = Int32.Parse(config[4].Split(',')[i]);
-            }            
+            }
         }
-    }    
+
+        static void ResetConfig()
+        {
+            for (int i = 0; i < Range.Count; i++)
+            {
+                Ranges[i].LowCutIndex = 0;
+                Ranges[i].HighCutIndex = 0;
+                Ranges[i].Threshold = 0;
+            }
+        }
+    }
 }
