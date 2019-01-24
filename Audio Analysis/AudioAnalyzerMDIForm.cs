@@ -73,7 +73,7 @@ namespace AudioAnalyzer
             frmChart = new ChartForm();
             frmChart.MdiParent = this;
             childFormNumber++;
-            frmChart.Show();
+            //frmChart.Show();
         }
 
         DateTime BeforeFFT;
@@ -304,16 +304,23 @@ namespace AudioAnalyzer
             AutoSettings.BeginRanging();
         }
 
-        private void btnSubtract_Click(object sender, EventArgs e)
+        private void btnSubtract_CheckStateChanged(object sender, EventArgs e)
         {
             subtractFrom = Convert.ToInt32(cboSubtractFrom.Text) - 1;
             subtractor = Convert.ToInt32(cboSubtractor.Text) - 1;
-            Subtract = !Subtract;
+            Subtract = btnSubtract.Checked;
         }
 
         private void msThreshold_Click(object sender, EventArgs e)
         {
             frmChart.AutoThreshold();
+        }
+
+        private void btnRawFFT_CheckStateChanged(object sender, EventArgs e)
+        {
+            FFT.rawFFT = btnRawFFT.Checked;
+            Spectrum.SyncBandsAndFreqs();
+            frmSpectrum.UpdateControls();
         }
     }
 }

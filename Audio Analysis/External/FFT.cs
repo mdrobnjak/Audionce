@@ -18,7 +18,6 @@ namespace AudioAnalyzer
 
         public static int[] chunk_freq = { 800, 1600, 3200, 6400, 12800, 30000 };
         public static int[] chunk_freq_jump = { 1, 2, 4, 6, 8, 10, 16 };
-        static double lastDelay = 0;
 
         private static ComplexNumber[] RawFFT(ComplexNumber[] data)
         {
@@ -74,9 +73,9 @@ namespace AudioAnalyzer
             {
                 transformed = true;
             }
-            ComplexNumber[] data = new ComplexNumber[N_FFT/4]; //Save Resources
+            ComplexNumber[] data = new ComplexNumber[N_FFT];
             var runningNode = AudioIn.endingNode;
-            for (int i = 0; i < N_FFT/4; i++) //Save Resources
+            for (int i = 0; i < N_FFT; i++)
             {
                 data[i] = runningNode.Value;
                 if (runningNode.PrevNode == null)
@@ -85,6 +84,7 @@ namespace AudioAnalyzer
                 runningNode = runningNode.PrevNode;
             }
             var result = RawFFT(data);
+
 
             if (rawFFT)
             {
@@ -102,7 +102,6 @@ namespace AudioAnalyzer
             {
                 value = 0;
                 var mappedFreq = i * AudioIn.RATE / 2 / N2;
-                if (mappedFreq > Range.Active.HighFreq) break; //Save Resources
                 for (int l = 0; l < chunk_freq.Length; l++)
                 {
                     if (mappedFreq < chunk_freq[l] || l == chunk_freq.Length - 1)
@@ -118,7 +117,7 @@ namespace AudioAnalyzer
                 }
 
                 
-                lastData[transformedDataIndex] -= lastDelay * dropOffScale;
+                lastData[transformedDataIndex] -= DateTime.Now.Subtract(chkpoint1).TotalMilliseconds * dropOffScale;
                 if (mode == 0)
                     finalresult[transformedDataIndex] = value;
                 else
@@ -129,10 +128,8 @@ namespace AudioAnalyzer
 
             if (!transformed)
                 Array.Resize(ref finalresult, transformedDataIndex);
-
             
-            lastDelay = DateTime.Now.Subtract(chkpoint1).TotalMilliseconds;
-            Console.WriteLine(lastDelay);
+            //Console.WriteLine(DateTime.Now.Subtract(chkpoint1).TotalMilliseconds);
             return finalresult;
         }
     }

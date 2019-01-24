@@ -105,6 +105,7 @@
             this.lblWith = new System.Windows.Forms.ToolStripLabel();
             this.cboSubtractFrom = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnRawFFT = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -316,7 +317,8 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nFFTToolStripMenuItem});
+            this.nFFTToolStripMenuItem,
+            this.btnRawFFT});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -330,7 +332,7 @@
             this.toolStripMenuItem5,
             this.toolStripMenuItem6});
             this.nFFTToolStripMenuItem.Name = "nFFTToolStripMenuItem";
-            this.nFFTToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.nFFTToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.nFFTToolStripMenuItem.Text = "FFT Size";
             this.nFFTToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.nFFTToolStripMenuItem_DropDownItemClicked);
             // 
@@ -406,21 +408,21 @@
             // msAutoRange
             // 
             this.msAutoRange.Name = "msAutoRange";
-            this.msAutoRange.Size = new System.Drawing.Size(149, 26);
+            this.msAutoRange.Size = new System.Drawing.Size(216, 26);
             this.msAutoRange.Text = "Range";
             this.msAutoRange.Click += new System.EventHandler(this.msAutoRange_Click);
             // 
             // msThreshold
             // 
             this.msThreshold.Name = "msThreshold";
-            this.msThreshold.Size = new System.Drawing.Size(149, 26);
+            this.msThreshold.Size = new System.Drawing.Size(216, 26);
             this.msThreshold.Text = "Threshold";
             this.msThreshold.Click += new System.EventHandler(this.msThreshold_Click);
             // 
             // msAutoSettings
             // 
             this.msAutoSettings.Name = "msAutoSettings";
-            this.msAutoSettings.Size = new System.Drawing.Size(149, 26);
+            this.msAutoSettings.Size = new System.Drawing.Size(216, 26);
             this.msAutoSettings.Text = "Settings...";
             this.msAutoSettings.Click += new System.EventHandler(this.autoSettingsToolStripMenuItem_Click);
             // 
@@ -718,6 +720,7 @@
             this.btnSubtract.Name = "btnSubtract";
             this.btnSubtract.Size = new System.Drawing.Size(68, 25);
             this.btnSubtract.Text = "Subtract";
+            this.btnSubtract.CheckStateChanged += new System.EventHandler(this.btnSubtract_CheckStateChanged);
             // 
             // cboSubtractor
             // 
@@ -739,6 +742,14 @@
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
             this.toolStripSeparator10.Size = new System.Drawing.Size(6, 28);
+            // 
+            // btnRawFFT
+            // 
+            this.btnRawFFT.CheckOnClick = true;
+            this.btnRawFFT.Name = "btnRawFFT";
+            this.btnRawFFT.Size = new System.Drawing.Size(216, 26);
+            this.btnRawFFT.Text = "Raw FFT";
+            this.btnRawFFT.CheckStateChanged += new System.EventHandler(this.btnRawFFT_CheckStateChanged);
             // 
             // AudioAnalyzerMDIForm
             // 
@@ -847,6 +858,7 @@
         private System.Windows.Forms.ToolStripLabel lblWith;
         private System.Windows.Forms.ToolStripComboBox cboSubtractFrom;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem btnRawFFT;
     }
 }
 

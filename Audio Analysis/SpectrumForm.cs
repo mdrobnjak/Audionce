@@ -103,7 +103,16 @@ namespace AudioAnalyzer
             }
             else
             {
-                if (Enabled) PaintSpectrum();
+                if (Enabled)
+                {
+                    try
+                    {
+                        PaintSpectrum();
+                    }
+                    catch
+                    {
+                    }
+                }
             }
         }
 
@@ -208,7 +217,8 @@ namespace AudioAnalyzer
 
         private void msActiveRangeOnly_CheckStateChanged(object sender, EventArgs e)
         {
-
+            Spectrum.Full = !msActiveRangeOnly.Checked;
+            UpdateControls();
         }
 
         private void trkbrMin_ValueChanged(object sender, EventArgs e)
@@ -227,12 +237,6 @@ namespace AudioAnalyzer
 
             if (!Int32.TryParse(txtmsiScale.Text, out intVar)) return;
             InitConverter(intVar);
-        }
-
-        private void msActiveRangeOnly_Click(object sender, EventArgs e)
-        {
-            Spectrum.Full = !Spectrum.Full;
-            UpdateControls();
         }
     }
 }

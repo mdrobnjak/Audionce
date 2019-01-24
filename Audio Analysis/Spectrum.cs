@@ -31,7 +31,7 @@ namespace AudioAnalyzer
                 TotalBands = FFT.N_FFTBuffer;
                 for (int i = 0; i < TotalBands; i++)
                 {
-                    FreqOfBand[i] = i * AudioIn.RATE / FFT.N_FFT;
+                    FreqOfBand[i] = i * AudioIn.RATE / FFT.N_FFTBuffer;
                 }
             }
             else
@@ -41,7 +41,7 @@ namespace AudioAnalyzer
                 for (int i = 0; i < FFT.N_FFTBuffer / 2; i += k)
                 {
                     mappedFreq = i * AudioIn.RATE / 2 / (FFT.N_FFTBuffer / 2);
-                    if (mappedFreq > Range.Active.HighFreq) break; //Save Resources
+                    //if (mappedFreq > Range.Active.HighFreq) break;
                     for (int l = 0; l < FFT.chunk_freq.Length; l++)
                     {
                         if (mappedFreq < FFT.chunk_freq[l] || l == FFT.chunk_freq.Length - 1)
