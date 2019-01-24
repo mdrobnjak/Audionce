@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trkbrThreshold = new System.Windows.Forms.TrackBar();
@@ -63,11 +63,9 @@
             this.lblN_FFT = new System.Windows.Forms.Label();
             this.btnCommitFFTSettings = new System.Windows.Forms.Button();
             this.tabPostProcessing = new System.Windows.Forms.TabPage();
-            this.lblGetsSubtractedBy = new System.Windows.Forms.Label();
-            this.cboSubtractor = new System.Windows.Forms.ComboBox();
-            this.cboSubtractFrom = new System.Windows.Forms.ComboBox();
-            this.btnSubtract = new System.Windows.Forms.Button();
             this.tabAutoSettings = new System.Windows.Forms.TabPage();
+            this.lblPrediction = new System.Windows.Forms.Label();
+            this.txtPrediction = new System.Windows.Forms.TextBox();
             this.btnTrain = new System.Windows.Forms.Button();
             this.tabctrlBandAnalysis = new System.Windows.Forms.TabControl();
             this.txtBandwidth3 = new System.Windows.Forms.TextBox();
@@ -99,8 +97,10 @@
             this.barRange1 = new System.Windows.Forms.ProgressBar();
             this.barRange2 = new System.Windows.Forms.ProgressBar();
             this.btnToggleChart = new System.Windows.Forms.Button();
-            this.txtPrediction = new System.Windows.Forms.TextBox();
-            this.lblPrediction = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cboSubtractFrom = new System.Windows.Forms.ComboBox();
+            this.cboSubtractor = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.pnlRangeButtons.SuspendLayout();
@@ -124,20 +124,20 @@
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.AxisX.LabelStyle.Enabled = false;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea2.AxisX.LabelStyle.Enabled = false;
+            chartArea2.AxisX.MajorGrid.Enabled = false;
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
             this.chart1.Location = new System.Drawing.Point(57, 440);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Color = System.Drawing.Color.Black;
-            series1.IsVisibleInLegend = false;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Color = System.Drawing.Color.Black;
+            series2.IsVisibleInLegend = false;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(999, 195);
             this.chart1.TabIndex = 16;
             this.chart1.Text = "chart1";
@@ -465,59 +465,16 @@
             // 
             // tabPostProcessing
             // 
-            this.tabPostProcessing.Controls.Add(this.lblGetsSubtractedBy);
-            this.tabPostProcessing.Controls.Add(this.cboSubtractor);
+            this.tabPostProcessing.Controls.Add(this.button1);
+            this.tabPostProcessing.Controls.Add(this.label1);
             this.tabPostProcessing.Controls.Add(this.cboSubtractFrom);
-            this.tabPostProcessing.Controls.Add(this.btnSubtract);
+            this.tabPostProcessing.Controls.Add(this.cboSubtractor);
             this.tabPostProcessing.Location = new System.Drawing.Point(4, 22);
             this.tabPostProcessing.Name = "tabPostProcessing";
             this.tabPostProcessing.Size = new System.Drawing.Size(176, 597);
             this.tabPostProcessing.TabIndex = 3;
             this.tabPostProcessing.Text = "Post";
             this.tabPostProcessing.UseVisualStyleBackColor = true;
-            // 
-            // lblGetsSubtractedBy
-            // 
-            this.lblGetsSubtractedBy.AutoSize = true;
-            this.lblGetsSubtractedBy.Location = new System.Drawing.Point(38, 29);
-            this.lblGetsSubtractedBy.Name = "lblGetsSubtractedBy";
-            this.lblGetsSubtractedBy.Size = new System.Drawing.Size(97, 13);
-            this.lblGetsSubtractedBy.TabIndex = 38;
-            this.lblGetsSubtractedBy.Text = "gets subtracted by:";
-            // 
-            // cboSubtractor
-            // 
-            this.cboSubtractor.BackColor = System.Drawing.Color.Black;
-            this.cboSubtractor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboSubtractor.ForeColor = System.Drawing.Color.White;
-            this.cboSubtractor.FormattingEnabled = true;
-            this.cboSubtractor.Location = new System.Drawing.Point(3, 49);
-            this.cboSubtractor.Name = "cboSubtractor";
-            this.cboSubtractor.Size = new System.Drawing.Size(170, 21);
-            this.cboSubtractor.TabIndex = 37;
-            this.cboSubtractor.Tag = "";
-            // 
-            // cboSubtractFrom
-            // 
-            this.cboSubtractFrom.BackColor = System.Drawing.Color.Black;
-            this.cboSubtractFrom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboSubtractFrom.ForeColor = System.Drawing.Color.White;
-            this.cboSubtractFrom.FormattingEnabled = true;
-            this.cboSubtractFrom.Location = new System.Drawing.Point(3, 3);
-            this.cboSubtractFrom.Name = "cboSubtractFrom";
-            this.cboSubtractFrom.Size = new System.Drawing.Size(170, 21);
-            this.cboSubtractFrom.TabIndex = 36;
-            this.cboSubtractFrom.Tag = "";
-            // 
-            // btnSubtract
-            // 
-            this.btnSubtract.Location = new System.Drawing.Point(3, 76);
-            this.btnSubtract.Name = "btnSubtract";
-            this.btnSubtract.Size = new System.Drawing.Size(170, 42);
-            this.btnSubtract.TabIndex = 0;
-            this.btnSubtract.Text = "Subtract";
-            this.btnSubtract.UseVisualStyleBackColor = true;
-            this.btnSubtract.Click += new System.EventHandler(this.btnSubtract_Click);
             // 
             // tabAutoSettings
             // 
@@ -543,6 +500,26 @@
             this.tabAutoSettings.TabIndex = 2;
             this.tabAutoSettings.Text = "Auto";
             this.tabAutoSettings.UseVisualStyleBackColor = true;
+            // 
+            // lblPrediction
+            // 
+            this.lblPrediction.AutoSize = true;
+            this.lblPrediction.Location = new System.Drawing.Point(4, 538);
+            this.lblPrediction.Name = "lblPrediction";
+            this.lblPrediction.Size = new System.Drawing.Size(57, 13);
+            this.lblPrediction.TabIndex = 58;
+            this.lblPrediction.Text = "Prediction:";
+            // 
+            // txtPrediction
+            // 
+            this.txtPrediction.BackColor = System.Drawing.Color.Black;
+            this.txtPrediction.ForeColor = System.Drawing.Color.White;
+            this.txtPrediction.Location = new System.Drawing.Point(117, 535);
+            this.txtPrediction.Name = "txtPrediction";
+            this.txtPrediction.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtPrediction.Size = new System.Drawing.Size(49, 20);
+            this.txtPrediction.TabIndex = 57;
+            this.txtPrediction.Text = "0";
             // 
             // btnTrain
             // 
@@ -875,25 +852,48 @@
             this.btnToggleChart.UseVisualStyleBackColor = true;
             this.btnToggleChart.Click += new System.EventHandler(this.btnToggleChart_Click);
             // 
-            // txtPrediction
+            // label1
             // 
-            this.txtPrediction.BackColor = System.Drawing.Color.Black;
-            this.txtPrediction.ForeColor = System.Drawing.Color.White;
-            this.txtPrediction.Location = new System.Drawing.Point(117, 535);
-            this.txtPrediction.Name = "txtPrediction";
-            this.txtPrediction.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtPrediction.Size = new System.Drawing.Size(49, 20);
-            this.txtPrediction.TabIndex = 57;
-            this.txtPrediction.Text = "0";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(38, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(97, 13);
+            this.label1.TabIndex = 41;
+            this.label1.Text = "gets subtracted by:";
             // 
-            // lblPrediction
+            // cboSubtractFrom
             // 
-            this.lblPrediction.AutoSize = true;
-            this.lblPrediction.Location = new System.Drawing.Point(4, 538);
-            this.lblPrediction.Name = "lblPrediction";
-            this.lblPrediction.Size = new System.Drawing.Size(57, 13);
-            this.lblPrediction.TabIndex = 58;
-            this.lblPrediction.Text = "Prediction:";
+            this.cboSubtractFrom.BackColor = System.Drawing.Color.Black;
+            this.cboSubtractFrom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSubtractFrom.ForeColor = System.Drawing.Color.White;
+            this.cboSubtractFrom.FormattingEnabled = true;
+            this.cboSubtractFrom.Location = new System.Drawing.Point(3, 3);
+            this.cboSubtractFrom.Name = "cboSubtractFrom";
+            this.cboSubtractFrom.Size = new System.Drawing.Size(170, 21);
+            this.cboSubtractFrom.TabIndex = 39;
+            this.cboSubtractFrom.Tag = "";
+            // 
+            // cboSubtractor
+            // 
+            this.cboSubtractor.BackColor = System.Drawing.Color.Black;
+            this.cboSubtractor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSubtractor.ForeColor = System.Drawing.Color.White;
+            this.cboSubtractor.FormattingEnabled = true;
+            this.cboSubtractor.Location = new System.Drawing.Point(3, 49);
+            this.cboSubtractor.Name = "cboSubtractor";
+            this.cboSubtractor.Size = new System.Drawing.Size(170, 21);
+            this.cboSubtractor.TabIndex = 40;
+            this.cboSubtractor.Tag = "";
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(3, 76);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(170, 39);
+            this.button1.TabIndex = 42;
+            this.button1.Text = "Subtract";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // frmAudioAnalyzer
             // 
@@ -990,10 +990,6 @@
         private System.Windows.Forms.Button btnArduinoMRange2;
         private System.Windows.Forms.Button btnToggleChart;
         private System.Windows.Forms.TabPage tabPostProcessing;
-        private System.Windows.Forms.Label lblGetsSubtractedBy;
-        private System.Windows.Forms.ComboBox cboSubtractor;
-        private System.Windows.Forms.ComboBox cboSubtractFrom;
-        private System.Windows.Forms.Button btnSubtract;
         private System.Windows.Forms.Button btnToggleBars;
         private System.Windows.Forms.TextBox txtThreshMultiplier3;
         private System.Windows.Forms.TextBox txtThreshMultiplier2;
@@ -1006,6 +1002,10 @@
         private System.Windows.Forms.Button btnTrain;
         private System.Windows.Forms.Label lblPrediction;
         private System.Windows.Forms.TextBox txtPrediction;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cboSubtractFrom;
+        private System.Windows.Forms.ComboBox cboSubtractor;
     }
 }
 

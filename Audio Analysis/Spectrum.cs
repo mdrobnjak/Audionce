@@ -88,7 +88,7 @@ namespace AudioAnalyzer
                 g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
             }
             #endregion
-        }        
+        }
 
         #endregion      
       

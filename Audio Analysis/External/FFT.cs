@@ -43,6 +43,8 @@ namespace AudioAnalyzer
 
     public class FFT
     {
+        public static double[] transformedData;
+
         public static int N_FFT = 4096;
         public static int N_FFTBuffer = N_FFT;
         public static bool rawFFT = false;
@@ -122,7 +124,7 @@ namespace AudioAnalyzer
             if (rawFFT)
             {
                 var resultDouble = result.Select(x => x.Magnitude).ToArray();
-                Array.Resize(ref resultDouble, Spectrum.TotalBands);
+                Array.Resize(ref resultDouble, frmSpectrum.TotalBands);
                 return resultDouble;
             }
 
@@ -169,5 +171,7 @@ namespace AudioAnalyzer
             return finalresult;
 
         }
+        
+
     }
 }

@@ -65,7 +65,7 @@ namespace AudioAnalyzer
         }
     }
 
-    public class AutoSettings
+    public class AutoSettings : Form
     {
         public Range Range;
 
@@ -84,13 +84,13 @@ namespace AudioAnalyzer
         }
 
         #region Threshold
-        public bool DynamicThreshold = true;
+        public bool DynamicThreshold = false;//true;
         public double highestPeakNewCenter = 0;
         public double ThresholdMultiplier;
 
         public void ApplyAutoSettings()
         {
-            if (Range.AutoSettings.DynamicThreshold) Range.Threshold = Range.GetMaxAudioFromLast200() * Range.AutoSettings.ThresholdMultiplier;
+            if (Range.AutoSettings.DynamicThreshold) Range.Threshold = (int)(Range.GetMaxAudioFromLast200() * Range.AutoSettings.ThresholdMultiplier);
         }
 
         public void Threshold()
@@ -116,7 +116,7 @@ namespace AudioAnalyzer
         private static List<List<double>> fftDataHistory = null;
         public static bool Ranging = false, ReadyToProcess = false;
         public int autoBandIndex;
-        public static double SecondsToCollect;
+        public static double SecondsToCollect = 5;
         public int Bandwidth;
         public static DateTime started;
 

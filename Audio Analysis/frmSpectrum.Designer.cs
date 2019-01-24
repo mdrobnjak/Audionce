@@ -28,82 +28,125 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button2 = new System.Windows.Forms.Button();
             this.pnlSpectrum = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.msSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.msSpectrumSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.msiActiveRangeOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlSpectrum.SuspendLayout();
+            this.msiScale = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtmsiScale = new System.Windows.Forms.ToolStripTextBox();
+            this.trkbrMax = new System.Windows.Forms.TrackBar();
+            this.trkbrMin = new System.Windows.Forms.TrackBar();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).BeginInit();
             this.SuspendLayout();
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(695, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(78, 41);
-            this.button2.TabIndex = 33;
-            this.button2.Text = "Spectrum Mode";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // pnlSpectrum
             // 
+            this.pnlSpectrum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlSpectrum.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlSpectrum.Controls.Add(this.button2);
-            this.pnlSpectrum.Location = new System.Drawing.Point(12, 135);
+            this.pnlSpectrum.Location = new System.Drawing.Point(0, 0);
             this.pnlSpectrum.Name = "pnlSpectrum";
-            this.pnlSpectrum.Size = new System.Drawing.Size(776, 303);
+            this.pnlSpectrum.Size = new System.Drawing.Size(821, 297);
             this.pnlSpectrum.TabIndex = 19;
+            this.pnlSpectrum.SizeChanged += new System.EventHandler(this.pnlSpectrum_SizeChanged);
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.msSettings});
+            this.msSpectrumSettings});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(821, 24);
             this.menuStrip1.TabIndex = 20;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.Visible = false;
             // 
-            // msSettings
+            // msSpectrumSettings
             // 
-            this.msSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.msiActiveRangeOnly});
-            this.msSettings.Name = "msSettings";
-            this.msSettings.Size = new System.Drawing.Size(61, 20);
-            this.msSettings.Text = "Settings";
+            this.msSpectrumSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.msiActiveRangeOnly,
+            this.msiScale});
+            this.msSpectrumSettings.Name = "msSpectrumSettings";
+            this.msSpectrumSettings.Size = new System.Drawing.Size(70, 20);
+            this.msSpectrumSettings.Text = "Spectrum";
             // 
             // msiActiveRangeOnly
             // 
             this.msiActiveRangeOnly.CheckOnClick = true;
             this.msiActiveRangeOnly.Name = "msiActiveRangeOnly";
-            this.msiActiveRangeOnly.Size = new System.Drawing.Size(180, 22);
+            this.msiActiveRangeOnly.Size = new System.Drawing.Size(171, 22);
             this.msiActiveRangeOnly.Text = "Active Range Only";
             this.msiActiveRangeOnly.CheckStateChanged += new System.EventHandler(this.msiActiveRangeOnly_CheckStateChanged);
+            // 
+            // msiScale
+            // 
+            this.msiScale.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.txtmsiScale});
+            this.msiScale.Name = "msiScale";
+            this.msiScale.Size = new System.Drawing.Size(171, 22);
+            this.msiScale.Text = "Scale";
+            // 
+            // txtmsiScale
+            // 
+            this.txtmsiScale.Name = "txtmsiScale";
+            this.txtmsiScale.Size = new System.Drawing.Size(100, 23);
+            this.txtmsiScale.TextChanged += new System.EventHandler(this.txtmsiScale_TextChanged);
+            // 
+            // trkbrMax
+            // 
+            this.trkbrMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.trkbrMax.BackColor = System.Drawing.SystemColors.Control;
+            this.trkbrMax.Location = new System.Drawing.Point(-13, 322);
+            this.trkbrMax.Name = "trkbrMax";
+            this.trkbrMax.Size = new System.Drawing.Size(846, 45);
+            this.trkbrMax.TabIndex = 24;
+            this.trkbrMax.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.trkbrMax.ValueChanged += new System.EventHandler(this.trkbrMax_ValueChanged);
+            // 
+            // trkbrMin
+            // 
+            this.trkbrMin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.trkbrMin.BackColor = System.Drawing.SystemColors.Control;
+            this.trkbrMin.Location = new System.Drawing.Point(-13, 293);
+            this.trkbrMin.Name = "trkbrMin";
+            this.trkbrMin.Size = new System.Drawing.Size(846, 45);
+            this.trkbrMin.TabIndex = 23;
+            this.trkbrMin.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.trkbrMin.ValueChanged += new System.EventHandler(this.trkbrMin_ValueChanged);
             // 
             // frmSpectrum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(821, 350);
             this.Controls.Add(this.pnlSpectrum);
+            this.Controls.Add(this.trkbrMax);
+            this.Controls.Add(this.trkbrMin);
             this.Controls.Add(this.menuStrip1);
             this.Name = "frmSpectrum";
             this.Text = "Spectrum";
-            this.pnlSpectrum.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkbrMin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel pnlSpectrum;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem msSettings;
+        private System.Windows.Forms.ToolStripMenuItem msSpectrumSettings;
         private System.Windows.Forms.ToolStripMenuItem msiActiveRangeOnly;
+        private System.Windows.Forms.TrackBar trkbrMax;
+        private System.Windows.Forms.TrackBar trkbrMin;
+        private System.Windows.Forms.ToolStripMenuItem msiScale;
+        private System.Windows.Forms.ToolStripTextBox txtmsiScale;
     }
 }

@@ -13,7 +13,7 @@ namespace AudioAnalyzer
         public const int RATE = 44100;
         public static Node dataList = new Node(new ComplexNumber(0, 0));
         public static Node endingNode;
-        static WaveIn waveInStream;
+        public static WaveIn waveInStream;
         static BufferedWaveProvider bwp;
         static int BUFFERSIZE = (int)Math.Pow(2, 11); // must be a multiple of 2
         public static int distance2Node = 0;        
@@ -33,7 +33,7 @@ namespace AudioAnalyzer
                 WaveFormat = new WaveFormat(RATE, 1)
             };
 
-            waveInStream.DataAvailable += new EventHandler<WaveInEventArgs>(waveInStream_DataAvailable);
+            //waveInStream.DataAvailable += new EventHandler<WaveInEventArgs>(waveInStream_DataAvailable);
 
             bwp = new BufferedWaveProvider(waveInStream.WaveFormat)
             {
@@ -44,7 +44,7 @@ namespace AudioAnalyzer
             waveInStream.StartRecording();
         }
 
-        private static void waveInStream_DataAvailable(object sender, WaveInEventArgs e)
+        public static void waveInStream_DataAvailable(object sender, WaveInEventArgs e)
         {
             if (sourceData == null)
                 sourceData = new double[e.BytesRecorded / 2];

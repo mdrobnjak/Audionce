@@ -95,7 +95,6 @@ namespace AudioAnalyzer
 
         void LoadSaveData()
         {
-
             ReadConfig();
             LoadSongNames();
         }
@@ -275,6 +274,7 @@ namespace AudioAnalyzer
 
             trkbrMin.Value = Range.Active.LowCutIndex;
             trkbrMax.Value = Range.Active.HighCutIndex;
+
             if (Range.Active.Threshold > trkbrThreshold.Maximum)
             {
                 trkbrThreshold.Maximum = (int)(Range.Active.Threshold * 1.33);
@@ -463,12 +463,12 @@ namespace AudioAnalyzer
             if (subtract)
             {
                 subtract = false;
-                btnSubtract.BackColor = Color.Transparent;
+                button1.BackColor = Color.Transparent;
             }
             else
             {
                 subtract = true;
-                btnSubtract.BackColor = Color.LightGreen;
+                button1.BackColor = Color.LightGreen;
             }
         }
 
@@ -557,7 +557,7 @@ namespace AudioAnalyzer
         {
             AppendCSV();
         }
-
+        
         void AppendCSV()
         {
             csvRow = csvRow.Insert(0, trkbrMin.Value.ToString() + ",");

@@ -15,7 +15,7 @@ namespace AudioAnalyzer
         [STAThread]
         static void Main()
         {
-            using (frmAudioAnalyzer myapps = new frmAudioAnalyzer())
+            using (frmAudioAnalyzerMDI myapps = new frmAudioAnalyzerMDI())
             {
                 //Application.EnableVisualStyles();
                 //Application.SetCompatibleTextRenderingDefault(false);
