@@ -73,7 +73,7 @@ namespace AudioAnalyzer
             frmChart = new ChartForm();
             frmChart.MdiParent = this;
             childFormNumber++;
-            //frmChart.Show();
+            frmChart.Show();
         }
 
         DateTime BeforeFFT;
@@ -321,6 +321,44 @@ namespace AudioAnalyzer
             FFT.rawFFT = btnRawFFT.Checked;
             Spectrum.SyncBandsAndFreqs();
             frmSpectrum.UpdateControls();
+        }
+
+        //This needs to call a frmChart Method.
+        private void btnDynamicThreshold_CheckedChanged(object sender, EventArgs e)
+        {
+            for(int i = 0; i < Range.Count; i++)
+            {
+                Ranges[i].AutoSettings.DynamicThreshold = btnDynamicThreshold.Checked;
+            }
+            frmChart.UpdateControls();
+        }
+
+        //This works.
+        private void btnAutoSetThreshold_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Range.Count; i++)
+            {
+                Ranges[i].Threshold = (int)(Ranges[i].GetMaxAudioFromLast200() * Ranges[i].AutoSettings.ThresholdMultiplier);
+            }
+            frmChart.UpdateControls();
+        }
+
+        //This probably works.
+        private void btnAutoRange_Click(object sender, EventArgs e)
+        {
+            AutoSettings.BeginRanging();
+        }
+
+        //This probably works.
+        private void btnTrain_Click(object sender, EventArgs e)
+        {
+            BandAnalysis.CompleteAndSaveTraining();
+        }
+
+        //Need to init and check cboArduinoCommands for this.
+        private void btnWriteArduino_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

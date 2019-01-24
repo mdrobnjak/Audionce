@@ -63,8 +63,6 @@
             this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msAuto = new System.Windows.Forms.ToolStripMenuItem();
-            this.msAutoRange = new System.Windows.Forms.ToolStripMenuItem();
-            this.msThreshold = new System.Windows.Forms.ToolStripMenuItem();
             this.msAutoSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.msArduino = new System.Windows.Forms.ToolStripMenuItem();
             this.msArduinoSettings = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,6 +104,15 @@
             this.cboSubtractFrom = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRawFFT = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnDynamicThreshold = new System.Windows.Forms.ToolStripButton();
+            this.btnAutoSetThreshold = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnAutoRange = new System.Windows.Forms.ToolStripButton();
+            this.btnTrain = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.cboArduinoCommands = new System.Windows.Forms.ToolStripComboBox();
+            this.btnWriteArduino = new System.Windows.Forms.ToolStripButton();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -398,26 +405,10 @@
             // msAuto
             // 
             this.msAuto.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.msAutoRange,
-            this.msThreshold,
             this.msAutoSettings});
             this.msAuto.Name = "msAuto";
             this.msAuto.Size = new System.Drawing.Size(53, 24);
             this.msAuto.Text = "&Auto";
-            // 
-            // msAutoRange
-            // 
-            this.msAutoRange.Name = "msAutoRange";
-            this.msAutoRange.Size = new System.Drawing.Size(216, 26);
-            this.msAutoRange.Text = "Range";
-            this.msAutoRange.Click += new System.EventHandler(this.msAutoRange_Click);
-            // 
-            // msThreshold
-            // 
-            this.msThreshold.Name = "msThreshold";
-            this.msThreshold.Size = new System.Drawing.Size(216, 26);
-            this.msThreshold.Text = "Threshold";
-            this.msThreshold.Click += new System.EventHandler(this.msThreshold_Click);
             // 
             // msAutoSettings
             // 
@@ -704,7 +695,16 @@
             this.cboSubtractor,
             this.lblWith,
             this.cboSubtractFrom,
-            this.toolStripSeparator10});
+            this.toolStripSeparator10,
+            this.btnDynamicThreshold,
+            this.btnAutoSetThreshold,
+            this.toolStripSeparator11,
+            this.btnAutoRange,
+            this.toolStripSeparator12,
+            this.btnTrain,
+            this.toolStripSeparator13,
+            this.cboArduinoCommands,
+            this.btnWriteArduino});
             this.toolStripProcessing.Location = new System.Drawing.Point(0, 56);
             this.toolStripProcessing.Name = "toolStripProcessing";
             this.toolStripProcessing.Size = new System.Drawing.Size(1345, 28);
@@ -750,6 +750,77 @@
             this.btnRawFFT.Size = new System.Drawing.Size(216, 26);
             this.btnRawFFT.Text = "Raw FFT";
             this.btnRawFFT.CheckStateChanged += new System.EventHandler(this.btnRawFFT_CheckStateChanged);
+            // 
+            // btnDynamicThreshold
+            // 
+            this.btnDynamicThreshold.CheckOnClick = true;
+            this.btnDynamicThreshold.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnDynamicThreshold.Image = ((System.Drawing.Image)(resources.GetObject("btnDynamicThreshold.Image")));
+            this.btnDynamicThreshold.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDynamicThreshold.Name = "btnDynamicThreshold";
+            this.btnDynamicThreshold.Size = new System.Drawing.Size(146, 25);
+            this.btnDynamicThreshold.Text = "Dynamic Thresholds";
+            this.btnDynamicThreshold.CheckedChanged += new System.EventHandler(this.btnDynamicThreshold_CheckedChanged);
+            // 
+            // btnAutoSetThreshold
+            // 
+            this.btnAutoSetThreshold.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnAutoSetThreshold.Image = ((System.Drawing.Image)(resources.GetObject("btnAutoSetThreshold.Image")));
+            this.btnAutoSetThreshold.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAutoSetThreshold.Name = "btnAutoSetThreshold";
+            this.btnAutoSetThreshold.Size = new System.Drawing.Size(103, 25);
+            this.btnAutoSetThreshold.Text = "Set Threshold";
+            this.btnAutoSetThreshold.Click += new System.EventHandler(this.btnAutoSetThreshold_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 28);
+            // 
+            // btnAutoRange
+            // 
+            this.btnAutoRange.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnAutoRange.Image = ((System.Drawing.Image)(resources.GetObject("btnAutoRange.Image")));
+            this.btnAutoRange.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAutoRange.Name = "btnAutoRange";
+            this.btnAutoRange.Size = new System.Drawing.Size(91, 25);
+            this.btnAutoRange.Text = "Auto Range";
+            this.btnAutoRange.Click += new System.EventHandler(this.btnAutoRange_Click);
+            // 
+            // btnTrain
+            // 
+            this.btnTrain.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnTrain.Image = ((System.Drawing.Image)(resources.GetObject("btnTrain.Image")));
+            this.btnTrain.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnTrain.Name = "btnTrain";
+            this.btnTrain.Size = new System.Drawing.Size(45, 25);
+            this.btnTrain.Text = "Train";
+            this.btnTrain.Click += new System.EventHandler(this.btnTrain_Click);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(6, 28);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(6, 28);
+            // 
+            // cboArduinoCommands
+            // 
+            this.cboArduinoCommands.Name = "cboArduinoCommands";
+            this.cboArduinoCommands.Size = new System.Drawing.Size(121, 28);
+            // 
+            // btnWriteArduino
+            // 
+            this.btnWriteArduino.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnWriteArduino.Image = ((System.Drawing.Image)(resources.GetObject("btnWriteArduino.Image")));
+            this.btnWriteArduino.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnWriteArduino.Name = "btnWriteArduino";
+            this.btnWriteArduino.Size = new System.Drawing.Size(49, 25);
+            this.btnWriteArduino.Text = "Write";
+            this.btnWriteArduino.Click += new System.EventHandler(this.btnWriteArduino_Click);
             // 
             // AudioAnalyzerMDIForm
             // 
@@ -843,13 +914,11 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem msAuto;
-        private System.Windows.Forms.ToolStripMenuItem msAutoRange;
         private System.Windows.Forms.ToolStripMenuItem msAutoSettings;
         private System.Windows.Forms.ToolStripMenuItem msArduino;
         private System.Windows.Forms.ToolStripMenuItem msArduinoSettings;
         private System.Windows.Forms.ToolStripButton btnDecrement;
         private System.Windows.Forms.ToolStripButton btnIncrement;
-        private System.Windows.Forms.ToolStripMenuItem msThreshold;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStrip toolStripProcessing;
@@ -859,6 +928,15 @@
         private System.Windows.Forms.ToolStripComboBox cboSubtractFrom;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem btnRawFFT;
+        private System.Windows.Forms.ToolStripButton btnDynamicThreshold;
+        private System.Windows.Forms.ToolStripButton btnAutoSetThreshold;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ToolStripButton btnAutoRange;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+        private System.Windows.Forms.ToolStripButton btnTrain;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripComboBox cboArduinoCommands;
+        private System.Windows.Forms.ToolStripButton btnWriteArduino;
     }
 }
 
