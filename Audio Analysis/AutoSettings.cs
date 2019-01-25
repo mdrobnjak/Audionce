@@ -86,10 +86,10 @@ namespace AudioAnalyzer
 
             if ((DateTime.Now - started).TotalSeconds >= SecondsToCollect)
             {
+                Task.Run(()=>BandAnalysis.CreateTrainingRowFromAudioData(new List<List<double>>(fftDataHistory)));
+
                 Ranging = false;
                 ReadyToProcess = true;
-
-                BandAnalysis.CreateTrainingRowFromAudioData(fftDataHistory);
             }
         }
 

@@ -59,6 +59,7 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnRawFFT = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,7 +94,7 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblDelay = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerFFT = new System.Windows.Forms.Timer(this.components);
@@ -103,13 +104,12 @@
             this.lblWith = new System.Windows.Forms.ToolStripLabel();
             this.cboSubtractFrom = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnRawFFT = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDynamicThreshold = new System.Windows.Forms.ToolStripButton();
             this.btnAutoSetThreshold = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btnAutoRange = new System.Windows.Forms.ToolStripButton();
-            this.btnTrain = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnTrain = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.cboArduinoCommands = new System.Windows.Forms.ToolStripComboBox();
             this.btnWriteArduino = new System.Windows.Forms.ToolStripButton();
@@ -339,7 +339,7 @@
             this.toolStripMenuItem5,
             this.toolStripMenuItem6});
             this.nFFTToolStripMenuItem.Name = "nFFTToolStripMenuItem";
-            this.nFFTToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.nFFTToolStripMenuItem.Size = new System.Drawing.Size(138, 26);
             this.nFFTToolStripMenuItem.Text = "FFT Size";
             this.nFFTToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.nFFTToolStripMenuItem_DropDownItemClicked);
             // 
@@ -372,6 +372,14 @@
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
             this.toolStripMenuItem6.Size = new System.Drawing.Size(116, 26);
             this.toolStripMenuItem6.Text = "256";
+            // 
+            // btnRawFFT
+            // 
+            this.btnRawFFT.CheckOnClick = true;
+            this.btnRawFFT.Name = "btnRawFFT";
+            this.btnRawFFT.Size = new System.Drawing.Size(138, 26);
+            this.btnRawFFT.Text = "Raw FFT";
+            this.btnRawFFT.CheckStateChanged += new System.EventHandler(this.btnRawFFT_CheckStateChanged);
             // 
             // viewMenu
             // 
@@ -413,7 +421,7 @@
             // msAutoSettings
             // 
             this.msAutoSettings.Name = "msAutoSettings";
-            this.msAutoSettings.Size = new System.Drawing.Size(216, 26);
+            this.msAutoSettings.Size = new System.Drawing.Size(146, 26);
             this.msAutoSettings.Text = "Settings...";
             this.msAutoSettings.Click += new System.EventHandler(this.autoSettingsToolStripMenuItem_Click);
             // 
@@ -654,9 +662,9 @@
             // 
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblDelay,
-            this.toolStripProgressBar1,
-            this.lblStatus});
+            this.lblStatus,
+            this.progressBar,
+            this.lblDelay});
             this.statusStrip.Location = new System.Drawing.Point(0, 621);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
@@ -670,10 +678,12 @@
             this.lblDelay.Size = new System.Drawing.Size(47, 21);
             this.lblDelay.Text = "Delay";
             // 
-            // toolStripProgressBar1
+            // progressBar
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(133, 20);
+            this.progressBar.Maximum = 1500;
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(133, 20);
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
             // lblStatus
             // 
@@ -743,14 +753,6 @@
             this.toolStripSeparator10.Name = "toolStripSeparator10";
             this.toolStripSeparator10.Size = new System.Drawing.Size(6, 28);
             // 
-            // btnRawFFT
-            // 
-            this.btnRawFFT.CheckOnClick = true;
-            this.btnRawFFT.Name = "btnRawFFT";
-            this.btnRawFFT.Size = new System.Drawing.Size(216, 26);
-            this.btnRawFFT.Text = "Raw FFT";
-            this.btnRawFFT.CheckStateChanged += new System.EventHandler(this.btnRawFFT_CheckStateChanged);
-            // 
             // btnDynamicThreshold
             // 
             this.btnDynamicThreshold.CheckOnClick = true;
@@ -787,6 +789,11 @@
             this.btnAutoRange.Text = "Auto Range";
             this.btnAutoRange.Click += new System.EventHandler(this.btnAutoRange_Click);
             // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(6, 28);
+            // 
             // btnTrain
             // 
             this.btnTrain.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -796,11 +803,6 @@
             this.btnTrain.Size = new System.Drawing.Size(45, 25);
             this.btnTrain.Text = "Train";
             this.btnTrain.Click += new System.EventHandler(this.btnTrain_Click);
-            // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(6, 28);
             // 
             // toolStripSeparator13
             // 
@@ -833,7 +835,7 @@
             this.Controls.Add(this.menuStrip);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AudioAnalyzerMDIForm";
             this.Text = "Audio Analyzer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAudioAnalyzerMDI_FormClosing);
@@ -902,7 +904,7 @@
         private System.Windows.Forms.ToolStripButton printPreviewToolStripButton;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripProgressBar progressBar;
         private System.Windows.Forms.Timer timerFFT;
         private System.Windows.Forms.ToolStripComboBox cboRange;
         private System.Windows.Forms.ToolStripLabel lblPreset;

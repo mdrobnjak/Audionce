@@ -116,6 +116,8 @@ namespace AudioAnalyzer
             if (AutoSettings.Ranging)
             {
                 AutoSettings.CollectFFTData(FFT.transformedData);
+                progressBar.PerformStep();
+                lblStatus.Text = "Auto Ranging...";
             }
             else if (AutoSettings.ReadyToProcess)
             {
@@ -135,6 +137,9 @@ namespace AudioAnalyzer
                 frmSpectrum.UpdateControls();
 
                 AutoSettings.Reset();
+
+                progressBar.Value = 0;
+                lblStatus.Text = "";
             }
         }
 
@@ -332,15 +337,10 @@ namespace AudioAnalyzer
             }
             frmChart.UpdateControls();
         }
-
-        //This works.
+        
         private void btnAutoSetThreshold_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < Range.Count; i++)
-            {
-                Ranges[i].Threshold = (int)(Ranges[i].GetMaxAudioFromLast200() * Ranges[i].AutoSettings.ThresholdMultiplier);
-            }
-            frmChart.UpdateControls();
+            frmChart.AutoThreshold();
         }
 
         //This probably works.

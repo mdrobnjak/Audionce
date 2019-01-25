@@ -57,6 +57,8 @@ namespace AudioAnalyzer
             chartAmplitude.ChartAreas[0].AxisY.Maximum = GetMaxYFromLast(200);
             trkbrThreshold.Maximum = (int)chartAmplitude.ChartAreas[0].AxisY.Maximum + 1;
 
+            if (Range.Active.AutoSettings.DynamicThreshold) AutoThreshold();
+
             //cvt.MaxScaledY = 800 / chart1.ChartAreas[0].AxisY.Maximum; //AutoScaling Spectrum Y
 
             chartAmplitude.ChartAreas[0].AxisX.Minimum = chartAmplitude.ChartAreas[0].AxisX.Maximum - 250;
