@@ -183,9 +183,7 @@ namespace AudioAnalyzer
         }
 
         #endregion
-
-
-
+        
         public void UpdateControls()
         {
             trkbrMax.Maximum = trkbrMin.Maximum = Spectrum.DisplayBands;

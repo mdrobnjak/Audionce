@@ -22,9 +22,9 @@ namespace AudioAnalyzer
 
             for (int i = 0; i < Range.Count; i++)
             {
-                config[2] += Ranges[i].LowCutIndex + ",";
-                config[3] += Ranges[i].HighCutIndex + ",";
-                config[4] += (int)Ranges[i].Threshold + ",";
+                config[2] += Ranges[i].LowCutFreq + ",";
+                config[3] += Ranges[i].HighCutFreq + ",";
+                config[4] += Ranges[i].Threshold + ",";
             }
             for (int i = 2; i < 5; i++)
             {
@@ -40,8 +40,8 @@ namespace AudioAnalyzer
             Array.Resize(ref path, path.Count() - 3);
             Path = string.Join(@"\", path) + @"\Configs\";
 
-            ResetConfig();
-            //ReadConfig(Path + System.IO.File.ReadAllText(Path + @"\LastConfig\LastConfig.txt") + ".txt");
+            //ResetConfig();
+            ReadConfig(Path + System.IO.File.ReadAllText(Path + @"\LastConfig\LastConfig.txt") + ".txt");
 
             return System.IO.File.ReadAllText(Path + @"\LastConfig\LastConfig.txt");
         }
@@ -63,8 +63,8 @@ namespace AudioAnalyzer
             //Int32.Parse(config[1]);
             for (int i = 0; i < Range.Count; i++)
             {
-                Ranges[i].LowCutIndex = Int32.Parse(config[2].Split(',')[i]);
-                Ranges[i].HighCutIndex = Int32.Parse(config[3].Split(',')[i]);
+                Ranges[i].LowCutFreq = Int32.Parse(config[2].Split(',')[i]);
+                Ranges[i].HighCutFreq = Int32.Parse(config[3].Split(',')[i]);
                 Ranges[i].Threshold = Int32.Parse(config[4].Split(',')[i]);
             }
         }

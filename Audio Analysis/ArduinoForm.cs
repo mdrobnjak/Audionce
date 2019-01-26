@@ -37,7 +37,7 @@ namespace AudioAnalyzer
 
         private void btnWriteArduino_Click(object sender, EventArgs e)
         {
-            InterpretCommand(cboArduinoCommands.Text);
+            Arduino.InterpretCommand(cboArduinoCommands.Text);
         }
 
         private void cboPortNames_SelectionChangeCommitted(object sender, EventArgs e)
@@ -57,56 +57,6 @@ namespace AudioAnalyzer
             Arduino.mRange = 2;
             btnArduinoMRange2.BackColor = Color.Transparent;
             btnArduinoMRange3.BackColor = Color.LightGreen;
-        }
-
-        public static void InterpretCommand(string arduinoCommand)
-        {
-            string commandChar = arduinoCommand[arduinoCommand.Length - 1].ToString();
-
-            if (commandChar == "0")
-            {
-                if (Arduino.Port.IsOpen)
-                {
-                    Arduino.Port.Close();
-                }
-                return;
-            }
-            else if (commandChar == "1")
-            {
-                if (!Arduino.Port.IsOpen)
-                {
-                    Arduino.Port.Open();
-                }
-                return;
-            }
-
-            Write(commandChar);
-        }
-
-        public static void Write(string msg)
-        {
-            Arduino.Port.Write(msg);
-        }
-
-        public static void Toggle()
-        {
-            if (Arduino.Port.IsOpen)
-            {
-                Arduino.Port.Close();
-            }
-            else
-            {
-                Arduino.Port.Open();
-            }
-        }
-
-        public static void Trigger(int rangeIndex)
-        {
-            if (Arduino.Port.IsOpen)
-            {
-                if (rangeIndex == Arduino.bRange) Write("b");
-                else if (rangeIndex == Arduino.mRange) Write("m");
-            }
         }
     }
 }

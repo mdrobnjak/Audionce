@@ -10,12 +10,12 @@ namespace AudioAnalyzer
     public static class AudioIn
     {
         public static double[] sourceData;
-        public const int RATE = 44100;
+        public const int RATE = 44100; //(default 44100)
         public static Node dataList = new Node(new ComplexNumber(0, 0));
         public static Node endingNode;
         public static WaveIn waveInStream;
         static BufferedWaveProvider bwp;
-        static int BUFFERSIZE = (int)Math.Pow(2, 11); // must be a multiple of 2
+        static int BUFFERSIZE = (int)Math.Pow(2, 11); // must be a multiple of 2 (default 11)
         public static int distance2Node = 0;        
 
         public static void InitSoundCapture()
@@ -26,7 +26,7 @@ namespace AudioAnalyzer
             {
                 DeviceNumber = 0,
                 
-                NumberOfBuffers = 5,
+                NumberOfBuffers = 2,
 
                 BufferMilliseconds = (int)((double)BUFFERSIZE / (double)RATE * 1000.0),
 

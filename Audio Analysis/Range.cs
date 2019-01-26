@@ -92,6 +92,18 @@ namespace AudioAnalyzer
 
         public int LowCutAbsolute { get; private set; }
         private int lowCutFreq;
+        public int LowCutFreq
+        {
+            get
+            {
+                return lowCutFreq;
+            }
+            set
+            {
+                lowCutFreq = value;
+                LowCutAbsolute = Spectrum.GetBandForFreq(value);
+            }
+        }
         public int LowCutIndex
         {
             get
@@ -107,6 +119,18 @@ namespace AudioAnalyzer
 
         public int HighCutAbsolute { get; private set; }
         private int highCutFreq;
+        public int HighCutFreq
+        {
+            get
+            {
+                return highCutFreq;
+            }
+            set
+            {
+                highCutFreq = value;
+                HighCutAbsolute = Spectrum.GetBandForFreq(value);
+            }
+        }
         public int HighCutIndex
         {
             get
@@ -137,8 +161,6 @@ namespace AudioAnalyzer
                 return Spectrum.GetBandForFreq(HighFreq);
             }
         }
-
-        //public bool SignalPassed = false;
 
         private List<double> audios = new List<double>();
         private double audio;

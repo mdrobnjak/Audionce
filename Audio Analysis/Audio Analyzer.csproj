@@ -151,20 +151,24 @@
     <Compile Include="Arduino.cs" />
     <Compile Include="AudioIn.cs" />
     <Compile Include="AutoSettings.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="Converter.cs" />
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\Converter.cs" />
     <Compile Include="External\BeatDetector.cs" />
-    <Compile Include="External\ComplexNumber.cs" />
-    <Compile Include="External\FFT.cs" />
-    <Compile Include="AudioAnalyzerFiltering.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Helpers\ComplexNumber.cs" />
+    <Compile Include="FFT.cs" />
+    <Compile Include="Gate.cs" />
     <Compile Include="FileIO.cs" />
     <Compile Include="ArduinoForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ArduinoForm.Designer.cs">
       <DependentUpon>ArduinoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GateForm.Designer.cs">
+      <DependentUpon>GateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ML\BandAnalysis.cs" />
     <Compile Include="OLD frmAudioAnalyzer.cs" />
@@ -198,13 +202,16 @@
     </Compile>
     <Compile Include="ML\BandSelectionData.cs" />
     <Compile Include="ML\MachineLearning.cs" />
-    <Compile Include="OSD.cs" />
-    <Compile Include="Node.cs" />
+    <Compile Include="Helpers\OSD.cs" />
+    <Compile Include="Helpers\Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
     <EmbeddedResource Include="ArduinoForm.resx">
       <DependentUpon>ArduinoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GateForm.resx">
+      <DependentUpon>GateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OLD frmAudioAnalyzer.resx">
       <DependentUpon>OLD frmAudioAnalyzer.cs</DependentUpon>

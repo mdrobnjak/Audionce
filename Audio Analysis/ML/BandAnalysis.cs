@@ -35,7 +35,7 @@ namespace AudioAnalyzer
             trainingRow += Environment.NewLine;
 
             //txtPrediction.Text = ML.PredictRealTime(ML.mlContext, Array.ConvertAll(csvRow.Split(','), float.Parse)).ToString();
-            
+            System.Windows.Forms.MessageBox.Show("Done");
         }
 
         public static void CompleteAndSaveTraining()

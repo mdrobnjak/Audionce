@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace AudioAnalyzer
 {
-    public partial class AudioAnalyzerMDIForm
+    public static class Gate
     {
-        double tmpRangeAudio;
+        public static Range[] Ranges;
 
-        void Filter(int r)
+        static double tmpRangeAudio;
+
+        public static void Filter(int r)
         {
             if (FFT.transformedData.Count() > Ranges[r].HighCutAbsolute)
             {
@@ -23,15 +25,15 @@ namespace AudioAnalyzer
             }
         }
 
-        bool Gate(int r)
+        public static bool Pass(int r)
         {
             return Ranges[r].Audio > Ranges[r].Threshold ? true : false;
         }
 
-        bool Subtract = false;
-        int subtractor = 1, subtractFrom = 0;
+        public static bool Subtract = false;
+        public static int subtractor = 1, subtractFrom = 0;
 
-        public void ApplySubtraction(int r)
+        public static void ApplySubtraction(int r)
         {
             if (Subtract)
             {

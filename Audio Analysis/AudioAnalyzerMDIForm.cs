@@ -19,6 +19,7 @@ namespace AudioAnalyzer
 
         SpectrumForm frmSpectrum;
         ChartForm frmChart;
+        GateForm frmGate;
         ArduinoForm frmArduino;
         AutoSettingsForm frmAutoSettings;
 
@@ -34,6 +35,7 @@ namespace AudioAnalyzer
             Range.Init(ref this.Ranges);
             Range.Init(ref FileIO.Ranges);
             Range.Init(ref AutoSettingsForm.Ranges);
+            Range.Init(ref Gate.Ranges);
 
             AudioIn.InitSoundCapture();
             Spectrum.SyncBandsAndFreqs();
@@ -74,6 +76,11 @@ namespace AudioAnalyzer
             frmChart.MdiParent = this;
             childFormNumber++;
             frmChart.Show();
+
+            frmGate = new GateForm();
+            frmGate.MdiParent = this;
+            childFormNumber++;
+            frmGate.Show();
         }
 
         DateTime BeforeFFT;
@@ -91,27 +98,31 @@ namespace AudioAnalyzer
 
             for (int r = 0; r < Range.Count; r++)
             {
-                Filter(r);
+                Gate.Filter(r);
 
-                ApplySubtraction(r);
+                Gate.ApplySubtraction(r);
 
                 Ranges[r].AutoSettings.ApplyAutoSettings();
 
 
                 lblDelay.Text = "Delays: Gate-" + (DateTime.Now - BeforeFFT).TotalMilliseconds + "ms";
-                if (Gate(r))
+                if (Gate.Pass(r))
                 {
-                    ArduinoForm.Trigger(r);
-                    //SetProgressBars(r);
+                    Arduino.Trigger(r);
+
+                    frmGate.Pass[r] = true;
                 }
                 else
                 {
+                    frmGate.Pass[r] = false;
+
                     //FadeProgressBars(r);
                 }
             }
 
             Task.Run(() => frmSpectrum.Draw());
             Task.Run(() => frmChart.Draw());
+            Task.Run(() => frmGate.Draw());
 
             if (AutoSettings.Ranging)
             {
@@ -179,8 +190,11 @@ namespace AudioAnalyzer
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
+            saveFileDialog.InitialDirectory = FileIO.Path;
+
             saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 string FileName = saveFileDialog.FileName;
@@ -311,9 +325,9 @@ namespace AudioAnalyzer
 
         private void btnSubtract_CheckStateChanged(object sender, EventArgs e)
         {
-            subtractFrom = Convert.ToInt32(cboSubtractFrom.Text) - 1;
-            subtractor = Convert.ToInt32(cboSubtractor.Text) - 1;
-            Subtract = btnSubtract.Checked;
+            Gate.subtractFrom = Convert.ToInt32(cboSubtractFrom.Text) - 1;
+            Gate.subtractor = Convert.ToInt32(cboSubtractor.Text) - 1;
+            Gate.Subtract = btnSubtract.Checked;
         }
 
         private void msThreshold_Click(object sender, EventArgs e)
