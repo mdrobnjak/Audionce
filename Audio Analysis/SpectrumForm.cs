@@ -149,8 +149,6 @@ namespace AudioAnalyzer
                 return;
 
             float ratioFreq = (float)pnlSpectrum.Width / Spectrum.DisplayBands;
-            float ratioFreqTest = (float)pnlSpectrum.Width / 200;
-            float ratioWave = pnlSpectrum.Width / AudioIn.sourceData.Length;
             float value = 0;
 
             g.Clear(Color.White);

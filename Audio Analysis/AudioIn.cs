@@ -26,9 +26,9 @@ namespace AudioAnalyzer
             {
                 DeviceNumber = 0,
                 
-                NumberOfBuffers = 2,
+                NumberOfBuffers = 5,
 
-                BufferMilliseconds = (int)((double)BUFFERSIZE / (double)RATE * 1000.0),
+                BufferMilliseconds = (int)((double)BUFFERSIZE / RATE * 1000.0),
 
                 WaveFormat = new WaveFormat(RATE, 1)
             };
@@ -69,7 +69,6 @@ namespace AudioAnalyzer
 
             var prevNode = dataList;
             var shiftNode = dataList;
-
 
             for (int j = 0; j < newData.Length; j++)
             {

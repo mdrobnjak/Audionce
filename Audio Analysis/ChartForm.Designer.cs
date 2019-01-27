@@ -97,7 +97,6 @@
             this.trkbrThreshold.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trkbrThreshold.Size = new System.Drawing.Size(45, 414);
             this.trkbrThreshold.TabIndex = 29;
-            this.trkbrThreshold.TickFrequency = 10;
             this.trkbrThreshold.ValueChanged += new System.EventHandler(this.trkbrThreshold_ValueChanged);
             // 
             // menuStrip1
@@ -117,7 +116,7 @@
             this.msChartSettings.Size = new System.Drawing.Size(48, 20);
             this.msChartSettings.Text = "Chart";
             // 
-            // frmChart
+            // ChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -128,7 +127,7 @@
             this.Controls.Add(this.lblThreshold);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "frmChart";
+            this.Name = "ChartForm";
             this.Text = "Chart";
             ((System.ComponentModel.ISupportInitialize)(this.chartAmplitude)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).EndInit();

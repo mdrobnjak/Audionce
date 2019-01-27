@@ -87,10 +87,11 @@
             this.printPreviewToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.lblPreset = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.cboRange = new System.Windows.Forms.ToolStripComboBox();
             this.btnDecrement = new System.Windows.Forms.ToolStripButton();
             this.btnIncrement = new System.Windows.Forms.ToolStripButton();
-            this.lblPreset = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -112,7 +113,8 @@
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.cboArduinoCommands = new System.Windows.Forms.ToolStripComboBox();
             this.btnWriteArduino = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -336,47 +338,49 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem4,
             this.toolStripMenuItem5,
-            this.toolStripMenuItem6});
+            this.toolStripMenuItem6,
+            this.toolStripMenuItem7,
+            this.toolStripMenuItem8});
             this.nFFTToolStripMenuItem.Name = "nFFTToolStripMenuItem";
-            this.nFFTToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.nFFTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.nFFTToolStripMenuItem.Text = "FFT Size";
             this.nFFTToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.nFFTToolStripMenuItem_DropDownItemClicked);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(98, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "4096";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(98, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem3.Text = "2048";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(98, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem4.Text = "1024";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(98, 22);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem5.Text = "512";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(98, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem6.Text = "256";
             // 
             // btnRawFFT
             // 
             this.btnRawFFT.CheckOnClick = true;
             this.btnRawFFT.Name = "btnRawFFT";
-            this.btnRawFFT.Size = new System.Drawing.Size(118, 22);
+            this.btnRawFFT.Size = new System.Drawing.Size(180, 22);
             this.btnRawFFT.Text = "Raw FFT";
             this.btnRawFFT.CheckStateChanged += new System.EventHandler(this.btnRawFFT_CheckStateChanged);
             // 
@@ -620,6 +624,17 @@
             this.helpToolStripButton.Text = "Help";
             this.helpToolStripButton.Visible = false;
             // 
+            // lblPreset
+            // 
+            this.lblPreset.Name = "lblPreset";
+            this.lblPreset.Size = new System.Drawing.Size(75, 24);
+            this.lblPreset.Text = "Active Preset";
+            // 
+            // toolStripSeparator14
+            // 
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 27);
+            // 
             // cboRange
             // 
             this.cboRange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -646,12 +661,6 @@
             this.btnIncrement.Size = new System.Drawing.Size(65, 24);
             this.btnIncrement.Text = "Increment";
             this.btnIncrement.Click += new System.EventHandler(this.incrementToolStripMenuItem_Click);
-            // 
-            // lblPreset
-            // 
-            this.lblPreset.Name = "lblPreset";
-            this.lblPreset.Size = new System.Drawing.Size(75, 24);
-            this.lblPreset.Text = "Active Preset";
             // 
             // statusStrip
             // 
@@ -818,10 +827,17 @@
             this.btnWriteArduino.Text = "Write";
             this.btnWriteArduino.Click += new System.EventHandler(this.btnWriteArduino_Click);
             // 
-            // toolStripSeparator14
+            // toolStripMenuItem7
             // 
-            this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 27);
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem7.Text = "128";
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem8.Text = "64";
             // 
             // AudioAnalyzerMDIForm
             // 
@@ -937,6 +953,8 @@
         private System.Windows.Forms.ToolStripComboBox cboArduinoCommands;
         private System.Windows.Forms.ToolStripButton btnWriteArduino;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
     }
 }
 

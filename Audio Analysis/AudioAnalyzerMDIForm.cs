@@ -37,6 +37,7 @@ namespace AudioAnalyzer
             Range.Init(ref AutoSettingsForm.Ranges);
             Range.Init(ref Gate.Ranges);
 
+            FFT.InitJaggedArrays();
             AudioIn.InitSoundCapture();
             Spectrum.SyncBandsAndFreqs();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
@@ -50,6 +51,8 @@ namespace AudioAnalyzer
         private void frmAudioAnalyzerMDI_Load(object sender, EventArgs e)
         {
             LayoutMdi(DefaultLayout);
+
+            frmSpectrum.WindowState = FormWindowState.Maximized;
         }
 
         void InitControls()
@@ -57,12 +60,29 @@ namespace AudioAnalyzer
             for (int i = 0; i < Range.Count; i++)
             {
                 cboRange.Items.Add("Range " + (i + 1));
-                cboSubtractor.Items.Add(i+1);
-                cboSubtractFrom.Items.Add(i+1);
+                cboSubtractor.Items.Add(i + 1);
+                cboSubtractFrom.Items.Add(i + 1);
             }
             cboSubtractFrom.SelectedIndex = 0;
             cboSubtractor.SelectedIndex = 1;
             cboRange.SelectedIndex = 0;
+
+            InitN_FFTdropDowns();
+        }
+
+        void InitN_FFTdropDowns()
+        {
+
+            int intVar;
+
+            foreach (ToolStripMenuItem dropDownItem in nFFTToolStripMenuItem.DropDownItems)
+            {
+                if (Int32.TryParse(dropDownItem.Text, out intVar) && intVar == FFT.N_FFTBuffer)
+                {
+                    dropDownItem.Checked = true;
+                    break;
+                }
+            }
         }
 
         void LoadChildForms()
@@ -84,7 +104,7 @@ namespace AudioAnalyzer
         }
 
         DateTime BeforeFFT;
-
+        
         public void timerFFT_Tick(object sender, EventArgs e)
         {
             if (FFT.N_FFT != FFT.N_FFTBuffer)
@@ -288,6 +308,7 @@ namespace AudioAnalyzer
 
             if (!Int32.TryParse(((ToolStripMenuItem)(e.ClickedItem)).Text, out intVar)) return;
             FFT.N_FFTBuffer = intVar;
+            FFT.InitJaggedArrays();
             Spectrum.SyncBandsAndFreqs();
             frmSpectrum.UpdateControls();
         }

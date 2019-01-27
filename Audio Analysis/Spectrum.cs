@@ -28,7 +28,7 @@ namespace AudioAnalyzer
             FreqOfBand = new Dictionary<int, int>();
             if (FFT.rawFFT)
             {
-                TotalBands = FFT.N_FFTBuffer;
+                TotalBands = FFT.N_FFTBuffer / 2;
                 for (int i = 0; i < TotalBands; i++)
                 {
                     FreqOfBand[i] = i * AudioIn.RATE / FFT.N_FFTBuffer;
