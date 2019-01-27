@@ -143,9 +143,11 @@ namespace AudioAnalyzer
             DrawData(FFT.transformedData, gSpectrum, cvt);
         }
 
-        private void DrawData(double[] data, Graphics g, Converter cvter)
+
+        //to do: change data back to double
+        private void DrawData(float[] data, Graphics g, Converter cvter)
         {
-            if (data == null || data.Length == 0 || AudioIn.sourceData == null)
+            if (data == null || data.Length == 0 /*|| AudioIn.sourceData == null*/)
                 return;
 
             float ratioFreq = (float)pnlSpectrum.Width / Spectrum.DisplayBands;

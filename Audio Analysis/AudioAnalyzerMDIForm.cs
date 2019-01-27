@@ -38,7 +38,8 @@ namespace AudioAnalyzer
             Range.Init(ref Gate.Ranges);
 
             FFT.InitJaggedArrays();
-            AudioIn.InitSoundCapture();
+            //AudioIn.InitSoundCapture();
+            SoundCapture.Start();
             Spectrum.SyncBandsAndFreqs();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
             Arduino.InitPort();
@@ -116,7 +117,8 @@ namespace AudioAnalyzer
             }
 
             BeforeFFT = DateTime.Now;
-            FFT.transformedData = FFT.FFTWithProcessing(FFT.transformedData);
+            //FFT.transformedData = FFT.FFTWithProcessing(FFT.transformedData);
+            FFT.transformedData = SoundCapture.Update();
 
             for (int r = 0; r < Range.Count; r++)
             {

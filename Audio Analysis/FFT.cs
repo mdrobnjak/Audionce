@@ -8,9 +8,10 @@ namespace AudioAnalyzer
 {
     public class FFT
     {
-        public static double[] transformedData;
+        //public static double[] transformedData;
+        public static float[] transformedData;
 
-        public static int N_FFT = 64;
+        public static int N_FFT = 4096;
         public static int N_FFTBuffer = N_FFT;
         public static bool rawFFT = false;
         public static double dropOffScale = 10;

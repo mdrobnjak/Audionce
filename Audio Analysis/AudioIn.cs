@@ -11,12 +11,12 @@ namespace AudioAnalyzer
     {
         public static bool Tick = false;
         public static double[] sourceData;
-        public const int RATE = 441; //(default 44100)
+        public const int RATE = 44100; //(default 44100)
         public static Node dataList = new Node(new ComplexNumber(0, 0));
         public static Node endingNode;
         public static WaveIn waveInStream;
         static BufferedWaveProvider bwp;
-        static int BUFFERSIZE = (int)Math.Pow(2, 3); // must be a multiple of 2 (default 11)
+        static int BUFFERSIZE = (int)Math.Pow(2, 11); // must be a multiple of 2 (default 11)
         public static int distance2Node = 0;        
 
         public static void InitSoundCapture()
@@ -45,6 +45,27 @@ namespace AudioAnalyzer
             waveInStream.StartRecording();
         }
 
+        static WasapiLoopbackCapture CaptureInstance = null;
+        public static void InitSoundCaptureWASAPI()
+        {
+            endingNode = dataList;
+
+            CaptureInstance = new WasapiLoopbackCapture();            
+
+            CaptureInstance.DataAvailable += (s, a) =>
+            {
+                waveInStream_DataAvailable(s,a);
+            };
+
+            bwp = new BufferedWaveProvider(CaptureInstance.WaveFormat)
+            {
+                //BufferLength = BUFFERSIZE * 2,
+                DiscardOnBufferOverflow = true
+            };
+
+            CaptureInstance.StartRecording();
+        }
+
         public static void waveInStream_DataAvailable(object sender, WaveInEventArgs e)
         {
             if (!Tick) return;
@@ -52,7 +73,7 @@ namespace AudioAnalyzer
             if (sourceData == null)
                 sourceData = new double[e.BytesRecorded / 2];
 
-            for (int i = 0; i < e.BytesRecorded; i += 2)
+            for (int i = 0; i < 19200 && i < e.BytesRecorded; i += 2)
             {
                 short sampleL = (short)((e.Buffer[i + 1] << 8) | e.Buffer[i + 0]);
                 //  short sampleR = (short)((e.Buffer[i + 1+2] << 8) | e.Buffer[i + 2]);
@@ -106,6 +127,15 @@ namespace AudioAnalyzer
                 waveInStream.Dispose();
                 waveInStream = null;
             }
+
+            if (CaptureInstance != null)
+            {
+                CaptureInstance.StopRecording();
+                CaptureInstance.Dispose();
+                CaptureInstance = null;
+            }
+
+            SoundCapture.OnApplicationQuit();
         }
     }
 }

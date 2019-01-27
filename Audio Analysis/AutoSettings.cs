@@ -68,7 +68,7 @@ namespace AudioAnalyzer
             started = DateTime.Now;
         }
 
-        public static void CollectFFTData(double[] fftData)
+        public static void CollectFFTData(float[] fftData)
         {
             if (fftDataHistory == null)
             {

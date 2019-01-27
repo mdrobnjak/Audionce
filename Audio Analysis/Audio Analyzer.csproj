@@ -66,6 +66,9 @@
     <Reference Include="Accord.Math.Core, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <HintPath>..\packages\Accord.Math.3.8.0\lib\net46\Accord.Math.Core.dll</HintPath>
     </Reference>
+    <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ML.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ML.0.9.0\lib\netstandard2.0\Microsoft.ML.Core.dll</HintPath>
     </Reference>
@@ -207,6 +210,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
+    <Compile Include="Unity Example\BasicSpectrumProvider.cs" />
+    <Compile Include="Unity Example\GradientCalculator.cs" />
+    <Compile Include="Unity Example\ISpectrumProvider.cs" />
+    <Compile Include="Unity Example\LineSpectrum.cs" />
+    <Compile Include="Unity Example\ScalingStrategy.cs" />
+    <Compile Include="Unity Example\SoundCapture.cs" />
+    <Compile Include="Unity Example\SpectrumBase.cs" />
+    <Compile Include="Unity Example\VoicePrint3DSpectrum.cs" />
     <EmbeddedResource Include="ArduinoForm.resx">
       <DependentUpon>ArduinoForm.cs</DependentUpon>
     </EmbeddedResource>
