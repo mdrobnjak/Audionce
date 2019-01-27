@@ -118,7 +118,7 @@ namespace AudioAnalyzer
 
             BeforeFFT = DateTime.Now;
             //FFT.transformedData = FFT.FFTWithProcessing(FFT.transformedData);
-            FFT.transformedData = SoundCapture.Update();
+            FFT.transformedData = FFT.LogScale(SoundCapture.Update());
 
             for (int r = 0; r < Range.Count; r++)
             {

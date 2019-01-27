@@ -206,6 +206,7 @@ namespace AudioAnalyzer
 
         private void pnlSpectrum_SizeChanged(object sender, EventArgs e)
         {
+            if (this.WindowState == FormWindowState.Minimized) return;
             InitBufferAndGraphicForSpectrum();
             InitConverter(converterScale);
             cvt._yCenter = pnlSpectrum.Location.Y + pnlSpectrum.Height;

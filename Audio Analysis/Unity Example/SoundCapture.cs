@@ -8,13 +8,13 @@ using System;
 
 public static class SoundCapture
 {
-    public static int numBars = AudioAnalyzer.FFT.N_FFTBuffer / 8;
+    public static int numBars = AudioAnalyzer.FFT.N_FFTBuffer;
 
-    public static int minFreq = 0;
-    public static int maxFreq = 22050;
+    public static int minFreq = 20;
+    public static int maxFreq = 20000;
     public static int barSpacing = 0;
-    public static bool logScale = true;
-    public static bool isAverage = false;
+    public static bool logScale = false;
+    public static bool useAverage = false;
 
     public static float highScaleAverage = 2.0f;
     public static float highScaleNotAverage = 3.0f;
@@ -49,7 +49,7 @@ public static class SoundCapture
         // From https://github.com/filoe/cscore/blob/master/Samples/WinformsVisualization/Form1.cs
 
         // This is the typical size, you can change this for higher detail as needed
-        fftSize = FftSize.Fft4096;
+        fftSize = FftSize.Fft8192;
 
         // Actual fft data
         fftBuffer = new float[(int)fftSize];
@@ -62,10 +62,10 @@ public static class SoundCapture
         lineSpectrum = new LineSpectrum(fftSize)
         {
             SpectrumProvider = spectrumProvider,
-            UseAverage = false,
+            UseAverage = useAverage,
             BarCount = numBars,
-            BarSpacing = 2,
-            IsXLogScale = false,
+            BarSpacing = barSpacing,
+            IsXLogScale = logScale,
             ScalingStrategy = ScalingStrategy.Linear
         };
 
@@ -128,12 +128,9 @@ public static class SoundCapture
 
     public static float[] Update()
     {
+        return GetFFtData();
 
-        int numBars = barData.Length;
-
-        float[] resData = GetFFtData();
-
-        return resData;
+        float[] resData;
 
         if (resData == null)
         {

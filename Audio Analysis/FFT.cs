@@ -20,8 +20,8 @@ namespace AudioAnalyzer
         public static int[] chunk_freq = { 800, 1600, 3200, 6400, 12800, 30000 };
         public static int[] chunk_freq_jump = { 1, 2, 4, 6, 8, 10, 16 };
 
-        static ComplexNumber[][] E = new ComplexNumber[12][];
-        static ComplexNumber[][] D = new ComplexNumber[12][];
+        static ComplexNumber[][] E = new ComplexNumber[13][];
+        static ComplexNumber[][] D = new ComplexNumber[13][];
 
         public static void InitJaggedArrays()
         {
@@ -202,6 +202,49 @@ namespace AudioAnalyzer
                 Array.Resize(ref finalresult, transformedDataIndex);
             
             //Console.WriteLine(DateTime.Now.Subtract(chkpoint1).TotalMilliseconds);
+            return finalresult;
+        }
+
+        public static float[] LogScale(float[] rawData)
+        {
+            if (rawFFT) return rawData;
+            float N2 = rawData.Length / 2;
+            float[] finalresult = new float[rawData.Length];
+            int k = 1, transformedDataIndex = 0;
+            float value = 0;
+
+            for (int i = 0; i < N2; i += k)
+            {
+                value = 0;
+                var mappedFreq = i * AudioIn.RATE / 2 / N2;
+                for (int l = 0; l < chunk_freq.Length; l++)
+                {
+                    if (mappedFreq < chunk_freq[l] || l == chunk_freq.Length - 1)
+                    {
+                        k = chunk_freq_jump[l];//chunk_freq[l] / chunk_freq[0];
+                        break;
+                    }
+                }
+
+                for (int j = i; j < i + k && j < N2; j++)
+                {
+                    value += rawData[j];
+                }
+
+
+                if (!DropOff)
+                    finalresult[transformedDataIndex] = value;
+                else
+                {
+                    rawData[transformedDataIndex] -= (float)(DateTime.Now.Subtract(chkpoint1).TotalMilliseconds * dropOffScale);
+                    finalresult[transformedDataIndex] = value > rawData[transformedDataIndex] ? value : rawData[transformedDataIndex];
+                }
+
+                transformedDataIndex++;
+            }
+
+            Array.Resize(ref finalresult, transformedDataIndex);
+            
             return finalresult;
         }
     }

@@ -11,7 +11,7 @@ namespace AudioAnalyzer
     {
         public static bool Tick = false;
         public static float[] sourceData;
-        public const int RATE = 44100; //(default 44100)
+        public const int RATE = 48000; //(default 44100)
         public static Node dataList = new Node(new ComplexNumber(0, 0));
         public static Node endingNode;
         public static WaveIn waveInStream;

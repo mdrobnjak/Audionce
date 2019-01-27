@@ -116,7 +116,7 @@ namespace WinformsVisualization.Visualization
                     throw new ArgumentOutOfRangeException("value");
 
                 _fftSize = (int) value;
-                _maxFftIndex = _fftSize / 2 - 1;
+                _maxFftIndex = _fftSize - 1; //_fftSize / 2 - 1;
 
                 RaisePropertyChanged("FFTSize");
             }
