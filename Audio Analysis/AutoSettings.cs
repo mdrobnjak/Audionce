@@ -27,8 +27,8 @@ namespace AudioAnalyzer
 
         #region Threshold
         public bool DynamicThreshold = false;
-        public double highestPeakNewCenter = 0;
-        public double ThresholdMultiplier;
+        public float highestPeakNewCenter = 0;
+        public float ThresholdMultiplier;
 
         public void ApplyAutoSettings()
         {
@@ -40,7 +40,7 @@ namespace AudioAnalyzer
             Range.Threshold = (int)(highestPeakNewCenter * ThresholdMultiplier);
         }
 
-        public void HighestPeakNewBandwidth(out double highestPeakBandwidth)
+        public void HighestPeakNewBandwidth(out float highestPeakBandwidth)
         {
             highestPeakBandwidth = highestPeakNewCenter;
             for (int i = Math.Max((autoBandIndex - Bandwidth / 2), 0); i < autoBandIndex + Bandwidth / 2; i++)
@@ -55,10 +55,10 @@ namespace AudioAnalyzer
         #endregion
 
         #region Range
-        private static List<List<double>> fftDataHistory = null;
+        private static List<List<float>> fftDataHistory = null;
         public static bool Ranging = false, ReadyToProcess = false;
         public int autoBandIndex;
-        public static double SecondsToCollect = 5;
+        public static float SecondsToCollect = 5;
         public int Bandwidth;
         public static DateTime started;
 
@@ -72,10 +72,10 @@ namespace AudioAnalyzer
         {
             if (fftDataHistory == null)
             {
-                fftDataHistory = new List<List<double>>();
+                fftDataHistory = new List<List<float>>();
                 for (int i = 0; i < fftData.Length; i++)
                 {
-                    fftDataHistory.Add(new List<double>());
+                    fftDataHistory.Add(new List<float>());
                 }
             }
 
@@ -86,7 +86,7 @@ namespace AudioAnalyzer
 
             if ((DateTime.Now - started).TotalSeconds >= SecondsToCollect)
             {
-                //Task.Run(()=>BandAnalysis.CreateTrainingRowFromAudioData(new List<List<double>>(fftDataHistory)));
+                //Task.Run(()=>BandAnalysis.CreateTrainingRowFromAudioData(new List<List<float>>(fftDataHistory)));
 
                 Ranging = false;
                 ReadyToProcess = true;
@@ -120,7 +120,7 @@ namespace AudioAnalyzer
             autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
-                double max = 0;
+                float max = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
                 {
                     if (fftDataHistory[i][j] > max)
@@ -140,11 +140,11 @@ namespace AudioAnalyzer
         public int SingleChange()
         {
             highestPeakNewCenter = 0;
-            double singleChange = 0;
+            float singleChange = 0;
             autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
-                double max = 0, changePerBand = 0;
+                float max = 0, changePerBand = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
                 {
                     if (fftDataHistory[i][j] > max)
@@ -170,11 +170,11 @@ namespace AudioAnalyzer
         public int SingleChangePositive()
         {
             highestPeakNewCenter = 0;
-            double singleChange = 0;
+            float singleChange = 0;
             autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
-                double max = 0, changePerBand = 0;
+                float max = 0, changePerBand = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
                 {
                     if (fftDataHistory[i][j] > max)
@@ -204,11 +204,11 @@ namespace AudioAnalyzer
         public int SCPtoSA()
         {
             highestPeakNewCenter = 0;
-            double scpToSa = 0;
+            float scpToSa = 0;
             autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
-                double max = 0, scpPerBand = 0, subsequentAverage = 0, scpToSaPerBand = 0;
+                float max = 0, scpPerBand = 0, subsequentAverage = 0, scpToSaPerBand = 0;
                 int scpIndex = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
                 {
@@ -224,7 +224,7 @@ namespace AudioAnalyzer
                     }
                 }
 
-                double sum = 0;
+                float sum = 0;
                 int count = 0;
                 for (int j = scpIndex; j < fftDataHistory[i].Count(); j++)
                 {
@@ -248,11 +248,11 @@ namespace AudioAnalyzer
         public int TotalChange()
         {
             highestPeakNewCenter = 0;
-            double totalChange = 0;
+            float totalChange = 0;
             autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
-                double max = 0, change = 0;
+                float max = 0, change = 0;
                 for (int j = 1; j < fftDataHistory[i].Count(); j++)
                 {
                     if (fftDataHistory[i][j] > max)
@@ -275,11 +275,11 @@ namespace AudioAnalyzer
         public int DynamicRange()
         {
             highestPeakNewCenter = 0;
-            double peakToPeak = 0;
+            float peakToPeak = 0;
             autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
-                double max = 0, min = Int32.MaxValue;
+                float max = 0, min = Int32.MaxValue;
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)
                 {
                     if (fftDataHistory[i][j] > max)
@@ -304,11 +304,11 @@ namespace AudioAnalyzer
         public int PeakToAverage()
         {
             highestPeakNewCenter = 0;
-            double peakToAverageRatio = 0;
+            float peakToAverageRatio = 0;
             autoBandIndex = 0;
             for (int i = Range.LowFreqIndex; i < Range.HighFreqIndex; i++)
             {
-                double peak = 0, sum = 0, average = 0;
+                float peak = 0, sum = 0, average = 0;
                 for (int j = 0; j < fftDataHistory[i].Count(); j++)
                 {
                     sum += fftDataHistory[i][j];

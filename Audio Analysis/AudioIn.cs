@@ -10,7 +10,7 @@ namespace AudioAnalyzer
     public static class AudioIn
     {
         public static bool Tick = false;
-        public static double[] sourceData;
+        public static float[] sourceData;
         public const int RATE = 44100; //(default 44100)
         public static Node dataList = new Node(new ComplexNumber(0, 0));
         public static Node endingNode;
@@ -29,7 +29,7 @@ namespace AudioAnalyzer
                 
                 NumberOfBuffers = 10,
 
-                BufferMilliseconds = (int)((double)BUFFERSIZE / RATE * 1000.0),
+                BufferMilliseconds = (int)((float)BUFFERSIZE / RATE * 1000.0),
 
                 WaveFormat = new WaveFormat(RATE, 1)
             };
@@ -71,13 +71,13 @@ namespace AudioAnalyzer
             if (!Tick) return;
 
             if (sourceData == null)
-                sourceData = new double[e.BytesRecorded / 2];
+                sourceData = new float[e.BytesRecorded / 2];
 
             for (int i = 0; i < 19200 && i < e.BytesRecorded; i += 2)
             {
                 short sampleL = (short)((e.Buffer[i + 1] << 8) | e.Buffer[i + 0]);
                 //  short sampleR = (short)((e.Buffer[i + 1+2] << 8) | e.Buffer[i + 2]);
-                double sample32 = (sampleL) / 32722d;
+                float sample32 = (sampleL) / 32722f;
                 sourceData[i / 2] = sample32;// (double)(e.Buffer[i]) / 255;
             }
 
@@ -88,7 +88,7 @@ namespace AudioAnalyzer
             Tick = false;
         }
 
-        private static void AppendData(double[] newData)
+        private static void AppendData(float[] newData)
         {
             int N = 10000;
             //double[] data = new double[N];

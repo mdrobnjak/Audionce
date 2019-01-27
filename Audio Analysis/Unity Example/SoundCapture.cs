@@ -8,14 +8,12 @@ using System;
 
 public static class SoundCapture
 {
-    // Use this for initialization
+    public static int numBars = AudioAnalyzer.FFT.N_FFTBuffer / 8;
 
-    public static int numBars = 4096;
-
-    public static int minFreq = 1;
+    public static int minFreq = 0;
     public static int maxFreq = 22050;
     public static int barSpacing = 0;
-    public static bool logScale = false;
+    public static bool logScale = true;
     public static bool isAverage = false;
 
     public static float highScaleAverage = 2.0f;

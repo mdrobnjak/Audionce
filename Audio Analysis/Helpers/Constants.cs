@@ -7,6 +7,8 @@ namespace AudioAnalyzer
 {
     class Constants
     {
+        public static float PI = 3.1415926f;
+
         public class Brushes
         {
             public static SolidBrush blackBrush;

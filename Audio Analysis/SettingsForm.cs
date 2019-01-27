@@ -68,10 +68,10 @@ namespace AudioAnalyzer
                         Ranges[e.ColumnIndex].AutoSettings.Bandwidth = Convert.ToInt32(cellValue);
                         break;
                     case 1:
-                        Ranges[e.ColumnIndex].AutoSettings.ThresholdMultiplier = Convert.ToDouble(cellValue);
+                        Ranges[e.ColumnIndex].AutoSettings.ThresholdMultiplier = Convert.ToSingle(cellValue);
                         break;
                     case 3:
-                        if (e.ColumnIndex == iGen) AutoSettings.SecondsToCollect = Convert.ToDouble(cellValue);
+                        if (e.ColumnIndex == iGen) AutoSettings.SecondsToCollect = Convert.ToSingle(cellValue);
                         break;
                     default:
                         break;

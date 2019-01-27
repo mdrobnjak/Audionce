@@ -8,10 +8,10 @@ namespace AudioAnalyzer
 {
     public class ComplexNumber
     {
-        public double R;
-        public double I;
+        public float R;
+        public float I;
 
-        public ComplexNumber(double real, double img)
+        public ComplexNumber(float real, float img)
         {
             R = real;
             I = img;
@@ -30,15 +30,15 @@ namespace AudioAnalyzer
             return new ComplexNumber(a.R - b.R, a.I - b.I);
         }
 
-        public static ComplexNumber FromPolar(double length, double angle)
+        public static ComplexNumber FromPolar(float length, float angle)
         {
-            return new ComplexNumber(length * Math.Cos(angle), length * Math.Sin(angle));
+            return new ComplexNumber((float)(length * Math.Cos(angle)), (float)(length * Math.Sin(angle)));
         }
-        public double Magnitude
+        public float Magnitude
         {
             get
             {
-                return Math.Sqrt(Math.Pow(R, 2) + Math.Pow(I, 2));
+                return (float)Math.Sqrt(Math.Pow(R, 2) + Math.Pow(I, 2));
             }
         }
     }

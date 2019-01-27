@@ -30,7 +30,7 @@ namespace AudioAnalyzer
         
         private void InitConverter(int yMult)
         {
-            double maxScaledY = pnlSpectrum.Height * 0.2;//(4096d / FFT.N_FFT) * yMult;
+            double maxScaledY = (4096d / FFT.N_FFT) * yMult;
             cvt = new Converter(0, pnlSpectrum.Location.Y + pnlSpectrum.Height, 1, maxScaledY);
         }
 
@@ -142,9 +142,7 @@ namespace AudioAnalyzer
             }
             DrawData(FFT.transformedData, gSpectrum, cvt);
         }
-
-
-        //to do: change data back to double
+        
         private void DrawData(float[] data, Graphics g, Converter cvter)
         {
             if (data == null || data.Length == 0 /*|| AudioIn.sourceData == null*/)

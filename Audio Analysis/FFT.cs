@@ -52,7 +52,7 @@ namespace AudioAnalyzer
 
             for (k = 0; k < N / 2; k++)
             {
-                D[i][k] *= ComplexNumber.FromPolar(1, -2 * Math.PI * k / N);
+                D[i][k] *= ComplexNumber.FromPolar(1, -2 * Constants.PI * k / N);
                 data[k] = E[i][k] + D[i][k];
                 data[k + N / 2] = E[i][k] - D[i][k];
             }
@@ -80,7 +80,7 @@ namespace AudioAnalyzer
 
             for (k = 0; k < N / 2; k++)
             {
-                d[k] *= ComplexNumber.FromPolar(1, -2 * Math.PI * k / N);
+                d[k] *= ComplexNumber.FromPolar(1, -2 * Constants.PI * k / N);
                 data[k] = e[k] + d[k];
                 data[k + N / 2] = e[k] - d[k];
             }
@@ -110,7 +110,7 @@ namespace AudioAnalyzer
 
             for (k = 0; k < N / 2; k++)
             {
-                D[k] *= ComplexNumber.FromPolar(1, -2 * Math.PI * k / N);
+                D[k] *= ComplexNumber.FromPolar(1, -2 * Constants.PI * k / N);
             }
 
             for (k = 0; k < N / 2; k++)
@@ -123,7 +123,7 @@ namespace AudioAnalyzer
 
         static DateTime chkpoint1;
 
-        public static double[] FFTWithProcessing(double[] lastData)
+        public static float[] FFTWithProcessing(float[] lastData)
         {
             chkpoint1 = DateTime.Now;
             if (AudioIn.dataList==null)
@@ -131,12 +131,12 @@ namespace AudioAnalyzer
             int actualN = AudioIn.distance2Node + 1;
 
             if (actualN < N_FFT)
-                return new double[0];
+                return new float[0];
 
             bool transformed = false;
             if (lastData == null || lastData.Length == 0)
             {
-                lastData = new double[N_FFT];
+                lastData = new float[N_FFT];
             }
             else
             {
@@ -165,10 +165,10 @@ namespace AudioAnalyzer
             }
             
 
-            double N2 = data.Length / 2;
-            double[] finalresult = new double[lastData.Length];
+            float N2 = data.Length / 2;
+            float[] finalresult = new float[lastData.Length];
             int k = 1, transformedDataIndex = 0;
-            double value = 0;
+            float value = 0;
 
             for (int i = 0; i < N2; i += k)
             {
@@ -189,7 +189,7 @@ namespace AudioAnalyzer
                 }
 
                 
-                lastData[transformedDataIndex] -= DateTime.Now.Subtract(chkpoint1).TotalMilliseconds * dropOffScale;
+                lastData[transformedDataIndex] -= (float)(DateTime.Now.Subtract(chkpoint1).TotalMilliseconds * dropOffScale);
                 if (!DropOff)
                     finalresult[transformedDataIndex] = value;
                 else
