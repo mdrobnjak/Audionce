@@ -126,8 +126,8 @@
             this.ClientSize = new System.Drawing.Size(821, 350);
             this.Controls.Add(this.trkbrMax);
             this.Controls.Add(this.trkbrMin);
-            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.pnlSpectrum);
+            this.Controls.Add(this.menuStrip1);
             this.Name = "SpectrumForm";
             this.Text = "Spectrum";
             this.menuStrip1.ResumeLayout(false);

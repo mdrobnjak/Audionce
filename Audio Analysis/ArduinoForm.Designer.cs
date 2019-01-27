@@ -39,7 +39,7 @@
             // lblArduinoMRange
             // 
             this.lblArduinoMRange.AutoSize = true;
-            this.lblArduinoMRange.Location = new System.Drawing.Point(16, 165);
+            this.lblArduinoMRange.Location = new System.Drawing.Point(2, 152);
             this.lblArduinoMRange.Name = "lblArduinoMRange";
             this.lblArduinoMRange.Size = new System.Drawing.Size(57, 13);
             this.lblArduinoMRange.TabIndex = 41;
@@ -47,9 +47,9 @@
             // 
             // btnArduinoMRange3
             // 
-            this.btnArduinoMRange3.Location = new System.Drawing.Point(100, 184);
+            this.btnArduinoMRange3.Location = new System.Drawing.Point(88, 168);
             this.btnArduinoMRange3.Name = "btnArduinoMRange3";
-            this.btnArduinoMRange3.Size = new System.Drawing.Size(75, 32);
+            this.btnArduinoMRange3.Size = new System.Drawing.Size(87, 32);
             this.btnArduinoMRange3.TabIndex = 40;
             this.btnArduinoMRange3.Text = "Range 3";
             this.btnArduinoMRange3.UseVisualStyleBackColor = true;
@@ -57,9 +57,9 @@
             // 
             // btnArduinoMRange2
             // 
-            this.btnArduinoMRange2.Location = new System.Drawing.Point(19, 184);
+            this.btnArduinoMRange2.Location = new System.Drawing.Point(5, 168);
             this.btnArduinoMRange2.Name = "btnArduinoMRange2";
-            this.btnArduinoMRange2.Size = new System.Drawing.Size(75, 32);
+            this.btnArduinoMRange2.Size = new System.Drawing.Size(80, 32);
             this.btnArduinoMRange2.TabIndex = 39;
             this.btnArduinoMRange2.Text = "Range 2";
             this.btnArduinoMRange2.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@
             this.cboPortNames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPortNames.ForeColor = System.Drawing.Color.White;
             this.cboPortNames.FormattingEnabled = true;
-            this.cboPortNames.Location = new System.Drawing.Point(12, 12);
+            this.cboPortNames.Location = new System.Drawing.Point(5, 12);
             this.cboPortNames.Name = "cboPortNames";
             this.cboPortNames.Size = new System.Drawing.Size(170, 21);
             this.cboPortNames.TabIndex = 38;
@@ -83,14 +83,14 @@
             this.cboArduinoCommands.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboArduinoCommands.ForeColor = System.Drawing.Color.White;
             this.cboArduinoCommands.FormattingEnabled = true;
-            this.cboArduinoCommands.Location = new System.Drawing.Point(12, 62);
+            this.cboArduinoCommands.Location = new System.Drawing.Point(5, 62);
             this.cboArduinoCommands.Name = "cboArduinoCommands";
             this.cboArduinoCommands.Size = new System.Drawing.Size(170, 21);
             this.cboArduinoCommands.TabIndex = 37;
             // 
             // btnWriteArduino
             // 
-            this.btnWriteArduino.Location = new System.Drawing.Point(12, 89);
+            this.btnWriteArduino.Location = new System.Drawing.Point(5, 89);
             this.btnWriteArduino.Name = "btnWriteArduino";
             this.btnWriteArduino.Size = new System.Drawing.Size(170, 39);
             this.btnWriteArduino.TabIndex = 36;
@@ -98,18 +98,19 @@
             this.btnWriteArduino.UseVisualStyleBackColor = true;
             this.btnWriteArduino.Click += new System.EventHandler(this.btnWriteArduino_Click);
             // 
-            // frmArduino
+            // ArduinoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(197, 233);
+            this.ClientSize = new System.Drawing.Size(184, 212);
             this.Controls.Add(this.lblArduinoMRange);
             this.Controls.Add(this.btnArduinoMRange3);
             this.Controls.Add(this.btnArduinoMRange2);
             this.Controls.Add(this.cboPortNames);
             this.Controls.Add(this.cboArduinoCommands);
             this.Controls.Add(this.btnWriteArduino);
-            this.Name = "frmArduino";
+            this.MaximumSize = new System.Drawing.Size(200, 250);
+            this.Name = "ArduinoForm";
             this.Text = "Arduino";
             this.ResumeLayout(false);
             this.PerformLayout();

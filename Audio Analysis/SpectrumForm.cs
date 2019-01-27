@@ -30,7 +30,7 @@ namespace AudioAnalyzer
         
         private void InitConverter(int yMult)
         {
-            double maxScaledY = (4096d / FFT.N_FFT) * yMult;
+            double maxScaledY = pnlSpectrum.Height * 0.2;//(4096d / FFT.N_FFT) * yMult;
             cvt = new Converter(0, pnlSpectrum.Location.Y + pnlSpectrum.Height, 1, maxScaledY);
         }
 

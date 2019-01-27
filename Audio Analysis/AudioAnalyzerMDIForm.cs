@@ -21,7 +21,7 @@ namespace AudioAnalyzer
         ChartForm frmChart;
         GateForm frmGate;
         ArduinoForm frmArduino;
-        AutoSettingsForm frmAutoSettings;
+        SettingsForm frmSettings;
 
         Range[] Ranges;
 
@@ -34,7 +34,7 @@ namespace AudioAnalyzer
 
             Range.Init(ref this.Ranges);
             Range.Init(ref FileIO.Ranges);
-            Range.Init(ref AutoSettingsForm.Ranges);
+            Range.Init(ref SettingsForm.Ranges);
             Range.Init(ref Gate.Ranges);
 
             FFT.InitJaggedArrays();
@@ -107,6 +107,8 @@ namespace AudioAnalyzer
         
         public void timerFFT_Tick(object sender, EventArgs e)
         {
+            AudioIn.Tick = true;
+
             if (FFT.N_FFT != FFT.N_FFTBuffer)
             {
                 FFT.N_FFT = FFT.N_FFTBuffer;
@@ -321,12 +323,12 @@ namespace AudioAnalyzer
             frmArduino.Show();
         }
 
-        private void autoSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAutoSettings = new AutoSettingsForm();
-            frmAutoSettings.MdiParent = this;
+            frmSettings = new SettingsForm();
+            frmSettings.MdiParent = this;
             childFormNumber++;
-            frmAutoSettings.Show();
+            frmSettings.Show();
         }
 
         private void incrementToolStripMenuItem_Click(object sender, EventArgs e)
@@ -377,8 +379,7 @@ namespace AudioAnalyzer
         {
             frmChart.AutoThreshold();
         }
-
-        //This probably works.
+        
         private void btnAutoRange_Click(object sender, EventArgs e)
         {
             AutoSettings.BeginRanging();
@@ -388,12 +389,6 @@ namespace AudioAnalyzer
         private void btnTrain_Click(object sender, EventArgs e)
         {
             BandAnalysis.CompleteAndSaveTraining();
-        }
-
-        //Need to init and check cboArduinoCommands for this.
-        private void btnWriteArduino_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

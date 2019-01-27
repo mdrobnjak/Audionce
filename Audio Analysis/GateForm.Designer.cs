@@ -37,7 +37,7 @@
             this.pnlGate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlGate.Location = new System.Drawing.Point(0, 0);
             this.pnlGate.Name = "pnlGate";
-            this.pnlGate.Size = new System.Drawing.Size(667, 252);
+            this.pnlGate.Size = new System.Drawing.Size(184, 212);
             this.pnlGate.TabIndex = 20;
             this.pnlGate.SizeChanged += new System.EventHandler(this.pnlGate_SizeChanged);
             // 
@@ -45,10 +45,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(667, 252);
+            this.ClientSize = new System.Drawing.Size(184, 212);
             this.Controls.Add(this.pnlGate);
+            this.MaximumSize = new System.Drawing.Size(200, 250);
             this.Name = "GateForm";
-            this.Text = "GateForm";
+            this.Text = "Gate";
             this.ResumeLayout(false);
 
         }

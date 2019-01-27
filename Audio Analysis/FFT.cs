@@ -10,7 +10,7 @@ namespace AudioAnalyzer
     {
         public static double[] transformedData;
 
-        public static int N_FFT = 4096;
+        public static int N_FFT = 64;
         public static int N_FFTBuffer = N_FFT;
         public static bool rawFFT = false;
         public static double dropOffScale = 10;
@@ -148,6 +148,7 @@ namespace AudioAnalyzer
                 data[i] = runningNode.Value;
                 if (runningNode.PrevNode == null)
                 {
+                    break;
                 }
                 runningNode = runningNode.PrevNode;
             }

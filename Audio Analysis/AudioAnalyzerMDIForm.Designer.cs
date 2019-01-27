@@ -59,14 +59,15 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnRawFFT = new System.Windows.Forms.ToolStripMenuItem();
+            this.msSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.msAuto = new System.Windows.Forms.ToolStripMenuItem();
-            this.msAutoSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.msArduino = new System.Windows.Forms.ToolStripMenuItem();
-            this.msArduinoSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.msArduinoCommunicate = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.cascadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,11 +111,8 @@
             this.btnAutoRange = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.btnTrain = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.cboArduinoCommands = new System.Windows.Forms.ToolStripComboBox();
-            this.btnWriteArduino = new System.Windows.Forms.ToolStripButton();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -129,7 +127,6 @@
             this.editMenu,
             this.optionsToolStripMenuItem,
             this.viewMenu,
-            this.msAuto,
             this.msArduino,
             this.windowsMenu,
             this.helpMenu});
@@ -326,10 +323,11 @@
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nFFTToolStripMenuItem,
-            this.btnRawFFT});
+            this.btnRawFFT,
+            this.msSettings});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Text = "&Options";
             // 
             // nFFTToolStripMenuItem
             // 
@@ -340,7 +338,9 @@
             this.toolStripMenuItem5,
             this.toolStripMenuItem6,
             this.toolStripMenuItem7,
-            this.toolStripMenuItem8});
+            this.toolStripMenuItem8,
+            this.toolStripMenuItem9,
+            this.toolStripMenuItem10});
             this.nFFTToolStripMenuItem.Name = "nFFTToolStripMenuItem";
             this.nFFTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.nFFTToolStripMenuItem.Text = "FFT Size";
@@ -376,6 +376,18 @@
             this.toolStripMenuItem6.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem6.Text = "256";
             // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem7.Text = "128";
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem8.Text = "64";
+            // 
             // btnRawFFT
             // 
             this.btnRawFFT.CheckOnClick = true;
@@ -383,6 +395,13 @@
             this.btnRawFFT.Size = new System.Drawing.Size(180, 22);
             this.btnRawFFT.Text = "Raw FFT";
             this.btnRawFFT.CheckStateChanged += new System.EventHandler(this.btnRawFFT_CheckStateChanged);
+            // 
+            // msSettings
+            // 
+            this.msSettings.Name = "msSettings";
+            this.msSettings.Size = new System.Drawing.Size(180, 22);
+            this.msSettings.Text = "Settings...";
+            this.msSettings.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // viewMenu
             // 
@@ -413,35 +432,20 @@
             this.statusBarToolStripMenuItem.Text = "&Status Bar";
             this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.StatusBarToolStripMenuItem_Click);
             // 
-            // msAuto
-            // 
-            this.msAuto.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.msAutoSettings});
-            this.msAuto.Name = "msAuto";
-            this.msAuto.Size = new System.Drawing.Size(45, 20);
-            this.msAuto.Text = "&Auto";
-            // 
-            // msAutoSettings
-            // 
-            this.msAutoSettings.Name = "msAutoSettings";
-            this.msAutoSettings.Size = new System.Drawing.Size(125, 22);
-            this.msAutoSettings.Text = "Settings...";
-            this.msAutoSettings.Click += new System.EventHandler(this.autoSettingsToolStripMenuItem_Click);
-            // 
             // msArduino
             // 
             this.msArduino.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.msArduinoSettings});
+            this.msArduinoCommunicate});
             this.msArduino.Name = "msArduino";
             this.msArduino.Size = new System.Drawing.Size(62, 20);
-            this.msArduino.Text = "Arduino";
+            this.msArduino.Text = "&Arduino";
             // 
-            // msArduinoSettings
+            // msArduinoCommunicate
             // 
-            this.msArduinoSettings.Name = "msArduinoSettings";
-            this.msArduinoSettings.Size = new System.Drawing.Size(125, 22);
-            this.msArduinoSettings.Text = "&Settings...";
-            this.msArduinoSettings.Click += new System.EventHandler(this.arduinoToolStripMenuItem_Click);
+            this.msArduinoCommunicate.Name = "msArduinoCommunicate";
+            this.msArduinoCommunicate.Size = new System.Drawing.Size(159, 22);
+            this.msArduinoCommunicate.Text = "&Communicate...";
+            this.msArduinoCommunicate.Click += new System.EventHandler(this.arduinoToolStripMenuItem_Click);
             // 
             // windowsMenu
             // 
@@ -714,10 +718,7 @@
             this.toolStripSeparator11,
             this.btnAutoRange,
             this.toolStripSeparator12,
-            this.btnTrain,
-            this.toolStripSeparator13,
-            this.cboArduinoCommands,
-            this.btnWriteArduino});
+            this.btnTrain});
             this.toolStripProcessing.Location = new System.Drawing.Point(0, 51);
             this.toolStripProcessing.Name = "toolStripProcessing";
             this.toolStripProcessing.Size = new System.Drawing.Size(1009, 25);
@@ -807,37 +808,17 @@
             this.btnTrain.Text = "Train";
             this.btnTrain.Click += new System.EventHandler(this.btnTrain_Click);
             // 
-            // toolStripSeparator13
+            // toolStripMenuItem9
             // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(6, 25);
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem9.Text = "32";
             // 
-            // cboArduinoCommands
+            // toolStripMenuItem10
             // 
-            this.cboArduinoCommands.Name = "cboArduinoCommands";
-            this.cboArduinoCommands.Size = new System.Drawing.Size(92, 25);
-            // 
-            // btnWriteArduino
-            // 
-            this.btnWriteArduino.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnWriteArduino.Image = ((System.Drawing.Image)(resources.GetObject("btnWriteArduino.Image")));
-            this.btnWriteArduino.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnWriteArduino.Name = "btnWriteArduino";
-            this.btnWriteArduino.Size = new System.Drawing.Size(39, 22);
-            this.btnWriteArduino.Text = "Write";
-            this.btnWriteArduino.Click += new System.EventHandler(this.btnWriteArduino_Click);
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem7.Text = "128";
-            // 
-            // toolStripMenuItem8
-            // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem8.Text = "64";
+            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem10.Text = "16";
             // 
             // AudioAnalyzerMDIForm
             // 
@@ -929,10 +910,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem msAuto;
-        private System.Windows.Forms.ToolStripMenuItem msAutoSettings;
         private System.Windows.Forms.ToolStripMenuItem msArduino;
-        private System.Windows.Forms.ToolStripMenuItem msArduinoSettings;
+        private System.Windows.Forms.ToolStripMenuItem msArduinoCommunicate;
         private System.Windows.Forms.ToolStripButton btnDecrement;
         private System.Windows.Forms.ToolStripButton btnIncrement;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
@@ -949,12 +928,12 @@
         private System.Windows.Forms.ToolStripButton btnAutoRange;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripButton btnTrain;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
-        private System.Windows.Forms.ToolStripComboBox cboArduinoCommands;
-        private System.Windows.Forms.ToolStripButton btnWriteArduino;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
+        private System.Windows.Forms.ToolStripMenuItem msSettings;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
     }
 }
 

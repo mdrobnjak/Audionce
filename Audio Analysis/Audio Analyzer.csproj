@@ -181,11 +181,11 @@
     <Compile Include="AudioAnalyzerMDIForm.Designer.cs">
       <DependentUpon>AudioAnalyzerMDIForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AutoSettingsForm.cs">
+    <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AutoSettingsForm.Designer.cs">
-      <DependentUpon>AutoSettingsForm.cs</DependentUpon>
+    <Compile Include="SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ChartForm.cs">
       <SubType>Form</SubType>
@@ -220,8 +220,8 @@
     <EmbeddedResource Include="AudioAnalyzerMDIForm.resx">
       <DependentUpon>AudioAnalyzerMDIForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AutoSettingsForm.resx">
-      <DependentUpon>AutoSettingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ChartForm.resx">
       <DependentUpon>ChartForm.cs</DependentUpon>
