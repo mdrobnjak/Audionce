@@ -12,6 +12,7 @@ namespace AudioAnalyzer
 {
     public static class ML
     {
+        public static bool Initialized = false;
 
         public static string _trainDataPath;
         static string _testDataPath;
@@ -48,7 +49,9 @@ namespace AudioAnalyzer
 
             var model = Train(mlContext, _trainDataPath);
 
-            Evaluate(mlContext, model);            
+            Evaluate(mlContext, model);
+
+            Initialized = true;
         }
 
         public static ITransformer Train(MLContext mlContext, string dataPath)

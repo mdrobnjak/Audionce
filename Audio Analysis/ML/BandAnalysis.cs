@@ -34,6 +34,8 @@ namespace AudioAnalyzer
             trainingRow = trainingRow.Remove(trainingRow.Length - 1, 1);
             trainingRow += Environment.NewLine;
 
+
+            if (!ML.Initialized) return;
             System.Windows.Forms.MessageBox.Show(ML.PredictRealTime(ML.mlContext, Array.ConvertAll(trainingRow.Split(','), float.Parse)).ToString());
         }
 

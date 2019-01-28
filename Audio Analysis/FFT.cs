@@ -8,7 +8,6 @@ namespace AudioAnalyzer
 {
     public class FFT
     {
-        //public static double[] transformedData;
         public static float[] transformedData;
 
         public static int N_FFT = 4096;
@@ -173,7 +172,7 @@ namespace AudioAnalyzer
             for (int i = 0; i < N2; i += k)
             {
                 value = 0;
-                var mappedFreq = i * AudioIn.RATE / 2 / N2;
+                var mappedFreq = i * AudioIn.RATE / N2;
                 for (int l = 0; l < chunk_freq.Length; l++)
                 {
                     if (mappedFreq < chunk_freq[l] || l == chunk_freq.Length - 1)
