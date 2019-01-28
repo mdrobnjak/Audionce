@@ -155,9 +155,26 @@ namespace AudioAnalyzer
 
         private void pnlGate_SizeChanged(object sender, EventArgs e)
         {
+            if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
             InitBufferAndGraphicForGate();
             InitConverter(converterScale);
             cvt._yCenter = pnlGate.Location.Y + pnlGate.Height;
+        }
+
+        private void pnlGate_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(e.Location.X < pnlGate.Size.Width / Range.Count)
+            {
+                ((AudioAnalyzerMDIForm)MdiParent).SetActive(0);
+            }
+            else if (e.Location.X < 2 * pnlGate.Size.Width / Range.Count)
+            {
+                ((AudioAnalyzerMDIForm)MdiParent).SetActive(1);
+            }
+            else
+            {
+                ((AudioAnalyzerMDIForm)MdiParent).SetActive(2);
+            }
         }
     }
 }

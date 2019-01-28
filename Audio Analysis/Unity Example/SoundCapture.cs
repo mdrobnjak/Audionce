@@ -8,9 +8,7 @@ using System;
 
 public static class SoundCapture
 {
-    public static int numBars = AudioAnalyzer.FFT.N_FFTBuffer;
-
-    public static int minFreq = 20;
+    public static int minFreq = 0;
     public static int maxFreq = 20000;
     public static int barSpacing = 0;
     public static bool logScale = false;
@@ -18,8 +16,6 @@ public static class SoundCapture
 
     public static float highScaleAverage = 2.0f;
     public static float highScaleNotAverage = 3.0f;
-
-
 
     static LineSpectrum lineSpectrum;
 
@@ -63,7 +59,7 @@ public static class SoundCapture
         {
             SpectrumProvider = spectrumProvider,
             UseAverage = useAverage,
-            BarCount = numBars,
+            BarCount = AudioAnalyzer.FFT.N_FFTBuffer,
             BarSpacing = barSpacing,
             IsXLogScale = logScale,
             ScalingStrategy = ScalingStrategy.Linear
@@ -95,69 +91,17 @@ public static class SoundCapture
     {
         capture.Stop();
         capture.Dispose();
-    }
-
-
-    public static float[] barData = new float[numBars];
+    }    
 
     public static float[] GetFFtData()
     {
-        lock (barData)
-        {
-            lineSpectrum.BarCount = numBars;
-            if (numBars != barData.Length)
-            {
-                barData = new float[numBars];
-            }
-        }
-
-        if (spectrumProvider.IsNewDataAvailable || true)
-        {
-            lineSpectrum.MinimumFrequency = minFreq;
-            lineSpectrum.MaximumFrequency = maxFreq;
-            lineSpectrum.IsXLogScale = logScale;
-            lineSpectrum.BarSpacing = barSpacing;
-            lineSpectrum.SpectrumProvider.GetFftData(fftBuffer,null);
-            return lineSpectrum.GetSpectrumPoints(100.0f, fftBuffer);
-        }
-        else
-        {
-            return new float[numBars];
-        }
+        lineSpectrum.SpectrumProvider.GetFftData(fftBuffer, null);
+        return lineSpectrum.GetSpectrumPoints(100.0f, fftBuffer);
     }
 
     public static float[] Update()
     {
         return GetFFtData();
-
-        float[] resData;
-
-        if (resData == null)
-        {
-            return null;
-        }
-
-        lock (barData)
-        {
-            for (int i = 0; i < numBars && i < resData.Length; i++)
-            {
-                // Make the data between 0.0 and 1.0
-                barData[i] = resData[i] / 100.0f;
-            }
-
-            for (int i = 0; i < numBars && i < resData.Length; i++)
-            {
-                if (lineSpectrum.UseAverage)
-                {
-                    // Scale the data because for some reason bass is always loud and treble is soft
-                    barData[i] = (float)(barData[i] + highScaleAverage * Math.Sqrt(i / (numBars + 0.0f)) * barData[i]);
-                }
-                else
-                {
-                    barData[i] = (float)(barData[i] + highScaleNotAverage * Math.Sqrt(i / (numBars + 0.0f)) * barData[i]);
-                }
-            }
-        }
 
     }
 }

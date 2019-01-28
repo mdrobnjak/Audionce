@@ -12,26 +12,37 @@ namespace AudioAnalyzer
 {
     public static class ML
     {
-        public static readonly string _trainDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "BandSelectionData-train.csv");
-        static readonly string _testDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "BandSelectionData-test.csv");
-        static readonly string _modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "Model.zip");
+
+        public static string _trainDataPath;
+        static string _testDataPath;
+        static string _modelPath;
         static TextLoader _textLoader;
 
         public static MLContext mlContext;
 
-        public static void Predict()
+        public static void InitPaths()
+        {
+            string[] path = Environment.CurrentDirectory.Split('\\');
+            Array.Resize(ref path, path.Count() - 3);
+            string dataFolderPath = string.Join(@"\", path) + @"\MLData\";
+            _trainDataPath = dataFolderPath + @"BandSelectionData-train.csv";
+            _testDataPath = dataFolderPath + @"BandSelectionData-test.csv";
+            _modelPath = dataFolderPath + @"Model.zip";
+        }
+
+        public static void InitPredictor()
         {
             mlContext = new MLContext(seed: 0);
 
             _textLoader = mlContext.Data.CreateTextReader(new TextLoader.Arguments()
             {
                 Separator = ",",
-                HasHeader = true,
+                HasHeader = false,
                 Column = new[]
                 {
                     new TextLoader.Column("BandIndex", DataKind.R4, 0),
 
-                    new TextLoader.Column("AlgorithmDatas", DataKind.R4, new []{new TextLoader.Range(1, 100) })
+                    new TextLoader.Column("AudioData", DataKind.R4, new []{new TextLoader.Range(1, 5400) })
                 }
             });
 
@@ -44,7 +55,7 @@ namespace AudioAnalyzer
         {
             IDataView dataView = _textLoader.Read(dataPath);
             var pipeline = mlContext.Transforms.CopyColumns("BandIndex", "Label")
-                .Append(mlContext.Transforms.Concatenate("Features", "AlgorithmDatas"))
+                .Append(mlContext.Transforms.Concatenate("Features", "AudioData"))
                 .Append(mlContext.Regression.Trainers.StochasticDualCoordinateAscent());
 
             var model = pipeline.Fit(dataView);
@@ -88,13 +99,13 @@ namespace AudioAnalyzer
             var predictionFunction = loadedModel.CreatePredictionEngine<BandSelectionData, BandSelectionPrediction>(mlContext);
 
             float bandIndex;
-            float[] algDatas = new float[100];
+            float[] audioData = new float[5400];
 
             //Get sample from test csv:
             using (var reader = new StreamReader(_testDataPath))
             {
                 string line;
-                string[] values = new string[101];
+                string[] values = new string[5401];
                 int count = 0;
                 while (!reader.EndOfStream)
                 {
@@ -108,15 +119,15 @@ namespace AudioAnalyzer
                     }
 
                     bandIndex = float.Parse(values[0]);
-                    for (int i = 1; i <= 100; i++)
+                    for (int i = 1; i <= 5400; i++)
                     {
-                        algDatas[i - 1] = float.Parse(values[i]);
+                        audioData[i - 1] = float.Parse(values[i]);
                     }
 
                     var BandSelectionSample = new BandSelectionData()
                     {
                         BandIndex = bandIndex,
-                        AlgorithmDatas = algDatas
+                        AudioData = audioData
                     };
 
                     var prediction = predictionFunction.Predict(BandSelectionSample);
@@ -130,7 +141,7 @@ namespace AudioAnalyzer
             }
         }
 
-        public static float PredictRealTime(MLContext mlContext, float[] algDatas)
+        public static float PredictRealTime(MLContext mlContext, float[] audioData)
         {
             ITransformer loadedModel;
             using (var stream = new FileStream(_modelPath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -143,7 +154,7 @@ namespace AudioAnalyzer
             var BandSelectionSample = new BandSelectionData()
             {
                 BandIndex = 0,
-                AlgorithmDatas = algDatas
+                AudioData = audioData
             };
 
             var prediction = predictionFunction.Predict(BandSelectionSample);

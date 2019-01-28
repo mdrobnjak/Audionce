@@ -19,8 +19,7 @@ namespace AudioAnalyzer
                 return Full ? TotalBands : Range.Active.NumBands;
             }
         }
-
-
+        
         public static Dictionary<int, int> FreqOfBand;
 
         public static void SyncBandsAndFreqs()
@@ -28,7 +27,7 @@ namespace AudioAnalyzer
             FreqOfBand = new Dictionary<int, int>();
             if (FFT.rawFFT)
             {
-                TotalBands = FFT.N_FFTBuffer / 2;
+                TotalBands = FFT.N_FFTBuffer;
                 for (int i = 0; i < TotalBands; i++)
                 {
                     FreqOfBand[i] = i * AudioIn.RATE / FFT.N_FFTBuffer;
@@ -37,11 +36,11 @@ namespace AudioAnalyzer
             else
             {
                 int k = 1, n = 0;
+                int N2 = FFT.N_FFTBuffer / 2;
                 int mappedFreq;
-                for (int i = 0; i < FFT.N_FFTBuffer / 2; i += k)
+                for (int i = 0; i < N2; i += k)
                 {
-                    mappedFreq = i * AudioIn.RATE / 2 / (FFT.N_FFTBuffer / 2);
-                    //if (mappedFreq > Range.Active.HighFreq) break;
+                    mappedFreq = i * AudioIn.RATE / N2 / 2;
                     for (int l = 0; l < FFT.chunk_freq.Length; l++)
                     {
                         if (mappedFreq < FFT.chunk_freq[l] || l == FFT.chunk_freq.Length - 1)

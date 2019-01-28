@@ -11,21 +11,21 @@ namespace AudioAnalyzer
     {    
         static string trainingRow;
 
-        public static void CreateTrainingRowFromAudioData(List<List<double>> fftDataHistory)
+        public static void CreateTrainingRowFromAudioData(List<List<float>> fftDataHistory)
         {
-            double max;
+            float max;
 
             trainingRow = "";
 
             for(int i = 0; i < fftDataHistory.Count; i++) //For each band
             {
                 max = 0;
-                for (int j = 0; j < fftDataHistory[i].Count; j++) //For each audio data over time
+                for (int j = 0; j < 300; j++) //For each audio data over time
                 {
                     if (fftDataHistory[i][j] > max) max = fftDataHistory[i][j];
                 }
 
-                for (int j = 0; j < fftDataHistory[i].Count; j++)
+                for (int j = 0; j < 300; j++)
                 {
                     trainingRow += (fftDataHistory[i][j] / max).ToString() + ",";
                 }
@@ -34,14 +34,14 @@ namespace AudioAnalyzer
             trainingRow = trainingRow.Remove(trainingRow.Length - 1, 1);
             trainingRow += Environment.NewLine;
 
-            //txtPrediction.Text = ML.PredictRealTime(ML.mlContext, Array.ConvertAll(csvRow.Split(','), float.Parse)).ToString();
-            System.Windows.Forms.MessageBox.Show("Done");
+            System.Windows.Forms.MessageBox.Show(ML.PredictRealTime(ML.mlContext, Array.ConvertAll(trainingRow.Split(','), float.Parse)).ToString());
         }
 
         public static void CompleteAndSaveTraining()
         {
             trainingRow = trainingRow.Insert(0, Range.Active.LowCutAbsolute.ToString() + ",");
             File.AppendAllText(ML._trainDataPath, trainingRow);
+            System.Windows.Forms.MessageBox.Show("Training Entry Saved.");
         }
     }
 }

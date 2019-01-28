@@ -32,6 +32,10 @@ namespace AudioAnalyzer
             using (System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess())
                 p.PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
 
+            ML.InitPaths();
+
+            Spectrum.SyncBandsAndFreqs();
+
             Range.Init(ref this.Ranges);
             Range.Init(ref FileIO.Ranges);
             Range.Init(ref SettingsForm.Ranges);
@@ -40,7 +44,6 @@ namespace AudioAnalyzer
             FFT.InitJaggedArrays();
             //AudioIn.InitSoundCapture();
             SoundCapture.Start();
-            Spectrum.SyncBandsAndFreqs();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
             Arduino.InitPort();
 
@@ -52,8 +55,6 @@ namespace AudioAnalyzer
         private void frmAudioAnalyzerMDI_Load(object sender, EventArgs e)
         {
             LayoutMdi(DefaultLayout);
-
-            frmSpectrum.WindowState = FormWindowState.Maximized;
         }
 
         void InitControls()
@@ -69,6 +70,8 @@ namespace AudioAnalyzer
             cboRange.SelectedIndex = 0;
 
             InitN_FFTdropDowns();
+
+            lblStatus.Text = "";
         }
 
         void InitN_FFTdropDowns()
@@ -287,11 +290,20 @@ namespace AudioAnalyzer
         private void frmAudioAnalyzerMDI_FormClosing(object sender, FormClosingEventArgs e)
         {
             AudioIn.Dispose();
+
+            SoundCapture.OnApplicationQuit();
         }
 
         private void cboRange_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Range.SetActive(cboRange.SelectedIndex);
+            SetActive(cboRange.SelectedIndex);
+        }
+
+        public void SetActive(int i)
+        {
+            cboRange.SelectedIndex = i;
+
+            Range.SetActive(i);
 
             frmSpectrum.UpdateControls();
             frmChart.UpdateControls();
@@ -385,10 +397,20 @@ namespace AudioAnalyzer
         private void btnAutoRange_Click(object sender, EventArgs e)
         {
             AutoSettings.BeginRanging();
+        }        
+
+        private async void initializeMachineLearningToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lblStatus.Text = "Initializing Predictor...";
+
+            await Task.Run(()=>ML.InitPredictor());
+
+            lblStatus.Text = "";
+
+            MessageBox.Show("Predictor Initialized.");
         }
 
-        //This probably works.
-        private void btnTrain_Click(object sender, EventArgs e)
+        private void trainToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BandAnalysis.CompleteAndSaveTraining();
         }

@@ -25,7 +25,7 @@ namespace WinformsVisualization.Visualization
             int fftSize = (int) FftSize;
             double f = _sampleRate / 2.0;
 // ReSharper disable once PossibleLossOfFraction
-            return (int)((frequency / f) * (fftSize / 2));
+            return (int)((frequency / f) * (fftSize));
         }
 
         public bool GetFftData(float[] fftResultBuffer, object context)

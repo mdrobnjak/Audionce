@@ -12,9 +12,9 @@ namespace AudioAnalyzer
         [LoadColumn(0)]
         public float BandIndex;
 
-        [LoadColumn(1, 100)]
-        [VectorType(100)]
-        public float[] AlgorithmDatas;     
+        [LoadColumn(1, 5400)]
+        [VectorType(5400)]
+        public float[] AudioData;     
     }
 
     public class BandSelectionPrediction

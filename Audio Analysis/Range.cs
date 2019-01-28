@@ -48,7 +48,7 @@ namespace AudioAnalyzer
                     AutoSettings = new AutoSettings()
                     {
                         Bandwidth = 1,
-                        ThresholdMultiplier = 0.6F
+                        ThresholdMultiplier = 0.75F
                     },
 
                     Color = Color.Pink
@@ -57,12 +57,12 @@ namespace AudioAnalyzer
                 {
                     Index = 1,
 
-                    LowFreq = 200, HighFreq = 1200,
+                    LowFreq = 1200, HighFreq = 8000,
 
                     AutoSettings = new AutoSettings()
                     {
-                        Bandwidth = 1,
-                        ThresholdMultiplier = 0.6F
+                        Bandwidth = Spectrum.TotalBands / 7,
+                        ThresholdMultiplier = 0.75F
                     },
 
                     Color = Color.LightBlue
@@ -71,12 +71,12 @@ namespace AudioAnalyzer
                 {
                     Index = 2,
 
-                    LowFreq = 1000, HighFreq = 20000,
+                    LowFreq = 10000, HighFreq = 20000,
 
                     AutoSettings = new AutoSettings()
                     {
                         Bandwidth = Spectrum.TotalBands / 7,
-                        ThresholdMultiplier = 0.6F
+                        ThresholdMultiplier = 0.75F
                     },
 
                     Color = Color.Gold
@@ -90,7 +90,19 @@ namespace AudioAnalyzer
 
         public int Threshold { get; set; }
 
-        public int LowCutAbsolute { get; private set; }
+        private int lowCutAbsolute;
+        public int LowCutAbsolute
+        {
+            get
+            {
+                return lowCutAbsolute;
+            }
+            set
+            {
+                lowCutAbsolute = value;
+                lowCutFreq = Spectrum.FreqOfBand[value];
+            }
+        }
         private int lowCutFreq;
         public int LowCutFreq
         {
@@ -112,12 +124,23 @@ namespace AudioAnalyzer
             }
             set
             {
-                lowCutFreq = Spectrum.Full ? Spectrum.FreqOfBand[value] : Spectrum.FreqOfBand[value + NumBandsBefore];
                 LowCutAbsolute = Spectrum.Full ? value : value + NumBandsBefore;
             }
         }
 
-        public int HighCutAbsolute { get; private set; }
+        private int highCutAbsolute;
+        public int HighCutAbsolute
+        {
+            get
+            {
+                return highCutAbsolute;
+            }
+            set
+            {
+                highCutAbsolute = value;
+                highCutFreq = Spectrum.FreqOfBand[value];
+            }
+        }
         private int highCutFreq;
         public int HighCutFreq
         {
@@ -139,7 +162,6 @@ namespace AudioAnalyzer
             }
             set
             {
-                highCutFreq = Spectrum.Full ? Spectrum.FreqOfBand[value] : Spectrum.FreqOfBand[value + NumBandsBefore];
                 HighCutAbsolute = Spectrum.Full ? value : value + NumBandsBefore;
             }
         }

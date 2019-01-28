@@ -86,7 +86,14 @@ namespace AudioAnalyzer
 
             if ((DateTime.Now - started).TotalSeconds >= SecondsToCollect)
             {
-                //Task.Run(()=>BandAnalysis.CreateTrainingRowFromAudioData(new List<List<float>>(fftDataHistory)));
+                List<List<float>> trainingData = new List<List<float>>();
+
+                for (int i = Range.Active.LowFreqIndex; i < Range.Active.HighFreqIndex; i++)
+                {
+                    trainingData.Add(fftDataHistory[i]);
+                }
+
+                Task.Run(()=>BandAnalysis.CreateTrainingRowFromAudioData(trainingData));
 
                 Ranging = false;
                 ReadyToProcess = true;
@@ -95,22 +102,22 @@ namespace AudioAnalyzer
 
         public void KickSelector()
         {
-            Range.LowCutIndex = Math.Max(SingleChangePositive() - Bandwidth / 2, 0);
-            Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
+            Range.LowCutAbsolute = Math.Max(SingleChangePositive() - Bandwidth / 2, 0);
+            Range.HighCutAbsolute = Range.LowCutAbsolute + Bandwidth;
             Threshold();
         }
 
         public void SnareSelector()
         {
-            Range.LowCutIndex = Math.Max(Peak() - Bandwidth / 2, 0);
-            Range.HighCutIndex = Range.LowCutIndex + Bandwidth;
+            Range.LowCutAbsolute = Math.Max(SingleChangePositive() - Bandwidth / 2, 0);
+            Range.HighCutAbsolute = Range.LowCutAbsolute + Bandwidth;
             Threshold();
         }
 
         public void HatSelector()
         {
-            Range.LowCutIndex = Math.Max(SingleChangePositive() - Bandwidth / 2, 0);
-            Range.HighCutIndex = Range.LowCutIndex + 1 + Bandwidth;
+            Range.LowCutAbsolute = Math.Max(SingleChangePositive() - Bandwidth / 2, 0);
+            Range.HighCutAbsolute = Range.LowCutAbsolute + Bandwidth;
             Threshold();
         }
 

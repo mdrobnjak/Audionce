@@ -20,7 +20,7 @@ namespace WinformsVisualization.Visualization
         private int _maxFftIndex;
         private int _maximumFrequency = 20000;
         private int _maximumFrequencyIndex;
-        private int _minimumFrequency = 20; //Default spectrum from 20Hz to 20kHz
+        private int _minimumFrequency = 0; //Default spectrum from 20Hz to 20kHz
         private int _minimumFrequencyIndex;
         private ScalingStrategy _scalingStrategy;
         private int[] _spectrumIndexMax;

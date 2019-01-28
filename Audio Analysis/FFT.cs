@@ -208,15 +208,16 @@ namespace AudioAnalyzer
         public static float[] LogScale(float[] rawData)
         {
             if (rawFFT) return rawData;
-            float N2 = rawData.Length / 2;
+            int N2 = N_FFTBuffer / 2;
             float[] finalresult = new float[rawData.Length];
             int k = 1, transformedDataIndex = 0;
             float value = 0;
 
+            int mappedFreq;
             for (int i = 0; i < N2; i += k)
             {
                 value = 0;
-                var mappedFreq = i * AudioIn.RATE / 2 / N2;
+                mappedFreq = i * AudioIn.RATE / N2 / 2;
                 for (int l = 0; l < chunk_freq.Length; l++)
                 {
                     if (mappedFreq < chunk_freq[l] || l == chunk_freq.Length - 1)
@@ -233,7 +234,9 @@ namespace AudioAnalyzer
 
 
                 if (!DropOff)
+                {
                     finalresult[transformedDataIndex] = value;
+                }
                 else
                 {
                     rawData[transformedDataIndex] -= (float)(DateTime.Now.Subtract(chkpoint1).TotalMilliseconds * dropOffScale);

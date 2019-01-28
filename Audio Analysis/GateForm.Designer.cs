@@ -40,6 +40,7 @@
             this.pnlGate.Size = new System.Drawing.Size(184, 212);
             this.pnlGate.TabIndex = 20;
             this.pnlGate.SizeChanged += new System.EventHandler(this.pnlGate_SizeChanged);
+            this.pnlGate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlGate_MouseClick);
             // 
             // GateForm
             // 
