@@ -30,7 +30,7 @@ namespace AudioAnalyzer
 
         private void InitConverter(int yMult)
         {
-            double maxScaledY = (4096d / FFT.N_FFT) * yMult;
+            float maxScaledY = (4096f / FFT.N_FFT) * yMult;
             cvt = new Converter(0, pnlSpectrum.Location.Y + pnlSpectrum.Height, 1, maxScaledY);
         }
 
@@ -148,60 +148,55 @@ namespace AudioAnalyzer
             if (data == null || data.Length == 0 /*|| AudioIn.sourceData == null*/)
                 return;
 
+            int iLow = Range.Active.LowCutIndex;
+            int iHigh = Range.Active.HighCutIndex;
             float ratioFreq = (float)pnlSpectrum.Width / Spectrum.DisplayBands;
-            float value = 0;
 
             g.Clear(Color.White);
-
-            int sx, sy;
 
             #region Fill Rectangles
             int bandIndexRelative = 0;
             int bandIndexAbsolute = Spectrum.Full ? 0 : Range.Active.NumBandsBefore;
-
-            for (; bandIndexRelative < trkbrMin.Value; bandIndexRelative++, bandIndexAbsolute++)
+            
+            for (; bandIndexRelative < iLow; bandIndexRelative++, bandIndexAbsolute++)
             {
-                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
-                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
-                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+                g.FillRectangle(Constants.Brushes.blackBrush,
+                    bandIndexRelative * ratioFreq,
+                    cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2,
+                    ratioFreq - 1,
+                    (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2);
             }
-            for (; bandIndexRelative < trkbrMax.Value; bandIndexRelative++, bandIndexAbsolute++)
+            for (; bandIndexRelative < iHigh; bandIndexRelative++, bandIndexAbsolute++)
             {
-                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
-                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
-                g.FillRectangle(Constants.Brushes.redBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+                g.FillRectangle(Constants.Brushes.redBrush,
+                    bandIndexRelative * ratioFreq,
+                    cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2,
+                    ratioFreq - 1,
+                    (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2);
             }
             for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
             {
-                cvter.FromReal(bandIndexRelative * ratioFreq, 0, out sx, out sy);
-                value = (float)(data[bandIndexAbsolute] * cvt.MaxScaledY);
-                g.FillRectangle(Constants.Brushes.blackBrush, bandIndexRelative * ratioFreq, sy - value / 2, ratioFreq - 1, value / 2);
+                g.FillRectangle(Constants.Brushes.blackBrush,
+                    bandIndexRelative * ratioFreq,
+                    cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2,
+                    ratioFreq - 1,
+                    (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2);
             }
             #endregion
         }
 
         #endregion
 
-        public void UpdateControls()
-        {
-            trkbrMax.Maximum = trkbrMin.Maximum = Spectrum.DisplayBands - 1;
-
-            trkbrMin.Value = Range.Active.LowCutIndex;
-            trkbrMax.Value = Range.Active.HighCutIndex;
-        }
-
         public void IncrementRange()
         {
-            if (trkbrMax.Value == trkbrMax.Maximum) return;
-            trkbrMin.Value++;
-            trkbrMax.Value++;
+            Range.Active.LowCutAbsolute++;
+            Range.Active.HighCutAbsolute++;
         }
 
         public void DecrementRange()
         {
-            if (trkbrMin.Value == trkbrMin.Minimum) return;
-            trkbrMin.Value--;
-            trkbrMax.Value--;
+            Range.Active.LowCutAbsolute--;
+            Range.Active.HighCutAbsolute--;
         }
 
         private void pnlSpectrum_SizeChanged(object sender, EventArgs e)
@@ -215,17 +210,6 @@ namespace AudioAnalyzer
         private void msActiveRangeOnly_CheckStateChanged(object sender, EventArgs e)
         {
             Spectrum.Full = !msActiveRangeOnly.Checked;
-            UpdateControls();
-        }
-
-        private void trkbrMin_ValueChanged(object sender, EventArgs e)
-        {
-            Range.Active.LowCutIndex = trkbrMin.Value;
-        }
-
-        private void trkbrMax_ValueChanged(object sender, EventArgs e)
-        {
-            Range.Active.HighCutIndex = trkbrMax.Value;
         }
 
         private void txtmsScale_TextChanged(object sender, EventArgs e)
@@ -236,7 +220,7 @@ namespace AudioAnalyzer
             InitConverter(intVar);
         }
 
-        int tempCut = 0;
+        int offset = 0;
         int tempBW = 0;
         double sizePerBand;
 
@@ -244,24 +228,20 @@ namespace AudioAnalyzer
         {
             sizePerBand = (double)pnlSpectrum.Size.Width / Spectrum.DisplayBands;
 
-            int mouseDownBandIndex = (int)Math.Round(e.Location.X / sizePerBand);
+            int mouseDownBandIndex = (int)(e.Location.X / sizePerBand);
 
             this.pnlSpectrum.MouseLeave += new System.EventHandler(this.pnlSpectrum_MouseLeave);
             this.pnlSpectrum.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlSpectrum_MouseMove);
 
-            if (Range.Active.LowCutIndex == mouseDownBandIndex)
+            if (e.Button == MouseButtons.Right)
             {
-                //If clicked minimum band, drag to move the whole range.
-
+                offset = Range.Active.LowCutIndex - mouseDownBandIndex;
                 tempBW = Range.Active.HighCutIndex - Range.Active.LowCutIndex;
             }
             else
             {
-                //Else, drag to define new band.
-
                 Range.Active.LowCutIndex = mouseDownBandIndex;
                 Range.Active.HighCutIndex = mouseDownBandIndex + 1;
-                UpdateControls();
             }
         }
 
@@ -274,7 +254,7 @@ namespace AudioAnalyzer
 
         private void pnlSpectrum_MouseMove(object sender, MouseEventArgs e)
         {
-            int mouseHoverBandIndex = (int)Math.Round(e.Location.X / sizePerBand);
+            int mouseHoverBandIndex = (int)(e.Location.X / sizePerBand);
 
             if (tempBW == 0)
             {
@@ -283,10 +263,9 @@ namespace AudioAnalyzer
             }
             else
             {
-                Range.Active.LowCutIndex = mouseHoverBandIndex;
-                Range.Active.HighCutIndex = mouseHoverBandIndex + tempBW;
+                Range.Active.LowCutIndex = mouseHoverBandIndex + offset;
+                Range.Active.HighCutIndex = mouseHoverBandIndex + tempBW + offset;
             }
-            UpdateControls();
         }
 
         private void pnlSpectrum_MouseLeave(object sender, EventArgs e)

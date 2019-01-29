@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,22 +15,75 @@ namespace AudioAnalyzer
     public partial class ChartForm : Form
     {
         new bool Enabled = true;
-        StripLine stripline = new StripLine();
+
+        Converter cvt;
+        int converterScale = 8;
 
         public ChartForm()
         {
             InitializeComponent();
 
-            InitStripLine();
+            InitBufferAndGraphicForChart();
+            InitConverter(converterScale);            
+        }
+        
+        private void InitConverter(int yMult)
+        {
+            float maxScaledY = (4096f / FFT.N_FFT) * yMult;
+            cvt = new Converter(0, pnlChart.Location.Y + pnlChart.Height, 1, maxScaledY);
         }
 
-        void InitStripLine()
+        Image mainBuffer;
+        Graphics gMainBuffer;
+
+        Image tempBuffer;
+        Graphics gTempBuffer;
+
+        ColorMatrix colormatrix = new ColorMatrix(new float[][]
+                        {
+                            new float[]{1, 0, 0, 0, 0},
+                            new float[]{0, 1, 0, 0, 0},
+                            new float[]{0, 0, 1, 0, 0},
+                            new float[]{0, 0, 0, 1, 0},
+                          //  new float[]{0, 0, 0, -0.001f, 1},
+                            new float[]{-0.01f, -0.01f, -0.01f, 0, 0}
+                          //  new float[]{0, 0, 0, 0, 1}
+                        });
+        ImageAttributes imgAttribute;
+
+        Graphics gChart;
+
+        private void InitBufferAndGraphicForChart()
         {
-            stripline.Interval = 0;
-            stripline.IntervalOffset = 35;
-            stripline.StripWidth = 5;
-            stripline.BackColor = Color.Red;
-            chartAmplitude.ChartAreas[0].AxisY.StripLines.Add(stripline);
+            //mainBuffer is a new Bitmap.
+            //What is panel1?
+            //What is the PixelFormat?
+            mainBuffer = new Bitmap(pnlChart.Width, pnlChart.Height, PixelFormat.Format32bppArgb);
+            //gMainBuffer is a new Graphics made from mainBuffer.
+            gMainBuffer = Graphics.FromImage(mainBuffer);
+            //CompositingQuality is set to HighSpeed.
+            gMainBuffer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+            //InterpolationMode is set to Low.
+            gMainBuffer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+
+            //tempBuffer is a new Bitmap.
+            tempBuffer = new Bitmap(mainBuffer.Width, mainBuffer.Height);
+            //gTempBuffer is a new Graphics made from tempBuffer.
+            gTempBuffer = Graphics.FromImage(tempBuffer);
+            //imgAttribute is a new ImageAttributes.
+            imgAttribute = new ImageAttributes();
+            //Set imgAttribute's color adjustment matrix.
+            imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
+            //CompositingQuality is set to HighSpeed.
+            gTempBuffer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+            //InterpolationMode is set to NearestNeighbor.
+            gTempBuffer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+
+            //Constants is initialized.
+            //(3 SolidBrushes are initialized.)
+            Constants.Init();
+
+            this.gChart = pnlChart.CreateGraphics();
         }
 
         delegate void DrawCallback();
@@ -39,7 +93,7 @@ namespace AudioAnalyzer
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
-            if (chartAmplitude.InvokeRequired)
+            if (pnlChart.InvokeRequired)
             {
                 DrawCallback d = new DrawCallback(Draw);
                 this.Invoke(d);
@@ -50,33 +104,62 @@ namespace AudioAnalyzer
             }
         }
 
-        private void DrawChart()
+        bool paintInitiated = false;
+        Font pen;
+        OSD osdPanel = new OSD();
+
+        float[] chartData = new float[250];
+
+        private void PaintChart()
         {
-            chartAmplitude.Series[0].Points.AddY(Range.Active.Audio);
-
-            chartAmplitude.ChartAreas[0].AxisY.Maximum = GetMaxYFromLast(200);
-            trkbrThreshold.Maximum = (int)chartAmplitude.ChartAreas[0].AxisY.Maximum + 1;
-
-            if (Range.Active.AutoSettings.DynamicThreshold) AutoThreshold();
-
-            //cvt.MaxScaledY = 800 / chart1.ChartAreas[0].AxisY.Maximum; //AutoScaling Spectrum Y
-
-            chartAmplitude.ChartAreas[0].AxisX.Minimum = chartAmplitude.ChartAreas[0].AxisX.Maximum - 250;
+            if (!paintInitiated)
+            {
+                pen = new Font("Arial", 12);
+                osdPanel.ImplementDrawAction(delegate (object[] pars)
+                {
+                    Graphics g = pars[0] as System.Drawing.Graphics;
+                    OSD osd = pars[1] as OSD;
+                    if (osd.Info == null)
+                        return;
+                    int yIndex = 0;
+                    foreach (var key in osd.Info.Keys)
+                    {
+                        g.DrawString(string.Format("{0}:{1}", key, osdPanel.Info[key]), pen, new SolidBrush(Color.Red), new PointF(10, this.Height / 2 + yIndex * 20));
+                        yIndex++;
+                    }
+                });
+                paintInitiated = true;
+            }
+            DrawData(chartData, gChart, cvt);
         }
 
-        private double GetMaxYFromLast(int numPoints)
+        private void DrawData(float[] chartData, Graphics g, Converter cvter)
         {
-            return chartAmplitude.Series[0].Points.FindMaxByValue("Y1",
+            float barWidth = (float)pnlChart.Width / chartData.Length;
 
-                    (chartAmplitude.Series[0].Points.Count() > numPoints ? (chartAmplitude.Series[0].Points.Count() - numPoints) : chartAmplitude.Series[0].Points.Count() - 1)
+            g.Clear(Range.Active.Color);
+            
+            for (int i = 0; i < chartData.Length; i++)
+            {
+                g.FillRectangle(Constants.Brushes.blackBrush,
+                    i * barWidth,
+                    cvter._yCenter - (chartData[i] * cvt.MaxScaledY) / 2,
+                    barWidth - 1,
+                    (chartData[i] * cvt.MaxScaledY) / 2);
+            }
+        }
 
-                    ).YValues[0];
+        private void DrawChart()
+        {
+            if (Range.Active.AutoSettings.DynamicThreshold) AutoThreshold();
+
+            Array.Copy(chartData, 1, chartData, 0, chartData.Length - 1);
+            chartData[249] = Range.Active.Audio;
+            PaintChart();
         }
 
         public void UpdateControls()
         {
-            chartAmplitude.ChartAreas[0].BackColor = Range.Active.Color;
-
             if (Range.Active.Threshold > trkbrThreshold.Maximum)
             {
                 trkbrThreshold.Maximum = (int)(Range.Active.Threshold * 1.33);
@@ -87,14 +170,20 @@ namespace AudioAnalyzer
 
         private void trkbrThreshold_ValueChanged(object sender, EventArgs e)
         {
-            stripline.IntervalOffset = Range.Active.Threshold = trkbrThreshold.Value;
-
             txtThreshold.Text = trkbrThreshold.Value.ToString();
         }
 
         public void AutoThreshold()
         {
-            trkbrThreshold.Value = (int)(Range.Active.AutoSettings.ThresholdMultiplier * chartAmplitude.ChartAreas[0].AxisY.Maximum);
+            trkbrThreshold.Value = (int)(Range.Active.AutoSettings.ThresholdMultiplier * Range.Active.GetMaxAudioFromLast200());
+        }
+
+        private void pnlChart_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
+            InitBufferAndGraphicForChart();
+            InitConverter(converterScale);
+            cvt._yCenter = pnlChart.Location.Y + pnlChart.Height;
         }
     }
 }

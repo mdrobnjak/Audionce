@@ -191,9 +191,9 @@ namespace AudioAnalyzer
             }
         }
 
-        private List<double> audios = new List<double>();
-        private double audio;
-        public double Audio
+        private List<float> audios = new List<float>();
+        private float audio;
+        public float Audio
         {
             get
             {
@@ -208,7 +208,7 @@ namespace AudioAnalyzer
             }
         }
 
-        public double GetMaxAudioFromLast200()
+        public float GetMaxAudioFromLast200()
         {
             return audios.Max();
         }

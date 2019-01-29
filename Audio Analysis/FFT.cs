@@ -13,7 +13,7 @@ namespace AudioAnalyzer
         public static int N_FFT = 4096;
         public static int N_FFTBuffer = N_FFT;
         public static bool rawFFT = false;
-        public static double dropOffScale = 10;
+        public static float dropOffScale = .04f;
         public static bool DropOff = false;
 
         public static int[] chunk_freq = { 800, 1600, 3200, 6400, 12800, 30000 };
@@ -24,7 +24,7 @@ namespace AudioAnalyzer
 
         public static void InitJaggedArrays()
         {
-            for(int i = 0; i <= Math.Log(N_FFTBuffer / 2, 2); i++)
+            for (int i = 0; i <= Math.Log(N_FFTBuffer / 2, 2); i++)
             {
                 int size = (int)Math.Pow(2, Math.Log(N_FFTBuffer / 2, 2) - i);
                 E[i] = new ComplexNumber[size];
@@ -46,8 +46,8 @@ namespace AudioAnalyzer
                 E[i][k] = data[k * 2];
                 D[i][k] = data[k * 2 + 1];
             }
-            Eff(ref E[i],i+1);
-            Eff(ref D[i],i+1);
+            Eff(ref E[i], i + 1);
+            Eff(ref D[i], i + 1);
 
             for (k = 0; k < N / 2; k++)
             {
@@ -56,7 +56,7 @@ namespace AudioAnalyzer
                 data[k + N / 2] = E[i][k] - D[i][k];
             }
         }
-        
+
         private static void RawFFTByRef(ref ComplexNumber[] data)
         {
             int N = data.Length;
@@ -125,7 +125,7 @@ namespace AudioAnalyzer
         public static float[] FFTWithProcessing(float[] lastData)
         {
             chkpoint1 = DateTime.Now;
-            if (AudioIn.dataList==null)
+            if (AudioIn.dataList == null)
                 return null;
             int actualN = AudioIn.distance2Node + 1;
 
@@ -162,7 +162,7 @@ namespace AudioAnalyzer
                 Array.Resize(ref resultDouble, Spectrum.TotalBands);
                 return resultDouble;
             }
-            
+
 
             float N2 = data.Length / 2;
             float[] finalresult = new float[lastData.Length];
@@ -187,7 +187,7 @@ namespace AudioAnalyzer
                     value += data[j].Magnitude;
                 }
 
-                
+
                 lastData[transformedDataIndex] -= (float)(DateTime.Now.Subtract(chkpoint1).TotalMilliseconds * dropOffScale);
                 if (!DropOff)
                     finalresult[transformedDataIndex] = value;
@@ -199,13 +199,16 @@ namespace AudioAnalyzer
 
             if (!transformed)
                 Array.Resize(ref finalresult, transformedDataIndex);
-            
+
             //Console.WriteLine(DateTime.Now.Subtract(chkpoint1).TotalMilliseconds);
             return finalresult;
         }
 
+        static float[] lastData = null;
+
         public static float[] LogScale(float[] rawData)
         {
+            chkpoint1 = DateTime.Now;
             if (rawFFT) return rawData;
             int N2 = N_FFTBuffer / 2;
             float[] finalresult = new float[rawData.Length];
@@ -232,21 +235,22 @@ namespace AudioAnalyzer
                 }
 
 
-                if (!DropOff)
+                if (DropOff && lastData != null)
                 {
-                    finalresult[transformedDataIndex] = value;
+                    lastData[transformedDataIndex] -= lastData[transformedDataIndex] * dropOffScale;
+                    finalresult[transformedDataIndex] = value > lastData[transformedDataIndex] ? value : lastData[transformedDataIndex];
                 }
                 else
                 {
-                    rawData[transformedDataIndex] -= (float)(DateTime.Now.Subtract(chkpoint1).TotalMilliseconds * dropOffScale);
-                    finalresult[transformedDataIndex] = value > rawData[transformedDataIndex] ? value : rawData[transformedDataIndex];
+                    finalresult[transformedDataIndex] = value;
                 }
 
-                transformedDataIndex++;
+                    transformedDataIndex++;
             }
 
             Array.Resize(ref finalresult, transformedDataIndex);
-            
+            lastData = finalresult;
+
             return finalresult;
         }
     }

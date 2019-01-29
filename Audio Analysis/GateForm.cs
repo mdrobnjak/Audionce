@@ -32,7 +32,7 @@ namespace AudioAnalyzer
 
         private void InitConverter(int yMult)
         {
-            double maxScaledY = (4096d / FFT.N_FFT) * yMult;
+            float maxScaledY = (4096f / FFT.N_FFT) * yMult;
             cvt = new Converter(0, pnlGate.Location.Y + pnlGate.Height, 1, maxScaledY);
         }
 
@@ -138,15 +138,12 @@ namespace AudioAnalyzer
 
             g.Clear(Color.White);
 
-            int sx, sy;
-
             #region Fill Rectangles
 
             for (int i = 0; i < Range.Count; i++)
             {
-                cvter.FromReal(i * ratioFreq, 0, out sx, out sy);
                 Levels[i] = Pass[i] ? (float)(pnlGate.Height) : Levels[i] - pnlGate.Height / 20;
-                g.FillRectangle(Constants.Brushes.rangeBrushes[i], i * ratioFreq, sy - Levels[i] / 1, ratioFreq - 1, Levels[i] / 2);
+                g.FillRectangle(Constants.Brushes.rangeBrushes[i], i * ratioFreq, cvter._yCenter - Levels[i] / 1, ratioFreq - 1, Levels[i] / 2);
             }
             #endregion
         }

@@ -93,6 +93,7 @@
             this.printPreviewToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.lblPreset = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.cboRange = new System.Windows.Forms.ToolStripComboBox();
             this.btnDecrement = new System.Windows.Forms.ToolStripButton();
@@ -113,7 +114,6 @@
             this.btnAutoSetThreshold = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btnAutoRange = new System.Windows.Forms.ToolStripButton();
-            this.lblPreset = new System.Windows.Forms.ToolStripButton();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -663,6 +663,15 @@
             this.helpToolStripButton.Text = "Help";
             this.helpToolStripButton.Visible = false;
             // 
+            // lblPreset
+            // 
+            this.lblPreset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.lblPreset.Image = ((System.Drawing.Image)(resources.GetObject("lblPreset.Image")));
+            this.lblPreset.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.lblPreset.Name = "lblPreset";
+            this.lblPreset.Size = new System.Drawing.Size(79, 24);
+            this.lblPreset.Text = "Active Preset";
+            // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
@@ -819,15 +828,6 @@
             this.btnAutoRange.Size = new System.Drawing.Size(73, 22);
             this.btnAutoRange.Text = "Auto Range";
             this.btnAutoRange.Click += new System.EventHandler(this.btnAutoRange_Click);
-            // 
-            // lblPreset
-            // 
-            this.lblPreset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.lblPreset.Image = ((System.Drawing.Image)(resources.GetObject("lblPreset.Image")));
-            this.lblPreset.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.lblPreset.Name = "lblPreset";
-            this.lblPreset.Size = new System.Drawing.Size(79, 24);
-            this.lblPreset.Text = "Active Preset";
             // 
             // AudioAnalyzerMDIForm
             // 

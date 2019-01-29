@@ -28,41 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chartAmplitude = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtThreshold = new System.Windows.Forms.TextBox();
             this.lblThreshold = new System.Windows.Forms.Label();
             this.trkbrThreshold = new System.Windows.Forms.TrackBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.msChartSettings = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.chartAmplitude)).BeginInit();
+            this.pnlChart = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chartAmplitude
-            // 
-            this.chartAmplitude.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.AxisX.LabelStyle.Enabled = false;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.Name = "ChartArea1";
-            this.chartAmplitude.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartAmplitude.Legends.Add(legend1);
-            this.chartAmplitude.Location = new System.Drawing.Point(51, 1);
-            this.chartAmplitude.Name = "chartAmplitude";
-            series1.ChartArea = "ChartArea1";
-            series1.Color = System.Drawing.Color.Black;
-            series1.IsVisibleInLegend = false;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chartAmplitude.Series.Add(series1);
-            this.chartAmplitude.Size = new System.Drawing.Size(830, 443);
-            this.chartAmplitude.TabIndex = 17;
             // 
             // txtThreshold
             // 
@@ -116,12 +90,23 @@
             this.msChartSettings.Size = new System.Drawing.Size(48, 20);
             this.msChartSettings.Text = "Chart";
             // 
+            // pnlChart
+            // 
+            this.pnlChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlChart.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlChart.Location = new System.Drawing.Point(51, 1);
+            this.pnlChart.Name = "pnlChart";
+            this.pnlChart.Size = new System.Drawing.Size(830, 442);
+            this.pnlChart.TabIndex = 32;
+            // 
             // ChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(881, 444);
-            this.Controls.Add(this.chartAmplitude);
+            this.Controls.Add(this.pnlChart);
             this.Controls.Add(this.txtThreshold);
             this.Controls.Add(this.trkbrThreshold);
             this.Controls.Add(this.lblThreshold);
@@ -129,7 +114,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ChartForm";
             this.Text = "Chart";
-            ((System.ComponentModel.ISupportInitialize)(this.chartAmplitude)).EndInit();
+            this.SizeChanged += new System.EventHandler(this.pnlChart_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -139,12 +124,11 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartAmplitude;
         private System.Windows.Forms.TextBox txtThreshold;
         private System.Windows.Forms.Label lblThreshold;
         private System.Windows.Forms.TrackBar trkbrThreshold;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem msChartSettings;
+        private System.Windows.Forms.Panel pnlChart;
     }
 }

@@ -10,7 +10,7 @@ namespace AudioAnalyzer
     {
         public static Range[] Ranges;
 
-        static double tmpRangeAudio;
+        static float tmpRangeAudio;
 
         public static void Filter(int r)
         {

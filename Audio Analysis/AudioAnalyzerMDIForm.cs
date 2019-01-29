@@ -171,9 +171,6 @@ namespace AudioAnalyzer
                 //Range3
                 Ranges[2].AutoSettings.HatSelector();
 
-                //SelectedRange
-                frmSpectrum.UpdateControls();
-
                 AutoSettings.Reset();
 
                 progressBar.Value = 0;
@@ -205,8 +202,7 @@ namespace AudioAnalyzer
                 string FileName = openFileDialog.FileName;
 
                 FileIO.ReadConfig(FileName);
-
-                frmSpectrum.UpdateControls();
+                
                 frmChart.UpdateControls();
 
                 lblPreset.Text = FileName.Split('\\').Last().Split('.')[0];
@@ -305,8 +301,7 @@ namespace AudioAnalyzer
             cboRange.SelectedIndex = i;
 
             Range.MakeActive(i);
-
-            frmSpectrum.UpdateControls();
+            
             frmChart.UpdateControls();
 
             cboRange.BackColor = Range.Active.Color;
@@ -330,7 +325,6 @@ namespace AudioAnalyzer
             FFT.N_FFTBuffer = intVar;
             FFT.InitJaggedArrays();
             Spectrum.SyncBandsAndFreqs();
-            frmSpectrum.UpdateControls();
         }
 
         private void arduinoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -380,7 +374,6 @@ namespace AudioAnalyzer
         {
             FFT.rawFFT = btnRawFFT.Checked;
             Spectrum.SyncBandsAndFreqs();
-            frmSpectrum.UpdateControls();
         }
 
         //This needs to call a frmChart Method.
