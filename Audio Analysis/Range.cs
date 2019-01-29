@@ -20,15 +20,21 @@ namespace AudioAnalyzer
 
             for (int i = Count - 1; i >= 0; i--)
             {
-                SetActive(i);
+                MakeActive(i);
                 Active.AutoSettings.Range = Active;
                 ranges[i] = Active;
             }
         }
 
-        public static void SetActive(int i)
+        public static void MakeActive(int i)
         {
             ActiveIndex = i;
+        }
+
+        public static void SetCenterActive(int iCenter)
+        {
+            Active.LowCutAbsolute = Math.Max(iCenter - Active.AutoSettings.Bandwidth / 2, 0);
+            Active.HighCutAbsolute = Active.LowCutAbsolute + Active.AutoSettings.Bandwidth;
         }
 
         public const int Count = 3;
@@ -99,8 +105,9 @@ namespace AudioAnalyzer
             }
             set
             {
+                if (value < 0) return;
                 lowCutAbsolute = value;
-                lowCutFreq = Spectrum.FreqOfBand[value];
+                Spectrum.FreqOfBand.TryGetValue(value, out lowCutFreq);
             }
         }
         private int lowCutFreq;
@@ -138,7 +145,7 @@ namespace AudioAnalyzer
             set
             {
                 highCutAbsolute = value;
-                highCutFreq = Spectrum.FreqOfBand[value];
+                Spectrum.FreqOfBand.TryGetValue(value, out highCutFreq);
             }
         }
         private int highCutFreq;

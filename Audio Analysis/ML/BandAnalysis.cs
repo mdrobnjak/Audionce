@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace AudioAnalyzer
 {
+    /// <summary>
+    /// ML training data should be in a more abbreviated form than a full 5 seconds of range audio. 
+    /// A few key metrics should be determined for the 5 second sample and entered as training data.
+    /// Ideally, the metrics would correlate to frequencies rather than band indices for maximum modularity.
+    /// </summary>
     class BandAnalysis
     {    
         static string trainingRow;

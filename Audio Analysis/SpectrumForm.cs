@@ -27,7 +27,7 @@ namespace AudioAnalyzer
 
             txtmsiScale.Text = converterScale.ToString();
         }
-        
+
         private void InitConverter(int yMult)
         {
             double maxScaledY = (4096d / FFT.N_FFT) * yMult;
@@ -142,7 +142,7 @@ namespace AudioAnalyzer
             }
             DrawData(FFT.transformedData, gSpectrum, cvt);
         }
-        
+
         private void DrawData(float[] data, Graphics g, Converter cvter)
         {
             if (data == null || data.Length == 0 /*|| AudioIn.sourceData == null*/)
@@ -181,10 +181,10 @@ namespace AudioAnalyzer
         }
 
         #endregion
-        
+
         public void UpdateControls()
         {
-            trkbrMax.Maximum = trkbrMin.Maximum = Spectrum.DisplayBands;
+            trkbrMax.Maximum = trkbrMin.Maximum = Spectrum.DisplayBands - 1;
 
             trkbrMin.Value = Range.Active.LowCutIndex;
             trkbrMax.Value = Range.Active.HighCutIndex;
@@ -234,6 +234,64 @@ namespace AudioAnalyzer
 
             if (!Int32.TryParse(txtmsiScale.Text, out intVar)) return;
             InitConverter(intVar);
+        }
+
+        int tempCut = 0;
+        int tempBW = 0;
+        double sizePerBand;
+
+        private void pnlSpectrum_MouseDown(object sender, MouseEventArgs e)
+        {
+            sizePerBand = (double)pnlSpectrum.Size.Width / Spectrum.DisplayBands;
+
+            int mouseDownBandIndex = (int)Math.Round(e.Location.X / sizePerBand);
+
+            this.pnlSpectrum.MouseLeave += new System.EventHandler(this.pnlSpectrum_MouseLeave);
+            this.pnlSpectrum.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlSpectrum_MouseMove);
+
+            if (Range.Active.LowCutIndex == mouseDownBandIndex)
+            {
+                //If clicked minimum band, drag to move the whole range.
+
+                tempBW = Range.Active.HighCutIndex - Range.Active.LowCutIndex;
+            }
+            else
+            {
+                //Else, drag to define new band.
+
+                Range.Active.LowCutIndex = mouseDownBandIndex;
+                Range.Active.HighCutIndex = mouseDownBandIndex + 1;
+                UpdateControls();
+            }
+        }
+
+        private void pnlSpectrum_MouseUp(object sender, MouseEventArgs e)
+        {
+            tempBW = 0;
+            this.pnlSpectrum.MouseLeave -= new System.EventHandler(this.pnlSpectrum_MouseLeave);
+            this.pnlSpectrum.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.pnlSpectrum_MouseMove);
+        }
+
+        private void pnlSpectrum_MouseMove(object sender, MouseEventArgs e)
+        {
+            int mouseHoverBandIndex = (int)Math.Round(e.Location.X / sizePerBand);
+
+            if (tempBW == 0)
+            {
+                if (mouseHoverBandIndex > Range.Active.LowCutIndex && mouseHoverBandIndex != Range.Active.HighCutIndex)
+                    Range.Active.HighCutIndex = mouseHoverBandIndex;
+            }
+            else
+            {
+                Range.Active.LowCutIndex = mouseHoverBandIndex;
+                Range.Active.HighCutIndex = mouseHoverBandIndex + tempBW;
+            }
+            UpdateControls();
+        }
+
+        private void pnlSpectrum_MouseLeave(object sender, EventArgs e)
+        {
+            pnlSpectrum_MouseUp(null, null);
         }
     }
 }

@@ -62,14 +62,14 @@ namespace AudioAnalyzer
             gMainBuffer = Graphics.FromImage(mainBuffer);
             gMainBuffer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
             gMainBuffer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-            
+
             tempBuffer = new Bitmap(mainBuffer.Width, mainBuffer.Height);
             gTempBuffer = Graphics.FromImage(tempBuffer);
             imgAttribute = new ImageAttributes();
             imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
             gTempBuffer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
             gTempBuffer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            
+
             Constants.Init();
 
             this.gGate = pnlGate.CreateGraphics();
@@ -146,7 +146,7 @@ namespace AudioAnalyzer
             {
                 cvter.FromReal(i * ratioFreq, 0, out sx, out sy);
                 Levels[i] = Pass[i] ? (float)(pnlGate.Height) : Levels[i] - pnlGate.Height / 20;
-                g.FillRectangle(Constants.Brushes.blackBrush, i * ratioFreq, sy - Levels[i] / 1, ratioFreq - 1, Levels[i] / 2);
+                g.FillRectangle(Constants.Brushes.rangeBrushes[i], i * ratioFreq, sy - Levels[i] / 1, ratioFreq - 1, Levels[i] / 2);
             }
             #endregion
         }
@@ -163,18 +163,9 @@ namespace AudioAnalyzer
 
         private void pnlGate_MouseClick(object sender, MouseEventArgs e)
         {
-            if(e.Location.X < pnlGate.Size.Width / Range.Count)
-            {
-                ((AudioAnalyzerMDIForm)MdiParent).SetActive(0);
-            }
-            else if (e.Location.X < 2 * pnlGate.Size.Width / Range.Count)
-            {
-                ((AudioAnalyzerMDIForm)MdiParent).SetActive(1);
-            }
-            else
-            {
-                ((AudioAnalyzerMDIForm)MdiParent).SetActive(2);
-            }
+            int sizePerRange = pnlGate.Size.Width / Range.Count;
+
+            ((AudioAnalyzerMDIForm)MdiParent).MakeActive(e.Location.X / sizePerRange);
         }
     }
 }

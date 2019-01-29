@@ -75,6 +75,8 @@ namespace AudioAnalyzer
 
         public void UpdateControls()
         {
+            chartAmplitude.ChartAreas[0].BackColor = Range.Active.Color;
+
             if (Range.Active.Threshold > trkbrThreshold.Maximum)
             {
                 trkbrThreshold.Maximum = (int)(Range.Active.Threshold * 1.33);

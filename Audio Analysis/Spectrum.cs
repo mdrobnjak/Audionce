@@ -58,7 +58,7 @@ namespace AudioAnalyzer
         public static int GetBandForFreq(int freqInHz)
         {
             int i;
-            for (i = 0; i < TotalBands; i++)
+            for (i = 0; i < FreqOfBand.Last().Key; i++)
             {
                 if (freqInHz <= FreqOfBand[i])
                 {

@@ -52,6 +52,8 @@
             this.pnlSpectrum.Size = new System.Drawing.Size(821, 297);
             this.pnlSpectrum.TabIndex = 19;
             this.pnlSpectrum.SizeChanged += new System.EventHandler(this.pnlSpectrum_SizeChanged);
+            this.pnlSpectrum.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlSpectrum_MouseDown);
+            this.pnlSpectrum.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlSpectrum_MouseUp);
             // 
             // menuStrip1
             // 

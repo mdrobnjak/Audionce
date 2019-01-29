@@ -65,6 +65,9 @@
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnRawFFT = new System.Windows.Forms.ToolStripMenuItem();
             this.msSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.initializeMachineLearningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +93,6 @@
             this.printPreviewToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.lblPreset = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.cboRange = new System.Windows.Forms.ToolStripComboBox();
             this.btnDecrement = new System.Windows.Forms.ToolStripButton();
@@ -111,9 +113,7 @@
             this.btnAutoSetThreshold = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btnAutoRange = new System.Windows.Forms.ToolStripButton();
-            this.initializeMachineLearningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.trainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblPreset = new System.Windows.Forms.ToolStripButton();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -346,7 +346,7 @@
             this.toolStripMenuItem9,
             this.toolStripMenuItem10});
             this.nFFTToolStripMenuItem.Name = "nFFTToolStripMenuItem";
-            this.nFFTToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.nFFTToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.nFFTToolStripMenuItem.Text = "FFT Size";
             this.nFFTToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.nFFTToolStripMenuItem_DropDownItemClicked);
             // 
@@ -408,16 +408,35 @@
             // 
             this.btnRawFFT.CheckOnClick = true;
             this.btnRawFFT.Name = "btnRawFFT";
-            this.btnRawFFT.Size = new System.Drawing.Size(215, 22);
+            this.btnRawFFT.Size = new System.Drawing.Size(168, 22);
             this.btnRawFFT.Text = "Raw FFT";
             this.btnRawFFT.CheckStateChanged += new System.EventHandler(this.btnRawFFT_CheckStateChanged);
             // 
             // msSettings
             // 
             this.msSettings.Name = "msSettings";
-            this.msSettings.Size = new System.Drawing.Size(215, 22);
+            this.msSettings.Size = new System.Drawing.Size(168, 22);
             this.msSettings.Text = "Settings...";
             this.msSettings.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(165, 6);
+            // 
+            // initializeMachineLearningToolStripMenuItem
+            // 
+            this.initializeMachineLearningToolStripMenuItem.Name = "initializeMachineLearningToolStripMenuItem";
+            this.initializeMachineLearningToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.initializeMachineLearningToolStripMenuItem.Text = "&Initialize Predictor";
+            this.initializeMachineLearningToolStripMenuItem.Click += new System.EventHandler(this.initializeMachineLearningToolStripMenuItem_Click);
+            // 
+            // trainToolStripMenuItem
+            // 
+            this.trainToolStripMenuItem.Name = "trainToolStripMenuItem";
+            this.trainToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.trainToolStripMenuItem.Text = "&Train";
+            this.trainToolStripMenuItem.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
             // 
             // viewMenu
             // 
@@ -644,12 +663,6 @@
             this.helpToolStripButton.Text = "Help";
             this.helpToolStripButton.Visible = false;
             // 
-            // lblPreset
-            // 
-            this.lblPreset.Name = "lblPreset";
-            this.lblPreset.Size = new System.Drawing.Size(75, 24);
-            this.lblPreset.Text = "Active Preset";
-            // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
@@ -807,24 +820,14 @@
             this.btnAutoRange.Text = "Auto Range";
             this.btnAutoRange.Click += new System.EventHandler(this.btnAutoRange_Click);
             // 
-            // initializeMachineLearningToolStripMenuItem
+            // lblPreset
             // 
-            this.initializeMachineLearningToolStripMenuItem.Name = "initializeMachineLearningToolStripMenuItem";
-            this.initializeMachineLearningToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.initializeMachineLearningToolStripMenuItem.Text = "&Initialize Predictor";
-            this.initializeMachineLearningToolStripMenuItem.Click += new System.EventHandler(this.initializeMachineLearningToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(212, 6);
-            // 
-            // trainToolStripMenuItem
-            // 
-            this.trainToolStripMenuItem.Name = "trainToolStripMenuItem";
-            this.trainToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.trainToolStripMenuItem.Text = "&Train";
-            this.trainToolStripMenuItem.Click += new System.EventHandler(this.trainToolStripMenuItem_Click);
+            this.lblPreset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.lblPreset.Image = ((System.Drawing.Image)(resources.GetObject("lblPreset.Image")));
+            this.lblPreset.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.lblPreset.Name = "lblPreset";
+            this.lblPreset.Size = new System.Drawing.Size(79, 24);
+            this.lblPreset.Text = "Active Preset";
             // 
             // AudioAnalyzerMDIForm
             // 
@@ -908,7 +911,6 @@
         private System.Windows.Forms.ToolStripProgressBar progressBar;
         private System.Windows.Forms.Timer timerFFT;
         private System.Windows.Forms.ToolStripComboBox cboRange;
-        private System.Windows.Forms.ToolStripLabel lblPreset;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nFFTToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
@@ -941,6 +943,7 @@
         private System.Windows.Forms.ToolStripMenuItem initializeMachineLearningToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem trainToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton lblPreset;
     }
 }
 

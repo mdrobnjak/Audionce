@@ -67,7 +67,7 @@ namespace AudioAnalyzer
             }
             cboSubtractFrom.SelectedIndex = 0;
             cboSubtractor.SelectedIndex = 1;
-            cboRange.SelectedIndex = 0;
+            MakeActive(0);
 
             InitN_FFTdropDowns();
 
@@ -296,17 +296,21 @@ namespace AudioAnalyzer
 
         private void cboRange_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetActive(cboRange.SelectedIndex);
+            MakeActive(cboRange.SelectedIndex);
+            this.ProcessTabKey(true);
         }
 
-        public void SetActive(int i)
+        public void MakeActive(int i)
         {
             cboRange.SelectedIndex = i;
 
-            Range.SetActive(i);
+            Range.MakeActive(i);
 
             frmSpectrum.UpdateControls();
             frmChart.UpdateControls();
+
+            cboRange.BackColor = Range.Active.Color;
+            Constants.InitRangeBrushes(i);
         }
 
         private void nFFTToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
