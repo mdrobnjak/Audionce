@@ -301,7 +301,8 @@ namespace AudioAnalyzer
             cboRange.SelectedIndex = i;
 
             Range.MakeActive(i);
-            
+
+            frmSpectrum.InitRectangles();
             frmChart.UpdateControls();
 
             cboRange.BackColor = Range.Active.Color;

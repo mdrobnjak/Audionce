@@ -107,9 +107,7 @@ namespace AudioAnalyzer
         bool paintInitiated = false;
         Font pen;
         OSD osdPanel = new OSD();
-
-        float[] chartData = new float[250];
-
+        
         private void PaintChart()
         {
             if (!paintInitiated)
@@ -128,33 +126,54 @@ namespace AudioAnalyzer
                         yIndex++;
                     }
                 });
+
+                InitRectangles(cvt);
+
                 paintInitiated = true;
             }
             DrawData(chartData, gChart, cvt);
         }
 
+        const int XAxis = 200;
+        float[] chartData = new float[XAxis];
+        RectangleF[] rects = new RectangleF[XAxis];
+
         private void DrawData(float[] chartData, Graphics g, Converter cvter)
         {
             float barWidth = (float)pnlChart.Width / chartData.Length;
 
-            g.Clear(Range.Active.Color);
-            
             for (int i = 0; i < chartData.Length; i++)
             {
-                g.FillRectangle(Constants.Brushes.blackBrush,
+                rects[i].Y = cvter._yCenter - (chartData[i] * cvt.MaxScaledY);
+                rects[i].Height = (chartData[i] * cvt.MaxScaledY);
+            }
+
+            g.Clear(Range.Active.Color);
+            g.FillRectangles(Constants.Brushes.blackBrush, rects);
+        }
+
+        void InitRectangles(Converter cvter)
+        {
+            float barWidth = (float)pnlChart.Width / chartData.Length;
+
+            for (int i = 0; i < chartData.Length; i++)
+            {
+                rects[i] = new RectangleF(
                     i * barWidth,
-                    cvter._yCenter - (chartData[i] * cvt.MaxScaledY) / 2,
-                    barWidth - 1,
-                    (chartData[i] * cvt.MaxScaledY) / 2);
+                    cvter._yCenter - (chartData[i] * cvt.MaxScaledY),
+                    barWidth,
+                    (chartData[i] * cvt.MaxScaledY));
             }
         }
 
         private void DrawChart()
         {
+            cvt._yCenter = (pnlChart.Location.Y + pnlChart.Height) + Range.Active.GetMaxAudioFromLast200();
+
             if (Range.Active.AutoSettings.DynamicThreshold) AutoThreshold();
 
             Array.Copy(chartData, 1, chartData, 0, chartData.Length - 1);
-            chartData[249] = Range.Active.Audio;
+            chartData[chartData.Length - 1] = Range.Active.Audio;
             PaintChart();
         }
 
@@ -184,6 +203,7 @@ namespace AudioAnalyzer
             InitBufferAndGraphicForChart();
             InitConverter(converterScale);
             cvt._yCenter = pnlChart.Location.Y + pnlChart.Height;
+            InitRectangles(cvt);
         }
     }
 }

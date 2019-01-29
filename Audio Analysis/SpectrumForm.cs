@@ -137,11 +137,57 @@ namespace AudioAnalyzer
                         g.DrawString(string.Format("{0}:{1}", key, osdPanel.Info[key]), pen, new SolidBrush(Color.Red), new PointF(10, this.Height / 2 + yIndex * 20));
                         yIndex++;
                     }
+
+                    InitRectangles();
+
                 });
                 paintInitiated = true;
             }
             DrawData(FFT.transformedData, gSpectrum, cvt);
         }
+
+        public void InitRectangles()
+        {
+            int iLow = Range.Active.LowCutIndex;
+            int iHigh = Range.Active.HighCutIndex;
+            float ratioFreq = (float)pnlSpectrum.Width / Spectrum.DisplayBands;
+
+            int bandIndexRelative = 0;
+            int bandIndexAbsolute = Spectrum.Full ? 0 : Range.Active.NumBandsBefore;
+
+            //Init Rectangles
+
+            rects = new RectangleF[Spectrum.DisplayBands];
+            rectsR = new RectangleF[Spectrum.DisplayBands];
+
+            for (; bandIndexRelative < iLow; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                rects[bandIndexRelative] = new RectangleF(
+                    bandIndexRelative * ratioFreq,
+                    1,
+                    ratioFreq - 1,
+                    1);
+            }
+            for (; bandIndexRelative < iHigh; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                rectsR[bandIndexRelative] = new RectangleF(
+                    bandIndexRelative * ratioFreq,
+                    1,
+                    ratioFreq - 1,
+                    1);
+            }
+            for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
+            {
+                rects[bandIndexRelative] = new RectangleF(
+                    bandIndexRelative * ratioFreq,
+                    1,
+                    ratioFreq - 1,
+                    1);
+            }
+        }
+
+        RectangleF[] rects = new RectangleF[1];
+        RectangleF[] rectsR = new RectangleF[1];
 
         private void DrawData(float[] data, Graphics g, Converter cvter)
         {
@@ -152,36 +198,63 @@ namespace AudioAnalyzer
             int iHigh = Range.Active.HighCutIndex;
             float ratioFreq = (float)pnlSpectrum.Width / Spectrum.DisplayBands;
 
-            g.Clear(Color.White);
-
             #region Fill Rectangles
             int bandIndexRelative = 0;
             int bandIndexAbsolute = Spectrum.Full ? 0 : Range.Active.NumBandsBefore;
-            
+
+            //if (rects.Length != Spectrum.DisplayBands)
+            //{
+            //    //Init Rectangles
+
+            //    rects = new RectangleF[Spectrum.DisplayBands];
+            //    rectsR = new RectangleF[Spectrum.DisplayBands];
+
+            //    for (; bandIndexRelative < iLow; bandIndexRelative++, bandIndexAbsolute++)
+            //    {
+            //        rects[bandIndexRelative] = new RectangleF(
+            //            bandIndexRelative * ratioFreq,
+            //            cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2,
+            //            ratioFreq - 1,
+            //            (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2);
+            //    }
+            //    for (; bandIndexRelative < iHigh; bandIndexRelative++, bandIndexAbsolute++)
+            //    {
+            //        rectsR[bandIndexRelative] = new RectangleF(
+            //            bandIndexRelative * ratioFreq,
+            //            cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2,
+            //            ratioFreq - 1,
+            //            (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2);
+            //    }
+            //    for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
+            //    {
+            //        rects[bandIndexRelative] = new RectangleF(
+            //            bandIndexRelative * ratioFreq,
+            //            cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2,
+            //            ratioFreq - 1,
+            //            (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2);
+            //    }
+            //}
+
             for (; bandIndexRelative < iLow; bandIndexRelative++, bandIndexAbsolute++)
             {
-                g.FillRectangle(Constants.Brushes.blackBrush,
-                    bandIndexRelative * ratioFreq,
-                    cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2,
-                    ratioFreq - 1,
-                    (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2);
+                rects[bandIndexRelative].Y = cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
+                rects[bandIndexRelative].Height = (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
             }
             for (; bandIndexRelative < iHigh; bandIndexRelative++, bandIndexAbsolute++)
             {
-                g.FillRectangle(Constants.Brushes.redBrush,
-                    bandIndexRelative * ratioFreq,
-                    cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2,
-                    ratioFreq - 1,
-                    (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2);
+                rectsR[bandIndexRelative].Y = cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
+                rectsR[bandIndexRelative].Height = (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
             }
             for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
             {
-                g.FillRectangle(Constants.Brushes.blackBrush,
-                    bandIndexRelative * ratioFreq,
-                    cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2,
-                    ratioFreq - 1,
-                    (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2);
+                rects[bandIndexRelative].Y = cvter._yCenter - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
+                rects[bandIndexRelative].Height = (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
             }
+
+            g.Clear(Color.White);
+            g.FillRectangles(Constants.Brushes.blackBrush, rects);
+            g.FillRectangles(Constants.Brushes.redBrush, rectsR);
+
             #endregion
         }
 
@@ -205,11 +278,13 @@ namespace AudioAnalyzer
             InitBufferAndGraphicForSpectrum();
             InitConverter(converterScale);
             cvt._yCenter = pnlSpectrum.Location.Y + pnlSpectrum.Height;
+            InitRectangles();
         }
 
         private void msActiveRangeOnly_CheckStateChanged(object sender, EventArgs e)
         {
             Spectrum.Full = !msActiveRangeOnly.Checked;
+            InitRectangles();
         }
 
         private void txtmsScale_TextChanged(object sender, EventArgs e)
@@ -250,6 +325,7 @@ namespace AudioAnalyzer
             tempBW = 0;
             this.pnlSpectrum.MouseLeave -= new System.EventHandler(this.pnlSpectrum_MouseLeave);
             this.pnlSpectrum.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.pnlSpectrum_MouseMove);
+            InitRectangles();
         }
 
         private void pnlSpectrum_MouseMove(object sender, MouseEventArgs e)
@@ -266,6 +342,7 @@ namespace AudioAnalyzer
                 Range.Active.LowCutIndex = mouseHoverBandIndex + offset;
                 Range.Active.HighCutIndex = mouseHoverBandIndex + tempBW + offset;
             }
+            InitRectangles();
         }
 
         private void pnlSpectrum_MouseLeave(object sender, EventArgs e)
