@@ -86,14 +86,14 @@ namespace AudioAnalyzer
 
             if ((DateTime.Now - started).TotalSeconds >= SecondsToCollect)
             {
-                List<List<float>> trainingData = new List<List<float>>();
+                //List<List<float>> trainingData = new List<List<float>>();
 
-                for (int i = Range.Active.LowFreqIndex; i < Range.Active.HighFreqIndex; i++)
-                {
-                    trainingData.Add(fftDataHistory[i]);
-                }
+                //for (int i = Range.Active.LowFreqIndex; i < Range.Active.HighFreqIndex; i++)
+                //{
+                //    trainingData.Add(fftDataHistory[i]);
+                //}
 
-                Task.Run(()=>BandAnalysis.CreateTrainingRowFromAudioData(trainingData));
+                //Task.Run(()=>BandAnalysis.CreateTrainingRowFromAudioData(trainingData));
 
                 Ranging = false;
                 ReadyToProcess = true;

@@ -171,6 +171,7 @@ namespace AudioAnalyzer
                 //Range3
                 Ranges[2].AutoSettings.HatSelector();
 
+                frmSpectrum.InitRectangles();
                 AutoSettings.Reset();
 
                 progressBar.Value = 0;

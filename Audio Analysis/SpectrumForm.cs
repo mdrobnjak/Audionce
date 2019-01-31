@@ -148,19 +148,18 @@ namespace AudioAnalyzer
 
         public void InitRectangles()
         {
-            int iLow = Range.Active.LowCutIndex;
-            int iHigh = Range.Active.HighCutIndex;
+            int iLow = Math.Min(Range.Active.LowCutIndex, Spectrum.DisplayBands);
+            int iHigh = Math.Min(Range.Active.HighCutIndex, Spectrum.DisplayBands);
             float ratioFreq = (float)pnlSpectrum.Width / Spectrum.DisplayBands;
 
-            int bandIndexRelative = 0;
-            int bandIndexAbsolute = Spectrum.Full ? 0 : Range.Active.NumBandsBefore;
+            int bandIndexRelative = 0; //Spectrum.Full ? 0 : Range.Active.NumBandsBefore; //
 
             //Init Rectangles
 
             rects = new RectangleF[Spectrum.DisplayBands];
             rectsR = new RectangleF[Spectrum.DisplayBands];
 
-            for (; bandIndexRelative < iLow; bandIndexRelative++, bandIndexAbsolute++)
+            for (; bandIndexRelative < iLow; bandIndexRelative++)
             {
                 rects[bandIndexRelative] = new RectangleF(
                     bandIndexRelative * ratioFreq,
@@ -168,7 +167,7 @@ namespace AudioAnalyzer
                     ratioFreq - 1,
                     1);
             }
-            for (; bandIndexRelative < iHigh; bandIndexRelative++, bandIndexAbsolute++)
+            for (; bandIndexRelative < iHigh; bandIndexRelative++)
             {
                 rectsR[bandIndexRelative] = new RectangleF(
                     bandIndexRelative * ratioFreq,
@@ -176,7 +175,7 @@ namespace AudioAnalyzer
                     ratioFreq - 1,
                     1);
             }
-            for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
+            for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++)
             {
                 rects[bandIndexRelative] = new RectangleF(
                     bandIndexRelative * ratioFreq,
@@ -194,8 +193,8 @@ namespace AudioAnalyzer
             if (data == null || data.Length == 0 /*|| AudioIn.sourceData == null*/)
                 return;
 
-            int iLow = Range.Active.LowCutIndex;
-            int iHigh = Range.Active.HighCutIndex;
+            int iLow = Math.Min(Range.Active.LowCutIndex, Spectrum.DisplayBands);
+            int iHigh = Math.Min(Range.Active.HighCutIndex, Spectrum.DisplayBands);
             float ratioFreq = (float)pnlSpectrum.Width / Spectrum.DisplayBands;
 
             #region Fill Rectangles
@@ -264,12 +263,14 @@ namespace AudioAnalyzer
         {
             Range.Active.LowCutAbsolute++;
             Range.Active.HighCutAbsolute++;
+            InitRectangles();
         }
 
         public void DecrementRange()
         {
             Range.Active.LowCutAbsolute--;
             Range.Active.HighCutAbsolute--;
+            InitRectangles();
         }
 
         private void pnlSpectrum_SizeChanged(object sender, EventArgs e)

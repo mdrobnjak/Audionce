@@ -194,7 +194,8 @@ namespace AudioAnalyzer
 
         public void AutoThreshold()
         {
-            trkbrThreshold.Value = (int)(Range.Active.AutoSettings.ThresholdMultiplier * Range.Active.GetMaxAudioFromLast200());
+            Range.Active.Threshold = (int)(Range.Active.AutoSettings.ThresholdMultiplier * Range.Active.GetMaxAudioFromLast200());
+            UpdateControls();
         }
 
         private void pnlChart_SizeChanged(object sender, EventArgs e)
