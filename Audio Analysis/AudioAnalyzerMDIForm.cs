@@ -172,7 +172,6 @@ namespace AudioAnalyzer
                 //Range3
                 Ranges[2].AutoSettings.HatSelector();
 
-                frmSpectrum.InitRectangles();
                 AutoSettings.Reset();
 
                 progressBar.Value = 0;
@@ -204,8 +203,6 @@ namespace AudioAnalyzer
                 string FileName = openFileDialog.FileName;
 
                 FileIO.ReadConfig(FileName);
-                
-                frmChart.UpdateControls();
 
                 lblPreset.Text = FileName.Split('\\').Last().Split('.')[0];
             }
@@ -304,9 +301,6 @@ namespace AudioAnalyzer
 
             Range.MakeActive(i);
 
-            frmSpectrum.InitRectangles();
-            frmChart.UpdateControls();
-
             cboRange.BackColor = Range.Active.Color;
             Constants.InitRangeBrushes(i);
         }
@@ -386,7 +380,6 @@ namespace AudioAnalyzer
             {
                 Ranges[i].AutoSettings.DynamicThreshold = btnDynamicThreshold.Checked;
             }
-            frmChart.UpdateControls();
         }
         
         private void btnAutoSetThreshold_Click(object sender, EventArgs e)

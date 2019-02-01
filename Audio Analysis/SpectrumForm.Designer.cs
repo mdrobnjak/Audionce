@@ -46,6 +46,7 @@
             this.msSpectrum.Size = new System.Drawing.Size(821, 24);
             this.msSpectrum.TabIndex = 20;
             this.msSpectrum.Text = "menuStrip1";
+            this.msSpectrum.Visible = false;
             // 
             // msSpectrumSettings
             // 

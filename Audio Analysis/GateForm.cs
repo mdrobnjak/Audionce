@@ -25,6 +25,8 @@ namespace AudioAnalyzer
 
             InitConverter(converterScale);
 
+            DoubleBuffered = true;
+
             Pass = new bool[Range.Count];
             Levels = new float[Range.Count];
         }
@@ -95,7 +97,7 @@ namespace AudioAnalyzer
             {
                 Levels[i] = Pass[i] ? (float)(this.Height) : Levels[i] - this.Height / 20;
                 rects[i].X = i * ratioFreq;
-                rects[i].Y = cvter._yCenter - Levels[i];
+                rects[i].Y = cvter._containerHeight - Levels[i];
                 rects[i].Width = ratioFreq - 1;
                 rects[i].Height = Levels[i] / 2;
             }
@@ -108,7 +110,7 @@ namespace AudioAnalyzer
         {
             if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
             InitConverter(converterScale);
-            cvt._yCenter = this.Height - 40;
+            cvt._containerHeight = this.Height - 40;
         }
 
         private void GateForm_MouseClick(object sender, MouseEventArgs e)
