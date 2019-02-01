@@ -32,6 +32,7 @@ namespace AudioAnalyzer
             using (System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess())
                 p.PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
 
+            Constants.Init();
             ML.InitPaths();
 
             Spectrum.SyncBandsAndFreqs();

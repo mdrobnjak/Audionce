@@ -23,67 +23,15 @@ namespace AudioAnalyzer
         {
             InitializeComponent();
 
-            InitBufferAndGraphicForChart();
+            DoubleBuffered = true;
+            
             InitConverter(converterScale);            
         }
         
         private void InitConverter(int yMult)
         {
             float maxScaledY = (4096f / FFT.N_FFT) * yMult;
-            cvt = new Converter(0, pnlChart.Location.Y + pnlChart.Height, 1, maxScaledY);
-        }
-
-        Image mainBuffer;
-        Graphics gMainBuffer;
-
-        Image tempBuffer;
-        Graphics gTempBuffer;
-
-        ColorMatrix colormatrix = new ColorMatrix(new float[][]
-                        {
-                            new float[]{1, 0, 0, 0, 0},
-                            new float[]{0, 1, 0, 0, 0},
-                            new float[]{0, 0, 1, 0, 0},
-                            new float[]{0, 0, 0, 1, 0},
-                          //  new float[]{0, 0, 0, -0.001f, 1},
-                            new float[]{-0.01f, -0.01f, -0.01f, 0, 0}
-                          //  new float[]{0, 0, 0, 0, 1}
-                        });
-        ImageAttributes imgAttribute;
-
-        Graphics gChart;
-
-        private void InitBufferAndGraphicForChart()
-        {
-            //mainBuffer is a new Bitmap.
-            //What is panel1?
-            //What is the PixelFormat?
-            mainBuffer = new Bitmap(pnlChart.Width, pnlChart.Height, PixelFormat.Format32bppArgb);
-            //gMainBuffer is a new Graphics made from mainBuffer.
-            gMainBuffer = Graphics.FromImage(mainBuffer);
-            //CompositingQuality is set to HighSpeed.
-            gMainBuffer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-            //InterpolationMode is set to Low.
-            gMainBuffer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-
-            //tempBuffer is a new Bitmap.
-            tempBuffer = new Bitmap(mainBuffer.Width, mainBuffer.Height);
-            //gTempBuffer is a new Graphics made from tempBuffer.
-            gTempBuffer = Graphics.FromImage(tempBuffer);
-            //imgAttribute is a new ImageAttributes.
-            imgAttribute = new ImageAttributes();
-            //Set imgAttribute's color adjustment matrix.
-            imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
-            //CompositingQuality is set to HighSpeed.
-            gTempBuffer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-            //InterpolationMode is set to NearestNeighbor.
-            gTempBuffer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-
-            //Constants is initialized.
-            //(3 SolidBrushes are initialized.)
-            Constants.Init();
-
-            this.gChart = pnlChart.CreateGraphics();
+            cvt = new Converter(0, this.Height - 40, 1, maxScaledY);
         }
 
         delegate void DrawCallback();
@@ -93,7 +41,7 @@ namespace AudioAnalyzer
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
-            if (pnlChart.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 DrawCallback d = new DrawCallback(Draw);
                 this.Invoke(d);
@@ -131,16 +79,17 @@ namespace AudioAnalyzer
 
                 paintInitiated = true;
             }
-            DrawData(chartData, gChart, cvt);
+
+            UpdateRectangles(chartData, cvt);
         }
 
         const int XAxis = 100;
         float[] chartData = new float[XAxis];
         RectangleF[] rects = new RectangleF[XAxis];
 
-        private void DrawData(float[] chartData, Graphics g, Converter cvter)
+        private void UpdateRectangles(float[] chartData, Converter cvter)
         {
-            float barWidth = (float)pnlChart.Width / chartData.Length;
+            float barWidth = (float)this.Width / chartData.Length;
 
             for (int i = 0; i < chartData.Length; i++)
             {
@@ -148,13 +97,12 @@ namespace AudioAnalyzer
                 rects[i].Height = (chartData[i] * cvt.MaxScaledY);
             }
 
-            g.Clear(Range.Active.Color);
-            g.FillRectangles(Constants.Brushes.blackBrush, rects);
+            Invalidate();
         }
 
         void InitRectangles(Converter cvter)
         {
-            float barWidth = (float)pnlChart.Width / chartData.Length;
+            float barWidth = (float)this.Width / chartData.Length;
 
             for (int i = 0; i < chartData.Length; i++)
             {
@@ -168,7 +116,7 @@ namespace AudioAnalyzer
 
         private void DrawChart()
         {
-            cvt._yCenter = (pnlChart.Location.Y + pnlChart.Height) + Range.Active.GetMaxAudioFromLast200();
+            cvt._yCenter = (this.Height - 40) + Range.Active.GetMaxAudioFromLast200();
 
             if (Range.Active.AutoSettings.DynamicThreshold) AutoThreshold();
 
@@ -198,13 +146,17 @@ namespace AudioAnalyzer
             UpdateControls();
         }
 
-        private void pnlChart_SizeChanged(object sender, EventArgs e)
+        private void ChartForm_SizeChanged(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
-            InitBufferAndGraphicForChart();
             InitConverter(converterScale);
-            cvt._yCenter = pnlChart.Location.Y + pnlChart.Height;
+            cvt._yCenter = this.Height - 40;
             InitRectangles(cvt);
+        }
+
+        private void ChartForm_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.FillRectangles(Constants.Brushes.blackBrush, rects);
         }
     }
 }

@@ -33,7 +33,6 @@
             this.trkbrThreshold = new System.Windows.Forms.TrackBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.msChartSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlChart = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -90,23 +89,11 @@
             this.msChartSettings.Size = new System.Drawing.Size(48, 20);
             this.msChartSettings.Text = "Chart";
             // 
-            // pnlChart
-            // 
-            this.pnlChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlChart.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlChart.Location = new System.Drawing.Point(51, 1);
-            this.pnlChart.Name = "pnlChart";
-            this.pnlChart.Size = new System.Drawing.Size(830, 442);
-            this.pnlChart.TabIndex = 32;
-            // 
             // ChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(881, 444);
-            this.Controls.Add(this.pnlChart);
             this.Controls.Add(this.txtThreshold);
             this.Controls.Add(this.trkbrThreshold);
             this.Controls.Add(this.lblThreshold);
@@ -114,7 +101,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ChartForm";
             this.Text = "Chart";
-            this.SizeChanged += new System.EventHandler(this.pnlChart_SizeChanged);
+            this.SizeChanged += new System.EventHandler(this.ChartForm_SizeChanged);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.ChartForm_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.trkbrThreshold)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -129,6 +117,5 @@
         private System.Windows.Forms.TrackBar trkbrThreshold;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem msChartSettings;
-        private System.Windows.Forms.Panel pnlChart;
     }
 }

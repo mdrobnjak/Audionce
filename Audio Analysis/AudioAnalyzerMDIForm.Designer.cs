@@ -739,7 +739,7 @@
             // timerFFT
             // 
             this.timerFFT.Enabled = true;
-            this.timerFFT.Interval = 33;
+            this.timerFFT.Interval = 1;
             this.timerFFT.Tick += new System.EventHandler(this.timerFFT_Tick);
             // 
             // toolStripProcessing

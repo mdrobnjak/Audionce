@@ -28,39 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlSpectrum = new System.Windows.Forms.Panel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.msSpectrum = new System.Windows.Forms.MenuStrip();
             this.msSpectrumSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.msActiveRangeOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.msScale = new System.Windows.Forms.ToolStripMenuItem();
             this.txtmsiScale = new System.Windows.Forms.ToolStripTextBox();
-            this.menuStrip1.SuspendLayout();
+            this.msSpectrum.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pnlSpectrum
+            // msSpectrum
             // 
-            this.pnlSpectrum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlSpectrum.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlSpectrum.Location = new System.Drawing.Point(0, 0);
-            this.pnlSpectrum.Name = "pnlSpectrum";
-            this.pnlSpectrum.Size = new System.Drawing.Size(821, 350);
-            this.pnlSpectrum.TabIndex = 19;
-            this.pnlSpectrum.SizeChanged += new System.EventHandler(this.pnlSpectrum_SizeChanged);
-            this.pnlSpectrum.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlSpectrum_MouseDown);
-            this.pnlSpectrum.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlSpectrum_MouseUp);
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.msSpectrum.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.msSpectrum.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.msSpectrumSettings});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(821, 24);
-            this.menuStrip1.TabIndex = 20;
-            this.menuStrip1.Text = "menuStrip1";
+            this.msSpectrum.Location = new System.Drawing.Point(0, 0);
+            this.msSpectrum.Name = "msSpectrum";
+            this.msSpectrum.Size = new System.Drawing.Size(821, 24);
+            this.msSpectrum.TabIndex = 20;
+            this.msSpectrum.Text = "menuStrip1";
             // 
             // msSpectrumSettings
             // 
@@ -98,20 +83,22 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(821, 350);
-            this.Controls.Add(this.pnlSpectrum);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.msSpectrum);
             this.Name = "SpectrumForm";
             this.Text = "Spectrum";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.SizeChanged += new System.EventHandler(this.pnlSpectrum_SizeChanged);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.SpectrumForm_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SpectrumForm_MouseDown);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SpectrumForm_MouseUp);
+            this.msSpectrum.ResumeLayout(false);
+            this.msSpectrum.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Panel pnlSpectrum;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip msSpectrum;
         private System.Windows.Forms.ToolStripMenuItem msSpectrumSettings;
         private System.Windows.Forms.ToolStripMenuItem msActiveRangeOnly;
         private System.Windows.Forms.ToolStripMenuItem msScale;

@@ -28,35 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlGate = new System.Windows.Forms.Panel();
             this.SuspendLayout();
-            // 
-            // pnlGate
-            // 
-            this.pnlGate.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlGate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlGate.Location = new System.Drawing.Point(0, 0);
-            this.pnlGate.Name = "pnlGate";
-            this.pnlGate.Size = new System.Drawing.Size(184, 212);
-            this.pnlGate.TabIndex = 20;
-            this.pnlGate.SizeChanged += new System.EventHandler(this.pnlGate_SizeChanged);
-            this.pnlGate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlGate_MouseClick);
             // 
             // GateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(184, 212);
-            this.Controls.Add(this.pnlGate);
             this.MaximumSize = new System.Drawing.Size(200, 250);
             this.Name = "GateForm";
             this.Text = "Gate";
+            this.SizeChanged += new System.EventHandler(this.GateForm_SizeChanged);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.GateForm_Paint);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GateForm_MouseClick);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel pnlGate;
     }
 }

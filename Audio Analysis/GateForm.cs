@@ -23,7 +23,6 @@ namespace AudioAnalyzer
         {
             InitializeComponent();
 
-            InitBufferAndGraphicForGate();
             InitConverter(converterScale);
 
             Pass = new bool[Range.Count];
@@ -33,46 +32,7 @@ namespace AudioAnalyzer
         private void InitConverter(int yMult)
         {
             float maxScaledY = (4096f / FFT.N_FFT) * yMult;
-            cvt = new Converter(0, pnlGate.Location.Y + pnlGate.Height, 1, maxScaledY);
-        }
-
-        Image mainBuffer;
-        Graphics gMainBuffer;
-
-        Image tempBuffer;
-        Graphics gTempBuffer;
-
-        ColorMatrix colormatrix = new ColorMatrix(new float[][]
-                        {
-                            new float[]{1, 0, 0, 0, 0},
-                            new float[]{0, 1, 0, 0, 0},
-                            new float[]{0, 0, 1, 0, 0},
-                            new float[]{0, 0, 0, 1, 0},
-                          //  new float[]{0, 0, 0, -0.001f, 1},
-                            new float[]{-0.01f, -0.01f, -0.01f, 0, 0}
-                          //  new float[]{0, 0, 0, 0, 1}
-                        });
-        ImageAttributes imgAttribute;
-
-        Graphics gGate;
-
-        private void InitBufferAndGraphicForGate()
-        {
-            mainBuffer = new Bitmap(pnlGate.Width, pnlGate.Height, PixelFormat.Format32bppArgb);
-            gMainBuffer = Graphics.FromImage(mainBuffer);
-            gMainBuffer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-            gMainBuffer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-
-            tempBuffer = new Bitmap(mainBuffer.Width, mainBuffer.Height);
-            gTempBuffer = Graphics.FromImage(tempBuffer);
-            imgAttribute = new ImageAttributes();
-            imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
-            gTempBuffer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-            gTempBuffer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-
-            Constants.Init();
-
-            this.gGate = pnlGate.CreateGraphics();
+            cvt = new Converter(0, this.Height - 40, 1, maxScaledY);
         }
 
         #region Draw Spectrum
@@ -84,7 +44,7 @@ namespace AudioAnalyzer
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
-            if (pnlGate.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 DrawCallback d = new DrawCallback(Draw);
                 this.Invoke(d);
@@ -93,13 +53,7 @@ namespace AudioAnalyzer
             {
                 if (Enabled)
                 {
-                    try
-                    {
-                        PaintGate();
-                    }
-                    catch
-                    {
-                    }
+                    PaintGate();
                 }
             }
         }
@@ -128,41 +82,48 @@ namespace AudioAnalyzer
                 });
                 paintInitiated = true;
             }
-            DrawData(gGate, cvt);
+            UpdateRectangles(cvt);
         }
 
-        private void DrawData(Graphics g, Converter cvter)
+        RectangleF[] rects = new RectangleF[Range.Count];
+
+        private void UpdateRectangles(Converter cvter)
         {
-
-            float ratioFreq = (float)pnlGate.Width / Range.Count;
-
-            g.Clear(Color.White);
-
-            #region Fill Rectangles
+            float ratioFreq = (float)this.Width / Range.Count;
 
             for (int i = 0; i < Range.Count; i++)
             {
-                Levels[i] = Pass[i] ? (float)(pnlGate.Height) : Levels[i] - pnlGate.Height / 20;
-                g.FillRectangle(Constants.Brushes.rangeBrushes[i], i * ratioFreq, cvter._yCenter - Levels[i] / 1, ratioFreq - 1, Levels[i] / 2);
+                Levels[i] = Pass[i] ? (float)(this.Height) : Levels[i] - this.Height / 20;
+                rects[i].X = i * ratioFreq;
+                rects[i].Y = cvter._yCenter - Levels[i];
+                rects[i].Width = ratioFreq - 1;
+                rects[i].Height = Levels[i] / 2;
             }
-            #endregion
+            Invalidate();
         }
 
         #endregion
 
-        private void pnlGate_SizeChanged(object sender, EventArgs e)
+        private void GateForm_SizeChanged(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
-            InitBufferAndGraphicForGate();
             InitConverter(converterScale);
-            cvt._yCenter = pnlGate.Location.Y + pnlGate.Height;
+            cvt._yCenter = this.Height - 40;
         }
 
-        private void pnlGate_MouseClick(object sender, MouseEventArgs e)
+        private void GateForm_MouseClick(object sender, MouseEventArgs e)
         {
-            int sizePerRange = pnlGate.Size.Width / Range.Count;
+            int sizePerRange = this.Size.Width / Range.Count;
 
             ((AudioAnalyzerMDIForm)MdiParent).MakeActive(e.Location.X / sizePerRange);
+        }
+
+        private void GateForm_Paint(object sender, PaintEventArgs e)
+        {
+            for (int i = 0; i < rects.Count(); i++)
+            {
+                e.Graphics.FillRectangle(Constants.Brushes.rangeBrushes[i], rects[i]);
+            }
         }
     }
 }
