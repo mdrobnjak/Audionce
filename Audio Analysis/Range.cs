@@ -191,7 +191,7 @@ namespace AudioAnalyzer
             }
         }
 
-        private List<float> audios = new List<float>();
+        private List<float> audios = new List<float>(new float[] { 0 });
         private float audio;
         public float Audio
         {
