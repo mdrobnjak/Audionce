@@ -413,5 +413,15 @@ namespace AudioAnalyzer
         {
             BandAnalysis.CompleteAndSaveTraining();
         }
+
+        public void SetTimerInterval(int intervalMs)
+        {
+            timerFFT.Interval = intervalMs;
+        }
+
+        public int GetTimerInterval()
+        {
+            return timerFFT.Interval;
+        }
     }
 }

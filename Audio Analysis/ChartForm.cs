@@ -134,7 +134,7 @@ namespace AudioAnalyzer
             DrawData(chartData, gChart, cvt);
         }
 
-        const int XAxis = 200;
+        const int XAxis = 100;
         float[] chartData = new float[XAxis];
         RectangleF[] rects = new RectangleF[XAxis];
 

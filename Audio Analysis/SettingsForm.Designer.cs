@@ -32,26 +32,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvSettings)).BeginInit();
             this.SuspendLayout();
             // 
-            // gvAutoSettings
+            // gvSettings
             // 
             this.gvSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gvSettings.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvSettings.Location = new System.Drawing.Point(12, 12);
-            this.gvSettings.Name = "gvAutoSettings";
+            this.gvSettings.Name = "gvSettings";
             this.gvSettings.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.gvSettings.Size = new System.Drawing.Size(776, 592);
             this.gvSettings.TabIndex = 75;
             // 
-            // AutoSettingsForm
+            // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 616);
             this.Controls.Add(this.gvSettings);
-            this.Name = "AutoSettingsForm";
+            this.Name = "SettingsForm";
             this.Text = "Auto Settings";
+            this.Shown += new System.EventHandler(this.SettingsForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.gvSettings)).EndInit();
             this.ResumeLayout(false);
 

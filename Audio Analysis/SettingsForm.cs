@@ -19,7 +19,10 @@ namespace AudioAnalyzer
         public SettingsForm()
         {
             InitializeComponent();
+        }
 
+        private void SettingsForm_Shown(object sender, EventArgs e)
+        {
             InitGV();
 
             this.gvSettings.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvAutoSettings_CellValueChanged);
@@ -48,11 +51,17 @@ namespace AudioAnalyzer
 
             gvSettings.Columns[Range.Count].Name = gvSettings.Columns[Range.Count].HeaderText = "General";
 
-            //Single Rows
+            //Seconds to collect
             gvSettings.Rows.Add(); //Spacer
             gvSettings.Rows.Add();
             gvSettings.Rows[3].HeaderCell.Value = "Seconds to Collect";
             gvSettings.Rows[3].Cells[iGen].Value = AutoSettings.SecondsToCollect;
+
+            //FFT Timer Interval
+            gvSettings.Rows.Add(); //Spacer
+            gvSettings.Rows.Add();
+            gvSettings.Rows[5].HeaderCell.Value = "FFT Interval";
+            gvSettings.Rows[5].Cells[iGen].Value = ((AudioAnalyzerMDIForm)this.MdiParent).GetTimerInterval();
 
         }
 
@@ -72,6 +81,9 @@ namespace AudioAnalyzer
                         break;
                     case 3:
                         if (e.ColumnIndex == iGen) AutoSettings.SecondsToCollect = Convert.ToSingle(cellValue);
+                        break;
+                    case 5:
+                        if (e.ColumnIndex == iGen) ((AudioAnalyzerMDIForm)this.MdiParent).SetTimerInterval(Convert.ToInt32(cellValue));
                         break;
                     default:
                         break;
