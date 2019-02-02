@@ -115,16 +115,8 @@ namespace AudioAnalyzer
         
         public void timerFFT_Tick(object sender, EventArgs e)
         {
-            AudioIn.Tick = true;
-
-            if (FFT.N_FFT != FFT.N_FFTBuffer)
-            {
-                FFT.N_FFT = FFT.N_FFTBuffer;
-                FFT.transformedData = null;
-            }
-
             BeforeFFT = DateTime.Now;
-            //FFT.transformedData = FFT.FFTWithProcessing(FFT.transformedData);
+
             FFT.transformedData = FFT.LogScale(SoundCapture.Update());
 
             for (int r = 0; r < Range.Count; r++)
@@ -135,8 +127,8 @@ namespace AudioAnalyzer
 
                 Ranges[r].AutoSettings.ApplyAutoSettings();
 
-
                 lblDelay.Text = "Delays: Gate-" + (DateTime.Now - BeforeFFT).TotalMilliseconds + "ms";
+
                 if (Gate.Pass(r))
                 {
                     Arduino.Trigger(r);
@@ -303,10 +295,10 @@ namespace AudioAnalyzer
             cboRange.SelectedIndex = i;
 
             Range.MakeActive(i);
-            frmSpectrum.InitRectangles();
+            frmSpectrum.InitRectanglesAndBackground();
 
             cboRange.BackColor = Range.Active.Color;
-            Constants.InitRangeBrushes(i);
+            Constants.InitGateBrushes(i);
         }
 
         private void nFFTToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)

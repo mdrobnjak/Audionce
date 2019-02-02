@@ -22,14 +22,16 @@ namespace AudioAnalyzer
         {
             Brushes.blackBrush = new SolidBrush(Color.Black);
             Brushes.redBrush = new SolidBrush(Color.FromArgb(255, Color.Red));
-        }
-
-        public static void InitRangeBrushes(int activeIndex)
-        {
             for (int i = 0; i < Range.Count; i++)
             {
                 Brushes.rangeBrushes[i] = new SolidBrush(Range.Ranges[i].Color);
+            }
+        }
 
+        public static void InitGateBrushes(int activeIndex)
+        {
+            for (int i = 0; i < Range.Count; i++)
+            {
                 if (i == activeIndex) Brushes.gateBrushes[i] = new SolidBrush(Range.Active.Color);
                 else Brushes.gateBrushes[i] = Brushes.blackBrush;
             }

@@ -22,7 +22,7 @@ namespace AudioAnalyzer
         {
             InitializeComponent();
 
-            InitRectangles();
+            InitRectanglesAndBackground();
 
             this.DoubleBuffered = true;
             InitConverter(converterScale);
@@ -87,7 +87,7 @@ namespace AudioAnalyzer
             UpdateRectangles(FFT.transformedData, cvt);
         }
 
-        public void InitRectangles()
+        public void InitRectanglesAndBackground()
         {
             float ratioFreq = (float)this.Width / Spectrum.DisplayBands;
 
@@ -102,6 +102,8 @@ namespace AudioAnalyzer
                     ratioFreq - 1,
                     0);
             }
+
+            SetBackgroundImage();
         }
 
         RectangleF[] rects = new RectangleF[1];
@@ -110,7 +112,7 @@ namespace AudioAnalyzer
         {
             if (data == null || data.Length == 0 /*|| AudioIn.sourceData == null*/)
                 return;
-            
+
             float ratioFreq = (float)this.Width / Spectrum.DisplayBands;
 
             #region Fill Rectangles
@@ -146,14 +148,14 @@ namespace AudioAnalyzer
         {
             if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
             InitConverter(converterScale);
-            InitRectangles();
+            InitRectanglesAndBackground();
             cvt._containerHeight = this.Height - 40;
         }
 
         private void msActiveRangeOnly_CheckStateChanged(object sender, EventArgs e)
         {
             Spectrum.Full = !msActiveRangeOnly.Checked;
-            InitRectangles();
+            InitRectanglesAndBackground();
         }
 
         private void txtmsScale_TextChanged(object sender, EventArgs e)
@@ -172,7 +174,7 @@ namespace AudioAnalyzer
 
         private void SpectrumForm_MouseDown(object sender, MouseEventArgs e)
         {
-            sizePerBand = (double)this.Size.Width / Spectrum.DisplayBands;
+            //sizePerBand = (double)this.Size.Width / Spectrum.DisplayBands;
 
             mouseDownBandIndex = (int)(e.Location.X / sizePerBand);
 
@@ -208,7 +210,7 @@ namespace AudioAnalyzer
                 {
                     Range.Active.HighCutIndex = mouseHoverBandIndex;
                 }
-                else if (mouseHoverBandIndex < mouseDownBandIndex)
+                else if (mouseHoverBandIndex <= mouseDownBandIndex)
                 {
                     Range.Active.LowCutIndex = mouseHoverBandIndex;
                 }
@@ -252,15 +254,66 @@ namespace AudioAnalyzer
 
             for (int i = 0; i < Spectrum.DisplayBands; i++)
             {
-                for(j = 0; j < Range.Count; j++)
+                if (Spectrum.Full)
                 {
-                    if(i >= Range.Ranges[j].LowCutAbsolute && i < Range.Ranges[j].HighCutAbsolute)
+                    for (j = 0; j < Range.Count; j++)
                     {
-                        g.FillRectangle(Constants.Brushes.rangeBrushes[j], rects[i]);
-                        break;
+                        if (i >= Range.Ranges[j].LowCutAbsolute && i < Range.Ranges[j].HighCutAbsolute)
+                        {
+                            g.FillRectangle(Constants.Brushes.rangeBrushes[j], rects[i]);
+                            break;
+                        }
+                    }
+                    if (j == Range.Count) g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+                }
+                else
+                {
+                    if (i >= Range.Active.LowCutIndex && i < Range.Active.HighCutIndex)
+                    {
+                        g.FillRectangle(Constants.Brushes.rangeBrushes[Range.ActiveIndex], rects[i]);
+                    }
+                    else g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+                }
+            }
+        }
+
+        Bitmap background;
+
+        void SetBackgroundImage()
+        {
+            sizePerBand = (double)this.Size.Width / Spectrum.DisplayBands;
+
+            background = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(background))
+            {
+                if (Spectrum.Full)
+                {
+                    for (int i = 0; i < Range.Count; i++)
+                    {
+                        int X = (int)(sizePerBand * Spectrum.GetBandForFreq(Range.Ranges[i].LowFreq));
+                        int width = (int)(sizePerBand * Range.Ranges[i].NumBands);
+
+                        g.FillRectangle(
+                            Constants.Brushes.rangeBrushes[i],
+                            new Rectangle(
+                                X,
+                                0,
+                                width,
+                                this.Height));
                     }
                 }
-                if(j == Range.Count)g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+                else
+                {
+                    g.FillRectangle(
+                            Constants.Brushes.rangeBrushes[Range.ActiveIndex],
+                            new Rectangle(
+                                0,
+                                0,
+                                this.Width,
+                                this.Height));
+                }
+
+                this.BackgroundImage = background;
             }
         }
 

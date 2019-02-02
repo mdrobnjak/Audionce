@@ -91,7 +91,7 @@ namespace AudioAnalyzer
 
         private void UpdateRectangles(Converter cvter)
         {
-            float ratioFreq = (float)this.Width / Range.Count;
+            float ratioFreq = (float)this.Size.Width / Range.Count;
 
             for (int i = 0; i < Range.Count; i++)
             {
@@ -115,7 +115,7 @@ namespace AudioAnalyzer
 
         private void GateForm_MouseClick(object sender, MouseEventArgs e)
         {
-            int sizePerRange = this.Size.Width / Range.Count;
+            int sizePerRange = this.Width / Range.Count;
 
             ((AudioAnalyzerMDIForm)MdiParent).MakeActive(e.Location.X / sizePerRange);
         }

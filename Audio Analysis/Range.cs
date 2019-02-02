@@ -41,7 +41,7 @@ namespace AudioAnalyzer
 
         int Index;
 
-        static int ActiveIndex;
+        public static int ActiveIndex;
 
         public static Range[] Ranges = new Range[Count]
         {
@@ -49,7 +49,7 @@ namespace AudioAnalyzer
                 {
                     Index = 0,
 
-                    LowFreq = 0, HighFreq = 210,
+                    LowFreq = 0, HighFreq = 150,
 
                     AutoSettings = new AutoSettings()
                     {
@@ -63,7 +63,7 @@ namespace AudioAnalyzer
                 {
                     Index = 1,
 
-                    LowFreq = 1200, HighFreq = 8000,
+                    LowFreq = 150, HighFreq = 8000,
 
                     AutoSettings = new AutoSettings()
                     {
@@ -81,7 +81,7 @@ namespace AudioAnalyzer
 
                     AutoSettings = new AutoSettings()
                     {
-                        Bandwidth = Spectrum.TotalBands / 7,
+                        Bandwidth = 50,
                         ThresholdMultiplier = 0.75F
                     },
 
