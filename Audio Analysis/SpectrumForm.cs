@@ -260,7 +260,7 @@ namespace AudioAnalyzer
                     {
                         if (i >= Range.Ranges[j].LowCutAbsolute && i < Range.Ranges[j].HighCutAbsolute)
                         {
-                            g.FillRectangle(Constants.Brushes.rangeBrushes[j], rects[i]);
+                            g.FillRectangle(Constants.Brushes.redBrush, rects[i]);
                             break;
                         }
                     }
@@ -270,7 +270,7 @@ namespace AudioAnalyzer
                 {
                     if (i >= Range.Active.LowCutIndex && i < Range.Active.HighCutIndex)
                     {
-                        g.FillRectangle(Constants.Brushes.rangeBrushes[Range.ActiveIndex], rects[i]);
+                        g.FillRectangle(Constants.Brushes.redBrush, rects[i]);
                     }
                     else g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
                 }

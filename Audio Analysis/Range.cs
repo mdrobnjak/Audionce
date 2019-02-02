@@ -127,7 +127,7 @@ namespace AudioAnalyzer
         {
             get
             {
-                return Spectrum.Full ? Spectrum.GetBandForFreq(lowCutFreq) : Math.Max(0, Spectrum.GetBandForFreq(lowCutFreq) - NumBandsBefore);
+                return Spectrum.Full ? lowCutAbsolute : Math.Max(0, lowCutAbsolute - NumBandsBefore);
             }
             set
             {
@@ -165,7 +165,7 @@ namespace AudioAnalyzer
         {
             get
             {
-                return Spectrum.Full ? Spectrum.GetBandForFreq(highCutFreq) : Math.Max(0, Spectrum.GetBandForFreq(highCutFreq) - NumBandsBefore);
+                return Spectrum.Full ? highCutAbsolute : Math.Max(0, highCutAbsolute - NumBandsBefore);
             }
             set
             {
