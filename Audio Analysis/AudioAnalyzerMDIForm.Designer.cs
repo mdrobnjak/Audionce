@@ -842,7 +842,7 @@
             this.Controls.Add(this.menuStrip);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AudioAnalyzerMDIForm";
             this.Text = "Audio Analyzer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAudioAnalyzerMDI_FormClosing);

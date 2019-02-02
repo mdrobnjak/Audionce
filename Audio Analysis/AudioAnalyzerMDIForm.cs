@@ -146,13 +146,14 @@ namespace AudioAnalyzer
                 else
                 {
                     frmGate.Pass[r] = false;
-                }
-
-                Task.Run(() => frmChart[r-1].Draw());
+                }                
             }
 
-            Task.Run(() => frmSpectrum.Draw());
             Task.Run(() => frmGate.Draw());
+
+            foreach (ChartForm chart in frmChart) Task.Run(() => chart.Draw());
+
+            Task.Run(() => frmSpectrum.Draw());
 
             if (AutoSettings.Ranging)
             {
@@ -302,6 +303,7 @@ namespace AudioAnalyzer
             cboRange.SelectedIndex = i;
 
             Range.MakeActive(i);
+            frmSpectrum.InitRectangles();
 
             cboRange.BackColor = Range.Active.Color;
             Constants.InitRangeBrushes(i);

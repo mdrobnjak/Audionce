@@ -67,7 +67,7 @@ namespace AudioAnalyzer
 
                     AutoSettings = new AutoSettings()
                     {
-                        Bandwidth = Spectrum.TotalBands / 7,
+                        Bandwidth = 1,
                         ThresholdMultiplier = 0.75F
                     },
 

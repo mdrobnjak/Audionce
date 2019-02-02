@@ -124,7 +124,7 @@ namespace AudioAnalyzer
         {
             for (int i = 0; i < rects.Count(); i++)
             {
-                e.Graphics.FillRectangle(Constants.Brushes.rangeBrushes[i], rects[i]);
+                e.Graphics.FillRectangle(Constants.Brushes.gateBrushes[i], rects[i]);
             }
         }
     }

@@ -110,12 +110,7 @@ namespace AudioAnalyzer
         {
             if (data == null || data.Length == 0 /*|| AudioIn.sourceData == null*/)
                 return;
-
-            if (rects.Count() != Spectrum.DisplayBands)
-            {
-                InitRectangles();
-            }
-
+            
             float ratioFreq = (float)this.Width / Spectrum.DisplayBands;
 
             #region Fill Rectangles
@@ -158,6 +153,7 @@ namespace AudioAnalyzer
         private void msActiveRangeOnly_CheckStateChanged(object sender, EventArgs e)
         {
             Spectrum.Full = !msActiveRangeOnly.Checked;
+            InitRectangles();
         }
 
         private void txtmsScale_TextChanged(object sender, EventArgs e)
@@ -229,7 +225,7 @@ namespace AudioAnalyzer
             SpectrumForm_MouseUp(null, null);
         }
 
-        private void SpectrumForm_Paint(object sender, PaintEventArgs e)
+        void ColorActiveRange(Graphics g)
         {
             int iLow = Math.Min(Range.Active.LowCutIndex, Spectrum.DisplayBands);
             int iHigh = Math.Min(Range.Active.HighCutIndex, Spectrum.DisplayBands);
@@ -238,16 +234,39 @@ namespace AudioAnalyzer
 
             for (; i < iLow; i++)
             {
-                e.Graphics.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+                g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
             }
             for (; i < iHigh; i++)
             {
-                e.Graphics.FillRectangle(Constants.Brushes.redBrush, rects[i]);
+                g.FillRectangle(Constants.Brushes.redBrush, rects[i]);
             }
             for (; i < Spectrum.DisplayBands; i++)
             {
-                e.Graphics.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+                g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
             }
+        }
+
+        void ColorAllRanges(Graphics g)
+        {
+            int j;
+
+            for (int i = 0; i < Spectrum.DisplayBands; i++)
+            {
+                for(j = 0; j < Range.Count; j++)
+                {
+                    if(i >= Range.Ranges[j].LowCutAbsolute && i < Range.Ranges[j].HighCutAbsolute)
+                    {
+                        g.FillRectangle(Constants.Brushes.rangeBrushes[j], rects[i]);
+                        break;
+                    }
+                }
+                if(j == Range.Count)g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+            }
+        }
+
+        private void SpectrumForm_Paint(object sender, PaintEventArgs e)
+        {
+            ColorAllRanges(e.Graphics);
         }
     }
 }
