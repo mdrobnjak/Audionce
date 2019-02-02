@@ -23,7 +23,7 @@ namespace AudioAnalyzer
             InitializeComponent();
 
             InitRectangles();
-            
+
             this.DoubleBuffered = true;
             InitConverter(converterScale);
 
@@ -54,13 +54,7 @@ namespace AudioAnalyzer
             {
                 if (Enabled)
                 {
-                    try
-                    {
-                        UpdateSpectrum();
-                    }
-                    catch
-                    {
-                    }
+                    UpdateSpectrum();
                 }
             }
         }
@@ -100,7 +94,7 @@ namespace AudioAnalyzer
             //Init Rectangles
             rects = new RectangleF[Spectrum.DisplayBands];
 
-            for(int i = 0; i < Spectrum.DisplayBands; i++)
+            for (int i = 0; i < Spectrum.DisplayBands; i++)
             {
                 rects[i] = new RectangleF(
                     i * ratioFreq,
@@ -158,7 +152,7 @@ namespace AudioAnalyzer
             if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
             InitConverter(converterScale);
             InitRectangles();
-            cvt._containerHeight = this.Height-40;
+            cvt._containerHeight = this.Height - 40;
         }
 
         private void msActiveRangeOnly_CheckStateChanged(object sender, EventArgs e)
@@ -244,7 +238,7 @@ namespace AudioAnalyzer
 
             for (; i < iLow; i++)
             {
-                e.Graphics.FillRectangle(Constants.Brushes.blackBrush,rects[i]);
+                e.Graphics.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
             }
             for (; i < iHigh; i++)
             {

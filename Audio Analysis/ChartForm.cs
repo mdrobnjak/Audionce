@@ -16,11 +16,6 @@ namespace AudioAnalyzer
     {
         new bool Enabled = true;
 
-        Converter cvt;
-        int converterScale = 8;
-
-        float maxYmult = .7f;
-
         Rectangle stripLine;
 
         public ChartForm()
@@ -28,8 +23,6 @@ namespace AudioAnalyzer
             InitializeComponent();
 
             DoubleBuffered = true;
-
-            InitConverter(converterScale);
 
             InitStripLine();
         }
@@ -41,18 +34,7 @@ namespace AudioAnalyzer
 
         void UpdateStripLineByThreshold()
         {
-            stripLine.Y = (int)(this.Height - ((Range.Active.Threshold * this.Height) / (Range.Active.GetMaxAudioFromLast200() * maxYmult)));
-        }
-
-        void UpdateStripLine(int y)
-        {
-            stripLine.Y = y;
-        }
-
-        private void InitConverter(int yMult)
-        {
-            float maxScaledY = (4096f / FFT.N_FFT) * yMult;
-            cvt = new Converter(0, this.Height - 40, 1, maxScaledY);
+            stripLine.Y = (int)(this.Height - ((Range.Active.Threshold * this.Height) / Range.Active.GetMaxAudioFromLast200()));
         }
 
         delegate void DrawCallback();
@@ -96,26 +78,26 @@ namespace AudioAnalyzer
                     }
                 });
 
-                InitRectangles(cvt);
+                InitRectangles();
 
                 paintInitiated = true;
             }
 
-            UpdateRectangles(chartData, cvt);
+            UpdateRectangles(chartData);
         }
 
         const int XAxis = 200;
         float[] chartData = new float[XAxis];
         RectangleF[] rects = new RectangleF[XAxis];
 
-        private void UpdateRectangles(float[] chartData, Converter cvter)
+        private void UpdateRectangles(float[] chartData)
         {
             float barWidth = (float)this.Width / chartData.Length;
 
             for (int i = 0; i < chartData.Length; i++)
             {
-                rects[i].Y = cvter._containerHeight - ((chartData[i] / Range.Active.GetMaxAudioFromLast200() * maxYmult) * this.Height);
-                rects[i].Height = ((chartData[i] / Range.Active.GetMaxAudioFromLast200() * maxYmult) * this.Height);
+                rects[i].Y = (this.Height) - ((chartData[i] / Range.Active.GetMaxAudioFromLast200()) * this.Height);
+                rects[i].Height = (chartData[i] / Range.Active.GetMaxAudioFromLast200()) * this.Height;
             }
 
             UpdateStripLineByThreshold();
@@ -123,7 +105,7 @@ namespace AudioAnalyzer
             Invalidate();
         }
 
-        void InitRectangles(Converter cvter)
+        void InitRectangles()
         {
             float barWidth = (float)this.Width / chartData.Length;
 
@@ -131,9 +113,9 @@ namespace AudioAnalyzer
             {
                 rects[i] = new RectangleF(
                     i * barWidth,
-                    cvter._containerHeight - ((chartData[i] / Range.Active.GetMaxAudioFromLast200() * maxYmult) * this.Height),
+                    this.Height - ((chartData[i] / Range.Active.GetMaxAudioFromLast200()) * this.Height),
                     barWidth,
-                    ((chartData[i] / Range.Active.GetMaxAudioFromLast200() * maxYmult) * this.Height));
+                    (chartData[i] / Range.Active.GetMaxAudioFromLast200()) * this.Height);
             }
         }
 
@@ -154,10 +136,8 @@ namespace AudioAnalyzer
         private void ChartForm_SizeChanged(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
-            InitConverter(converterScale);
             InitStripLine();
-            cvt._containerHeight = this.Height - 40;
-            InitRectangles(cvt);
+            InitRectangles();
         }
 
         private void ChartForm_Paint(object sender, PaintEventArgs e)
@@ -169,8 +149,7 @@ namespace AudioAnalyzer
 
         private void ChartForm_MouseClick(object sender, MouseEventArgs e)
         {
-            Range.Active.Threshold = (int)(Range.Active.GetMaxAudioFromLast200() * maxYmult * (this.Height - e.Location.Y) / this.Height);
-            //UpdateStripLine(e.Location.Y);
+            Range.Active.Threshold = (int)(Range.Active.GetMaxAudioFromLast200() * (this.Height - e.Location.Y) / this.Height);
         }
     }
 }
