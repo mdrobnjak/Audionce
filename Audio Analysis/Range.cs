@@ -43,7 +43,7 @@ namespace AudioAnalyzer
 
         static int ActiveIndex;
 
-        static Range[] Ranges = new Range[Count]
+        public static Range[] Ranges = new Range[Count]
         {
                 new Range()
                 {

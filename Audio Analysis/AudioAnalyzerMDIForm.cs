@@ -18,12 +18,12 @@ namespace AudioAnalyzer
         MdiLayout DefaultLayout = MdiLayout.TileHorizontal;
 
         SpectrumForm frmSpectrum;
-        ChartForm frmChart;
+        ChartForm[] frmChart = new ChartForm[Range.Count];
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
 
-        Range[] Ranges;
+        static Range[] Ranges;
 
         public AudioAnalyzerMDIForm()
         {
@@ -37,7 +37,7 @@ namespace AudioAnalyzer
 
             Spectrum.SyncBandsAndFreqs();
 
-            Range.Init(ref this.Ranges);
+            Range.Init(ref Ranges);
             Range.Init(ref FileIO.Ranges);
             Range.Init(ref SettingsForm.Ranges);
             Range.Init(ref Gate.Ranges);
@@ -92,16 +92,19 @@ namespace AudioAnalyzer
 
         void LoadChildForms()
         {
+            for (int i = 0; i < Range.Count; i++)
+            {
+                frmChart[i] = new ChartForm(i);
+                frmChart[i].MdiParent = this;
+                childFormNumber++;
+                frmChart[i].Show();
+            }
+
             frmSpectrum = new SpectrumForm();
             frmSpectrum.MdiParent = this;
             childFormNumber++;
             frmSpectrum.Show();
-
-            frmChart = new ChartForm();
-            frmChart.MdiParent = this;
-            childFormNumber++;
-            frmChart.Show();
-
+            
             frmGate = new GateForm();
             frmGate.MdiParent = this;
             childFormNumber++;
@@ -143,13 +146,12 @@ namespace AudioAnalyzer
                 else
                 {
                     frmGate.Pass[r] = false;
-
-                    //FadeProgressBars(r);
                 }
+
+                Task.Run(() => frmChart[r-1].Draw());
             }
 
             Task.Run(() => frmSpectrum.Draw());
-            Task.Run(() => frmChart.Draw());
             Task.Run(() => frmGate.Draw());
 
             if (AutoSettings.Ranging)
@@ -364,7 +366,7 @@ namespace AudioAnalyzer
 
         private void msThreshold_Click(object sender, EventArgs e)
         {
-            frmChart.AutoThreshold();
+            frmChart[cboRange.SelectedIndex].AutoThreshold();
         }
 
         private void btnRawFFT_CheckStateChanged(object sender, EventArgs e)
@@ -384,7 +386,7 @@ namespace AudioAnalyzer
         
         private void btnAutoSetThreshold_Click(object sender, EventArgs e)
         {
-            frmChart.AutoThreshold();
+            frmChart[cboRange.SelectedIndex].AutoThreshold();
         }
         
         private void btnAutoRange_Click(object sender, EventArgs e)

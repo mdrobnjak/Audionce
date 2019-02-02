@@ -18,8 +18,14 @@ namespace AudioAnalyzer
 
         Rectangle stripLine;
 
-        public ChartForm()
+        int r; //Range Index
+
+        public ChartForm(int r)
         {
+            this.r = r;
+
+            this.BackColor = Range.Ranges[r].Color;
+
             InitializeComponent();
 
             DoubleBuffered = true;
@@ -29,12 +35,12 @@ namespace AudioAnalyzer
 
         void InitStripLine()
         {
-            stripLine = new Rectangle(0, this.Height - Range.Active.Threshold, this.Width, 3);
+            stripLine = new Rectangle(0, this.Height - Range.Ranges[r].Threshold, this.Width, 3);
         }
 
         void UpdateStripLineByThreshold()
         {
-            stripLine.Y = (int)(this.Height - ((Range.Active.Threshold * this.Height) / Range.Active.GetMaxAudioFromLast200()));
+            stripLine.Y = (int)(this.Height - ((Range.Ranges[r].Threshold * this.Height) / (Range.Ranges[r].GetMaxAudioFromLast200() + .01f)));
         }
 
         delegate void DrawCallback();
@@ -96,8 +102,8 @@ namespace AudioAnalyzer
 
             for (int i = 0; i < chartData.Length; i++)
             {
-                rects[i].Y = (this.Height) - ((chartData[i] / Range.Active.GetMaxAudioFromLast200()) * this.Height);
-                rects[i].Height = (chartData[i] / Range.Active.GetMaxAudioFromLast200()) * this.Height;
+                rects[i].Y = (this.Height) - ((chartData[i] / Range.Ranges[r].GetMaxAudioFromLast200()) * this.Height);
+                rects[i].Height = (chartData[i] / Range.Ranges[r].GetMaxAudioFromLast200()) * this.Height;
             }
 
             UpdateStripLineByThreshold();
@@ -113,24 +119,24 @@ namespace AudioAnalyzer
             {
                 rects[i] = new RectangleF(
                     i * barWidth,
-                    this.Height - ((chartData[i] / Range.Active.GetMaxAudioFromLast200()) * this.Height),
+                    this.Height - ((chartData[i] / Range.Ranges[r].GetMaxAudioFromLast200()) * this.Height),
                     barWidth,
-                    (chartData[i] / Range.Active.GetMaxAudioFromLast200()) * this.Height);
+                    (chartData[i] / Range.Ranges[r].GetMaxAudioFromLast200()) * this.Height);
             }
         }
 
         private void DrawChart()
         {
-            if (Range.Active.AutoSettings.DynamicThreshold) AutoThreshold();
+            if (Range.Ranges[r].AutoSettings.DynamicThreshold) AutoThreshold();
 
             Array.Copy(chartData, 1, chartData, 0, chartData.Length - 1);
-            chartData[chartData.Length - 1] = Range.Active.Audio;
+            chartData[chartData.Length - 1] = Range.Ranges[r].Audio;
             PaintChart();
         }
 
         public void AutoThreshold()
         {
-            Range.Active.Threshold = (int)(Range.Active.AutoSettings.ThresholdMultiplier * Range.Active.GetMaxAudioFromLast200());
+            Range.Ranges[r].Threshold = (int)(Range.Ranges[r].AutoSettings.ThresholdMultiplier * Range.Ranges[r].GetMaxAudioFromLast200());
         }
 
         private void ChartForm_SizeChanged(object sender, EventArgs e)
@@ -149,7 +155,7 @@ namespace AudioAnalyzer
 
         private void ChartForm_MouseClick(object sender, MouseEventArgs e)
         {
-            Range.Active.Threshold = (int)(Range.Active.GetMaxAudioFromLast200() * (this.Height - e.Location.Y) / this.Height);
+            Range.Ranges[r].Threshold = (int)(Range.Ranges[r].GetMaxAudioFromLast200() * (this.Height - e.Location.Y) / this.Height);
         }
     }
 }
