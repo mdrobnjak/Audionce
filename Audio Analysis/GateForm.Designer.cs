@@ -35,7 +35,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(184, 212);
-            this.MaximumSize = new System.Drawing.Size(200, 250);
             this.Name = "GateForm";
             this.Text = "Gate";
             this.SizeChanged += new System.EventHandler(this.GateForm_SizeChanged);

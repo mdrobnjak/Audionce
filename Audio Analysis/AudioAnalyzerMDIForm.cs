@@ -53,9 +53,10 @@ namespace AudioAnalyzer
             InitControls();
         }
 
-        private void frmAudioAnalyzerMDI_Load(object sender, EventArgs e)
+        private void frmAudioAnalyzerMDI_SizeChanged(object sender, EventArgs e)
         {
             LayoutMdi(DefaultLayout);
+            CustomMDILayout();
         }
 
         void InitControls()
@@ -104,7 +105,7 @@ namespace AudioAnalyzer
             frmSpectrum.MdiParent = this;
             childFormNumber++;
             frmSpectrum.Show();
-            
+
             frmGate = new GateForm();
             frmGate.MdiParent = this;
             childFormNumber++;
@@ -112,7 +113,7 @@ namespace AudioAnalyzer
         }
 
         DateTime BeforeFFT;
-        
+
         public void timerFFT_Tick(object sender, EventArgs e)
         {
             BeforeFFT = DateTime.Now;
@@ -129,7 +130,7 @@ namespace AudioAnalyzer
 
                 lblDelay.Text = "Delays: Gate-" + (DateTime.Now - BeforeFFT).TotalMilliseconds + "ms";
 
-                if (Gate.Pass(r))
+                if (Gate.TransientPass(r))
                 {
                     Arduino.Trigger(r);
 
@@ -138,7 +139,7 @@ namespace AudioAnalyzer
                 else
                 {
                     frmGate.Pass[r] = false;
-                }                
+                }
             }
 
             Task.Run(() => frmGate.Draw());
@@ -287,7 +288,6 @@ namespace AudioAnalyzer
         private void cboRange_SelectedIndexChanged(object sender, EventArgs e)
         {
             MakeActive(cboRange.SelectedIndex);
-            this.ProcessTabKey(true);
         }
 
         public void MakeActive(int i)
@@ -372,27 +372,27 @@ namespace AudioAnalyzer
         //This needs to call a frmChart Method.
         private void btnDynamicThreshold_CheckedChanged(object sender, EventArgs e)
         {
-            for(int i = 0; i < Range.Count; i++)
+            for (int i = 0; i < Range.Count; i++)
             {
                 Ranges[i].AutoSettings.DynamicThreshold = btnDynamicThreshold.Checked;
             }
         }
-        
+
         private void btnAutoSetThreshold_Click(object sender, EventArgs e)
         {
             frmChart[cboRange.SelectedIndex].AutoThreshold();
         }
-        
+
         private void btnAutoRange_Click(object sender, EventArgs e)
         {
             AutoSettings.BeginRanging();
-        }        
+        }
 
         private async void initializeMachineLearningToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "Initializing Predictor...";
 
-            await Task.Run(()=>ML.InitPredictor());
+            await Task.Run(() => ML.InitPredictor());
 
             lblStatus.Text = "";
 
@@ -412,6 +412,27 @@ namespace AudioAnalyzer
         public int GetTimerInterval()
         {
             return timerFFT.Interval;
+        }
+
+        void CustomMDILayout()
+        {
+            int offset = menuStrip.Height + toolStripMain.Height + toolStripProcessing.Height + statusStrip.Height + 4;
+            int h = ClientSize.Height - offset;
+
+            frmSpectrum.Height = h / 2;
+            frmSpectrum.Width = ClientSize.Width - 4;
+            frmSpectrum.Location = new Point(0, h - frmSpectrum.Height);
+
+            frmGate.Height = h / 2;
+            frmGate.Width = (ClientSize.Width - 4) / (Range.Count + 1);
+            frmGate.Location = new Point(0, h - frmGate.Height - frmSpectrum.Height);
+
+            for (int i = 0; i < Range.Count; i++)
+            {
+                frmChart[i].Height = h / 2;
+                frmChart[i].Width = (ClientSize.Width - 4) / (Range.Count + 1);
+                frmChart[i].Location = new Point((i+1) * frmChart[i].Width, h - frmChart[i].Height - frmSpectrum.Height);
+            }
         }
     }
 }

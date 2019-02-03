@@ -10,6 +10,8 @@ namespace AudioAnalyzer
     {
         public static Range[] Ranges;
 
+        public static bool[] Passed = new bool[Range.Count];
+
         static float tmpRangeAudio;
 
         public static void Filter(int r)
@@ -22,6 +24,27 @@ namespace AudioAnalyzer
                     tmpRangeAudio += FFT.transformedData[i];
                 }
                 Ranges[r].Audio = tmpRangeAudio;
+            }
+        }
+
+        public static bool TransientPass(int r)
+        {
+            if(Ranges[r].Audio > Ranges[r].Threshold)
+            {
+                if (!Passed[r])
+                {
+                    Passed[r] = true;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                Passed[r] = false;
+                return false;
             }
         }
 

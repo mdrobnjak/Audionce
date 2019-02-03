@@ -106,9 +106,9 @@
             this.timerFFT = new System.Windows.Forms.Timer(this.components);
             this.toolStripProcessing = new System.Windows.Forms.ToolStrip();
             this.btnSubtract = new System.Windows.Forms.ToolStripButton();
-            this.cboSubtractor = new System.Windows.Forms.ToolStripComboBox();
-            this.lblWith = new System.Windows.Forms.ToolStripLabel();
             this.cboSubtractFrom = new System.Windows.Forms.ToolStripComboBox();
+            this.lblWith = new System.Windows.Forms.ToolStripLabel();
+            this.cboSubtractor = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.btnDynamicThreshold = new System.Windows.Forms.ToolStripButton();
             this.btnAutoSetThreshold = new System.Windows.Forms.ToolStripButton();
@@ -772,10 +772,10 @@
             this.btnSubtract.Text = "Subtract";
             this.btnSubtract.CheckStateChanged += new System.EventHandler(this.btnSubtract_CheckStateChanged);
             // 
-            // cboSubtractor
+            // cboSubtractFrom
             // 
-            this.cboSubtractor.Name = "cboSubtractor";
-            this.cboSubtractor.Size = new System.Drawing.Size(75, 25);
+            this.cboSubtractFrom.Name = "cboSubtractFrom";
+            this.cboSubtractFrom.Size = new System.Drawing.Size(75, 25);
             // 
             // lblWith
             // 
@@ -783,10 +783,10 @@
             this.lblWith.Size = new System.Drawing.Size(30, 22);
             this.lblWith.Text = "with";
             // 
-            // cboSubtractFrom
+            // cboSubtractor
             // 
-            this.cboSubtractFrom.Name = "cboSubtractFrom";
-            this.cboSubtractFrom.Size = new System.Drawing.Size(75, 25);
+            this.cboSubtractor.Name = "cboSubtractor";
+            this.cboSubtractor.Size = new System.Drawing.Size(75, 25);
             // 
             // toolStripSeparator10
             // 
@@ -843,8 +843,8 @@
             this.Name = "AudioAnalyzerMDIForm";
             this.Text = "Audio Analyzer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAudioAnalyzerMDI_FormClosing);
-            this.Load += new System.EventHandler(this.frmAudioAnalyzerMDI_Load);
-            this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_Load);
+            this.Load += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
+            this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.toolStripMain.ResumeLayout(false);
