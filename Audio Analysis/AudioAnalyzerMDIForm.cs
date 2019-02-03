@@ -118,7 +118,7 @@ namespace AudioAnalyzer
 
         public void timerFFT_Tick(object sender, EventArgs e)
         {
-            BeforeFFT = DateTime.Now;
+            //BeforeFFT = DateTime.Now;
 
             FFT.transformedData = FFT.LogScale(SoundCapture.Update());
 
@@ -130,7 +130,7 @@ namespace AudioAnalyzer
 
                 Ranges[r].AutoSettings.ApplyAutoSettings();
 
-                lblDelay.Text = "Delays: Gate-" + (DateTime.Now - BeforeFFT).TotalMilliseconds + "ms";
+                //lblDelay.Text = "Delays: Gate-" + (DateTime.Now - BeforeFFT).TotalMilliseconds + "ms";
 
                 if (Gate.TransientPass(r))
                 {

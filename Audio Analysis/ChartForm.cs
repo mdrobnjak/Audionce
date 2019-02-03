@@ -40,7 +40,7 @@ namespace AudioAnalyzer
 
         void UpdateStripLineByThreshold()
         {
-            stripLine.Y = (int)(this.Height - ((Range.Ranges[r].Threshold * this.Height) / (Range.Ranges[r].GetMaxAudioFromLast200() + .01f)));
+            stripLine.Y = (int)(this.Height - ((Range.Ranges[r].Threshold * this.Height) / (Range.Ranges[r].GetMaxAudioFromLast200())));
         }
 
         delegate void DrawCallback();
@@ -119,7 +119,7 @@ namespace AudioAnalyzer
             {
                 rects[i] = new RectangleF(
                     i * barWidth,
-                    this.Height - ((chartData[i] / Range.Ranges[r].GetMaxAudioFromLast200()) * this.Height),
+                    this.Height - ((chartData[i] / (Range.Ranges[r].GetMaxAudioFromLast200())) * this.Height),
                     barWidth,
                     (chartData[i] / Range.Ranges[r].GetMaxAudioFromLast200()) * this.Height);
             }

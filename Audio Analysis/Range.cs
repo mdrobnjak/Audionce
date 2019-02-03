@@ -210,7 +210,7 @@ namespace AudioAnalyzer
 
         public float GetMaxAudioFromLast200()
         {
-            return audios.Max();
+            return audios.Max() + 0.1f;
         }
 
         public AutoSettings AutoSettings;
