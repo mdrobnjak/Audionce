@@ -11,7 +11,6 @@ namespace AudioAnalyzer
         public static float[] transformedData;
 
         public static int N_FFT = (int)SoundCapture.FFTSize / 2;
-        public static bool rawFFT = false;
         public static float dropOffScale = .04f;
         public static bool DropOff = false;
 
@@ -210,8 +209,6 @@ namespace AudioAnalyzer
 
         public static float[] LogScale(float[] rawData)
         {
-            chkpoint1 = DateTime.Now;
-            if (rawFFT) return rawData;
             int N2 = N_FFT / 2;
             float[] finalresult = new float[rawData.Length];
             int k = 1, transformedDataIndex = 0;

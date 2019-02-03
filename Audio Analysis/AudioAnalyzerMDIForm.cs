@@ -72,24 +72,7 @@ namespace AudioAnalyzer
             cboSubtractor.SelectedIndex = 1;
             MakeActive(0);
 
-            InitN_FFTdropDowns();
-
             lblStatus.Text = "";
-        }
-
-        void InitN_FFTdropDowns()
-        {
-
-            int intVar;
-
-            foreach (ToolStripMenuItem dropDownItem in nFFTToolStripMenuItem.DropDownItems)
-            {
-                if (Int32.TryParse(dropDownItem.Text, out intVar) && intVar == FFT.N_FFT)
-                {
-                    dropDownItem.Checked = true;
-                    break;
-                }
-            }
         }
 
         void LoadChildForms()
@@ -300,24 +283,6 @@ namespace AudioAnalyzer
             Brushes.InitGateBrushes(i);
         }
 
-        private void nFFTToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            foreach (ToolStripMenuItem dropDownItem in nFFTToolStripMenuItem.DropDownItems)
-            {
-                if (dropDownItem.Checked)
-                {
-                    dropDownItem.Checked = false;
-                }
-            }
-            ((ToolStripMenuItem)(e.ClickedItem)).Checked = true;
-
-            int intVar;
-
-            if (!Int32.TryParse(((ToolStripMenuItem)(e.ClickedItem)).Text, out intVar)) return;
-            FFT.N_FFT = intVar;
-            Spectrum.SyncBandsAndFreqs();
-        }
-
         private void arduinoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmArduino = new ArduinoForm();
@@ -360,13 +325,7 @@ namespace AudioAnalyzer
         {
             frmChart[cboRange.SelectedIndex].AutoThreshold();
         }
-
-        private void btnRawFFT_CheckStateChanged(object sender, EventArgs e)
-        {
-            FFT.rawFFT = btnRawFFT.Checked;
-            Spectrum.SyncBandsAndFreqs();
-        }
-
+        
         //This needs to call a frmChart Method.
         private void btnDynamicThreshold_CheckedChanged(object sender, EventArgs e)
         {

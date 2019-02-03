@@ -19,40 +19,33 @@ namespace AudioAnalyzer
                 return Full ? TotalBands : Range.Active.NumBands;
             }
         }
-        
+
         public static Dictionary<int, int> FreqOfBand;
+
+        static float correctionFactor = 0.8666666f;
 
         public static void SyncBandsAndFreqs()
         {
             FreqOfBand = new Dictionary<int, int>();
-            if (FFT.rawFFT)
+            int k = 1, n = 0;
+            int N2 = FFT.N_FFT / 2;
+            int mappedFreq;
+            for (int i = 0; i < N2; i += k)
             {
-                TotalBands = FFT.N_FFT;
-                for (int i = 0; i < TotalBands; i++)
+                mappedFreq = i * AudioIn.RATE / N2 / 2;
+
+                for (int l = 0; l < FFT.chunk_freq.Length; l++)
                 {
-                    FreqOfBand[i] = i * AudioIn.RATE / FFT.N_FFT;
-                }
-            }
-            else
-            {
-                int k = 1, n = 0;
-                int N2 = FFT.N_FFT / 2;
-                int mappedFreq;
-                for (int i = 0; i < N2; i += k)
-                {
-                    mappedFreq = i * AudioIn.RATE / N2 / 2;
-                    for (int l = 0; l < FFT.chunk_freq.Length; l++)
+                    if (mappedFreq < FFT.chunk_freq[l] || l == FFT.chunk_freq.Length - 1)
                     {
-                        if (mappedFreq < FFT.chunk_freq[l] || l == FFT.chunk_freq.Length - 1)
-                        {
-                            k = FFT.chunk_freq_jump[l];//chunk_freq[l] / chunk_freq[0];
-                            break;
-                        }
+                        k = FFT.chunk_freq_jump[l];//chunk_freq[l] / chunk_freq[0];
+                        break;
                     }
-                    FreqOfBand[n++] = mappedFreq;
                 }
-                TotalBands = n;
+
+                FreqOfBand[n++] = (int)(mappedFreq * correctionFactor);
             }
+            TotalBands = n;
         }
 
         public static int GetBandForFreq(int freqInHz)
