@@ -13,7 +13,7 @@ namespace AudioAnalyzer
 {
     public partial class GateForm : Form
     {
-        Converter cvt;
+        GraphicsConverter cvt;
         int converterScale = 8;
 
         public bool[] Pass;
@@ -34,11 +34,9 @@ namespace AudioAnalyzer
         private void InitConverter(int yMult)
         {
             float maxScaledY = (4096f / FFT.N_FFT) * yMult;
-            cvt = new Converter(0, this.Height - 40, 1, maxScaledY);
+            cvt = new GraphicsConverter(this.Height - 40, maxScaledY);
         }
-
-        #region Draw Spectrum
-
+        
         delegate void DrawCallback();
 
         public void Draw()
@@ -55,41 +53,14 @@ namespace AudioAnalyzer
             {
                 if (Enabled)
                 {
-                    PaintGate();
+                    UpdateRectangles(cvt);
                 }
             }
         }
 
-        bool paintInitiated = false;
-        Font pen;
-        OSD osdPanel = new OSD();
-
-        private void PaintGate()
-        {
-            if (!paintInitiated)
-            {
-                pen = new Font("Arial", 12);
-                osdPanel.ImplementDrawAction(delegate (object[] pars)
-                {
-                    Graphics g = pars[0] as System.Drawing.Graphics;
-                    OSD osd = pars[1] as OSD;
-                    if (osd.Info == null)
-                        return;
-                    int yIndex = 0;
-                    foreach (var key in osd.Info.Keys)
-                    {
-                        g.DrawString(string.Format("{0}:{1}", key, osdPanel.Info[key]), pen, new SolidBrush(Color.Red), new PointF(10, this.Height / 2 + yIndex * 20));
-                        yIndex++;
-                    }
-                });
-                paintInitiated = true;
-            }
-            UpdateRectangles(cvt);
-        }
-
         RectangleF[] rects = new RectangleF[Range.Count];
 
-        private void UpdateRectangles(Converter cvter)
+        private void UpdateRectangles(GraphicsConverter cvter)
         {
             float ratioFreq = (float)this.Size.Width / Range.Count;
 
@@ -102,9 +73,7 @@ namespace AudioAnalyzer
                 rects[i].Height = Levels[i] / 2;
             }
             Invalidate();
-        }
-
-        #endregion
+        }        
 
         private void GateForm_SizeChanged(object sender, EventArgs e)
         {
@@ -124,7 +93,7 @@ namespace AudioAnalyzer
         {
             for (int i = 0; i < rects.Count(); i++)
             {
-                e.Graphics.FillRectangle(Constants.Brushes.gateBrushes[i], rects[i]);
+                e.Graphics.FillRectangle(Brushes.gateBrushes[i], rects[i]);
             }
         }
     }

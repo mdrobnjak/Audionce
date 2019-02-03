@@ -6,6 +6,14 @@ using CSCore.DSP;
 using CSCore.Streams;
 using System;
 
+namespace AudioAnalyzer
+{
+    public static partial class AudioIn
+    {
+        public const int RATE = 48000;
+    }
+}
+
 public static class SoundCapture
 {
     public static int minFreq = 0;
@@ -18,10 +26,10 @@ public static class SoundCapture
     public static float highScaleNotAverage = 3.0f;
 
     static LineSpectrum lineSpectrum;
-
-    static WasapiCapture capture;
+        
+    public static WasapiCapture Capture;
     static WaveWriter writer;
-    static FftSize fftSize;
+    public static FftSize FFTSize = FftSize.Fft8192;
     static float[] fftBuffer;
 
     static SingleBlockNotificationStream notificationSource;
@@ -30,36 +38,33 @@ public static class SoundCapture
 
     static IWaveSource finalSource;
 
-    public static void Start()
+    public static void Init()
     {
 
         // This uses the wasapi api to get any sound data played by the computer
-        capture = new WasapiLoopbackCapture();
+        Capture = new WasapiLoopbackCapture();
 
-        capture.Initialize();
+        Capture.Initialize();
 
         // Get our capture as a source
-        IWaveSource source = new SoundInSource(capture);
+        IWaveSource source = new SoundInSource(Capture);
 
 
         // From https://github.com/filoe/cscore/blob/master/Samples/WinformsVisualization/Form1.cs
-
-        // This is the typical size, you can change this for higher detail as needed
-        fftSize = FftSize.Fft8192;
-
+        
         // Actual fft data
-        fftBuffer = new float[(int)fftSize];
+        fftBuffer = new float[(int)FFTSize];
 
         // These are the actual classes that give you spectrum data
         // The specific vars of lineSpectrum are changed below in the editor so most of these aren't that important here
-        spectrumProvider = new BasicSpectrumProvider(capture.WaveFormat.Channels,
-                    capture.WaveFormat.SampleRate, fftSize);
+        spectrumProvider = new BasicSpectrumProvider(Capture.WaveFormat.Channels,
+                    Capture.WaveFormat.SampleRate, FFTSize);
 
-        lineSpectrum = new LineSpectrum(fftSize)
+        lineSpectrum = new LineSpectrum(FFTSize)
         {
             SpectrumProvider = spectrumProvider,
             UseAverage = useAverage,
-            BarCount = AudioAnalyzer.FFT.N_FFTBuffer,
+            BarCount = AudioAnalyzer.FFT.N_FFT,
             BarSpacing = barSpacing,
             IsXLogScale = logScale,
             ScalingStrategy = ScalingStrategy.Linear
@@ -73,8 +78,8 @@ public static class SoundCapture
         // We use this to request data so it actualy flows through (figuring this out took forever...)
         finalSource = notificationSource.ToWaveSource();
 
-        capture.DataAvailable += Capture_DataAvailable;
-        capture.Start();
+        Capture.DataAvailable += Capture_DataAvailable;
+        Capture.Start();
     }
 
     private static void Capture_DataAvailable(object sender, DataAvailableEventArgs e)
@@ -89,8 +94,8 @@ public static class SoundCapture
 
     public static void OnApplicationQuit()
     {
-        capture.Stop();
-        capture.Dispose();
+        Capture.Stop();
+        Capture.Dispose();
     }    
 
     public static float[] GetFFtData()

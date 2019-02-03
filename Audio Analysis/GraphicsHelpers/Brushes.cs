@@ -5,18 +5,12 @@ using System.Drawing;
 
 namespace AudioAnalyzer
 {
-    class Constants
+    public class Brushes
     {
-        public static float PI = 3.1415926f;
-
-
-        public class Brushes
-        {
-            public static SolidBrush[] rangeBrushes = new SolidBrush[Range.Count];
-            public static SolidBrush[] gateBrushes = new SolidBrush[Range.Count];
-            public static SolidBrush blackBrush;
-            public static SolidBrush redBrush;
-        }
+        public static SolidBrush[] rangeBrushes = new SolidBrush[Range.Count];
+        public static SolidBrush[] gateBrushes = new SolidBrush[Range.Count];
+        public static SolidBrush blackBrush;
+        public static SolidBrush redBrush;
 
         public static void Init()
         {

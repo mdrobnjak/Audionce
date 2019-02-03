@@ -15,7 +15,7 @@ namespace AudioAnalyzer
     {
         public static new bool Enabled = true;
 
-        static Converter cvt;
+        static GraphicsConverter cvt;
         int converterScale = 8;
 
         public SpectrumForm()
@@ -33,11 +33,9 @@ namespace AudioAnalyzer
         private void InitConverter(int yMult)
         {
             float maxScaledY = (4096f / FFT.N_FFT) * yMult;
-            cvt = new Converter(0, this.Height - 40, 1, maxScaledY);
+            cvt = new GraphicsConverter(this.Height - 40, maxScaledY);
         }
-
-        #region Draw Spectrum
-
+        
         delegate void DrawCallback();
 
         public void Draw()
@@ -54,37 +52,9 @@ namespace AudioAnalyzer
             {
                 if (Enabled)
                 {
-                    UpdateSpectrum();
+                    UpdateRectangles(FFT.transformedData, cvt);
                 }
             }
-        }
-
-        bool paintInitiated = false;
-        Font pen;
-        OSD osdPanel = new OSD();
-
-        private void UpdateSpectrum()
-        {
-            if (!paintInitiated)
-            {
-                pen = new Font("Arial", 12);
-                osdPanel.ImplementDrawAction(delegate (object[] pars)
-                {
-                    Graphics g = pars[0] as System.Drawing.Graphics;
-                    OSD osd = pars[1] as OSD;
-                    if (osd.Info == null)
-                        return;
-                    int yIndex = 0;
-                    foreach (var key in osd.Info.Keys)
-                    {
-                        g.DrawString(string.Format("{0}:{1}", key, osdPanel.Info[key]), pen, new SolidBrush(Color.Red), new PointF(10, this.Height / 2 + yIndex * 20));
-                        yIndex++;
-                    }
-
-                });
-                paintInitiated = true;
-            }
-            UpdateRectangles(FFT.transformedData, cvt);
         }
 
         public void InitRectanglesAndBackground()
@@ -108,14 +78,13 @@ namespace AudioAnalyzer
 
         RectangleF[] rects = new RectangleF[1];
 
-        private void UpdateRectangles(float[] data, Converter cvter)
+        private void UpdateRectangles(float[] data, GraphicsConverter cvter)
         {
             if (data == null || data.Length == 0 /*|| AudioIn.sourceData == null*/)
                 return;
 
             float ratioFreq = (float)this.Width / Spectrum.DisplayBands;
-
-            #region Fill Rectangles
+            
             int bandIndexRelative = 0;
             int bandIndexAbsolute = Spectrum.Full ? 0 : Range.Active.NumBandsBefore;
 
@@ -125,13 +94,9 @@ namespace AudioAnalyzer
                 rects[bandIndexRelative].Height = (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
             }
 
-            Invalidate();
-
-            #endregion
+            Invalidate();            
         }
-
-        #endregion
-
+        
         public void IncrementRange()
         {
             Range.Active.LowCutAbsolute++;
@@ -236,15 +201,15 @@ namespace AudioAnalyzer
 
             for (; i < iLow; i++)
             {
-                g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+                g.FillRectangle(Brushes.blackBrush, rects[i]);
             }
             for (; i < iHigh; i++)
             {
-                g.FillRectangle(Constants.Brushes.redBrush, rects[i]);
+                g.FillRectangle(Brushes.redBrush, rects[i]);
             }
             for (; i < Spectrum.DisplayBands; i++)
             {
-                g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+                g.FillRectangle(Brushes.blackBrush, rects[i]);
             }
         }
 
@@ -260,19 +225,19 @@ namespace AudioAnalyzer
                     {
                         if (i >= Range.Ranges[j].LowCutAbsolute && i < Range.Ranges[j].HighCutAbsolute)
                         {
-                            g.FillRectangle(Constants.Brushes.redBrush, rects[i]);
+                            g.FillRectangle(Brushes.redBrush, rects[i]);
                             break;
                         }
                     }
-                    if (j == Range.Count) g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+                    if (j == Range.Count) g.FillRectangle(Brushes.blackBrush, rects[i]);
                 }
                 else
                 {
                     if (i >= Range.Active.LowCutIndex && i < Range.Active.HighCutIndex)
                     {
-                        g.FillRectangle(Constants.Brushes.redBrush, rects[i]);
+                        g.FillRectangle(Brushes.redBrush, rects[i]);
                     }
-                    else g.FillRectangle(Constants.Brushes.blackBrush, rects[i]);
+                    else g.FillRectangle(Brushes.blackBrush, rects[i]);
                 }
             }
         }
@@ -294,7 +259,7 @@ namespace AudioAnalyzer
                         int width = (int)(sizePerBand * Range.Ranges[i].NumBands);
 
                         g.FillRectangle(
-                            Constants.Brushes.rangeBrushes[i],
+                            Brushes.rangeBrushes[i],
                             new Rectangle(
                                 X,
                                 0,
@@ -305,7 +270,7 @@ namespace AudioAnalyzer
                 else
                 {
                     g.FillRectangle(
-                            Constants.Brushes.rangeBrushes[Range.ActiveIndex],
+                            Brushes.rangeBrushes[Range.ActiveIndex],
                             new Rectangle(
                                 0,
                                 0,

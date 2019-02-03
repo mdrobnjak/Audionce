@@ -31,6 +31,8 @@ namespace AudioAnalyzer
             DoubleBuffered = true;
 
             InitStripLine();
+
+            InitRectangles();
         }
 
         void InitStripLine()
@@ -59,38 +61,7 @@ namespace AudioAnalyzer
             {
                 if (Enabled) DrawChart();
             }
-        }
-
-        bool paintInitiated = false;
-        Font pen;
-        OSD osdPanel = new OSD();
-
-        private void PaintChart()
-        {
-            if (!paintInitiated)
-            {
-                pen = new Font("Arial", 12);
-                osdPanel.ImplementDrawAction(delegate (object[] pars)
-                {
-                    Graphics g = pars[0] as System.Drawing.Graphics;
-                    OSD osd = pars[1] as OSD;
-                    if (osd.Info == null)
-                        return;
-                    int yIndex = 0;
-                    foreach (var key in osd.Info.Keys)
-                    {
-                        g.DrawString(string.Format("{0}:{1}", key, osdPanel.Info[key]), pen, new SolidBrush(Color.Red), new PointF(10, this.Height / 2 + yIndex * 20));
-                        yIndex++;
-                    }
-                });
-
-                InitRectangles();
-
-                paintInitiated = true;
-            }
-
-            UpdateRectangles(chartData);
-        }
+        }        
 
         const int XAxis = 200;
         float[] chartData = new float[XAxis];
@@ -131,7 +102,8 @@ namespace AudioAnalyzer
 
             Array.Copy(chartData, 1, chartData, 0, chartData.Length - 1);
             chartData[chartData.Length - 1] = Range.Ranges[r].Audio;
-            PaintChart();
+
+            UpdateRectangles(chartData);
         }
 
         public void AutoThreshold()
@@ -148,9 +120,9 @@ namespace AudioAnalyzer
 
         private void ChartForm_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.FillRectangles(Constants.Brushes.blackBrush, rects);
+            e.Graphics.FillRectangles(Brushes.blackBrush, rects);
 
-            e.Graphics.FillRectangle(Constants.Brushes.redBrush, stripLine);
+            e.Graphics.FillRectangle(Brushes.redBrush, stripLine);
         }
 
         private void ChartForm_MouseClick(object sender, MouseEventArgs e)

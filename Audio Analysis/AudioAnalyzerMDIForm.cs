@@ -32,7 +32,7 @@ namespace AudioAnalyzer
             using (System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess())
                 p.PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
 
-            Constants.Init();
+            Brushes.Init();
             ML.InitPaths();
 
             Spectrum.SyncBandsAndFreqs();
@@ -41,10 +41,9 @@ namespace AudioAnalyzer
             Range.Init(ref FileIO.Ranges);
             Range.Init(ref SettingsForm.Ranges);
             Range.Init(ref Gate.Ranges);
-
-            FFT.InitJaggedArrays();
+            
             //AudioIn.InitSoundCapture();
-            SoundCapture.Start();
+            SoundCapture.Init();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
             Arduino.InitPort();
 
@@ -85,7 +84,7 @@ namespace AudioAnalyzer
 
             foreach (ToolStripMenuItem dropDownItem in nFFTToolStripMenuItem.DropDownItems)
             {
-                if (Int32.TryParse(dropDownItem.Text, out intVar) && intVar == FFT.N_FFTBuffer)
+                if (Int32.TryParse(dropDownItem.Text, out intVar) && intVar == FFT.N_FFT)
                 {
                     dropDownItem.Checked = true;
                     break;
@@ -282,8 +281,6 @@ namespace AudioAnalyzer
 
         private void frmAudioAnalyzerMDI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            AudioIn.Dispose();
-
             SoundCapture.OnApplicationQuit();
         }
 
@@ -300,7 +297,7 @@ namespace AudioAnalyzer
             frmSpectrum.InitRectanglesAndBackground();
 
             cboRange.BackColor = Range.Active.Color;
-            Constants.InitGateBrushes(i);
+            Brushes.InitGateBrushes(i);
         }
 
         private void nFFTToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -317,8 +314,7 @@ namespace AudioAnalyzer
             int intVar;
 
             if (!Int32.TryParse(((ToolStripMenuItem)(e.ClickedItem)).Text, out intVar)) return;
-            FFT.N_FFTBuffer = intVar;
-            FFT.InitJaggedArrays();
+            FFT.N_FFT = intVar;
             Spectrum.SyncBandsAndFreqs();
         }
 

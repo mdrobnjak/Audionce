@@ -5,11 +5,10 @@ using System.Windows.Forms;
 
 namespace AudioAnalyzer
 {
-    public class Converter
+    public class GraphicsConverter
     {
-        public float _xCenter = 0;
+
         public float _containerHeight = 0;
-        private float _maxScaledX = 0;
         private float _maxScaledY = 0;
 
         public float MaxScaledY
@@ -24,11 +23,9 @@ namespace AudioAnalyzer
             }
         }
 
-        public Converter(float xCenter, float yCenter, float maxScaledX, float maxScaledY)
+        public GraphicsConverter(float containerHeight, float maxScaledY)
         {
-            _xCenter = xCenter;
-            _containerHeight = yCenter;
-            _maxScaledX = maxScaledX;
+            _containerHeight = containerHeight;
             _maxScaledY = maxScaledY;
         }   
     }

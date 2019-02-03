@@ -152,12 +152,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arduino.cs" />
-    <Compile Include="AudioIn.cs" />
+    <Compile Include="Obsolete\AudioIn.cs" />
     <Compile Include="AutoSettings.cs" />
-    <Compile Include="Helpers\Constants.cs" />
-    <Compile Include="Helpers\Converter.cs" />
-    <Compile Include="External\BeatDetector.cs" />
-    <Compile Include="Helpers\ComplexNumber.cs" />
+    <Compile Include="GraphicsHelpers\Brushes.cs" />
+    <Compile Include="GraphicsHelpers\GraphicsConverter.cs" />
+    <Compile Include="Obsolete\BeatDetector.cs" />
+    <Compile Include="Obsolete\ComplexNumber.cs" />
     <Compile Include="FFT.cs" />
     <Compile Include="Gate.cs" />
     <Compile Include="FileIO.cs" />
@@ -174,10 +174,6 @@
       <DependentUpon>GateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ML\BandAnalysis.cs" />
-    <Compile Include="OLD frmAudioAnalyzer.cs" />
-    <Compile Include="OLD frmAudioAnalyzer.Designer.cs">
-      <DependentUpon>OLD frmAudioAnalyzer.cs</DependentUpon>
-    </Compile>
     <Compile Include="AudioAnalyzerMDIForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,28 +201,24 @@
     </Compile>
     <Compile Include="ML\BandSelectionData.cs" />
     <Compile Include="ML\MachineLearning.cs" />
-    <Compile Include="Helpers\OSD.cs" />
-    <Compile Include="Helpers\Node.cs" />
+    <Compile Include="Obsolete\OSD.cs" />
+    <Compile Include="Obsolete\Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
-    <Compile Include="Unity Example\BasicSpectrumProvider.cs" />
-    <Compile Include="Unity Example\GradientCalculator.cs" />
-    <Compile Include="Unity Example\ISpectrumProvider.cs" />
-    <Compile Include="Unity Example\LineSpectrum.cs" />
-    <Compile Include="Unity Example\ScalingStrategy.cs" />
-    <Compile Include="Unity Example\SoundCapture.cs" />
-    <Compile Include="Unity Example\SpectrumBase.cs" />
-    <Compile Include="Unity Example\VoicePrint3DSpectrum.cs" />
+    <Compile Include="SoundCapture\BasicSpectrumProvider.cs" />
+    <Compile Include="SoundCapture\GradientCalculator.cs" />
+    <Compile Include="SoundCapture\ISpectrumProvider.cs" />
+    <Compile Include="SoundCapture\LineSpectrum.cs" />
+    <Compile Include="SoundCapture\ScalingStrategy.cs" />
+    <Compile Include="SoundCapture\SoundCapture.cs" />
+    <Compile Include="SoundCapture\SpectrumBase.cs" />
+    <Compile Include="SoundCapture\VoicePrint3DSpectrum.cs" />
     <EmbeddedResource Include="ArduinoForm.resx">
       <DependentUpon>ArduinoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GateForm.resx">
       <DependentUpon>GateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OLD frmAudioAnalyzer.resx">
-      <DependentUpon>OLD frmAudioAnalyzer.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AudioAnalyzerMDIForm.resx">
       <DependentUpon>AudioAnalyzerMDIForm.cs</DependentUpon>
