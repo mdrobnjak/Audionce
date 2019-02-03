@@ -51,11 +51,13 @@ namespace AudioAnalyzer
             LoadChildForms();
 
             InitControls();
+
+            this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
         }
 
         private void frmAudioAnalyzerMDI_SizeChanged(object sender, EventArgs e)
         {
-            LayoutMdi(DefaultLayout);
+            //LayoutMdi(DefaultLayout);
             CustomMDILayout();
         }
 
@@ -432,6 +434,28 @@ namespace AudioAnalyzer
                 frmChart[i].Height = h / 2;
                 frmChart[i].Width = (ClientSize.Width - 4) / (Range.Count + 1);
                 frmChart[i].Location = new Point((i+1) * frmChart[i].Width, h - frmChart[i].Height - frmSpectrum.Height);
+            }
+        }
+
+        private void performanceModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(btnPerformanceMode.Checked)
+            {
+                for(int i = 0; i < Range.Count; i++)
+                {
+                    frmChart[i].WindowState = FormWindowState.Minimized;
+                }
+                frmSpectrum.WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                for (int i = 0; i < Range.Count; i++)
+                {
+                    frmChart[i].WindowState = FormWindowState.Normal;
+                }
+                frmSpectrum.WindowState = FormWindowState.Normal;
+
+                frmAudioAnalyzerMDI_SizeChanged(null,null);
             }
         }
     }
