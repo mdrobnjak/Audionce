@@ -150,7 +150,7 @@ namespace AudioAnalyzer
                 Ranges[1].AutoSettings.SnareSelector();
 
                 //Range3
-                Ranges[2].AutoSettings.HatSelector();
+                //Ranges[2].AutoSettings.HatSelector();
 
                 AutoSettings.Reset();
 
@@ -265,6 +265,7 @@ namespace AudioAnalyzer
         private void frmAudioAnalyzerMDI_FormClosing(object sender, FormClosingEventArgs e)
         {
             SoundCapture.OnApplicationQuit();
+            if (Arduino.Port.IsOpen) Arduino.Port.Close();
         }
 
         private void cboRange_SelectedIndexChanged(object sender, EventArgs e)
@@ -400,17 +401,23 @@ namespace AudioAnalyzer
                 {
                     frmChart[i].WindowState = FormWindowState.Minimized;
                 }
+
                 frmSpectrum.WindowState = FormWindowState.Minimized;
+
+                frmGate.WindowState = FormWindowState.Maximized;
             }
             else
             {
+                frmGate.WindowState = FormWindowState.Normal;
+
                 for (int i = 0; i < Range.Count; i++)
                 {
                     frmChart[i].WindowState = FormWindowState.Normal;
                 }
+
                 frmSpectrum.WindowState = FormWindowState.Normal;
 
-                frmAudioAnalyzerMDI_SizeChanged(null,null);
+                CustomMDILayout();
             }
         }
     }
