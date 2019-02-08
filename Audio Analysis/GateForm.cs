@@ -22,6 +22,7 @@ namespace AudioAnalyzer
         public GateForm()
         {
             InitializeComponent();
+            this.SizeChanged += new System.EventHandler(this.GateForm_SizeChanged);
 
             InitConverter(converterScale);
 

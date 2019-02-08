@@ -21,6 +21,7 @@ namespace AudioAnalyzer
         public SpectrumForm()
         {
             InitializeComponent();
+            this.SizeChanged += new System.EventHandler(this.pnlSpectrum_SizeChanged);
 
             InitRectanglesAndBackground();
 

@@ -27,6 +27,7 @@ namespace AudioAnalyzer
             this.BackColor = Range.Ranges[r].Color;
 
             InitializeComponent();
+            this.SizeChanged += new System.EventHandler(this.ChartForm_SizeChanged);
 
             DoubleBuffered = true;
 

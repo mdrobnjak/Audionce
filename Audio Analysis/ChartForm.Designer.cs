@@ -59,7 +59,6 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ChartForm";
             this.Text = "Chart";
-            this.SizeChanged += new System.EventHandler(this.ChartForm_SizeChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ChartForm_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ChartForm_MouseClick);
             this.menuStrip1.ResumeLayout(false);

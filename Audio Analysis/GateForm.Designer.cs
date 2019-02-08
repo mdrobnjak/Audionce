@@ -37,7 +37,6 @@
             this.ClientSize = new System.Drawing.Size(184, 212);
             this.Name = "GateForm";
             this.Text = "Gate";
-            this.SizeChanged += new System.EventHandler(this.GateForm_SizeChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GateForm_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GateForm_MouseClick);
             this.ResumeLayout(false);

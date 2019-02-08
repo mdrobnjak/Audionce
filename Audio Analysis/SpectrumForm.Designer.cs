@@ -87,7 +87,6 @@
             this.Controls.Add(this.msSpectrum);
             this.Name = "SpectrumForm";
             this.Text = "Spectrum";
-            this.SizeChanged += new System.EventHandler(this.pnlSpectrum_SizeChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.SpectrumForm_Paint);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SpectrumForm_MouseDown);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SpectrumForm_MouseUp);
