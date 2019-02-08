@@ -21,12 +21,12 @@ namespace AudioAnalyzer
 
         public static void SetDimensionToMax()
         {
-            Dimension = 20;
+            Dimension = 10;
         }
 
         public static void DecrementDimension()
         {
-            Dimension -= 0.2;
+            Dimension -= 0.1;
         }
 
         public static void IncrementAngle()
