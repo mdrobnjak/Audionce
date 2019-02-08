@@ -9,19 +9,20 @@ namespace AudioAnalyzer
 {
     static class Program
     {
+        
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            using (AudioAnalyzerMDIForm myapps = new AudioAnalyzerMDIForm())
-            {
-                //Application.EnableVisualStyles();
-                //Application.SetCompatibleTextRenderingDefault(false);
+            //Visuals.Program.Main();
 
-                Application.Run(myapps);
-            }
+            System.Threading.Tasks.Task.Run(()=>VisEnv.Run());
+
+            //vis = new Visual();
+            //Task.Run(()=>vis.Start());
+            using (AudioAnalyzerMDIForm analyzer = new AudioAnalyzerMDIForm())Application.Run(analyzer);
         }        
     }
 }

@@ -114,6 +114,10 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenTK\OpenTK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -214,6 +218,8 @@
     <Compile Include="SoundCapture\SoundCapture.cs" />
     <Compile Include="SoundCapture\SpectrumBase.cs" />
     <Compile Include="SoundCapture\VoicePrint3DSpectrum.cs" />
+    <Compile Include="Visual1.cs" />
+    <Compile Include="VisEnv.cs" />
     <EmbeddedResource Include="ArduinoForm.resx">
       <DependentUpon>ArduinoForm.cs</DependentUpon>
     </EmbeddedResource>

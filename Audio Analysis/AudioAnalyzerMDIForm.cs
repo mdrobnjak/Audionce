@@ -22,6 +22,7 @@ namespace AudioAnalyzer
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
+        //Visual vis;
 
         static Range[] Ranges;
 
@@ -52,6 +53,9 @@ namespace AudioAnalyzer
             InitControls();
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
+
+            //vis = new Visual();
+            //Task.Run(()=>vis.Start());
         }
 
         private void frmAudioAnalyzerMDI_SizeChanged(object sender, EventArgs e)
@@ -116,6 +120,8 @@ namespace AudioAnalyzer
 
                 if (Gate.TransientPass(r))
                 {
+                    if(r==0)VisEnv.Height = 60;
+
                     Arduino.Trigger(r);
 
                     frmGate.Pass[r] = true;

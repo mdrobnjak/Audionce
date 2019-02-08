@@ -62,7 +62,7 @@ namespace AudioAnalyzer
 
         private void UpdateRectangles(GraphicsConverter cvter)
         {
-            float ratioFreq = (float)this.Size.Width / Range.Count;
+            float ratioFreq = (float)this.Width / Range.Count;
 
             for (int i = 0; i < Range.Count; i++)
             {
