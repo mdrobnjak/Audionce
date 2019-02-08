@@ -22,7 +22,6 @@ namespace AudioAnalyzer
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
-        //Visual vis;
 
         static Range[] Ranges;
 
@@ -43,7 +42,6 @@ namespace AudioAnalyzer
             Range.Init(ref SettingsForm.Ranges);
             Range.Init(ref Gate.Ranges);
             
-            //AudioIn.InitSoundCapture();
             SoundCapture.Init();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
             Arduino.InitPort();
@@ -53,14 +51,10 @@ namespace AudioAnalyzer
             InitControls();
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
-
-            //vis = new Visual();
-            //Task.Run(()=>vis.Start());
         }
 
         private void frmAudioAnalyzerMDI_SizeChanged(object sender, EventArgs e)
         {
-            //LayoutMdi(DefaultLayout);
             CustomMDILayout();
         }
 
@@ -120,7 +114,12 @@ namespace AudioAnalyzer
 
                 if (Gate.TransientPass(r))
                 {
-                    if(r==0)VisEnv.Height = 60;
+                    if (r == 0)
+                    {
+                        VisEnv.SetDimensionToMax();
+                        VisEnv.Locked = false;
+                    }
+                    else if (r == 1) VisEnv.Locked = true;
 
                     Arduino.Trigger(r);
 

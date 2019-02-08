@@ -24,10 +24,6 @@ namespace AudioAnalyzer
             InitializeComponent();
             this.SizeChanged += new System.EventHandler(this.GateForm_SizeChanged);
 
-            InitConverter(converterScale);
-
-            DoubleBuffered = true;
-
             Pass = new bool[Range.Count];
             Levels = new float[Range.Count];
         }

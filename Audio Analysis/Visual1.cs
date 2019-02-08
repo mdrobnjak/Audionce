@@ -31,6 +31,7 @@ namespace AudioAnalyzer
         void Loaded(object o, EventArgs e)
         {
             GL.ClearColor(Color.Black);
+            GL.Enable(EnableCap.DepthTest);
         }
 
         void Resize(object o, EventArgs e)
@@ -38,35 +39,71 @@ namespace AudioAnalyzer
             GL.Viewport(0, 0, window.Width, window.Height);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Ortho(-50.0, 50.0, -50.0, 50.0, -1.0, 1.0);
+            Matrix4.CreatePerspectiveFieldOfView((VisEnv.PI / 180) * 45.0f, window.Width / window.Height, 1.0f, 100.0f, out Matrix4 matrix);
+            GL.LoadMatrix(ref matrix);
             GL.MatrixMode(MatrixMode.Modelview);
         }
 
         void RenderFrame(object o, EventArgs e)
         {
             GL.LoadIdentity();
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            GL.Translate(0.0, 0.0, -45.0);
+            GL.Rotate(VisEnv.Angle, 1.0, 0.0, 0.0);
+            GL.Rotate(VisEnv.Angle, 0.0, 0.0, 1.0);
 
             GL.Begin(PrimitiveType.Quads);
 
-            //for()
-            //{
-
-            //}
-
-            GL.Color3(1.0, 0.0, 0.0);
-            GL.Vertex2(30.0, -30.0 + VisEnv.Height);
-            GL.Color3(0.0, 1.0, 0.0);
-            GL.Vertex2(-30.0, -30.0 + VisEnv.Height);
-            GL.Color3(0.0, 0.0, 1.0);
-            GL.Vertex2(-30.0, -30.0);
-            GL.Color3(1.0, 1.0, 1.0);
-            GL.Vertex2(30.0, -30.0);
+            Cube(VisEnv.Dimension);
 
             GL.End();
             window.SwapBuffers();
 
-            VisEnv.Height -= 0.5;
+            VisEnv.DecrementDimension();
+            if(!VisEnv.Locked)VisEnv.IncrementAngle();
+        }
+
+        void Cube(double sideLength)
+        {
+            double val = sideLength / 2;
+
+            GL.Color3(1.0, 1.0, 0.0);
+            GL.Vertex3(-val, val, val);
+            GL.Vertex3(-val, val, -val);
+            GL.Vertex3(-val, -val, -val);
+            GL.Vertex3(-val, -val, val);
+
+            GL.Color3(1.0, 0.0, 1.0);
+            GL.Vertex3(val, val, val);
+            GL.Vertex3(val, val, -val);
+            GL.Vertex3(val, -val, -val);
+            GL.Vertex3(val, -val, val);
+
+            GL.Color3(0.0, 1.0, 1.0);
+            GL.Vertex3(val, -val, val);
+            GL.Vertex3(val, -val, -val);
+            GL.Vertex3(-val, -val, -val);
+            GL.Vertex3(-val, -val, val);
+
+            GL.Color3(1.0, 0.0, 0.0);
+            GL.Vertex3(val, val, val);
+            GL.Vertex3(val, val, -val);
+            GL.Vertex3(-val, val, -val);
+            GL.Vertex3(-val, val, val);
+
+            GL.Color3(0.0, 1.0, 0.0);
+            GL.Vertex3(val, val, -val);
+            GL.Vertex3(val, -val, -val);
+            GL.Vertex3(-val, -val, -val);
+            GL.Vertex3(-val, val, -val);
+
+            GL.Color3(0.0, 0.0, 1.0);
+            GL.Vertex3(val, val, val);
+            GL.Vertex3(val, -val, val);
+            GL.Vertex3(-val, -val, val);
+            GL.Vertex3(-val, val, val);
+
         }
 
     }

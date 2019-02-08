@@ -11,11 +11,34 @@ namespace AudioAnalyzer
 {
     public static class VisEnv
     {
-        public static double Height = 1.0;
+        public const float PI = (float)Math.PI;
+
+        public static double Dimension { get; private set; }
+
+        public static double Angle { get; private set; }
+
+        public static bool Locked;
+
+        public static void SetDimensionToMax()
+        {
+            Dimension = 20;
+        }
+
+        public static void DecrementDimension()
+        {
+            Dimension -= 0.2;
+        }
+
+        public static void IncrementAngle()
+        {
+            Angle += 1;
+        }
 
         public static void Run()
         {
             GameWindow window = new GameWindow(500, 500);
+
+            SetDimensionToMax();
 
             Visual1 vis1 = new Visual1(window);
         }
