@@ -13,17 +13,20 @@ namespace AudioAnalyzer
         public static bool[] Passed = new bool[Range.Count];
 
         static float tmpRangeAudio;
+        static float max = 0;
 
         public static void Filter(int r)
         {
             if (FFT.transformedData.Count() > Ranges[r].HighCutAbsolute)
             {
                 tmpRangeAudio = 0;
+                max = 0;
                 for (int i = Ranges[r].LowCutAbsolute; i < Ranges[r].HighCutAbsolute; i++)
                 {
                     tmpRangeAudio += FFT.transformedData[i];
+                    if (FFT.transformedData[i] > max) max = FFT.transformedData[i];
                 }
-                Ranges[r].Audio = tmpRangeAudio;
+                Ranges[r].Audio = tmpRangeAudio - max;
             }
         }
 
