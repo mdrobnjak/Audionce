@@ -30,6 +30,12 @@ namespace AudioAnalyzer
             }
         }
 
+        public static bool Pass(int r)
+        {
+            if (r == 1) return AllPass(r);
+            else return TransientPass(r);
+        }
+
         public static bool TransientPass(int r)
         {
             if(Ranges[r].Audio > Ranges[r].Threshold)
@@ -51,7 +57,7 @@ namespace AudioAnalyzer
             }
         }
 
-        public static bool Pass(int r)
+        public static bool AllPass(int r)
         {
             return Ranges[r].Audio > Ranges[r].Threshold ? true : false;
         }

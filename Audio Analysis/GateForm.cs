@@ -24,6 +24,10 @@ namespace AudioAnalyzer
             InitializeComponent();
             this.SizeChanged += new System.EventHandler(this.GateForm_SizeChanged);
 
+            this.DoubleBuffered = true;
+
+            SetBackgroundImage();
+
             Pass = new bool[Range.Count];
             Levels = new float[Range.Count];
         }
@@ -33,7 +37,7 @@ namespace AudioAnalyzer
             float maxScaledY = (4096f / FFT.N_FFT) * yMult;
             cvt = new GraphicsConverter(this.Height - 40, maxScaledY);
         }
-        
+
         delegate void DrawCallback();
 
         public void Draw()
@@ -70,12 +74,13 @@ namespace AudioAnalyzer
                 rects[i].Height = Levels[i] / 2;
             }
             Invalidate();
-        }        
+        }
 
         private void GateForm_SizeChanged(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
             InitConverter(converterScale);
+            SetBackgroundImage();
             cvt._containerHeight = this.Height - 40;
         }
 
@@ -91,6 +96,33 @@ namespace AudioAnalyzer
             for (int i = 0; i < rects.Count(); i++)
             {
                 e.Graphics.FillRectangle(Brushes.gateBrushes[i], rects[i]);
+            }
+        }
+
+        Bitmap background;
+
+        void SetBackgroundImage()
+        {
+            int sizePerRange = this.Width / Range.Count;
+
+            background = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(background))
+            {
+                for (int i = 0; i < Range.Count; i++)
+                {
+                    int X = sizePerRange * i;
+                    int width = sizePerRange;
+
+                    g.FillRectangle(
+                        Brushes.rangeBrushes[i],
+                        new Rectangle(
+                            X,
+                            0,
+                            width,
+                            this.Height));
+                }
+
+                this.BackgroundImage = background;
             }
         }
     }

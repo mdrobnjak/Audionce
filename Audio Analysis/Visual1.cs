@@ -46,19 +46,30 @@ namespace AudioAnalyzer
 
         void RenderFrame(object o, EventArgs e)
         {
+            double translate = (cubesPerSide * offset / 2) - (offset / 2);
+
             GL.LoadIdentity();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            GL.Translate(0.0, 0.0, -45.0);
+            //GL.Translate(-40.0, -40.0, 40.0);
             GL.Rotate(VisEnv.Angle, 1.0, 0.0, 0.0);
             GL.Rotate(VisEnv.Angle, 0.0, 0.0, 1.0);
+            GL.Translate(-translate, -translate, translate);
+            //GL.Translate(40.0, 40.0, 40.0);
 
             GL.Begin(PrimitiveType.Quads);
 
-            Cube(VisEnv.Dimension, 10, 10);
-            Cube(VisEnv.Dimension, -10, 10);
-            Cube(VisEnv.Dimension, -10, -10);
-            Cube(VisEnv.Dimension, 10, -10);
+            CubeMatrix();
+
+            //Cube(VisEnv.Dimension, 10, 10, -10);
+            //Cube(VisEnv.Dimension, -10, 10, -10);
+            //Cube(VisEnv.Dimension, -10, -10, -10);
+            //Cube(VisEnv.Dimension, 10, -10, -10);
+
+            //Cube(VisEnv.Dimension, 10, 10, 10);
+            //Cube(VisEnv.Dimension, -10, 10, 10);
+            //Cube(VisEnv.Dimension, -10, -10, 10);
+            //Cube(VisEnv.Dimension, 10, -10, 10);
 
             GL.End();
             window.SwapBuffers();
@@ -67,45 +78,70 @@ namespace AudioAnalyzer
             if(!VisEnv.Locked)VisEnv.IncrementAngle();
         }
 
-        void Cube(double sideLength, double xOffset = 0, double yOffset = 0)
+        int cubesPerSide = 8;
+        int offset = 10;
+
+
+        void CubeMatrix()
+        {
+            int x = 0;
+            int y = 0;
+            int z = 0;
+
+            for (int i = 0; i < cubesPerSide; i++)
+            {
+                x = i * offset;
+                for (int j = 0; j < cubesPerSide; j++)
+                {
+                    y = j * offset;
+                    for(int k = 0; k < cubesPerSide; k++)
+                    {
+                        z = k * -offset;
+                        Cube(VisEnv.Dimension, x, y, z);
+                    }
+                } 
+            }
+        }
+
+        void Cube(double sideLength, double xOffset = 0, double yOffset = 0, double zOffset = 0)
         {
             double val = sideLength / 2;
 
             GL.Color3(1.0, 1.0, 0.0);
-            GL.Vertex3(-val+xOffset, val+yOffset, val);
-            GL.Vertex3(-val+xOffset, val+yOffset, -val);
-            GL.Vertex3(-val+xOffset, -val+yOffset, -val);
-            GL.Vertex3(-val+xOffset, -val+yOffset, val);
+            GL.Vertex3(-val+xOffset, val+yOffset, val + zOffset);
+            GL.Vertex3(-val+xOffset, val+yOffset, -val + zOffset);
+            GL.Vertex3(-val+xOffset, -val+yOffset, -val + zOffset);
+            GL.Vertex3(-val+xOffset, -val+yOffset, val + zOffset);
 
             GL.Color3(1.0, 0.0, 1.0);
-            GL.Vertex3(val+xOffset, val+yOffset, val);
-            GL.Vertex3(val+xOffset, val+yOffset, -val);
-            GL.Vertex3(val+xOffset, -val+yOffset, -val);
-            GL.Vertex3(val+xOffset, -val+yOffset, val);
+            GL.Vertex3(val+xOffset, val+yOffset, val + zOffset);
+            GL.Vertex3(val+xOffset, val+yOffset, -val + zOffset);
+            GL.Vertex3(val+xOffset, -val+yOffset, -val + zOffset);
+            GL.Vertex3(val+xOffset, -val+yOffset, val + zOffset);
 
             GL.Color3(0.0, 1.0, 1.0);
-            GL.Vertex3(val+xOffset, -val+yOffset, val);
-            GL.Vertex3(val+xOffset, -val+yOffset, -val);
-            GL.Vertex3(-val+xOffset, -val+yOffset, -val);
-            GL.Vertex3(-val+xOffset, -val+yOffset, val);
+            GL.Vertex3(val+xOffset, -val+yOffset, val + zOffset);
+            GL.Vertex3(val+xOffset, -val+yOffset, -val + zOffset);
+            GL.Vertex3(-val+xOffset, -val+yOffset, -val + zOffset);
+            GL.Vertex3(-val+xOffset, -val+yOffset, val + zOffset);
 
             GL.Color3(1.0, 0.0, 0.0);
-            GL.Vertex3(val+xOffset, val+yOffset, val);
-            GL.Vertex3(val+xOffset, val+yOffset, -val);
-            GL.Vertex3(-val+xOffset, val+yOffset, -val);
-            GL.Vertex3(-val+xOffset, val+yOffset, val);
+            GL.Vertex3(val+xOffset, val+yOffset, val + zOffset);
+            GL.Vertex3(val+xOffset, val+yOffset, -val + zOffset);
+            GL.Vertex3(-val+xOffset, val+yOffset, -val + zOffset);
+            GL.Vertex3(-val+xOffset, val+yOffset, val + zOffset);
 
             GL.Color3(0.0, 1.0, 0.0);
-            GL.Vertex3(val+xOffset, val+yOffset, -val);
-            GL.Vertex3(val+xOffset, -val+yOffset, -val);
-            GL.Vertex3(-val+xOffset, -val+yOffset, -val);
-            GL.Vertex3(-val+xOffset, val+yOffset, -val);
+            GL.Vertex3(val+xOffset, val+yOffset, -val + zOffset);
+            GL.Vertex3(val+xOffset, -val+yOffset, -val + zOffset);
+            GL.Vertex3(-val+xOffset, -val+yOffset, -val + zOffset);
+            GL.Vertex3(-val+xOffset, val+yOffset, -val + zOffset);
 
             GL.Color3(0.0, 0.0, 1.0);
-            GL.Vertex3(val+xOffset, val+yOffset, val);
-            GL.Vertex3(val+xOffset, -val+yOffset, val);
-            GL.Vertex3(-val+xOffset, -val+yOffset, val);
-            GL.Vertex3(-val+xOffset, val+yOffset, val);
+            GL.Vertex3(val+xOffset, val+yOffset, val + zOffset);
+            GL.Vertex3(val+xOffset, -val+yOffset, val + zOffset);
+            GL.Vertex3(-val+xOffset, -val+yOffset, val + zOffset);
+            GL.Vertex3(-val+xOffset, val+yOffset, val + zOffset);
 
         }
 

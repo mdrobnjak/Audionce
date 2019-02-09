@@ -112,7 +112,7 @@ namespace AudioAnalyzer
 
                 //lblDelay.Text = "Delays: Gate-" + (DateTime.Now - BeforeFFT).TotalMilliseconds + "ms";
 
-                if (Gate.TransientPass(r))
+                if (Gate.Pass(r))
                 {
                     if (r == 0)
                     {

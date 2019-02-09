@@ -14,11 +14,11 @@ namespace AudioAnalyzer
 
         public static void Init()
         {
-            Brushes.blackBrush = new SolidBrush(Color.Black);
-            Brushes.redBrush = new SolidBrush(Color.FromArgb(255, Color.Red));
+            blackBrush = new SolidBrush(Color.Black);
+            redBrush = new SolidBrush(Color.FromArgb(255, Color.Red));
             for (int i = 0; i < Range.Count; i++)
             {
-                Brushes.rangeBrushes[i] = new SolidBrush(Range.Ranges[i].Color);
+                rangeBrushes[i] = new SolidBrush(Range.Ranges[i].Color);
             }
         }
 
@@ -26,8 +26,8 @@ namespace AudioAnalyzer
         {
             for (int i = 0; i < Range.Count; i++)
             {
-                if (i == activeIndex) Brushes.gateBrushes[i] = new SolidBrush(Range.Active.Color);
-                else Brushes.gateBrushes[i] = Brushes.blackBrush;
+                if (i == activeIndex) gateBrushes[i] = redBrush;
+                else gateBrushes[i] = blackBrush;
             }
         }
     }
