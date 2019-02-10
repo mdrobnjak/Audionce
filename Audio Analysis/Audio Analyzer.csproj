@@ -217,8 +217,17 @@
     <Compile Include="SoundCapture\SoundCapture.cs" />
     <Compile Include="SoundCapture\SpectrumBase.cs" />
     <Compile Include="SoundCapture\VoicePrint3DSpectrum.cs" />
-    <Compile Include="Visual1.cs" />
-    <Compile Include="VisEnv.cs" />
+    <Compile Include="Visuals\3DNoiseFlowfield\AudioFlowfield.cs" />
+    <Compile Include="Visuals\3DNoiseFlowfield\FastNoise.cs" />
+    <Compile Include="Visuals\3DNoiseFlowfield\FlowfieldParticle.cs" />
+    <Compile Include="Visuals\3DNoiseFlowfield\NoiseFlowfield.cs" />
+    <Compile Include="Visuals\CubeMatrix.cs" />
+    <Compile Include="Visuals\IVFX.cs" />
+    <Compile Include="Visuals\NoiseFlowField\Cube.cs" />
+    <Compile Include="Visuals\Shader.cs" />
+    <Compile Include="Visuals\VisEnv.cs" />
+    <Compile Include="Visuals\Visuals.cs" />
+    <Compile Include="Visuals\NoiseFlowField\NoiseFlowField.cs" />
     <EmbeddedResource Include="ArduinoForm.resx">
       <DependentUpon>ArduinoForm.cs</DependentUpon>
     </EmbeddedResource>

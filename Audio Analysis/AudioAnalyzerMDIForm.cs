@@ -116,10 +116,9 @@ namespace AudioAnalyzer
                 {
                     if (r == 0)
                     {
-                        VisEnv.SetDimensionToMax();
-                        VisEnv.Locked = false;
+                        Visuals.Preset.Trigger1();
                     }
-                    else if (r == 1) VisEnv.Locked = true;
+                    else if (r == 1) Visuals.Preset.Trigger2();
 
                     Arduino.Trigger(r);
 
