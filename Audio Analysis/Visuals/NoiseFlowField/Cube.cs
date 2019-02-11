@@ -27,7 +27,7 @@ namespace AudioAnalyzer
         {
             val = sideLength / 2;
         }
-
+        
         public void SpecifyVertices()
         {
             GL.Color3(1.0, 1.0, 0.0);

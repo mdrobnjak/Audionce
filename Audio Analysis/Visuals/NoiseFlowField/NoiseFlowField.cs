@@ -11,32 +11,36 @@ namespace AudioAnalyzer
 {
     class NoiseFlowField : IVFX
     {
-        const int length = 80;
+        const int maxCubeLength = 2;
+        double cubeLength = maxCubeLength;
+
+        const int numCells = 8;
+        const float cellSize = 5;
+
+        const double maxMoveSpeed = 2;
+        double moveSpeed = maxMoveSpeed;
 
         FastNoise fastNoise;
         Vector3 gridSize;
         float increment;
         Vector3 offset, offsetSpeed;
         Vector3[,,] flowfieldDirection;
-        float cellSize;
 
         DateTime lastDraw;
         float deltaTime;
-        int numCubes = 10;
+        int numCubes = 20;
         List<Cube> cubes;
         Random r = new Random();
 
         public NoiseFlowField()
         {
-            gridSize.X = gridSize.Y = gridSize.Z = length;
+            gridSize.X = gridSize.Y = gridSize.Z = numCells * cellSize;
 
             cubes = new List<Cube>(numCubes);
-
-            int cubeLength = 5;
             
             for(int i = 0; i < numCubes; i++)
             {
-                cubes.Add(new Cube(cubeLength,
+                cubes.Add(new Cube(cellSize,
                     r.NextDouble() * gridSize.X,
                     r.NextDouble() * gridSize.Y,
                     r.NextDouble() * gridSize.Z));
@@ -72,6 +76,10 @@ namespace AudioAnalyzer
 
                 xOff += increment;
             }
+        }
+
+        void CubeBehavior()
+        {
         }
 
         //void CubeBehavior()
@@ -121,16 +129,23 @@ namespace AudioAnalyzer
 
         public void PreDraw()
         {
-            GL.Translate(-gridSize.X/2, -gridSize.X / 2, -200.0);
+            GL.Translate(-gridSize.X/2, -gridSize.X / 2, -50.0);
         }
 
         public void Draw()
         {
             GL.Begin(PrimitiveType.Quads);
 
-            foreach (Cube cube in cubes)
+            foreach (Cube c in cubes)
             {
-                cube.SpecifyVertices();
+                //Position
+                c.xOffset += moveSpeed;
+                if (c.xOffset > gridSize.X) c.xOffset = 0;
+
+
+
+                c.SetLength(cubeLength);
+                c.SpecifyVertices();
             }
 
             GL.End();
@@ -139,16 +154,18 @@ namespace AudioAnalyzer
         public void PostDraw()
         {
             lastDraw = DateTime.Now;
+            if(moveSpeed > 0.15)moveSpeed /= 1.5;
+            if(cubeLength > 0.1)cubeLength -= 0.03;
         }
 
         public void Trigger1()
         {
-
+            moveSpeed = maxMoveSpeed;
         }
 
         public void Trigger2()
         {
-
+            cubeLength = maxCubeLength;
         }
     }
 }
