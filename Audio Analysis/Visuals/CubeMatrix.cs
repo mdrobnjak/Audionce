@@ -43,8 +43,8 @@ namespace AudioAnalyzer
         public void PreDraw()
         {
             double translate = (cubesPerSide * offset / 2) - (offset / 2);
-            //GL.Rotate(angle, 1.0, 0.0, 0.0);
-            //GL.Rotate(angle, 0.0, 0.0, 1.0);
+            GL.Rotate(angle, 1.0, 0.0, 0.0);
+            GL.Rotate(angle, 0.0, 0.0, 1.0);
             GL.Translate(-translate, -translate, translate);
         }
 
@@ -63,7 +63,7 @@ namespace AudioAnalyzer
 
         public void PostDraw()
         {
-            //length -= 0.05;
+            length -= 0.05;
             if (!locked) angle += 0.5;
         }
         

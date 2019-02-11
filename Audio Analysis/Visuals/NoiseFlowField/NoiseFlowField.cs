@@ -11,6 +11,8 @@ namespace AudioAnalyzer
 {
     class NoiseFlowField : IVFX
     {
+        const int length = 80;
+
         FastNoise fastNoise;
         Vector3 gridSize;
         float increment;
@@ -24,7 +26,7 @@ namespace AudioAnalyzer
         List<Cube> cubes;
         Random r = new Random();
 
-        public NoiseFlowField(float length)
+        public NoiseFlowField()
         {
             gridSize.X = gridSize.Y = gridSize.Z = length;
 
