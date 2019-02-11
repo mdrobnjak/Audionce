@@ -15,7 +15,7 @@ namespace AudioAnalyzer
     {
         public VisEnv(int width, int height, string title) : base(width, height, GraphicsMode.Default, title)
         {
-            Visuals.Preset = new NoiseFlowField();
+
         }
         
         protected override void OnLoad(EventArgs e)

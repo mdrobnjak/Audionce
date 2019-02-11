@@ -11,8 +11,8 @@ namespace AudioAnalyzer
 {
     class NoiseFlowField : IVFX
     {
-        const int maxCubeLength = 2;
-        double cubeLength = maxCubeLength;
+        const double maxCubeScale = 2.0;
+        double cubeScale = maxCubeScale;
 
         const int numCells = 8;
         const float cellSize = 5;
@@ -29,18 +29,18 @@ namespace AudioAnalyzer
         DateTime lastDraw;
         float deltaTime;
         int numCubes = 20;
-        List<Cube> cubes;
+        List<Cube2> cubes;
         Random r = new Random();
 
         public NoiseFlowField()
         {
             gridSize.X = gridSize.Y = gridSize.Z = numCells * cellSize;
 
-            cubes = new List<Cube>(numCubes);
-            
-            for(int i = 0; i < numCubes; i++)
+            cubes = new List<Cube2>(numCubes);
+
+            for (int i = 0; i < numCubes; i++)
             {
-                cubes.Add(new Cube(cellSize,
+                cubes.Add(new Cube2(
                     r.NextDouble() * gridSize.X,
                     r.NextDouble() * gridSize.Y,
                     r.NextDouble() * gridSize.Z));
@@ -52,7 +52,7 @@ namespace AudioAnalyzer
             float deltaTime = (float)((DateTime.Now - lastDraw).TotalMilliseconds * 1000);
 
             offset = new Vector3(offset.X + (offsetSpeed.X * deltaTime), offset.Y + (offsetSpeed.Y * deltaTime), offset.Z + (offsetSpeed.Z * deltaTime));
-            
+
             float noise;
             float xOff = 0f;
             for (int x = 0; x < gridSize.X; x++)
@@ -80,6 +80,7 @@ namespace AudioAnalyzer
 
         void CubeBehavior()
         {
+
         }
 
         //void CubeBehavior()
@@ -129,33 +130,47 @@ namespace AudioAnalyzer
 
         public void PreDraw()
         {
-            GL.Translate(-gridSize.X/2, -gridSize.X / 2, -50.0);
+            GL.Translate(-gridSize.X / 2, -gridSize.X / 2, -100.0); //Create desired perspective by drawing everything far away and centering the grid
         }
+        
+
 
         public void Draw()
         {
-            GL.Begin(PrimitiveType.Quads);
 
-            foreach (Cube c in cubes)
+            foreach (Cube2 c in cubes)
             {
-                //Position
-                c.xOffset += moveSpeed;
-                if (c.xOffset > gridSize.X) c.xOffset = 0;
+                GL.PushMatrix(); //Save current matrix
+
+                c.position.x += moveSpeed; //Increment X Position
+                if (c.position.x > gridSize.X) c.position.x = 0; //Check X Limit
+
+                GL.Translate(c.position.x, c.position.y, c.position.z); //Set origin to center of cube
 
 
+                c.angle.y += r.NextDouble(); //Adjust Angle
 
-                c.SetLength(cubeLength);
-                c.SpecifyVertices();
+                //Execute Rotation
+                GL.Rotate(c.angle.x, 1.0, 0.0, 0.0);
+                GL.Rotate(c.angle.y, 0.0, 1.0, 0.0);
+                GL.Rotate(c.angle.z, 0.0, 0.0, 1.0);
+
+                
+
+                GL.Scale(cubeScale, cubeScale, cubeScale); //Set scale of cube
+                
+                c.Draw(); //Draw cube
+
+                GL.PopMatrix(); //Restore previously saved matrix
             }
 
-            GL.End();
         }
 
         public void PostDraw()
         {
             lastDraw = DateTime.Now;
-            if(moveSpeed > 0.15)moveSpeed /= 1.5;
-            if(cubeLength > 0.1)cubeLength -= 0.03;
+            if (moveSpeed > 0.15) moveSpeed /= 1.5;
+            if (cubeScale > 0.1) cubeScale -= 0.03;
         }
 
         public void Trigger1()
@@ -165,7 +180,7 @@ namespace AudioAnalyzer
 
         public void Trigger2()
         {
-            cubeLength = maxCubeLength;
+            cubeScale = maxCubeScale;
         }
     }
 }

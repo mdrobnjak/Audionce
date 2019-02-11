@@ -50,6 +50,10 @@ namespace AudioAnalyzer
 
             InitControls();
 
+            btnDynamicThreshold.Checked = true;
+            btnDynamicThreshold_CheckedChanged(null,null);
+
+
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
         }
 

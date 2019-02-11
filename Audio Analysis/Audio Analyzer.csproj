@@ -223,7 +223,9 @@
     <Compile Include="Visuals\3DNoiseFlowField from Unity\NoiseFlowfield.cs" />
     <Compile Include="Visuals\CubeMatrix.cs" />
     <Compile Include="Visuals\IVFX.cs" />
+    <Compile Include="Visuals\NoiseFlowField\Cube2.cs" />
     <Compile Include="Visuals\NoiseFlowField\Cube.cs" />
+    <Compile Include="Visuals\Standards\Standards.cs" />
     <Compile Include="Visuals\VisEnv.cs" />
     <Compile Include="Visuals\Visuals.cs" />
     <Compile Include="Visuals\NoiseFlowField\NoiseFlowField.cs" />

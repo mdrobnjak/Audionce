@@ -44,7 +44,7 @@ namespace AudioAnalyzer
         {
             double translate = (cubesPerSide * offset / 2) - (offset / 2);
             GL.Rotate(angle, 1.0, 0.0, 0.0);
-            GL.Rotate(angle, 0.0, 0.0, 1.0);
+            GL.Rotate(angle, 1.0, 0.0, 1.0);
             GL.Translate(-translate, -translate, translate);
         }
 
