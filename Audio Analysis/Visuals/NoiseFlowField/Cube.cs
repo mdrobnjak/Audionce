@@ -10,6 +10,8 @@ namespace AudioAnalyzer
 {
     class Cube
     {
+        double[] color;
+
         double val = 0.5;
 
         public Position position;
@@ -17,44 +19,53 @@ namespace AudioAnalyzer
         
         public Cube(double xPosition, double yPosition, double zPosition)
         {
-            position = new Position(xPosition, yPosition, zPosition);            
+            position = new Position(xPosition, yPosition, zPosition);
+            color = new double[] { Rand.NextDouble(), Rand.NextDouble(), Rand.NextDouble() };
         }
         
         public void Draw()
         {
             GL.Begin(PrimitiveType.Quads);
 
-            GL.Color3(1.0, 1.0, 0.0);
+            GL.Color3(color);
+
+            //left
+            GL.Normal3(-1.0,0.0,0.0);
             GL.Vertex3(-val, val, val);
             GL.Vertex3(-val, val, -val);
             GL.Vertex3(-val, -val, -val);
             GL.Vertex3(-val, -val, val);
 
-            GL.Color3(1.0, 0.0, 1.0);
+            //right
+            GL.Normal3(1.0, 0.0, 0.0);
             GL.Vertex3(val, val, val);
             GL.Vertex3(val, val, -val);
             GL.Vertex3(val, -val, -val);
             GL.Vertex3(val, -val, val);
 
-            GL.Color3(0.0, 1.0, 1.0);
+            //bottom
+            GL.Normal3(0.0, -1.0, 0.0);
             GL.Vertex3(val, -val, val);
             GL.Vertex3(val, -val, -val);
             GL.Vertex3(-val, -val, -val);
             GL.Vertex3(-val, -val, val);
 
-            GL.Color3(1.0, 0.0, 0.0);
+            //top
+            GL.Normal3(0.0, 1.0, 0.0);
             GL.Vertex3(val, val, val);
             GL.Vertex3(val, val, -val);
             GL.Vertex3(-val, val, -val);
             GL.Vertex3(-val, val, val);
 
-            GL.Color3(0.0, 1.0, 0.0);
+            //back
+            GL.Normal3(0.0, 0.0, -1.0);
             GL.Vertex3(val, val, -val);
             GL.Vertex3(val, -val, -val);
             GL.Vertex3(-val, -val, -val);
             GL.Vertex3(-val, val, -val);
 
-            GL.Color3(0.0, 0.0, 1.0);
+            //front
+            GL.Normal3(0.0, 0.0, 1.0);
             GL.Vertex3(val, val, val);
             GL.Vertex3(val, -val, val);
             GL.Vertex3(-val, -val, val);

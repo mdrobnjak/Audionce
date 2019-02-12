@@ -41,7 +41,7 @@ namespace AudioAnalyzer
             Range.Init(ref FileIO.Ranges);
             Range.Init(ref SettingsForm.Ranges);
             Range.Init(ref Gate.Ranges);
-            
+
             SoundCapture.Init();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
             Arduino.InitPort();
@@ -49,10 +49,6 @@ namespace AudioAnalyzer
             LoadChildForms();
 
             InitControls();
-
-            btnDynamicThreshold.Checked = true;
-            btnDynamicThreshold_CheckedChanged(null,null);
-
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
         }
@@ -75,6 +71,9 @@ namespace AudioAnalyzer
             MakeActive(0);
 
             lblStatus.Text = "";
+
+            //btnDynamicThreshold.Checked = true;
+            //btnDynamicThreshold_CheckedChanged(null, null);
         }
 
         void LoadChildForms()
@@ -195,6 +194,22 @@ namespace AudioAnalyzer
                 lblPreset.Text = FileName.Split('\\').Last().Split('.')[0];
             }
 
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string FileName = lblPreset.Text;
+
+                FileIO.WriteConfig(FileIO.Path + FileName + ".txt");
+
+                MessageBox.Show("'" + lblPreset.Text + "' saved.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while saving: " + ex.ToString());
+            }
         }
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -334,7 +349,7 @@ namespace AudioAnalyzer
         {
             frmChart[cboRange.SelectedIndex].AutoThreshold();
         }
-        
+
         //This needs to call a frmChart Method.
         private void btnDynamicThreshold_CheckedChanged(object sender, EventArgs e)
         {
@@ -397,15 +412,15 @@ namespace AudioAnalyzer
             {
                 frmChart[i].Height = h / 2;
                 frmChart[i].Width = (ClientSize.Width - 4) / (Range.Count + 1);
-                frmChart[i].Location = new Point((i+1) * frmChart[i].Width, h - frmChart[i].Height - frmSpectrum.Height);
+                frmChart[i].Location = new Point((i + 1) * frmChart[i].Width, h - frmChart[i].Height - frmSpectrum.Height);
             }
         }
 
         private void performanceModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(btnPerformanceMode.Checked)
+            if (btnPerformanceMode.Checked)
             {
-                for(int i = 0; i < Range.Count; i++)
+                for (int i = 0; i < Range.Count; i++)
                 {
                     frmChart[i].WindowState = FormWindowState.Minimized;
                 }

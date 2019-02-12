@@ -29,4 +29,24 @@ namespace AudioAnalyzer
             this.z = z;
         }
     }
+
+    public static class Rand
+    {
+        private static Random r = new Random();
+
+        public static double NextDouble()
+        {
+            return r.NextDouble();
+        }
+
+        public static int NextInt()
+        {
+            return r.Next();
+        }
+
+        public static double NextDoubleNeg()
+        {
+            return r.Next() % 2 == 0 ? r.NextDouble() : -r.NextDouble();
+        }
+    }
 }

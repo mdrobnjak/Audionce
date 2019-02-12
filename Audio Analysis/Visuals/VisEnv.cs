@@ -17,15 +17,32 @@ namespace AudioAnalyzer
         {
 
         }
-        
+
         protected override void OnLoad(EventArgs e)
         {
-            GL.ClearColor(Color.CornflowerBlue);
+            GL.ClearColor(Color.Black);
 
             GL.Enable(EnableCap.DepthTest);
-            
-            base.OnLoad(e);
 
+            DoLighting(1.0f);
+
+            base.OnLoad(e);
+        }
+
+        public static void DoLighting(float brightness)
+        {
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.ColorMaterial);
+            float[] lightPosition = { 0, 0, 100 };
+            float[] lightColor = { 1.0f, 1.0f, 1.0f };
+            for (int i = 0; i < 3; i++)
+            {
+                lightColor[i] *= brightness;
+            }
+            GL.Light(LightName.Light0, LightParameter.Position, lightPosition);
+            GL.Light(LightName.Light0, LightParameter.Diffuse, lightColor);
+            GL.Light(LightName.Light0, LightParameter.Ambient, lightColor);
+            GL.Enable(EnableCap.Light0);
         }
 
         protected override void OnResize(EventArgs e)
@@ -43,7 +60,7 @@ namespace AudioAnalyzer
             GL.LoadIdentity();
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            
+
             Visuals.Preset.PreDraw();
 
             Visuals.Preset.Draw();
@@ -66,13 +83,13 @@ namespace AudioAnalyzer
 
             base.OnUpdateFrame(e);
         }
-        
+
         protected override void OnUnload(EventArgs e)
         {
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
-            
+
             base.OnUnload(e);
         }
     }

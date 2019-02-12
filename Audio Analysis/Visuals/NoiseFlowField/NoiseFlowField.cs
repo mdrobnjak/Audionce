@@ -11,7 +11,10 @@ namespace AudioAnalyzer
 {
     class NoiseFlowField : IVFX
     {
-        const double maxCubeScale = 2.0;
+        const float maxBrightness = 1.0f;
+        float brightness = maxBrightness;
+
+        const double maxCubeScale = 3.0;
         double cubeScale = maxCubeScale;
 
         const int numCells = 8;
@@ -28,9 +31,8 @@ namespace AudioAnalyzer
 
         DateTime lastDraw;
         float deltaTime;
-        int numCubes = 100;
+        int numCubes = 30;
         List<Cube> cubes;
-        Random r = new Random();
 
         public NoiseFlowField()
         {
@@ -41,9 +43,9 @@ namespace AudioAnalyzer
             for (int i = 0; i < numCubes; i++)
             {
                 cubes.Add(new Cube(
-                    r.NextDouble() * gridSize.X,
-                    r.NextDouble() * gridSize.Y,
-                    r.NextDouble() * gridSize.Z));
+                    Rand.NextDouble() * gridSize.X,
+                    Rand.NextDouble() * gridSize.Y,
+                    Rand.NextDouble() * gridSize.Z));
             }
         }
 
@@ -77,7 +79,7 @@ namespace AudioAnalyzer
                 xOff += increment;
             }
         }
-        
+
         void CubeBehavior()
         {
             foreach (Cube c in cubes)
@@ -125,9 +127,11 @@ namespace AudioAnalyzer
 
         public void PreDraw()
         {
+            VisEnv.DoLighting(brightness);
+            
             GL.Translate(-gridSize.X / 2, -gridSize.X / 2, -50.0); //Create desired perspective by drawing everything far away and centering the grid
         }
-        
+
 
 
         public void Draw()
@@ -137,23 +141,29 @@ namespace AudioAnalyzer
             {
                 GL.PushMatrix(); //Save current matrix
 
+
+                if (cubeScale > maxCubeScale / 2)
+                {
+                    c.position.x += Rand.NextDoubleNeg() / 4;
+                }
+
                 c.position.y -= moveSpeed; //Increment X Position
                 if (c.position.y < 0) c.position.y = gridSize.Y; //Check X Limit
 
                 GL.Translate(c.position.x, c.position.y, c.position.z); //Set origin to center of cube
 
 
-                c.angle.y += r.NextDouble(); //Adjust Angle
+                c.angle.y += Rand.NextDouble(); //Adjust Angle
 
                 //Execute Rotation
                 GL.Rotate(c.angle.x, 1.0, 0.0, 0.0);
                 GL.Rotate(c.angle.y, 0.0, 1.0, 0.0);
                 GL.Rotate(c.angle.z, 0.0, 0.0, 1.0);
 
-                
+
 
                 GL.Scale(cubeScale, cubeScale, cubeScale); //Set scale of cube
-                
+
                 c.Draw(); //Draw cube
 
                 GL.PopMatrix(); //Restore previously saved matrix
@@ -165,12 +175,14 @@ namespace AudioAnalyzer
         {
             lastDraw = DateTime.Now;
             if (moveSpeed > 0.15) moveSpeed /= 1.5;
-            if (cubeScale > 0.1) cubeScale -= 0.03;
+            if (cubeScale > 0.1) cubeScale -= 0.05;
+            if (brightness > 0.05f) brightness -= 0.05f/3;
         }
 
         public void Trigger1()
         {
             cubeScale = maxCubeScale;
+            brightness = maxBrightness;
         }
 
         public void Trigger2()
