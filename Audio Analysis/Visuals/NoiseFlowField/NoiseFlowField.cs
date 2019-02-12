@@ -28,7 +28,7 @@ namespace AudioAnalyzer
 
         DateTime lastDraw;
         float deltaTime;
-        int numCubes = 50;
+        int numCubes = 100;
         List<Cube> cubes;
         Random r = new Random();
 

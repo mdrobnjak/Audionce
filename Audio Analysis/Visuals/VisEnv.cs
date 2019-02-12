@@ -33,7 +33,7 @@ namespace AudioAnalyzer
             GL.Viewport(0, 0, base.Width, base.Height);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            Matrix4.CreatePerspectiveFieldOfView((Visuals.PI / 180) * 45.0f, base.Width / base.Height, 1.0f, 1000.0f, out Matrix4 matrix);
+            Matrix4.CreatePerspectiveFieldOfView((Visuals.PI / 180) * 45.0f, (float)base.Width / base.Height, 1.0f, 1000.0f, out Matrix4 matrix);
             GL.LoadMatrix(ref matrix);
             GL.MatrixMode(MatrixMode.Modelview);
         }

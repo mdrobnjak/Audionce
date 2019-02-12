@@ -13,7 +13,7 @@ namespace AudioAnalyzer
     {
         public const float PI = (float)Math.PI;
 
-        public static IVFX Preset = new CubeMatrix();
+        public static IVFX Preset = new NoiseFlowField();
 
         public static void Run()
         {
@@ -21,7 +21,6 @@ namespace AudioAnalyzer
             {
                 vis.Run(60.0);
             }
-
         }
     }
 }
