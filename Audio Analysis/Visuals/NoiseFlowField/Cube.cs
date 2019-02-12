@@ -12,7 +12,8 @@ namespace AudioAnalyzer
     {
         double[] color;
 
-        double val = 0.5;
+        const double val = 0.5;
+        double scale = 1;
 
         public Position position;
         public Angle angle = new Angle(0.0, 0.0, 0.0);
@@ -22,15 +23,23 @@ namespace AudioAnalyzer
             position = new Position(xPosition, yPosition, zPosition);
             color = new double[] { Rand.NextDouble(), Rand.NextDouble(), Rand.NextDouble() };
         }
-        
-        public void Draw()
+
+        void ApplyScale()
         {
-            GL.Begin(PrimitiveType.Quads);
+            GL.Scale(scale, scale, scale);
+        }
 
-            GL.Color3(color);
+        void ApplyRotation()
+        {
+            GL.Rotate(this.angle.x, 1.0, 0.0, 0.0);
+            GL.Rotate(this.angle.y, 0.0, 1.0, 0.0);
+            GL.Rotate(this.angle.z, 0.0, 0.0, 1.0);
+        }
 
+        void SpecifyVertices()
+        {
             //left
-            GL.Normal3(-1.0,0.0,0.0);
+            GL.Normal3(-1.0, 0.0, 0.0);
             GL.Vertex3(-val, val, val);
             GL.Vertex3(-val, val, -val);
             GL.Vertex3(-val, -val, -val);
@@ -70,8 +79,47 @@ namespace AudioAnalyzer
             GL.Vertex3(val, -val, val);
             GL.Vertex3(-val, -val, val);
             GL.Vertex3(-val, val, val);
+        }
+        
+        public void Draw()
+        {
+            ApplyRotation();
+
+            ApplyScale();
+
+            GL.Begin(PrimitiveType.Quads);
+
+            GL.Color3(color);
+
+            SpecifyVertices();
 
             GL.End();
+        }
+
+        public void SetScale(double scale)
+        {
+            this.scale = scale;
+        }
+
+        public void Jitter(double amount)
+        {
+            this.position.x += amount;
+            this.position.z += amount;
+        }
+
+        public void Pitch(double amount)
+        {
+            this.angle.y += amount;
+        }
+
+        public void TranslateTo()
+        {
+            GL.Translate(this.position.x, this.position.y, this.position.z);
+        }
+
+        public void Fall(double amount)
+        {
+            this.position.y -= amount;
         }
 
 

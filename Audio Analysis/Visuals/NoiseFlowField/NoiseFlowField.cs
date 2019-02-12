@@ -141,30 +141,21 @@ namespace AudioAnalyzer
             {
                 GL.PushMatrix(); //Save current matrix
 
-
                 if (cubeScale > maxCubeScale / 2)
                 {
-                    c.position.x += Rand.NextDoubleNeg() / 4;
+                    c.Jitter(Rand.NextDoubleNeg() / 4);
                 }
 
-                c.position.y -= moveSpeed; //Increment X Position
-                if (c.position.y < 0) c.position.y = gridSize.Y; //Check X Limit
+                c.Fall(moveSpeed);
+                if (c.position.y < 0) c.position.y = gridSize.Y;
 
-                GL.Translate(c.position.x, c.position.y, c.position.z); //Set origin to center of cube
+                c.TranslateTo();
+                
+                c.Pitch(Rand.NextDouble());
 
+                c.SetScale(cubeScale);
 
-                c.angle.y += Rand.NextDouble(); //Adjust Angle
-
-                //Execute Rotation
-                GL.Rotate(c.angle.x, 1.0, 0.0, 0.0);
-                GL.Rotate(c.angle.y, 0.0, 1.0, 0.0);
-                GL.Rotate(c.angle.z, 0.0, 0.0, 1.0);
-
-
-
-                GL.Scale(cubeScale, cubeScale, cubeScale); //Set scale of cube
-
-                c.Draw(); //Draw cube
+                c.Draw();
 
                 GL.PopMatrix(); //Restore previously saved matrix
             }
