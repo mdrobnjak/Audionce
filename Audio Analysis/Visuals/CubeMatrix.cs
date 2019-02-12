@@ -19,7 +19,7 @@ namespace AudioAnalyzer
         double angle = 0;
         bool locked;
 
-        List<Cube2> cubes = new List<Cube2>();
+        List<Cube> cubes = new List<Cube>();
 
         public CubeMatrix()
         {
@@ -36,7 +36,7 @@ namespace AudioAnalyzer
                     for (int k = 0; k < cubesPerSide; k++)
                     {
                         z = k * -spacePerCube;
-                        cubes.Add(new Cube2(x, y, z));
+                        cubes.Add(new Cube(x, y, z));
                     }
                 }
             }
@@ -52,7 +52,7 @@ namespace AudioAnalyzer
 
         public void Draw()
         {
-            foreach (Cube2 c in cubes)
+            foreach (Cube c in cubes)
             {
                 GL.PushMatrix(); //Save current matrix
                 

@@ -29,18 +29,18 @@ namespace AudioAnalyzer
         DateTime lastDraw;
         float deltaTime;
         int numCubes = 50;
-        List<Cube2> cubes;
+        List<Cube> cubes;
         Random r = new Random();
 
         public NoiseFlowField()
         {
             gridSize.X = gridSize.Y = gridSize.Z = numCells * cellSize;
 
-            cubes = new List<Cube2>(numCubes);
+            cubes = new List<Cube>(numCubes);
 
             for (int i = 0; i < numCubes; i++)
             {
-                cubes.Add(new Cube2(
+                cubes.Add(new Cube(
                     r.NextDouble() * gridSize.X,
                     r.NextDouble() * gridSize.Y,
                     r.NextDouble() * gridSize.Z));
@@ -80,7 +80,7 @@ namespace AudioAnalyzer
         
         void CubeBehavior()
         {
-            foreach (Cube2 c in cubes)
+            foreach (Cube c in cubes)
             {
                 ////check edges - x
                 //if (c.transform.position.x > this.transform.position.x + (gridSize.X * cellSize))
@@ -133,7 +133,7 @@ namespace AudioAnalyzer
         public void Draw()
         {
 
-            foreach (Cube2 c in cubes)
+            foreach (Cube c in cubes)
             {
                 GL.PushMatrix(); //Save current matrix
 

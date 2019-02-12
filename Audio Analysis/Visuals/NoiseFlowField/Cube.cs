@@ -10,61 +10,57 @@ namespace AudioAnalyzer
 {
     class Cube
     {
-        double val;
-        public double xOffset, yOffset, zOffset;
-        double xAngle, yAngle, zAngle;
+        double val = 0.5;
 
-
-        public Cube(double sideLength, double xOffset, double yOffset, double zOffset)
+        public Position position;
+        public Angle angle = new Angle(0.0, 0.0, 0.0);
+        
+        public Cube(double xPosition, double yPosition, double zPosition)
         {
-            val = sideLength / 2;
-            this.xOffset = xOffset;
-            this.yOffset = yOffset;
-            this.zOffset = zOffset;
-        }
-
-        public void SetLength(double sideLength)
-        {
-            val = sideLength / 2;
+            position = new Position(xPosition, yPosition, zPosition);            
         }
         
-        public void SpecifyVertices()
+        public void Draw()
         {
+            GL.Begin(PrimitiveType.Quads);
+
             GL.Color3(1.0, 1.0, 0.0);
-            GL.Vertex3(-val + xOffset, val + yOffset, val + zOffset);
-            GL.Vertex3(-val + xOffset, val + yOffset, -val + zOffset);
-            GL.Vertex3(-val + xOffset, -val + yOffset, -val + zOffset);
-            GL.Vertex3(-val + xOffset, -val + yOffset, val + zOffset);
+            GL.Vertex3(-val, val, val);
+            GL.Vertex3(-val, val, -val);
+            GL.Vertex3(-val, -val, -val);
+            GL.Vertex3(-val, -val, val);
 
             GL.Color3(1.0, 0.0, 1.0);
-            GL.Vertex3(val + xOffset, val + yOffset, val + zOffset);
-            GL.Vertex3(val + xOffset, val + yOffset, -val + zOffset);
-            GL.Vertex3(val + xOffset, -val + yOffset, -val + zOffset);
-            GL.Vertex3(val + xOffset, -val + yOffset, val + zOffset);
+            GL.Vertex3(val, val, val);
+            GL.Vertex3(val, val, -val);
+            GL.Vertex3(val, -val, -val);
+            GL.Vertex3(val, -val, val);
 
             GL.Color3(0.0, 1.0, 1.0);
-            GL.Vertex3(val + xOffset, -val + yOffset, val + zOffset);
-            GL.Vertex3(val + xOffset, -val + yOffset, -val + zOffset);
-            GL.Vertex3(-val + xOffset, -val + yOffset, -val + zOffset);
-            GL.Vertex3(-val + xOffset, -val + yOffset, val + zOffset);
+            GL.Vertex3(val, -val, val);
+            GL.Vertex3(val, -val, -val);
+            GL.Vertex3(-val, -val, -val);
+            GL.Vertex3(-val, -val, val);
 
             GL.Color3(1.0, 0.0, 0.0);
-            GL.Vertex3(val + xOffset, val + yOffset, val + zOffset);
-            GL.Vertex3(val + xOffset, val + yOffset, -val + zOffset);
-            GL.Vertex3(-val + xOffset, val + yOffset, -val + zOffset);
-            GL.Vertex3(-val + xOffset, val + yOffset, val + zOffset);
+            GL.Vertex3(val, val, val);
+            GL.Vertex3(val, val, -val);
+            GL.Vertex3(-val, val, -val);
+            GL.Vertex3(-val, val, val);
 
             GL.Color3(0.0, 1.0, 0.0);
-            GL.Vertex3(val + xOffset, val + yOffset, -val + zOffset);
-            GL.Vertex3(val + xOffset, -val + yOffset, -val + zOffset);
-            GL.Vertex3(-val + xOffset, -val + yOffset, -val + zOffset);
-            GL.Vertex3(-val + xOffset, val + yOffset, -val + zOffset);
+            GL.Vertex3(val, val, -val);
+            GL.Vertex3(val, -val, -val);
+            GL.Vertex3(-val, -val, -val);
+            GL.Vertex3(-val, val, -val);
 
             GL.Color3(0.0, 0.0, 1.0);
-            GL.Vertex3(val + xOffset, val + yOffset, val + zOffset);
-            GL.Vertex3(val + xOffset, -val + yOffset, val + zOffset);
-            GL.Vertex3(-val + xOffset, -val + yOffset, val + zOffset);
-            GL.Vertex3(-val + xOffset, val + yOffset, val + zOffset);
+            GL.Vertex3(val, val, val);
+            GL.Vertex3(val, -val, val);
+            GL.Vertex3(-val, -val, val);
+            GL.Vertex3(-val, val, val);
+
+            GL.End();
         }
 
 
