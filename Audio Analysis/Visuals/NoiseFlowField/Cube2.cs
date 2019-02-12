@@ -14,8 +14,7 @@ namespace AudioAnalyzer
 
         public Position position;
         public Angle angle = new Angle(0.0, 0.0, 0.0);
-
-
+        
         public Cube2(double xPosition, double yPosition, double zPosition)
         {
             position = new Position(xPosition, yPosition, zPosition);            

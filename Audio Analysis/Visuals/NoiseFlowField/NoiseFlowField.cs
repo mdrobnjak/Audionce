@@ -17,7 +17,7 @@ namespace AudioAnalyzer
         const int numCells = 8;
         const float cellSize = 5;
 
-        const double maxMoveSpeed = 2;
+        const double maxMoveSpeed = 1;
         double moveSpeed = maxMoveSpeed;
 
         FastNoise fastNoise;
@@ -28,7 +28,7 @@ namespace AudioAnalyzer
 
         DateTime lastDraw;
         float deltaTime;
-        int numCubes = 20;
+        int numCubes = 50;
         List<Cube2> cubes;
         Random r = new Random();
 
@@ -77,60 +77,55 @@ namespace AudioAnalyzer
                 xOff += increment;
             }
         }
-
+        
         void CubeBehavior()
         {
+            foreach (Cube2 c in cubes)
+            {
+                ////check edges - x
+                //if (c.transform.position.x > this.transform.position.x + (gridSize.X * cellSize))
+                //{
+                //    c.transform.position = new Vector3(this.transform.position.x, c.transform.position.y, c.transform.position.z);
+                //}
+                //if (c.transform.position.x < this.transform.position.x)
+                //{
+                //    c.transform.position = new Vector3(this.transform.position.x + (gridSize.x * cellSize), c.transform.position.y, c.transform.position.z);
+                //}
+                //// y
+                //if (c.transform.position.y > this.transform.position.y + (gridSize.Y * cellSize))
+                //{
+                //    c.transform.position = new Vector3(c.transform.position.x, this.transform.position.y, c.transform.position.z);
+                //}
+                //if (c.transform.position.y < this.transform.position.y)
+                //{
+                //    c.transform.position = new Vector3(c.transform.position.x, this.transform.position.y + (gridSize.y * cellSize), c.transform.position.z);
+                //}
+                //// z
+                //if (c.transform.position.z > this.transform.position.z + (gridSize.Z * cellSize))
+                //{
+                //    c.transform.position = new Vector3(c.transform.position.x, c.transform.position.y, this.transform.position.z);
+                //}
+                //if (c.transform.position.z < this.transform.position.z)
+                //{
+                //    c.transform.position = new Vector3(c.transform.position.x, c.transform.position.y, this.transform.position.z + (gridSize.z * cellSize));
+                //}
 
+                Vector3 particlePos = new Vector3(
+                    (float)Math.Floor((c.position.x) / cellSize),
+                    (float)Math.Floor((c.position.y) / cellSize),
+                    (float)Math.Floor((c.position.z) / cellSize)
+                    );
+
+                //c.ApplyRotation(flowfieldDirection[particlePos.X, particlePos.Y, particlePos.Z], particleRotateSpeed);
+                //c.moveSpeed = particleMoveSpeed;
+                //p.transform.localScale = new Vector3(particleScale,particleScale,particleScale);
+            }
         }
-
-        //void CubeBehavior()
-        //{
-        //    foreach (Cube c in cubes)
-        //    {
-        //        ////check edges - x
-        //        //if (c.transform.position.x > this.transform.position.x + (gridSize.X * cellSize))
-        //        //{
-        //        //    c.transform.position = new Vector3(this.transform.position.x, c.transform.position.y, c.transform.position.z);
-        //        //}
-        //        //if (c.transform.position.x < this.transform.position.x)
-        //        //{
-        //        //    c.transform.position = new Vector3(this.transform.position.x + (gridSize.x * cellSize), c.transform.position.y, c.transform.position.z);
-        //        //}
-        //        //// y
-        //        //if (c.transform.position.y > this.transform.position.y + (gridSize.Y * cellSize))
-        //        //{
-        //        //    c.transform.position = new Vector3(c.transform.position.x, this.transform.position.y, c.transform.position.z);
-        //        //}
-        //        //if (c.transform.position.y < this.transform.position.y)
-        //        //{
-        //        //    c.transform.position = new Vector3(c.transform.position.x, this.transform.position.y + (gridSize.y * cellSize), c.transform.position.z);
-        //        //}
-        //        //// z
-        //        //if (c.transform.position.z > this.transform.position.z + (gridSize.Z * cellSize))
-        //        //{
-        //        //    c.transform.position = new Vector3(c.transform.position.x, c.transform.position.y, this.transform.position.z);
-        //        //}
-        //        //if (c.transform.position.z < this.transform.position.z)
-        //        //{
-        //        //    c.transform.position = new Vector3(c.transform.position.x, c.transform.position.y, this.transform.position.z + (gridSize.z * cellSize));
-        //        //}
-
-        //        //Vector3Int particlePos = new Vector3Int(
-        //        //    Mathf.FloorToInt(Mathf.Clamp((c.transform.position.x - this.transform.position.x) / cellSize, 0, gridSize.x - 1)),
-        //        //    Mathf.FloorToInt(Mathf.Clamp((c.transform.position.y - this.transform.position.y) / cellSize, 0, gridSize.y - 1)),
-        //        //    Mathf.FloorToInt(Mathf.Clamp((c.transform.position.z - this.transform.position.z) / cellSize, 0, gridSize.z - 1))
-        //        //    );
-
-        //        c.ApplyRotation(flowfieldDirection[particlePos.x, particlePos.y, particlePos.z], particleRotateSpeed);
-        //        c.moveSpeed = particleMoveSpeed;
-        //        //p.transform.localScale = new Vector3(particleScale,particleScale,particleScale);
-        //    }
-        //}
 
 
         public void PreDraw()
         {
-            GL.Translate(-gridSize.X / 2, -gridSize.X / 2, -100.0); //Create desired perspective by drawing everything far away and centering the grid
+            GL.Translate(-gridSize.X / 2, -gridSize.X / 2, -50.0); //Create desired perspective by drawing everything far away and centering the grid
         }
         
 
@@ -142,8 +137,8 @@ namespace AudioAnalyzer
             {
                 GL.PushMatrix(); //Save current matrix
 
-                c.position.x += moveSpeed; //Increment X Position
-                if (c.position.x > gridSize.X) c.position.x = 0; //Check X Limit
+                c.position.y -= moveSpeed; //Increment X Position
+                if (c.position.y < 0) c.position.y = gridSize.Y; //Check X Limit
 
                 GL.Translate(c.position.x, c.position.y, c.position.z); //Set origin to center of cube
 
@@ -175,12 +170,12 @@ namespace AudioAnalyzer
 
         public void Trigger1()
         {
-            moveSpeed = maxMoveSpeed;
+            cubeScale = maxCubeScale;
         }
 
         public void Trigger2()
         {
-            cubeScale = maxCubeScale;
+            moveSpeed = maxMoveSpeed;
         }
     }
 }

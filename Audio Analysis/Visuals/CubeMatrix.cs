@@ -9,15 +9,17 @@ namespace AudioAnalyzer
 {
     class CubeMatrix : IVFX
     {
-        const double maxLength = 2;
+        Random r = new Random();
+
+        const double maxmaxScale = 3;
 
         int cubesPerSide = 8;
-        int offset = 10;
-        double length = maxLength;
+        int spacePerCube = 10;
+        double scale = maxmaxScale;
         double angle = 0;
         bool locked;
 
-        List<Cube> cubes = new List<Cube>();
+        List<Cube2> cubes = new List<Cube2>();
 
         public CubeMatrix()
         {
@@ -27,14 +29,14 @@ namespace AudioAnalyzer
 
             for (int i = 0; i < cubesPerSide; i++)
             {
-                x = i * offset;
+                x = i * spacePerCube;
                 for (int j = 0; j < cubesPerSide; j++)
                 {
-                    y = j * offset;
+                    y = j * spacePerCube;
                     for (int k = 0; k < cubesPerSide; k++)
                     {
-                        z = k * -offset;
-                        cubes.Add(new Cube(length, x, y, z));
+                        z = k * -spacePerCube;
+                        cubes.Add(new Cube2(x, y, z));
                     }
                 }
             }
@@ -42,7 +44,7 @@ namespace AudioAnalyzer
 
         public void PreDraw()
         {
-            double translate = (cubesPerSide * offset / 2) - (offset / 2);
+            double translate = (cubesPerSide * spacePerCube / 2) - (spacePerCube / 2);
             GL.Rotate(angle, 1.0, 0.0, 0.0);
             GL.Rotate(angle, 1.0, 0.0, 1.0);
             GL.Translate(-translate, -translate, translate);
@@ -50,26 +52,37 @@ namespace AudioAnalyzer
 
         public void Draw()
         {
-            GL.Begin(PrimitiveType.Quads);
-                        
-            foreach(Cube c in cubes)
+            foreach (Cube2 c in cubes)
             {
-                c.SetLength(length);
-                c.SpecifyVertices();
-            }
+                GL.PushMatrix(); //Save current matrix
+                
+                GL.Translate(c.position.x, c.position.y, c.position.z); //Set origin to center of cube
 
-            GL.End();
+                c.angle.y += r.NextDouble(); //Adjust Angle
+                c.angle.z += r.NextDouble(); //Adjust Angle
+
+                //Execute Rotation
+                GL.Rotate(c.angle.x, 1.0, 0.0, 0.0);
+                GL.Rotate(c.angle.y, 0.0, 1.0, 0.0);
+                GL.Rotate(c.angle.z, 0.0, 0.0, 1.0);
+
+                GL.Scale(scale, scale, scale); //Set scale of cube
+
+                c.Draw(); //Draw cube
+
+                GL.PopMatrix(); //Restore previously saved matrix
+            }
         }
 
         public void PostDraw()
         {
-            length -= 0.05;
+            scale -= 0.05;
             if (!locked) angle += 0.5;
         }
         
         public void Trigger1()
         {
-            length = maxLength;
+            scale = maxmaxScale;
             locked = false;
         }
 
