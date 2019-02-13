@@ -90,5 +90,10 @@ namespace AudioAnalyzer
         {
             locked = true;
         }
+
+        public void Trigger3()
+        {
+
+        }
     }
 }

@@ -11,18 +11,14 @@ namespace AudioAnalyzer
     {
         public Range()
         {
-
         }
 
-        public static void Init(ref Range[] ranges)
+        public static void Init()
         {
-            ranges = new Range[Count];
-
             for (int i = Count - 1; i >= 0; i--)
             {
                 MakeActive(i);
                 Active.AutoSettings.Range = Active;
-                ranges[i] = Active;
             }
         }
 
@@ -45,48 +41,48 @@ namespace AudioAnalyzer
 
         public static Range[] Ranges = new Range[Count]
         {
-                new Range()
+            new Range()
+            {
+                Index = 0,
+
+                LowFreq = 0, HighFreq = 150,
+
+                AutoSettings = new AutoSettings()
                 {
-                    Index = 0,
-
-                    LowFreq = 0, HighFreq = 150,
-
-                    AutoSettings = new AutoSettings()
-                    {
-                        Bandwidth = 1,
-                        ThresholdMultiplier = 0.75F
-                    },
-
-                    Color = Color.Pink
+                    Bandwidth = 1,
+                    ThresholdMultiplier = 0.75F
                 },
-                new Range()
+
+                Color = Color.Pink
+            },
+            new Range()
+            {
+                Index = 1,
+
+                LowFreq = 150, HighFreq = 24000,
+
+                AutoSettings = new AutoSettings()
                 {
-                    Index = 1,
-
-                    LowFreq = 150, HighFreq = 24000,
-
-                    AutoSettings = new AutoSettings()
-                    {
-                        Bandwidth = 1,
-                        ThresholdMultiplier = 0.75F
-                    },
-
-                    Color = Color.LightBlue
+                    Bandwidth = 1,
+                    ThresholdMultiplier = 0.75F
                 },
-                new Range()
+
+                Color = Color.LightBlue
+            },
+            new Range()
+            {
+                Index = 2,
+
+                LowFreq = 14000, HighFreq = 24000,
+
+                AutoSettings = new AutoSettings()
                 {
-                    Index = 2,
+                    Bandwidth = 50,
+                    ThresholdMultiplier = 0.75F
+                },
 
-                    LowFreq = 14000, HighFreq = 24000,
-
-                    AutoSettings = new AutoSettings()
-                    {
-                        Bandwidth = 50,
-                        ThresholdMultiplier = 0.75F
-                    },
-
-                    Color = Color.Gold
-                }
+                Color = Color.Gold
+            }
         };
 
         public static ref Range Active

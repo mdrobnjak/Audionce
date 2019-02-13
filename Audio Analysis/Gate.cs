@@ -8,8 +8,6 @@ namespace AudioAnalyzer
 {
     public static class Gate
     {
-        public static Range[] Ranges;
-
         public static bool[] Passed = new bool[Range.Count];
 
         static float tmpRangeAudio;
@@ -17,28 +15,41 @@ namespace AudioAnalyzer
 
         public static void Filter(int r)
         {
-            if (FFT.transformedData.Count() > Ranges[r].HighCutAbsolute)
+            if (FFT.transformedData.Count() > Range.Ranges[r].HighCutAbsolute)
             {
                 tmpRangeAudio = 0;
                 max = 0;
-                for (int i = Ranges[r].LowCutAbsolute; i < Ranges[r].HighCutAbsolute; i++)
+                for (int i = Range.Ranges[r].LowCutAbsolute; i < Range.Ranges[r].HighCutAbsolute; i++)
                 {
                     tmpRangeAudio += FFT.transformedData[i];
                     if (FFT.transformedData[i] > max) max = FFT.transformedData[i];
                 }
-                Ranges[r].Audio = tmpRangeAudio - max;
+                Range.Ranges[r].Audio = tmpRangeAudio - max;
+            }
+        }
+
+        public static void FilterForMax(int r)
+        {
+            if (FFT.transformedData.Count() > Range.Ranges[r].HighCutAbsolute)
+            {
+                max = 0;
+                for (int i = Range.Ranges[r].LowCutAbsolute; i < Range.Ranges[r].HighCutAbsolute; i++)
+                {
+                    if (FFT.transformedData[i] > max) max = FFT.transformedData[i];
+                }
+                Range.Ranges[r].Audio = max;
             }
         }
 
         public static bool Pass(int r)
         {
-            if (r == 1) return AllPass(r);
-            else return TransientPass(r);
+            if (r == 0) return TransientPass(r);
+            else return AllPass(r);
         }
 
         public static bool TransientPass(int r)
         {
-            if(Ranges[r].Audio > Ranges[r].Threshold)
+            if(Range.Ranges[r].Audio > Range.Ranges[r].Threshold)
             {
                 if (!Passed[r])
                 {
@@ -59,7 +70,7 @@ namespace AudioAnalyzer
 
         public static bool AllPass(int r)
         {
-            return Ranges[r].Audio > Ranges[r].Threshold ? true : false;
+            return Range.Ranges[r].Audio > Range.Ranges[r].Threshold ? true : false;
         }
 
         public static bool Subtract = false;
@@ -71,7 +82,7 @@ namespace AudioAnalyzer
             {
                 if (r == subtractFrom)
                 {
-                    Ranges[r].Audio -= Ranges[subtractor].Audio;
+                    Range.Ranges[r].Audio -= Range.Ranges[subtractor].Audio;
                 }
             }
         }

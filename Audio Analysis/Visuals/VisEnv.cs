@@ -24,24 +24,29 @@ namespace AudioAnalyzer
 
             GL.Enable(EnableCap.DepthTest);
 
-            DoLighting(1.0f);
+            DoLighting(1.0f, 0.5f);
 
             base.OnLoad(e);
         }
 
-        public static void DoLighting(float brightness)
+        public static void DoLighting(float diffuseBrightness, float ambientBrightness)
         {
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.ColorMaterial);
             float[] lightPosition = { 0, 0, 100 };
-            float[] lightColor = { 1.0f, 1.0f, 1.0f };
+            float[] diffuseColor = { 1.0f, 1.0f, 1.0f };
             for (int i = 0; i < 3; i++)
             {
-                lightColor[i] *= brightness;
+                diffuseColor[i] *= diffuseBrightness;
+            }
+            float[] ambientColor = { 1.0f, 1.0f, 1.0f };
+            for (int i = 0; i < 3; i++)
+            {
+                ambientColor[i] *= ambientBrightness;
             }
             GL.Light(LightName.Light0, LightParameter.Position, lightPosition);
-            GL.Light(LightName.Light0, LightParameter.Diffuse, lightColor);
-            GL.Light(LightName.Light0, LightParameter.Ambient, lightColor);
+            GL.Light(LightName.Light0, LightParameter.Diffuse, diffuseColor);
+            GL.Light(LightName.Light0, LightParameter.Ambient, ambientColor);
             GL.Enable(EnableCap.Light0);
         }
 

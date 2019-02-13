@@ -23,8 +23,6 @@ namespace AudioAnalyzer
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
 
-        static Range[] Ranges;
-
         public AudioAnalyzerMDIForm()
         {
             InitializeComponent();
@@ -32,16 +30,12 @@ namespace AudioAnalyzer
             using (System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess())
                 p.PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
 
+            Range.Init();
             Brushes.Init();
             ML.InitPaths();
 
             Spectrum.SyncBandsAndFreqs();
-
-            Range.Init(ref Ranges);
-            Range.Init(ref FileIO.Ranges);
-            Range.Init(ref SettingsForm.Ranges);
-            Range.Init(ref Gate.Ranges);
-
+            
             SoundCapture.Init();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
             Arduino.InitPort();
@@ -107,21 +101,20 @@ namespace AudioAnalyzer
 
             for (int r = 0; r < Range.Count; r++)
             {
-                Gate.Filter(r);
+                if (r == 2) Gate.FilterForMax(r);
+                else Gate.Filter(r);
 
                 Gate.ApplySubtraction(r);
 
-                Ranges[r].AutoSettings.ApplyAutoSettings();
+                Range.Ranges[r].AutoSettings.ApplyAutoSettings();
 
                 //lblDelay.Text = "Delays: Gate-" + (DateTime.Now - BeforeFFT).TotalMilliseconds + "ms";
 
                 if (Gate.Pass(r))
                 {
-                    if (r == 0)
-                    {
-                        Visuals.Preset.Trigger1();
-                    }
+                    if (r == 0) Visuals.Preset.Trigger1();
                     else if (r == 1) Visuals.Preset.Trigger2();
+                    else if (r == 2) Visuals.Preset.Trigger3();
 
                     Arduino.Trigger(r);
 
@@ -151,13 +144,13 @@ namespace AudioAnalyzer
 
                 //Range1
                 //PrintBandAnalysis(Ranges[0].AutoSettings.DoBandAnalysis());
-                Ranges[0].AutoSettings.KickSelector();
+                Range.Ranges[0].AutoSettings.KickSelector();
 
                 //Range2
-                Ranges[1].AutoSettings.SnareSelector();
+                Range.Ranges[1].AutoSettings.SnareSelector();
 
                 //Range3
-                //Ranges[2].AutoSettings.HatSelector();
+                Range.Ranges[2].AutoSettings.HatSelector();
 
                 AutoSettings.Reset();
 
@@ -355,7 +348,7 @@ namespace AudioAnalyzer
         {
             for (int i = 0; i < Range.Count; i++)
             {
-                Ranges[i].AutoSettings.DynamicThreshold = btnDynamicThreshold.Checked;
+                Range.Ranges[i].AutoSettings.DynamicThreshold = btnDynamicThreshold.Checked;
             }
         }
 

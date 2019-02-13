@@ -9,8 +9,6 @@ namespace AudioAnalyzer
 {
     public static class FileIO
     {
-        public static Range[] Ranges;
-
         public static string Path { get; private set; }
 
         public static void WriteConfig(string filePath)
@@ -22,9 +20,9 @@ namespace AudioAnalyzer
 
             for (int i = 0; i < Range.Count; i++)
             {
-                config[2] += Ranges[i].LowCutFreq + ",";
-                config[3] += Ranges[i].HighCutFreq + ",";
-                config[4] += Ranges[i].Threshold + ",";
+                config[2] += Range.Ranges[i].LowCutFreq + ",";
+                config[3] += Range.Ranges[i].HighCutFreq + ",";
+                config[4] += Range.Ranges[i].Threshold + ",";
             }
             for (int i = 2; i < 5; i++)
             {
@@ -63,9 +61,9 @@ namespace AudioAnalyzer
             //Int32.Parse(config[1]);
             for (int i = 0; i < Range.Count; i++)
             {
-                Ranges[i].LowCutFreq = Int32.Parse(config[2].Split(',')[i]);
-                Ranges[i].HighCutFreq = Int32.Parse(config[3].Split(',')[i]);
-                Ranges[i].Threshold = Int32.Parse(config[4].Split(',')[i]);
+                Range.Ranges[i].LowCutFreq = Int32.Parse(config[2].Split(',')[i]);
+                Range.Ranges[i].HighCutFreq = Int32.Parse(config[3].Split(',')[i]);
+                Range.Ranges[i].Threshold = Int32.Parse(config[4].Split(',')[i]);
             }
         }
 
@@ -73,9 +71,9 @@ namespace AudioAnalyzer
         {
             for (int i = 0; i < Range.Count; i++)
             {
-                Ranges[i].LowCutIndex = 0;
-                Ranges[i].HighCutIndex = 0;
-                Ranges[i].Threshold = 0;
+                Range.Ranges[i].LowCutIndex = 0;
+                Range.Ranges[i].HighCutIndex = 0;
+                Range.Ranges[i].Threshold = 0;
             }
         }
     }

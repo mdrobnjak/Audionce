@@ -127,9 +127,9 @@ namespace AudioAnalyzer
 
         public void PreDraw()
         {
-            VisEnv.DoLighting(brightness);
-            
-            GL.Translate(-gridSize.X / 2, -gridSize.X / 2, -50.0); //Create desired perspective by drawing everything far away and centering the grid
+            VisEnv.DoLighting(brightness, 0.2f);
+
+            GL.Translate(-gridSize.X / 2, -gridSize.X / 2, -100.0); //Create desired perspective by drawing everything far away and centering the grid
         }
 
 
@@ -141,16 +141,13 @@ namespace AudioAnalyzer
             {
                 GL.PushMatrix(); //Save current matrix
 
-                if (cubeScale > maxCubeScale / 2)
-                {
-                    c.Jitter(Rand.NextDoubleNeg() / 4);
-                }
+                if(jitter)c.Jitter(Rand.NextDoubleNeg() / 4);
 
                 c.Fall(moveSpeed);
                 if (c.position.y < 0) c.position.y = gridSize.Y;
 
                 c.TranslateTo();
-                
+
                 c.Pitch(Rand.NextDouble());
 
                 c.SetScale(cubeScale);
@@ -167,18 +164,26 @@ namespace AudioAnalyzer
             lastDraw = DateTime.Now;
             if (moveSpeed > 0.15) moveSpeed /= 1.5;
             if (cubeScale > 0.1) cubeScale -= 0.05;
-            if (brightness > 0.05f) brightness -= 0.05f/3;
+            if (brightness > 0.5f) brightness -= 0.05f / 3;
+            if (cubeScale < maxCubeScale / 2) jitter = false;
         }
 
+        bool jitter = false;
         public void Trigger1()
         {
             cubeScale = maxCubeScale;
-            brightness = maxBrightness;
+            //jitter = Rand.NextDoubleNeg() / 4;
         }
 
         public void Trigger2()
         {
             moveSpeed = maxMoveSpeed;
+        }
+
+        public void Trigger3()
+        {
+            brightness = maxBrightness;
+            jitter = true;
         }
     }
 }

@@ -17,5 +17,7 @@ namespace AudioAnalyzer
         void Trigger1();
 
         void Trigger2();
+
+        void Trigger3();
     }
 }

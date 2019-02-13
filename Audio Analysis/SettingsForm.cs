@@ -14,8 +14,6 @@ namespace AudioAnalyzer
     {
         static int iGen = 3;
 
-        public static Range[] Ranges;
-
         public SettingsForm()
         {
             InitializeComponent();
@@ -45,8 +43,8 @@ namespace AudioAnalyzer
             for (int i = 0; i < Range.Count; i++)
             {
                 gvSettings.Columns.Add("Range", "Range " + (i + 2));
-                gvSettings.Rows[0].Cells[i].Value = Ranges[i].AutoSettings.Bandwidth;
-                gvSettings.Rows[1].Cells[i].Value = Ranges[i].AutoSettings.ThresholdMultiplier;
+                gvSettings.Rows[0].Cells[i].Value = Range.Ranges[i].AutoSettings.Bandwidth;
+                gvSettings.Rows[1].Cells[i].Value = Range.Ranges[i].AutoSettings.ThresholdMultiplier;
             }
 
             gvSettings.Columns[Range.Count].Name = gvSettings.Columns[Range.Count].HeaderText = "General";
@@ -74,10 +72,10 @@ namespace AudioAnalyzer
                 switch (e.RowIndex)
                 {
                     case 0:
-                        Ranges[e.ColumnIndex].AutoSettings.Bandwidth = Convert.ToInt32(cellValue);
+                        Range.Ranges[e.ColumnIndex].AutoSettings.Bandwidth = Convert.ToInt32(cellValue);
                         break;
                     case 1:
-                        Ranges[e.ColumnIndex].AutoSettings.ThresholdMultiplier = Convert.ToSingle(cellValue);
+                        Range.Ranges[e.ColumnIndex].AutoSettings.ThresholdMultiplier = Convert.ToSingle(cellValue);
                         break;
                     case 3:
                         if (e.ColumnIndex == iGen) AutoSettings.SecondsToCollect = Convert.ToSingle(cellValue);
