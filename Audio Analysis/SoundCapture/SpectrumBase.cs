@@ -7,7 +7,7 @@ using CSCore.DSP;
 
 namespace WinformsVisualization.Visualization
 {
-    public class SpectrumBase : INotifyPropertyChanged
+    public class SpectrumBase
     {
         private const int ScaleFactorLinear = 9;
         protected const int ScaleFactorSqr = 2;
@@ -25,7 +25,7 @@ namespace WinformsVisualization.Visualization
         private ScalingStrategy _scalingStrategy;
         private int[] _spectrumIndexMax;
         private int[] _spectrumLogScaleIndexMax;
-        private ISpectrumProvider _spectrumProvider;
+        private SpectrumProvider _spectrumProvider;
 
         protected int SpectrumResolution;
         private bool _useAverage;
@@ -42,8 +42,6 @@ namespace WinformsVisualization.Visualization
                 }
                 _maximumFrequency = value;
                 UpdateFrequencyMapping();
-
-                RaisePropertyChanged("MaximumFrequency");
             }
         }
 
@@ -56,13 +54,10 @@ namespace WinformsVisualization.Visualization
                     throw new ArgumentOutOfRangeException("value");
                 _minimumFrequency = value;
                 UpdateFrequencyMapping();
-
-                RaisePropertyChanged("MinimumFrequency");
             }
         }
-
-        [BrowsableAttribute(false)]
-        public ISpectrumProvider SpectrumProvider
+        
+        public SpectrumProvider SpectrumProvider
         {
             get { return _spectrumProvider; }
             set
@@ -70,8 +65,6 @@ namespace WinformsVisualization.Visualization
                 if (value == null)
                     throw new ArgumentNullException("value");
                 _spectrumProvider = value;
-
-                RaisePropertyChanged("SpectrumProvider");
             }
         }
 
@@ -82,7 +75,6 @@ namespace WinformsVisualization.Visualization
             {
                 _isXLogScale = value;
                 UpdateFrequencyMapping();
-                RaisePropertyChanged("IsXLogScale");
             }
         }
 
@@ -92,7 +84,6 @@ namespace WinformsVisualization.Visualization
             set
             {
                 _scalingStrategy = value;
-                RaisePropertyChanged("ScalingStrategy");
             }
         }
 
@@ -102,11 +93,9 @@ namespace WinformsVisualization.Visualization
             set
             {
                 _useAverage = value;
-                RaisePropertyChanged("UseAverage");
             }
         }
-
-        [BrowsableAttribute(false)]
+        
         public FftSize FftSize
         {
             get { return (FftSize) _fftSize; }
@@ -117,16 +106,13 @@ namespace WinformsVisualization.Visualization
 
                 _fftSize = (int) value;
                 _maxFftIndex = _fftSize - 1; //_fftSize / 2 - 1;
-
-                RaisePropertyChanged("FFTSize");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        
         protected virtual void UpdateFrequencyMapping()
         {
-            _maximumFrequencyIndex = Math.Min(_spectrumProvider.GetFftBandIndex(MaximumFrequency) + 1, _maxFftIndex);
+            AudioAnalyzer.Spectrum.TotalBands = _maximumFrequencyIndex = Math.Min(_spectrumProvider.GetFftBandIndex(MaximumFrequency) + 1, _maxFftIndex); //To-do: temp
+            AudioAnalyzer.Spectrum.SyncBandsAndFreqs();
             _minimumFrequencyIndex = Math.Min(_spectrumProvider.GetFftBandIndex(MinimumFrequency), _maxFftIndex);
 
             int actualResolution = SpectrumResolution;
@@ -183,42 +169,46 @@ namespace WinformsVisualization.Visualization
 
                 value = Math.Max(0, Math.Max(value0, value));
 
-                while (spectrumPointIndex <= _spectrumIndexMax.Length - 1 &&
-                       i ==
-                       (IsXLogScale
-                           ? _spectrumLogScaleIndexMax[spectrumPointIndex]
-                           : _spectrumIndexMax[spectrumPointIndex]))
+                #region Untested Edits
+
+                if(value > maxValue)
                 {
-                    if (!recalc)
-                        value = lastValue;
-
-                    if (value > maxValue)
-                        value = maxValue;
-
-                    if (_useAverage && spectrumPointIndex > 0)
-                        value = (lastValue + value) / 2.0;
-
-                    dataPoints.Add(new SpectrumPointData {SpectrumPointIndex = spectrumPointIndex, Value = value});
-
-                    lastValue = value;
-                    value = 0.0;
-                    spectrumPointIndex++;
-                    recalc = false;
+                    value = maxValue;
                 }
 
-                //value = 0;
+                dataPoints.Add(new SpectrumPointData { SpectrumPointIndex = spectrumPointIndex, Value = value });
+                value = 0.0;
+                spectrumPointIndex++;
+
+                #endregion
+
+                //while (spectrumPointIndex <= _spectrumIndexMax.Length - 1 &&
+                //       i ==
+                //       (IsXLogScale
+                //           ? _spectrumLogScaleIndexMax[spectrumPointIndex]
+                //           : _spectrumIndexMax[spectrumPointIndex]))
+                //{
+                //    if (!recalc)
+                //        value = lastValue;
+
+                //    if (value > maxValue)
+                //        value = maxValue;
+
+                //    if (_useAverage && spectrumPointIndex > 0)
+                //        value = (lastValue + value) / 2.0;
+
+                //    dataPoints.Add(new SpectrumPointData {SpectrumPointIndex = spectrumPointIndex, Value = value});
+
+                //    lastValue = value;
+                //    value = 0.0;
+                //    spectrumPointIndex++;
+                //    recalc = false;
+                //}
             }
 
             return dataPoints.ToArray();
         }
-
-        protected void RaisePropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null && !String.IsNullOrEmpty(propertyName))
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        [DebuggerDisplay("{Value}")]
+        
         protected struct SpectrumPointData
         {
             public int SpectrumPointIndex;

@@ -10,7 +10,7 @@ namespace AudioAnalyzer
     {
         public static float[] transformedData;
 
-        public static int N_FFT = (int)SoundCapture.FFTSize / 2;
+        public static int N_FFT = (int)SoundCapture.FFTSize;
         public static float dropOffScale = .04f;
         public static bool DropOff = false;
 

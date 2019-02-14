@@ -209,14 +209,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
-    <Compile Include="SoundCapture\BasicSpectrumProvider.cs" />
-    <Compile Include="SoundCapture\GradientCalculator.cs" />
-    <Compile Include="SoundCapture\ISpectrumProvider.cs" />
+    <Compile Include="SoundCapture\SpectrumProvider.cs" />
     <Compile Include="SoundCapture\LineSpectrum.cs" />
     <Compile Include="SoundCapture\ScalingStrategy.cs" />
     <Compile Include="SoundCapture\SoundCapture.cs" />
     <Compile Include="SoundCapture\SpectrumBase.cs" />
-    <Compile Include="SoundCapture\VoicePrint3DSpectrum.cs" />
     <Compile Include="Visuals\CubeMatrix.cs" />
     <Compile Include="Visuals\IVFX.cs" />
     <Compile Include="Visuals\NoiseFlowField\Cube.cs" />

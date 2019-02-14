@@ -1,18 +1,18 @@
-﻿using System;
+﻿using CSCore.DSP;
+using System;
 using System.Collections.Generic;
-using CSCore.DSP;
 
 namespace WinformsVisualization.Visualization
 {
     /// <summary>
-    ///     BasicSpectrumProvider
+    /// BasicSpectrumProvider
     /// </summary>
-    public class BasicSpectrumProvider : FftProvider, ISpectrumProvider
+    public class SpectrumProvider : FftProvider
     {
         private readonly int _sampleRate;
         private readonly List<object> _contexts = new List<object>();
 
-        public BasicSpectrumProvider(int channels, int sampleRate, FftSize fftSize) 
+        public SpectrumProvider(int channels, int sampleRate, FftSize fftSize) 
             : base(channels, fftSize)
         {
             if(sampleRate <= 0)
@@ -24,16 +24,11 @@ namespace WinformsVisualization.Visualization
         {
             int fftSize = (int) FftSize;
             double f = _sampleRate / 2.0;
-// ReSharper disable once PossibleLossOfFraction
             return (int)((frequency / f) * (fftSize));
         }
 
         public bool GetFftData(float[] fftResultBuffer, object context)
         {
-            if (_contexts.Contains(context))
-                return false;
-
-            _contexts.Add(context);
             GetFftData(fftResultBuffer);
             return true;
         }

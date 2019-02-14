@@ -18,7 +18,6 @@ public static class SoundCapture
 {
     public static int minFreq = 0;
     public static int maxFreq = 20000;
-    public static int barSpacing = 0;
     public static bool logScale = false;
     public static bool useAverage = false;
 
@@ -28,13 +27,10 @@ public static class SoundCapture
     static LineSpectrum lineSpectrum;
         
     public static WasapiCapture Capture;
-    static WaveWriter writer;
-    public static FftSize FFTSize = FftSize.Fft8192;
+    public static FftSize FFTSize = FftSize.Fft2048;
     static float[] fftBuffer;
 
-    static SingleBlockNotificationStream notificationSource;
-
-    static BasicSpectrumProvider spectrumProvider;
+    static SpectrumProvider spectrumProvider;
 
     static IWaveSource finalSource;
 
@@ -42,7 +38,7 @@ public static class SoundCapture
     {
 
         // This uses the wasapi api to get any sound data played by the computer
-        Capture = new WasapiLoopbackCapture();
+        Capture = new WasapiLoopbackCapture(33);
 
         Capture.Initialize();
 
@@ -57,15 +53,13 @@ public static class SoundCapture
 
         // These are the actual classes that give you spectrum data
         // The specific vars of lineSpectrum are changed below in the editor so most of these aren't that important here
-        spectrumProvider = new BasicSpectrumProvider(Capture.WaveFormat.Channels,
+        spectrumProvider = new SpectrumProvider(Capture.WaveFormat.Channels,
                     Capture.WaveFormat.SampleRate, FFTSize);
 
         lineSpectrum = new LineSpectrum(FFTSize)
         {
             SpectrumProvider = spectrumProvider,
             UseAverage = useAverage,
-            BarCount = AudioAnalyzer.FFT.N_FFT,
-            BarSpacing = barSpacing,
             IsXLogScale = logScale,
             ScalingStrategy = ScalingStrategy.Linear
         };
@@ -100,7 +94,7 @@ public static class SoundCapture
 
     public static float[] GetFFtData()
     {
-        lineSpectrum.SpectrumProvider.GetFftData(fftBuffer, null);
+        lineSpectrum.SpectrumProvider.GetFftData(fftBuffer);
         return lineSpectrum.GetSpectrumPoints(100.0f, fftBuffer);
     }
 

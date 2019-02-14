@@ -34,7 +34,7 @@ namespace AudioAnalyzer
             Brushes.Init();
             ML.InitPaths();
 
-            Spectrum.SyncBandsAndFreqs();
+            //Spectrum.SyncBandsAndFreqs();
             
             SoundCapture.Init();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
@@ -98,6 +98,7 @@ namespace AudioAnalyzer
             //BeforeFFT = DateTime.Now;
 
             FFT.transformedData = FFT.LogScale(SoundCapture.Update());
+            //FFT.transformedData = SoundCapture.Update();
 
             for (int r = 0; r < Range.Count; r++)
             {

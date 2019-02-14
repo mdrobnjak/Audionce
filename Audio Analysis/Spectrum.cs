@@ -22,8 +22,6 @@ namespace AudioAnalyzer
 
         public static Dictionary<int, int> FreqOfBand;
 
-        static float correctionFactor = 0.8666666f;
-
         public static void SyncBandsAndFreqs()
         {
             FreqOfBand = new Dictionary<int, int>();
@@ -43,7 +41,7 @@ namespace AudioAnalyzer
                     }
                 }
 
-                FreqOfBand[n++] = (int)(mappedFreq * correctionFactor);
+                FreqOfBand[n++] = mappedFreq;
             }
             TotalBands = n;
         }

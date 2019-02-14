@@ -83,9 +83,7 @@ namespace AudioAnalyzer
         {
             if (data == null || data.Length == 0 /*|| AudioIn.sourceData == null*/)
                 return;
-
-            float ratioFreq = (float)this.Width / Spectrum.DisplayBands;
-            
+                        
             int bandIndexRelative = 0;
             int bandIndexAbsolute = Spectrum.Full ? 0 : Range.Active.NumBandsBefore;
 
