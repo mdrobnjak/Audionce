@@ -20,7 +20,7 @@ namespace AudioAnalyzer
         const int numCells = 8;
         const float cellSize = 5;
 
-        const double maxMoveSpeed = 1;
+        const double maxMoveSpeed = 2;
         double moveSpeed = maxMoveSpeed;
 
         FastNoise fastNoise;

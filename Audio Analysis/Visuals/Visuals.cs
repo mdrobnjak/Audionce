@@ -17,9 +17,12 @@ namespace AudioAnalyzer
 
         public static void Run()
         {
+            using (System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess())
+                p.PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
+
             using (VisEnv vis = new VisEnv(500, 500, "Visuals"))
             {
-                vis.Run(60.0);
+                vis.Run(30.0);
             }
         }
     }
