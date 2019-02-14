@@ -27,7 +27,7 @@ public static class SoundCapture
     static LineSpectrum lineSpectrum;
         
     public static WasapiCapture Capture;
-    public static FftSize FFTSize = FftSize.Fft2048;
+    public static FftSize FFTSize = FftSize.Fft4096;
     static float[] fftBuffer;
 
     static SpectrumProvider spectrumProvider;
@@ -38,7 +38,7 @@ public static class SoundCapture
     {
 
         // This uses the wasapi api to get any sound data played by the computer
-        Capture = new WasapiLoopbackCapture(33);
+        Capture = new WasapiLoopbackCapture(100);
 
         Capture.Initialize();
 
