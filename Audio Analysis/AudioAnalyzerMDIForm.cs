@@ -98,12 +98,11 @@ namespace AudioAnalyzer
             //BeforeFFT = DateTime.Now;
 
             FFT.transformedData = FFT.LogScale(SoundCapture.Update());
-            //FFT.transformedData = SoundCapture.Update();
 
             for (int r = 0; r < Range.Count; r++)
             {
                 if (r == 2) Gate.FilterForMax(r);
-                else Gate.Filter(r);
+                else Gate.FilterRejectMax(r);
 
                 Gate.ApplySubtraction(r);
 

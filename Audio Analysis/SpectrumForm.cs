@@ -224,7 +224,7 @@ namespace AudioAnalyzer
                     {
                         if (i >= Range.Ranges[j].LowCutAbsolute && i < Range.Ranges[j].HighCutAbsolute)
                         {
-                            g.FillRectangle(Brushes.redBrush, rects[i]);
+                            g.FillRectangle(Brushes.rangeBrushesDark[j], rects[i]);
                             break;
                         }
                     }

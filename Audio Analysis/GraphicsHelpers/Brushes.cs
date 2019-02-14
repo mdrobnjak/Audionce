@@ -8,17 +8,25 @@ namespace AudioAnalyzer
     public class Brushes
     {
         public static SolidBrush[] rangeBrushes = new SolidBrush[Range.Count];
+        public static SolidBrush[] rangeBrushesDark = new SolidBrush[Range.Count];        
+
         public static SolidBrush[] gateBrushes = new SolidBrush[Range.Count];
         public static SolidBrush blackBrush;
         public static SolidBrush redBrush;
+        public static SolidBrush blueBrush;
 
         public static void Init()
         {
             blackBrush = new SolidBrush(Color.Black);
             redBrush = new SolidBrush(Color.FromArgb(255, Color.Red));
+            blueBrush = new SolidBrush(Color.FromArgb(255, Color.Blue));
             for (int i = 0; i < Range.Count; i++)
             {
                 rangeBrushes[i] = new SolidBrush(Range.Ranges[i].Color);
+            }
+            for (int i = 0; i < Range.Count; i++)
+            {
+                rangeBrushesDark[i] = new SolidBrush(Range.Ranges[i].DarkColor);
             }
         }
 

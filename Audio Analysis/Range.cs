@@ -53,21 +53,23 @@ namespace AudioAnalyzer
                     ThresholdMultiplier = 0.75F
                 },
 
-                Color = Color.Pink
+                Color = Color.Pink,
+                DarkColor = Color.Red
             },
             new Range()
             {
                 Index = 1,
 
-                LowFreq = 150, HighFreq = 24000,
+                LowFreq = 1000, HighFreq = 14000,
 
                 AutoSettings = new AutoSettings()
                 {
-                    Bandwidth = 1,
+                    Bandwidth = 30,
                     ThresholdMultiplier = 0.75F
                 },
 
-                Color = Color.LightBlue
+                Color = Color.LightBlue,
+                DarkColor = Color.BlueViolet
             },
             new Range()
             {
@@ -81,7 +83,8 @@ namespace AudioAnalyzer
                     ThresholdMultiplier = 0.75F
                 },
 
-                Color = Color.Gold
+                Color = Color.LightGoldenrodYellow,
+                DarkColor = Color.Gold
             }
         };
 
@@ -228,5 +231,6 @@ namespace AudioAnalyzer
         }
 
         public Color Color;
+        public Color DarkColor;
     }
 }

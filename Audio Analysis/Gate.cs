@@ -18,6 +18,19 @@ namespace AudioAnalyzer
             if (FFT.transformedData.Count() > Range.Ranges[r].HighCutAbsolute)
             {
                 tmpRangeAudio = 0;
+                for (int i = Range.Ranges[r].LowCutAbsolute; i < Range.Ranges[r].HighCutAbsolute; i++)
+                {
+                    tmpRangeAudio += FFT.transformedData[i];
+                }
+                Range.Ranges[r].Audio = tmpRangeAudio;
+            }
+        }
+
+        public static void FilterRejectMax(int r)
+        {
+            if (FFT.transformedData.Count() > Range.Ranges[r].HighCutAbsolute)
+            {
+                tmpRangeAudio = 0;
                 max = 0;
                 for (int i = Range.Ranges[r].LowCutAbsolute; i < Range.Ranges[r].HighCutAbsolute; i++)
                 {
