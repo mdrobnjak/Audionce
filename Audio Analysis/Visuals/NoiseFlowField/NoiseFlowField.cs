@@ -180,7 +180,7 @@ namespace AudioAnalyzer
             moveSpeed = maxMoveSpeed;
         }
 
-        public void Trigger3()
+        public void Trigger3(float amplitude = 0.0f)
         {
             brightness = maxBrightness;
             jitter = true;

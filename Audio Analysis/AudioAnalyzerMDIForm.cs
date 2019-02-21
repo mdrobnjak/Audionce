@@ -114,7 +114,7 @@ namespace AudioAnalyzer
                 {
                     if (r == 0) Visuals.Preset.Trigger1();
                     else if (r == 1) Visuals.Preset.Trigger2();
-                    else if (r == 2) Visuals.Preset.Trigger3();
+                    else if (r == 2) Visuals.Preset.Trigger3(Range.Ranges[r].Audio);
 
                     Arduino.Trigger(r);
 
@@ -218,6 +218,8 @@ namespace AudioAnalyzer
                 string FileName = saveFileDialog.FileName;
 
                 FileIO.WriteConfig(FileName);
+
+                lblPreset.Text = FileName.Split('\\').Last().Split('.')[0];
             }
         }
 

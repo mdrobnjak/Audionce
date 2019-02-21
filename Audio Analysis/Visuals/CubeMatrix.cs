@@ -76,7 +76,7 @@ namespace AudioAnalyzer
 
         public void PostDraw()
         {
-            scale -= 0.05;
+            if(scale > 0.05)scale -= 0.05;
             if (!locked) angle += 0.2;
         }
         
@@ -91,7 +91,7 @@ namespace AudioAnalyzer
             locked = true;
         }
 
-        public void Trigger3()
+        public void Trigger3(float amplitude = 0.0f)
         {
 
         }
