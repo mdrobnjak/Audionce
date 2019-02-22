@@ -144,7 +144,7 @@ namespace AudioAnalyzer
                 if(jitter)c.Jitter(Rand.NextDoubleNeg() / 4);
 
                 c.Fall(moveSpeed);
-                if (c.position.y < 0) c.position.y = gridSize.Y;
+                if (c.position.y < 0) c.position.y += gridSize.Y;
 
                 c.TranslateTo();
 
@@ -165,7 +165,7 @@ namespace AudioAnalyzer
             if (moveSpeed > 0.15) moveSpeed /= 1.5;
             if (cubeScale > 0.1) cubeScale -= 0.05;
             if (brightness > 0.5f) brightness -= 0.05f / 3;
-            if (cubeScale < maxCubeScale / 2) jitter = false;
+            if (cubeScale < 3 * maxCubeScale / 4) jitter = false;
         }
 
         bool jitter = false;
