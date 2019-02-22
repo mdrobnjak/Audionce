@@ -17,6 +17,10 @@ namespace AudioAnalyzer
         const double maxCubeScale = 3.0;
         double cubeScale = maxCubeScale;
 
+        const double minArtScale = 200;
+        const double maxArtScale = minArtScale * 1.1;
+        double artScale = minArtScale;
+
         const int numCells = 8;
         const float cellSize = 5;
 
@@ -33,12 +37,14 @@ namespace AudioAnalyzer
         float deltaTime;
         int numCubes = 30;
         List<Cube> cubes;
+        BackgroundImage albumArt;
 
         public NoiseFlowField()
         {
             gridSize.X = gridSize.Y = gridSize.Z = numCells * cellSize;
 
             cubes = new List<Cube>(numCubes);
+            albumArt = new BackgroundImage(gridSize.X/2,gridSize.Y/2,-gridSize.Z);
 
             for (int i = 0; i < numCubes; i++)
             {
@@ -127,15 +133,26 @@ namespace AudioAnalyzer
 
         public void PreDraw()
         {
-            VisEnv.DoLighting(brightness, 0.2f);
+            //VisEnv.DoLighting2(brightness, 0.2f);
 
-            GL.Translate(-gridSize.X / 2, -gridSize.X / 2, -100.0); //Create desired perspective by drawing everything far away and centering the grid
+            GL.Translate(-gridSize.X / 2, -gridSize.X / 2, -80.0); //Create desired perspective by drawing everything far away and centering the grid
         }
 
 
 
         public void Draw()
         {
+            GL.PushMatrix(); //Save current matrix
+
+            if (jitter)
+            {
+                albumArt.Jitter(Rand.NextDoubleNeg());
+            }
+            albumArt.TranslateTo();
+            albumArt.SetScale(artScale);
+            albumArt.Draw();
+
+            GL.PopMatrix(); //Restore previously saved matrix
 
             foreach (Cube c in cubes)
             {
@@ -163,9 +180,10 @@ namespace AudioAnalyzer
         {
             lastDraw = DateTime.Now;
             if (moveSpeed > 0.15) moveSpeed /= 1.5;
-            if (cubeScale > 0.1) cubeScale -= 0.05;
+            if (cubeScale > 0.3) cubeScale -= 0.05;
             if (brightness > 0.5f) brightness -= 0.05f / 3;
             if (cubeScale < 3 * maxCubeScale / 4) jitter = false;
+            if (artScale > minArtScale) artScale -= 0.01 * artScale;
         }
 
         bool jitter = false;
@@ -173,6 +191,7 @@ namespace AudioAnalyzer
         {
             cubeScale = maxCubeScale;
             //jitter = Rand.NextDoubleNeg() / 4;
+            artScale = maxArtScale;
         }
 
         public void Trigger2()
@@ -184,6 +203,8 @@ namespace AudioAnalyzer
         {
             brightness = maxBrightness;
             jitter = true;
+            albumArt.position.x = gridSize.X / 2;
+            albumArt.position.y = gridSize.Y / 2;
         }
     }
 }

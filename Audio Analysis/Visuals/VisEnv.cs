@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,15 +19,41 @@ namespace AudioAnalyzer
 
         }
 
+        static int texture;
+
         protected override void OnLoad(EventArgs e)
         {
             GL.ClearColor(Color.Black);
 
             GL.Enable(EnableCap.DepthTest);
 
-            DoLighting(1.0f, 0.5f);
+            DoLighting2(1.0f * 10, 0.5f);            
+
+            DoTexture();
 
             base.OnLoad(e);
+        }
+
+       void DoTexture()
+        {
+            GL.Enable(EnableCap.Texture2D);
+            GL.GenTextures(1, out texture);
+            GL.BindTexture(TextureTarget.Texture2D, texture);
+
+            BitmapData texData = new BitmapData();
+            LoadImage("SynriseSoulwaxRemix.bmp", out texData);
+            GL.TexImage2D(TextureTarget.Texture2D,0,PixelInternalFormat.Rgb, texData.Width, texData.Height,
+                0, OpenTK.Graphics.OpenGL.PixelFormat.Bgr,PixelType.UnsignedByte, texData.Scan0);
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+        }
+
+        void LoadImage(string name, out BitmapData retData )
+        {
+            Bitmap bmp = new Bitmap(FileIO.Path + name);
+            Rectangle rect = new Rectangle(0,0,bmp.Width,bmp.Height);
+            BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            bmp.UnlockBits(bmpData);
+            retData = bmpData;
         }
 
         public static void DoLighting(float diffuseBrightness, float ambientBrightness)
@@ -48,6 +75,27 @@ namespace AudioAnalyzer
             GL.Light(LightName.Light0, LightParameter.Diffuse, diffuseColor);
             GL.Light(LightName.Light0, LightParameter.Ambient, ambientColor);
             GL.Enable(EnableCap.Light0);
+        }
+
+        public static void DoLighting2(float diffuseBrightness, float ambientBrightness)
+        {
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.ColorMaterial);
+            float[] lightPosition = { 0, 0, 100 };
+            float[] diffuseColor = { 1.0f, 1.0f, 1.0f };
+            for (int i = 0; i < 3; i++)
+            {
+                diffuseColor[i] *= diffuseBrightness;
+            }
+            float[] ambientColor = { 1.0f, 1.0f, 1.0f };
+            for (int i = 0; i < 3; i++)
+            {
+                ambientColor[i] *= ambientBrightness;
+            }
+            GL.Light(LightName.Light1, LightParameter.Position, lightPosition);
+            GL.Light(LightName.Light1, LightParameter.Diffuse, diffuseColor);
+            GL.Light(LightName.Light1, LightParameter.Ambient, ambientColor);
+            GL.Enable(EnableCap.Light1);
         }
 
         protected override void OnResize(EventArgs e)

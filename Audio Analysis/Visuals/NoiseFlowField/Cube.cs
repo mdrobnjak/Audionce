@@ -21,7 +21,7 @@ namespace AudioAnalyzer
         public Cube(double xPosition, double yPosition, double zPosition)
         {
             position = new Position(xPosition, yPosition, zPosition);
-            color = new double[] { Rand.NextDouble(), Rand.NextDouble(), Rand.NextDouble() };
+            color = new double[] { 1.0, 1.0, 1.0 };//{ Rand.NextDouble(), Rand.NextDouble(), Rand.NextDouble() };
         }
 
         void ApplyScale()
