@@ -180,7 +180,7 @@ namespace AudioAnalyzer
         {
             lastDraw = DateTime.Now;
             if (moveSpeed > 0.15) moveSpeed /= 1.5;
-            if (cubeScale > 0.3) cubeScale -= 0.05;
+            if (cubeScale > 0.3) cubeScale -= 0.15;
             if (brightness > 0.5f) brightness -= 0.05f / 3;
             if (cubeScale < 3 * maxCubeScale / 4) jitter = false;
             if (artScale > minArtScale) artScale -= 0.01 * artScale;
