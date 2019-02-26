@@ -49,6 +49,7 @@ namespace AudioAnalyzer
 
         void LoadImage(string name, out BitmapData retData )
         {
+            if(FileIO.Path == null)FileIO.InitPath();
             Bitmap bmp = new Bitmap(FileIO.Path + name);
             Rectangle rect = new Rectangle(0,0,bmp.Width,bmp.Height);
             BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);

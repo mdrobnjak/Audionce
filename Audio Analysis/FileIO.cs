@@ -34,14 +34,19 @@ namespace AudioAnalyzer
 
         public static string InitPathAndGetPreset()
         {
-            string[] path = Environment.CurrentDirectory.Split('\\');
-            Array.Resize(ref path, path.Count() - 3);
-            Path = string.Join(@"\", path) + @"\Configs\";
+            InitPath();
 
             //ResetConfig();
             ReadConfig(Path + System.IO.File.ReadAllText(Path + @"\LastConfig\LastConfig.txt") + ".txt");
 
             return System.IO.File.ReadAllText(Path + @"\LastConfig\LastConfig.txt");
+        }
+
+        public static void InitPath()
+        {
+            string[] path = Environment.CurrentDirectory.Split('\\');
+            Array.Resize(ref path, path.Count() - 3);
+            Path = string.Join(@"\", path) + @"\Configs\";
         }
 
         static string[] config = new string[5];
