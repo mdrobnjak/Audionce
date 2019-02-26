@@ -75,7 +75,7 @@ namespace AudioAnalyzer
             {
                 Index = 2,
 
-                LowFreq = 14000, HighFreq = 24000,
+                LowFreq = 150, HighFreq = 1000,
 
                 AutoSettings = new AutoSettings()
                 {

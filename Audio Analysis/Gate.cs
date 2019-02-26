@@ -15,6 +15,13 @@ namespace AudioAnalyzer
 
         public static void Filter(int r)
         {
+            if (r == 0) FilterRejectMax(r);
+            else if (r == 1) FilterStandard(r);
+            else if (r == 2) FilterStandard(r);
+        }
+
+        public static void FilterStandard(int r)
+        {
             if (FFT.transformedData.Count() > Range.Ranges[r].HighCutAbsolute)
             {
                 tmpRangeAudio = 0;
@@ -57,9 +64,11 @@ namespace AudioAnalyzer
         public static bool Pass(int r)
         {
             if (r == 0) return TransientPass(r);
-            else return AllPass(r);
+            else if (r == 1) return AllPass(r);
+            else if (r == 2) return true;
+            else return false;
         }
-
+        
         public static bool TransientPass(int r)
         {
             if(Range.Ranges[r].Audio > Range.Ranges[r].Threshold)

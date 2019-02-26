@@ -219,6 +219,7 @@
     <Compile Include="Visuals\NoiseFlowField\BackgroundImage.cs" />
     <Compile Include="Visuals\NoiseFlowField\Cube.cs" />
     <Compile Include="Visuals\NoiseFlowField\FastNoise.cs" />
+    <Compile Include="Visuals\NoiseFlowField\Spectrum3D.cs" />
     <Compile Include="Visuals\Standards\Standards.cs" />
     <Compile Include="Visuals\VisEnv.cs" />
     <Compile Include="Visuals\Visuals.cs" />

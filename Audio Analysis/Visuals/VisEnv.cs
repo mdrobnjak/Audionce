@@ -41,7 +41,7 @@ namespace AudioAnalyzer
             GL.BindTexture(TextureTarget.Texture2D, texture);
 
             BitmapData texData = new BitmapData();
-            LoadImage("SynriseSoulwaxRemix.bmp", out texData);
+            LoadImage("Congratulations.bmp", out texData);
             GL.TexImage2D(TextureTarget.Texture2D,0,PixelInternalFormat.Rgb, texData.Width, texData.Height,
                 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgr,PixelType.UnsignedByte, texData.Scan0);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);

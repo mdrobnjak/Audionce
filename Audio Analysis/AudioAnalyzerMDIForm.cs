@@ -101,8 +101,7 @@ namespace AudioAnalyzer
 
             for (int r = 0; r < Range.Count; r++)
             {
-                if (r == 2) Gate.FilterForMax(r);
-                else Gate.FilterRejectMax(r);
+                Gate.Filter(r);
 
                 Gate.ApplySubtraction(r);
 

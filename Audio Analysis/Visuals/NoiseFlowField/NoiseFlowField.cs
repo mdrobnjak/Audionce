@@ -38,6 +38,7 @@ namespace AudioAnalyzer
         int numCubes = 30;
         List<Cube> cubes;
         BackgroundImage albumArt;
+        Spectrum3D spectrum3D;
 
         public NoiseFlowField()
         {
@@ -45,6 +46,7 @@ namespace AudioAnalyzer
 
             cubes = new List<Cube>(numCubes);
             albumArt = new BackgroundImage(gridSize.X/2,gridSize.Y/2,-gridSize.Z);
+            spectrum3D = new Spectrum3D(gridSize.X / 2, gridSize.Y / 2, 0);
 
             for (int i = 0; i < numCubes; i++)
             {
@@ -142,17 +144,17 @@ namespace AudioAnalyzer
 
         public void Draw()
         {
-            GL.PushMatrix(); //Save current matrix
+            //GL.PushMatrix(); //Save current matrix
 
-            if (jitter)
-            {
-                albumArt.Jitter(Rand.NextDoubleNeg());
-            }
-            albumArt.TranslateTo();
-            albumArt.SetScale(artScale);
-            albumArt.Draw();
+            //if (jitter)
+            //{
+            //    albumArt.Jitter(Rand.NextDoubleNeg());
+            //}
+            //albumArt.TranslateTo();
+            //albumArt.SetScale(artScale);
+            //albumArt.Draw();
 
-            GL.PopMatrix(); //Restore previously saved matrix
+            //GL.PopMatrix(); //Restore previously saved matrix
 
             foreach (Cube c in cubes)
             {
@@ -174,6 +176,11 @@ namespace AudioAnalyzer
                 GL.PopMatrix(); //Restore previously saved matrix
             }
 
+            GL.PushMatrix();
+            spectrum3D.TranslateTo();
+            //spectrum3D.SetScale(cubeScale);
+            spectrum3D.Draw();
+            GL.PopMatrix();
         }
 
         public void PostDraw()
@@ -190,21 +197,22 @@ namespace AudioAnalyzer
         public void Trigger1()
         {
             cubeScale = maxCubeScale;
-            //jitter = Rand.NextDoubleNeg() / 4;
             artScale = maxArtScale;
+            jitter = true;
+            brightness = maxBrightness;
         }
 
         public void Trigger2()
         {
             moveSpeed = maxMoveSpeed;
+
+            albumArt.position.x = gridSize.X / 2;
+            albumArt.position.y = gridSize.Y / 2;
         }
 
         public void Trigger3(float amplitude = 0.0f)
         {
-            brightness = maxBrightness;
-            jitter = true;
-            albumArt.position.x = gridSize.X / 2;
-            albumArt.position.y = gridSize.Y / 2;
+            //amplitude based effect.
         }
     }
 }
