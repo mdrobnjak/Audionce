@@ -13,20 +13,21 @@ namespace AudioAnalyzer
         double[] color;
 
         const double val = 0.5;
-        double scale = 1;
 
+        Scale scale;
         public Position position;
         public Angle angle = new Angle(0.0, 0.0, 0.0);
         
         public Cube(double xPosition, double yPosition, double zPosition)
         {
+            scale = new Scale(1,1,1);
             position = new Position(xPosition, yPosition, zPosition);
-            color = new double[] { 1.0, 1.0, 1.0 };//{ Rand.NextDouble(), Rand.NextDouble(), Rand.NextDouble() };
+            color = new double[] { Rand.NextDouble(), Rand.NextDouble(), Rand.NextDouble() };//{ 1.0, 1.0, 1.0 };
         }
 
         void ApplyScale()
         {
-            GL.Scale(scale, scale, scale);
+            GL.Scale(scale.x, scale.y, scale.z);
         }
 
         void ApplyRotation()
@@ -98,7 +99,14 @@ namespace AudioAnalyzer
 
         public void SetScale(double scale)
         {
-            this.scale = scale;
+            this.scale.x = scale;
+            this.scale.y = scale;
+            this.scale.z = scale;
+        }
+
+        public void AdjustYScale(double increment)
+        {
+            this.scale.y += increment;
         }
 
         public void Jitter(double amount)

@@ -20,6 +20,10 @@ namespace AudioAnalyzer
         const double minArtScale = 200;
         const double maxArtScale = minArtScale * 1.1;
         double artScale = minArtScale;
+        
+        double spectrumYScale = 6.0;
+        const double minSpectrumXScale = 0.5;
+        double spectrumXscale = minSpectrumXScale;
 
         const int numCells = 8;
         const float cellSize = 5;
@@ -45,8 +49,8 @@ namespace AudioAnalyzer
             gridSize.X = gridSize.Y = gridSize.Z = numCells * cellSize;
 
             cubes = new List<Cube>(numCubes);
-            albumArt = new BackgroundImage(gridSize.X/2,gridSize.Y/2,-gridSize.Z);
-            spectrum3D = new Spectrum3D(gridSize.X / 2, gridSize.Y / 2, 0);
+            albumArt = new BackgroundImage(gridSize.X / 2, gridSize.Y / 2, -gridSize.Z);
+            spectrum3D = new Spectrum3D(0, 0, 40);
 
             for (int i = 0; i < numCubes; i++)
             {
@@ -137,30 +141,30 @@ namespace AudioAnalyzer
         {
             //VisEnv.DoLighting2(brightness, 0.2f);
 
-            GL.Translate(-gridSize.X / 2, -gridSize.X / 2, -80.0); //Create desired perspective by drawing everything far away and centering the grid
+            GL.Translate(-gridSize.X / 2, -gridSize.Y / 2, -80.0); //Create desired perspective by drawing everything far away and centering the grid
         }
 
 
 
         public void Draw()
         {
-            //GL.PushMatrix(); //Save current matrix
+            GL.PushMatrix(); //Save current matrix
 
-            //if (jitter)
-            //{
-            //    albumArt.Jitter(Rand.NextDoubleNeg());
-            //}
-            //albumArt.TranslateTo();
-            //albumArt.SetScale(artScale);
-            //albumArt.Draw();
+            if (jitter)
+            {
+                albumArt.Jitter(Rand.NextDoubleNeg());
+            }
+            albumArt.TranslateTo();
+            albumArt.SetScale(artScale);
+            albumArt.Draw();
 
-            //GL.PopMatrix(); //Restore previously saved matrix
+            GL.PopMatrix(); //Restore previously saved matrix
 
             foreach (Cube c in cubes)
             {
                 GL.PushMatrix(); //Save current matrix
 
-                if(jitter)c.Jitter(Rand.NextDoubleNeg() / 4);
+                if (jitter) c.Jitter(Rand.NextDoubleNeg() / 4);
 
                 c.Fall(moveSpeed);
                 if (c.position.y < 0) c.position.y += gridSize.Y;
@@ -177,9 +181,11 @@ namespace AudioAnalyzer
             }
 
             GL.PushMatrix();
-            spectrum3D.TranslateTo();
-            //spectrum3D.SetScale(cubeScale);
+            GL.Translate(gridSize.X / 2, gridSize.Y / 2, 0);
+            spectrum3D.SetXScale(spectrumXscale);
+            spectrum3D.SetYScale(spectrumYScale);
             spectrum3D.Draw();
+            spectrum3D.TranslateTo();
             GL.PopMatrix();
         }
 
@@ -187,10 +193,12 @@ namespace AudioAnalyzer
         {
             lastDraw = DateTime.Now;
             if (moveSpeed > 0.15) moveSpeed /= 1.5;
-            if (cubeScale > 0.3) cubeScale -= 0.15;
+            if (cubeScale > 0.3) cubeScale -= 0.05;
             if (brightness > 0.5f) brightness -= 0.05f / 3;
             if (cubeScale < 3 * maxCubeScale / 4) jitter = false;
             if (artScale > minArtScale) artScale -= 0.01 * artScale;
+            if (spectrumYScale >= .20) spectrumYScale -= 0.20;
+            if (spectrumXscale <= 1.5) spectrumXscale += 0.01;
         }
 
         bool jitter = false;
@@ -200,6 +208,7 @@ namespace AudioAnalyzer
             artScale = maxArtScale;
             jitter = true;
             brightness = maxBrightness;
+            spectrumXscale = minSpectrumXScale;
         }
 
         public void Trigger2()
@@ -212,7 +221,7 @@ namespace AudioAnalyzer
 
         public void Trigger3(float amplitude = 0.0f)
         {
-            //amplitude based effect.
+            spectrumYScale = .01 * amplitude;
         }
     }
 }

@@ -6,6 +6,18 @@ using System.Threading.Tasks;
 
 namespace AudioAnalyzer
 {
+    class Scale
+    {
+        public double x, y, z;
+
+        public Scale(double x, double y, double z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+    }
+
     class Position
     {
         public double x, y, z;

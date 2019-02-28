@@ -10,33 +10,34 @@ namespace AudioAnalyzer
     class Spectrum3D
     {
         List<Cube> cubes;
-        double scale = 10;
+        //double scale = 1;
 
+        public Scale scale;
         public Position position;
+        public Position drawPosition;
         public Angle angle = new Angle(0.0, 0.0, 0.0);
 
         public Spectrum3D(double xPosition, double yPosition, double zPosition)
         {
-            position = new Position(xPosition, yPosition, zPosition);
-            cubes = new List<Cube>(8);
+            scale = new Scale(1,1,1);
+            position = drawPosition = new Position(xPosition, yPosition, zPosition);
+            cubes = new List<Cube>(32);
             Init();
         }
 
         void Init()
         {
-            for(int i = 0; i < cubes.Capacity; i++)
+            drawPosition.x -= ((cubes.Capacity - 1) * 1.2) / 2;
+
+            for (int i = 0; i < cubes.Capacity; i++)
             {
-                cubes.Add(new Cube(position.x + i, position.y, position.z));
+                cubes.Add(new Cube(drawPosition.x + i * 1.2, position.y, position.z));
             }
-            this.position.x -= ((cubes.Capacity - 1) * scale * 1.1)/ 2;
         }
 
         void ApplyScale()
         {
-            for (int i = 0; i < cubes.Count; i++)
-            {
-                cubes[i].position.x = i * scale * 1.1;
-            }
+            GL.Scale(scale.x,scale.y,scale.z);
         }
 
         void ApplyRotation()
@@ -48,6 +49,7 @@ namespace AudioAnalyzer
 
         void SpecifyVertices()
         {
+
         }
 
         public void Draw()
@@ -59,39 +61,27 @@ namespace AudioAnalyzer
             for(int i = 0; i < cubes.Count; i++)
             {
                 GL.PushMatrix();
-                //cubes[i].position.x = i * scale * 1.1;
                 cubes[i].TranslateTo();
-                cubes[i].SetScale(scale);
+                cubes[i].AdjustYScale(Rand.NextDoubleNeg()*0.001); 
                 cubes[i].Draw();
                 GL.PopMatrix();
             }
         }
         
 
-        public void SetScale(double scale)
+        public void SetYScale(double scale)
         {
-            this.scale = scale;
+            this.scale.y = scale;
         }
 
-        public void Jitter(double amount)
+        public void SetXScale(double scale)
         {
-            this.position.x += amount;
-            this.position.z += amount;
-        }
-
-        public void Pitch(double amount)
-        {
-            this.angle.y += amount;
+            this.scale.x = scale;
         }
 
         public void TranslateTo()
         {
             GL.Translate(this.position.x, this.position.y, this.position.z);
-        }
-
-        public void Fall(double amount)
-        {
-            this.position.y -= amount;
         }
     }
 }
