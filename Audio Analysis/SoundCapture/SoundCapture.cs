@@ -95,7 +95,7 @@ public static class SoundCapture
     public static float[] GetFFtData()
     {
         lineSpectrum.SpectrumProvider.GetFftData(fftBuffer);
-        return lineSpectrum.GetSpectrumPoints(100.0f, fftBuffer);
+        return lineSpectrum.GetSpectrumPoints(10000.0f, fftBuffer);
     }
 
     public static float[] Update()

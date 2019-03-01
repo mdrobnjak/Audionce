@@ -27,35 +27,43 @@ namespace AudioAnalyzer
 
             GL.Enable(EnableCap.DepthTest);
 
-            DoLighting2(1.0f * 1, 0.5f);            
+            DoLighting2(1.0f * 1, 0.5f);
 
             DoTexture();
 
             base.OnLoad(e);
         }
 
-       void DoTexture()
+        void DoTexture()
         {
             GL.Enable(EnableCap.Texture2D);
             GL.GenTextures(1, out texture);
             GL.BindTexture(TextureTarget.Texture2D, texture);
 
-            BitmapData texData = new BitmapData();
-            LoadImage("SynriseSoulwaxRemix.bmp", out texData);
-            GL.TexImage2D(TextureTarget.Texture2D,0,PixelInternalFormat.Rgb, texData.Width, texData.Height,
-                0, OpenTK.Graphics.OpenGL.PixelFormat.Bgr,PixelType.UnsignedByte, texData.Scan0);
+            #region LoadImage
+            if (FileIO.Path == null) FileIO.InitPath();
+            Bitmap bmp = new Bitmap(FileIO.Path + "SynriseSoulwaxRemix.bmp");
+            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
+            BitmapData texData = bmp.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);            
+            #endregion
+
+            //LoadImage("SynriseSoulwaxRemix.bmp", out texData);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, texData.Width, texData.Height,
+                0, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, PixelType.UnsignedByte, texData.Scan0);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+            bmp.UnlockBits(texData);
         }
 
-        void LoadImage(string name, out BitmapData retData )
-        {
-            if(FileIO.Path == null)FileIO.InitPath();
-            Bitmap bmp = new Bitmap(FileIO.Path + name);
-            Rectangle rect = new Rectangle(0,0,bmp.Width,bmp.Height);
-            BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            bmp.UnlockBits(bmpData);
-            retData = bmpData;
-        }
+        //void LoadImage(string name, out BitmapData retData)
+        //{
+        //    if (FileIO.Path == null) FileIO.InitPath();
+        //    Bitmap bmp = new Bitmap(FileIO.Path + name);
+        //    Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
+        //    BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+        //    bmp.UnlockBits(bmpData);
+        //    retData = bmpData;
+        //}
 
         public static void DoLighting(float diffuseBrightness, float ambientBrightness)
         {
