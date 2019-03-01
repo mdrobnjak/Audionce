@@ -13,7 +13,7 @@ namespace AudioAnalyzer
     {
         public const float PI = (float)Math.PI;
 
-        public static IVFX Preset = new MovingTiles();
+        public static IVFX Preset = new SnakingTiles();
 
         public static void Run()
         {

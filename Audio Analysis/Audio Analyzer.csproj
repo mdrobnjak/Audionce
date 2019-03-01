@@ -216,7 +216,7 @@
     <Compile Include="SoundCapture\SpectrumBase.cs" />
     <Compile Include="Visuals\CubeMatrix.cs" />
     <Compile Include="Visuals\IVFX.cs" />
-    <Compile Include="Visuals\MovingTiles.cs" />
+    <Compile Include="Visuals\SnakingTiles.cs" />
     <Compile Include="Visuals\NoiseFlowField\BackgroundImage.cs" />
     <Compile Include="Visuals\NoiseFlowField\Cube.cs" />
     <Compile Include="Visuals\NoiseFlowField\FastNoise.cs" />
