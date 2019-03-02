@@ -22,7 +22,7 @@ namespace AudioAnalyzer
 
             using (VisEnv vis = new VisEnv(500, 500, "Visuals"))
             {
-                vis.Run(30.0);
+                vis.Run(60.0);
             }
         }
     }

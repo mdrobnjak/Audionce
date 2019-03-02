@@ -60,5 +60,15 @@ namespace AudioAnalyzer
         {
             return r.Next() % 2 == 0 ? r.NextDouble() : -r.NextDouble();
         }
+
+        public static float NextFloat()
+        {
+            return (float)r.NextDouble();
+        }
+
+        public static float NextFloatNeg()
+        {
+            return r.Next() % 2 == 0 ? (float)r.NextDouble() : -(float)r.NextDouble();
+        }
     }
 }

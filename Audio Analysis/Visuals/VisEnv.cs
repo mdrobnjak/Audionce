@@ -21,15 +21,19 @@ namespace AudioAnalyzer
 
         static int texture;
 
+        public static Color4 clearColor;
+        
         protected override void OnLoad(EventArgs e)
         {
-            GL.ClearColor(Color.Black);
+            clearColor = new Color4(0,0,0,0);
+
+            GL.ClearColor(clearColor);
 
             GL.Enable(EnableCap.DepthTest);
 
             DoLighting2(1.0f * 1, 0.5f);
 
-            DoTexture();
+            //DoTexture();
 
             base.OnLoad(e);
         }
@@ -42,12 +46,12 @@ namespace AudioAnalyzer
 
             #region LoadImage
             if (FileIO.Path == null) FileIO.InitPath();
-            Bitmap bmp = new Bitmap(FileIO.Path + "SynriseSoulwaxRemix.bmp");
+            Bitmap bmp = new Bitmap(FileIO.Path + "ZakBullet.bmp");
             Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
             BitmapData texData = bmp.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);            
             #endregion
 
-            //LoadImage("SynriseSoulwaxRemix.bmp", out texData);
+            //LoadImage("ZakBullet.bmp", out texData);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, texData.Width, texData.Height,
                 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, PixelType.UnsignedByte, texData.Scan0);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);

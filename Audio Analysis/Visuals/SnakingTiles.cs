@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace AudioAnalyzer
@@ -13,12 +14,16 @@ namespace AudioAnalyzer
     /// </summary>
     class SnakingTiles : IVFX
     {
-        enum Direction {Left, Up, Down, Right};
+        const double maxCubeScale = 1.15;
+        double cubeScale = maxCubeScale;
+
+        enum Direction { Left, Up, Down, Right };
         Direction lastDir = Direction.Right;
         Direction cameraDir = Direction.Right;
 
         Position cameraPos;
         List<Cube> cubes;
+        Cube background;
         Dictionary<string, int> ci;
         double distance = 1.3;
 
@@ -26,6 +31,10 @@ namespace AudioAnalyzer
         {
             ci = new Dictionary<string, int>();
             cameraPos = new Position(distance, 0, 0);
+
+            background = new Cube(cameraPos.x,cameraPos.y,cameraPos.z-5);
+            background.SetScale(xScale: 30, yScale: 30);
+
             cubes = new List<Cube>(4);
 
             Init();
@@ -90,6 +99,8 @@ namespace AudioAnalyzer
                     ci["previous"] = ci["current"];
                     ci["current"] = ci["next"];
                     ci["next"] = future;
+                    
+                    cubes[ci["future"]].RandomizeColor();
 
                     moveCamera = false;
                 }
@@ -99,17 +110,27 @@ namespace AudioAnalyzer
             {
                 GL.PushMatrix(); //Save current matrix
 
+                c.SetScale(cubeScale,cubeScale,cubeScale);
+
                 c.TranslateTo();
 
                 c.Draw();
 
                 GL.PopMatrix(); //Restore previously saved matrix
             }
+
+            GL.PushMatrix();
+
+            background.TranslateTo();
+
+            background.Draw();
+
+            GL.PopMatrix();
         }
 
         public void PostDraw()
         {
-            
+            if (cubeScale > 1) cubeScale -= 0.005;
         }
 
         bool moveCamera = false;
@@ -124,13 +145,19 @@ namespace AudioAnalyzer
             stepSize = distance / steps;
         }
 
+
         public void Trigger2()
         {
-
+            cubeScale = maxCubeScale;
         }
 
         public void Trigger3(float amplitude = 0.0f)
         {
+            for(int i = 0; i < background.color.Count() - 1; i++)
+            {
+                background.color[i] += amplitude * Rand.NextFloatNeg() * 0.0005;
+                background.color[i] %= 1;
+            }
         }
 
         Direction GetNextDirection()
@@ -139,7 +166,7 @@ namespace AudioAnalyzer
             while (true)
             {
                 nextDir = (Direction)(Rand.NextInt() % 4);
-                switch(lastDir)
+                switch (lastDir)
                 {
                     case Direction.Left:
                         if (nextDir != Direction.Right)
@@ -169,15 +196,15 @@ namespace AudioAnalyzer
             double xDifference = cubes[ci["next"]].position.x - cameraPos.x;
             double yDifference = cubes[ci["next"]].position.y - cameraPos.y;
 
-            if(xDifference > 0.01)
+            if (xDifference > 0.01)
             {
                 return Direction.Right;
             }
-            else if(xDifference < -0.01)
+            else if (xDifference < -0.01)
             {
                 return Direction.Left;
             }
-            else if(yDifference > 0.01)
+            else if (yDifference > 0.01)
             {
                 return Direction.Up;
             }
@@ -190,7 +217,7 @@ namespace AudioAnalyzer
 
         void MoveCamera()
         {
-            switch(cameraDir)
+            switch (cameraDir)
             {
                 case Direction.Left:
                     cameraPos.x -= stepSize;
@@ -207,6 +234,8 @@ namespace AudioAnalyzer
                 default:
                     break;
             }
+            background.position.x = cameraPos.x;
+            background.position.y = cameraPos.y;
         }
 
         //void MoveAndReassign()

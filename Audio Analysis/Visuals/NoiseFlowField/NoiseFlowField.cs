@@ -49,7 +49,7 @@ namespace AudioAnalyzer
             gridSize.X = gridSize.Y = gridSize.Z = numCells * cellSize;
 
             cubes = new List<Cube>(numCubes);
-            albumArt = new BackgroundImage(gridSize.X / 2, gridSize.Y / 2, -gridSize.Z);
+            albumArt = new BackgroundImage(gridSize.X / 2, gridSize.Y / 2, -gridSize.Z-120);
             spectrum3D = new Spectrum3D(0, 0, 40);
 
             for (int i = 0; i < numCubes; i++)
@@ -173,7 +173,7 @@ namespace AudioAnalyzer
 
                 c.Pitch(Rand.NextDouble());
 
-                c.SetScale(cubeScale);
+                c.SetScale(cubeScale, cubeScale, cubeScale);
 
                 c.Draw();
 
