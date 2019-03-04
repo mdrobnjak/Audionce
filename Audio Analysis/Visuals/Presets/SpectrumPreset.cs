@@ -13,7 +13,6 @@ namespace AudioAnalyzer
         const double maxScale = 6.0;
         double scale = maxScale;
 
-
         Spectrum3D spectrum3D;
 
         public SpectrumPreset()
@@ -28,10 +27,12 @@ namespace AudioAnalyzer
 
         public void Draw()
         {
+
             GL.PushMatrix();
             spectrum3D.SetYScale(scale);
             spectrum3D.Draw();
             GL.PopMatrix();
+
         }
 
         public void PostDraw()

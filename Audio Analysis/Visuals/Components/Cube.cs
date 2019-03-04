@@ -22,7 +22,7 @@ namespace AudioAnalyzer
         {
             scale = new Scale(1, 1, 1);
             position = new Position(xPosition, yPosition, zPosition);
-            RandomizeColor(); //color = new double[] { 1.0, 1.0, 1.0 };
+            color = new double[] { 1.0, 1.0, 1.0 }; //RandomizeColor();
         }
 
         public void RandomizeColor()
@@ -42,7 +42,7 @@ namespace AudioAnalyzer
             GL.Rotate(this.angle.z, 0.0, 0.0, 1.0);
         }
 
-        void SpecifyVertices()
+        public void SpecifyVertices()
         {
             //left
             GL.Normal3(-1.0, 0.0, 0.0);

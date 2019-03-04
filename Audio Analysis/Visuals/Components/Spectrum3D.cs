@@ -9,7 +9,7 @@ namespace AudioAnalyzer
 {
     class Spectrum3D
     {
-        List<Cube> cubes;
+        public List<Cube> cubes;
         //double scale = 1;
 
         public Scale scale;
@@ -35,6 +35,7 @@ namespace AudioAnalyzer
             }
         }
 
+        
         void ApplyScale()
         {
             GL.Scale(scale.x,scale.y,scale.z);

@@ -54,6 +54,8 @@ namespace AudioAnalyzer
 
             GL.Begin(PrimitiveType.Quads);
 
+            GL.Color3(1.0,1.0,1.0);
+
             SpecifyVertices();
 
             GL.End();
