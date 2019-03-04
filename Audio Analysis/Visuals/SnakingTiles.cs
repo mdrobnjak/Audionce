@@ -237,22 +237,5 @@ namespace AudioAnalyzer
             background.position.x = cameraPos.x;
             background.position.y = cameraPos.y;
         }
-
-        //void MoveAndReassign()
-        //{
-        //    //Move Camera
-        //    cameraPos.x = cubes[ci["next"]].position.x;
-
-        //    //Move Cube
-        //    cubes[ci["previous"]].position.x = cubes[ci["future"]].position.x + 1.1;
-        //    cubes[ci["previous"]].position.y = cubes[ci["future"]].position.y;
-
-        //    //Rotate Keys
-        //    int future = ci["future"];
-        //    ci["future"] = ci["previous"];
-        //    ci["previous"] = ci["current"];
-        //    ci["current"] = ci["next"];
-        //    ci["next"] = future;
-        //}
     }
 }

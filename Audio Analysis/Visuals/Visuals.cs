@@ -13,7 +13,7 @@ namespace AudioAnalyzer
     {
         public const float PI = (float)Math.PI;
 
-        public static IVFX Preset = new SnakingTiles();
+        public static IVFX Preset = new NoiseFlowField();
 
         public static void Run()
         {

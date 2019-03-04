@@ -124,7 +124,7 @@ namespace AudioAnalyzer
                     frmGate.Pass[r] = false;
                 }
             }
-
+            
             Task.Run(() => frmGate.Draw());
 
             foreach (ChartForm chart in frmChart) Task.Run(() => chart.Draw());
