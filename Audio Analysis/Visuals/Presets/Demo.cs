@@ -10,7 +10,7 @@ namespace AudioAnalyzer
 {
     class Demo : IVFX
     {
-        const double maxCubeScale = 3;
+        const double maxCubeScale = 8;
         double cubeScale = maxCubeScale;
 
         const double maxSpectrumScale = 6.0;
@@ -23,7 +23,7 @@ namespace AudioAnalyzer
         const double maxMoveSpeed = 4;
         double moveSpeed = maxMoveSpeed;
 
-        const double maxRainScale = 3.0;
+        const double maxRainScale = 5;
         double rainScale = maxCubeScale;
 
         const double maxRowDistance = 4;
@@ -101,7 +101,7 @@ namespace AudioAnalyzer
                 GL.PushMatrix(); //Save current matrix
 
                 cubeRow[i].position.x = -rowDistance;
-                cubeRow[i].position.z += distance / 5;
+                cubeRow[i].position.z += distance / 3;
             
                 if (i == cubeRow.Capacity - 2) cubeRow[i].SetScale(yScale: cubeScale);
                 else if (i == cubeRow.Capacity - 1) cubeRow[i].SetScale(yScale: 1);
@@ -173,7 +173,7 @@ namespace AudioAnalyzer
 
         public void PostDraw()
         {
-            if (cubeScale >= 1.10) cubeScale -= 0.10;
+            if (cubeScale >= 1.25) cubeScale -= 0.25;
             if (spectrumScale >= .20) spectrumScale -= 0.20;
             if (cubeScale < 3 * maxCubeScale / 4) jitter = false;
             if (artScale > minArtScale) artScale -= 0.01 * artScale;

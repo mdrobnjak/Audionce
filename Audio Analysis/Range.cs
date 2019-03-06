@@ -50,7 +50,7 @@ namespace AudioAnalyzer
                 AutoSettings = new AutoSettings()
                 {
                     Bandwidth = 1,
-                    ThresholdMultiplier = 0.75F
+                    ThresholdMultiplier = 0.6F
                 },
 
                 Color = Color.Pink,
@@ -65,7 +65,7 @@ namespace AudioAnalyzer
                 AutoSettings = new AutoSettings()
                 {
                     Bandwidth = 30,
-                    ThresholdMultiplier = 0.75F
+                    ThresholdMultiplier = 0.6F
                 },
 
                 Color = Color.LightBlue,
@@ -80,7 +80,7 @@ namespace AudioAnalyzer
                 AutoSettings = new AutoSettings()
                 {
                     Bandwidth = 50,
-                    ThresholdMultiplier = 0.75F
+                    ThresholdMultiplier = 0.6F
                 },
 
                 Color = Color.LightGoldenrodYellow,

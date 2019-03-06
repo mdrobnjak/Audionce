@@ -12,20 +12,20 @@ using OpenTK.Input;
 
 namespace AudioAnalyzer
 {
-    public class VisEnv : GameWindow
+    public class VisEnvStaging : GameWindow
     {
 
-        public VisEnv(int width, int height, string title) : base(width, height, GraphicsMode.Default, title)
+        public VisEnvStaging(int width, int height, string title) : base(width, height, GraphicsMode.Default, title)
         {
         }
 
         static int texture;
 
         public static Color4 clearColor;
-        
+
         protected override void OnLoad(EventArgs e)
         {
-            clearColor = new Color4(0,0,0,0);
+            clearColor = new Color4(0, 0, 0, 0);
 
             GL.ClearColor(clearColor);
 
@@ -49,9 +49,9 @@ namespace AudioAnalyzer
             Bitmap bmp = new Bitmap(FileIO.Path + "SynriseSoulwaxRemix.bmp");
             //PictureAnalysis.GetMostUsedColor(bmp);
             Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-            BitmapData texData = bmp.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);            
+            BitmapData texData = bmp.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             #endregion
-            
+
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, texData.Width, texData.Height,
                 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, PixelType.UnsignedByte, texData.Scan0);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
@@ -117,13 +117,13 @@ namespace AudioAnalyzer
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            Visuals.Preset.PreDraw();
+            VisualsStaging.Preset.PreDraw();
 
-            Visuals.Preset.Draw();
+            VisualsStaging.Preset.Draw();
 
             Context.SwapBuffers();
 
-            Visuals.Preset.PostDraw();
+            VisualsStaging.Preset.PostDraw();
 
             base.OnRenderFrame(e);
         }
@@ -145,7 +145,7 @@ namespace AudioAnalyzer
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
-            
+
             base.OnUnload(e);
         }
     }

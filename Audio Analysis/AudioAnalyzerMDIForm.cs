@@ -35,7 +35,7 @@ namespace AudioAnalyzer
             ML.InitPaths();
 
             //Spectrum.SyncBandsAndFreqs();
-            
+
             SoundCapture.Init();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
             Arduino.InitPort();
@@ -111,9 +111,21 @@ namespace AudioAnalyzer
 
                 if (Gate.Pass(r))
                 {
-                    if (r == 0) Visuals.Preset.Trigger1();
-                    else if (r == 1) Visuals.Preset.Trigger2();
-                    else if (r == 2) Visuals.Preset.Trigger3(Range.Ranges[r].Audio);
+                    if (r == 0)
+                    {
+                        Visuals.Preset.Trigger1();
+                        VisualsStaging.Preset.Trigger1();
+                    }
+                    else if (r == 1)
+                    {
+                        Visuals.Preset.Trigger2();
+                        VisualsStaging.Preset.Trigger2();
+                    }
+                    else if (r == 2)
+                    {
+                        Visuals.Preset.Trigger3(Range.Ranges[r].Audio);
+                        VisualsStaging.Preset.Trigger3(Range.Ranges[r].Audio);
+                    }
 
                     Arduino.Trigger(r);
 
@@ -124,7 +136,7 @@ namespace AudioAnalyzer
                     frmGate.Pass[r] = false;
                 }
             }
-            
+
             Task.Run(() => frmGate.Draw());
 
             foreach (ChartForm chart in frmChart) Task.Run(() => chart.Draw());

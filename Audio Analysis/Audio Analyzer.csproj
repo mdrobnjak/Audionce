@@ -214,9 +214,11 @@
     <Compile Include="SoundCapture\ScalingStrategy.cs" />
     <Compile Include="SoundCapture\SoundCapture.cs" />
     <Compile Include="SoundCapture\SpectrumBase.cs" />
+    <Compile Include="Visuals\Components\GeometryShader.cs" />
     <Compile Include="Visuals\Presets\CubeMatrix.cs" />
     <Compile Include="Visuals\IVFX.cs" />
     <Compile Include="Visuals\Presets\Demo.cs" />
+    <Compile Include="Visuals\Presets\GeometryShaderPreset.cs" />
     <Compile Include="Visuals\Presets\SnakingTiles.cs" />
     <Compile Include="Visuals\Components\BackgroundImage.cs" />
     <Compile Include="Visuals\Components\Cube.cs" />
@@ -225,6 +227,8 @@
     <Compile Include="Visuals\Presets\SpectrumPreset.cs" />
     <Compile Include="Visuals\Components\Standards.cs" />
     <Compile Include="Visuals\VisEnv.cs" />
+    <Compile Include="Visuals\VisEnvStaging.cs" />
+    <Compile Include="Visuals\VisualsStaging.cs" />
     <Compile Include="Visuals\Visuals.cs" />
     <Compile Include="Visuals\Presets\NoiseFlowField\NoiseFlowField.cs" />
     <EmbeddedResource Include="ArduinoForm.resx">

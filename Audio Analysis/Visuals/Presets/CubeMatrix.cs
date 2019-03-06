@@ -37,6 +37,7 @@ namespace AudioAnalyzer
                     {
                         z = k * -spacePerCube;
                         cubes.Add(new Cube(x, y, z));
+                        cubes.Last().RandomizeColor();
                     }
                 }
             }
