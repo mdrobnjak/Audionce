@@ -105,10 +105,13 @@
             this.btnAutoSetThreshold = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btnAutoRange = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.cboVisualPreset = new System.Windows.Forms.ToolStripComboBox();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.toolStripProcessing.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -765,11 +768,29 @@
             this.btnAutoRange.Text = "Auto Range";
             this.btnAutoRange.Click += new System.EventHandler(this.btnAutoRange_Click);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cboVisualPreset});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 74);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1009, 25);
+            this.toolStrip1.TabIndex = 8;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // cboVisualPreset
+            // 
+            this.cboVisualPreset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboVisualPreset.Name = "cboVisualPreset";
+            this.cboVisualPreset.Size = new System.Drawing.Size(200, 25);
+            this.cboVisualPreset.SelectedIndexChanged += new System.EventHandler(this.cboVisualPreset_SelectedIndexChanged);
+            // 
             // AudioAnalyzerMDIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1009, 526);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.toolStripProcessing);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStripMain);
@@ -788,6 +809,8 @@
             this.statusStrip.PerformLayout();
             this.toolStripProcessing.ResumeLayout(false);
             this.toolStripProcessing.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -870,6 +893,8 @@
         private System.Windows.Forms.ToolStripButton lblPreset;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripMenuItem btnPerformanceMode;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripComboBox cboVisualPreset;
     }
 }
 

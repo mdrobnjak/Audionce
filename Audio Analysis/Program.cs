@@ -18,7 +18,7 @@ namespace AudioAnalyzer
         {
             System.Threading.Tasks.Task.Run(()=>Visuals.Run());
 
-            System.Threading.Tasks.Task.Run(() => VisualsStaging.Run());
+            //System.Threading.Tasks.Task.Run(() => VisualsStaging.Run());
 
             using (AudioAnalyzerMDIForm analyzer = new AudioAnalyzerMDIForm())Application.Run(analyzer);
         }        

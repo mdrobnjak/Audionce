@@ -64,6 +64,11 @@ namespace AudioAnalyzer
             cboSubtractor.SelectedIndex = 1;
             MakeActive(0);
 
+            cboVisualPreset.Items.Add(new CubeMatrix());
+            cboVisualPreset.Items.Add(new NoiseFlowField());
+            cboVisualPreset.Items.Add(new SnakingTiles());
+            cboVisualPreset.Items.Add(new Demo());
+
             lblStatus.Text = "";
 
             //btnDynamicThreshold.Checked = true;
@@ -114,17 +119,17 @@ namespace AudioAnalyzer
                     if (r == 0)
                     {
                         Visuals.Preset.Trigger1();
-                        VisualsStaging.Preset.Trigger1();
+                        //VisualsStaging.Preset.Trigger1();
                     }
                     else if (r == 1)
                     {
                         Visuals.Preset.Trigger2();
-                        VisualsStaging.Preset.Trigger2();
+                        //VisualsStaging.Preset.Trigger2();
                     }
                     else if (r == 2)
                     {
                         Visuals.Preset.Trigger3(Range.Ranges[r].Audio);
-                        VisualsStaging.Preset.Trigger3(Range.Ranges[r].Audio);
+                        //VisualsStaging.Preset.Trigger3(Range.Ranges[r].Audio);
                     }
 
                     Arduino.Trigger(r);
@@ -448,6 +453,12 @@ namespace AudioAnalyzer
 
                 CustomMDILayout();
             }
+        }
+
+        private void cboVisualPreset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Visuals.Preset = (IVFX)cboVisualPreset.SelectedItem;
+
         }
     }
 }
