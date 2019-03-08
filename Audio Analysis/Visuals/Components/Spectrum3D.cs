@@ -21,12 +21,12 @@ namespace AudioAnalyzer
         {
             scale = new Scale(1,1,1);
             position = drawPosition = new Position(xPosition, yPosition, zPosition);
-            cubes = new List<Cube>(32);
-            Init();
         }
 
-        void Init()
+        public void Init(int numCubes = 32)
         {
+            cubes = new List<Cube>(numCubes);
+
             drawPosition.x -= ((cubes.Capacity - 1) * 1.2) / 2;
 
             for (int i = 0; i < cubes.Capacity; i++)

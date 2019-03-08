@@ -41,6 +41,7 @@ namespace AudioAnalyzer
         public Demo()
         {
             spectrum3D = new Spectrum3D(0, 0, 0);
+            spectrum3D.Init();
             cubeRow = new List<Cube>(40);
             albumArt = new BackgroundImage(0, 0, -400);
             rain = new List<Cube>(30);
@@ -203,6 +204,11 @@ namespace AudioAnalyzer
         public void Trigger3(float amplitude = 0.0f)
         {
             spectrumScale = .02 * amplitude;
+        }
+
+        public void Trigger4(int index)
+        {
+
         }
     }
 }

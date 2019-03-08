@@ -160,6 +160,11 @@ namespace AudioAnalyzer
             }
         }
 
+        public void Trigger4(int index)
+        {
+
+        }
+
         Direction GetNextDirection()
         {
             Direction nextDir = new Direction();

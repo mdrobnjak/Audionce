@@ -51,6 +51,7 @@ namespace AudioAnalyzer
             cubes = new List<Cube>(numCubes);
             albumArt = new BackgroundImage(gridSize.X / 2, gridSize.Y / 2, -gridSize.Z-120);
             spectrum3D = new Spectrum3D(0, 0, 40);
+            spectrum3D.Init();
 
             for (int i = 0; i < numCubes; i++)
             {
@@ -222,6 +223,11 @@ namespace AudioAnalyzer
         public void Trigger3(float amplitude = 0.0f)
         {
             spectrumYScale = .01 * amplitude;
+        }
+
+        public void Trigger4(int index)
+        {
+
         }
     }
 }

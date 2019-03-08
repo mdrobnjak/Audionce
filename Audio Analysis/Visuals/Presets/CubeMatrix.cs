@@ -96,5 +96,10 @@ namespace AudioAnalyzer
         {
 
         }
+
+        public void Trigger4(int index)
+        {
+
+        }
     }
 }

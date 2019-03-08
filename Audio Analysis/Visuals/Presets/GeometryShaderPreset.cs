@@ -18,6 +18,7 @@ namespace AudioAnalyzer
         public GeometryShaderPreset()
         {
             spectrum3D = new Spectrum3D(0, 0, 0);
+            spectrum3D.Init();
         }        
 
         public void PreDraw()
@@ -52,6 +53,11 @@ namespace AudioAnalyzer
         public void Trigger3(float amplitude = 0.0f)
         {
             scale = .02 * amplitude;
+        }
+
+        public void Trigger4(int index)
+        {
+
         }
     }
 }

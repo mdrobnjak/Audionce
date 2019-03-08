@@ -18,6 +18,7 @@ namespace AudioAnalyzer
         public SpectrumPreset()
         {
             spectrum3D = new Spectrum3D(0,0,0);
+            spectrum3D.Init(Range.Ranges[0].NumBands);
         }
 
         public void PreDraw()
@@ -52,7 +53,17 @@ namespace AudioAnalyzer
 
         public void Trigger3(float amplitude = 0.0f)
         {
-            scale = .02 * amplitude;
+            //scale = .02 * amplitude;
+        }
+
+        public void Trigger4(int index)
+        {
+            if (index < 2 || index > 6) return;
+            foreach (Cube c in spectrum3D.cubes)
+            {
+                c.SetScale(yScale: 1);
+            }
+            spectrum3D.cubes[index].SetScale(yScale:10);
         }
     }
 }

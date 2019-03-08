@@ -61,6 +61,23 @@ namespace AudioAnalyzer
             }
         }
 
+        public static int GetSub()
+        {
+            //return the index of the 'sub' (highest bar?)
+            float max = Single.MinValue;
+            int maxIndex = 0;
+            for(int i = 0; i < Range.Ranges[0].NumBands; i ++ )
+            {
+                if(FFT.transformedData[i] > max)
+                {
+                    max = FFT.transformedData[i];
+                    maxIndex = i;
+                }
+            }
+
+            return maxIndex;
+        }
+
         public static bool Pass(int r)
         {
             if (r == 0) return TransientPass(r);

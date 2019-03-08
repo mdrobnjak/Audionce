@@ -68,6 +68,7 @@ namespace AudioAnalyzer
             cboVisualPreset.Items.Add(new NoiseFlowField());
             cboVisualPreset.Items.Add(new SnakingTiles());
             cboVisualPreset.Items.Add(new Demo());
+            cboVisualPreset.Items.Add(new SpectrumPreset());
 
             lblStatus.Text = "";
 
@@ -107,6 +108,8 @@ namespace AudioAnalyzer
             for (int r = 0; r < Range.Count; r++)
             {
                 Gate.Filter(r);
+
+                if(!Gate.Pass(0))Visuals.Preset.Trigger4(Gate.GetSub());
 
                 Gate.ApplySubtraction(r);
 
