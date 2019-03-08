@@ -18,6 +18,7 @@ namespace AudioAnalyzer
             if (r == 0) FilterRejectMax(r);
             else if (r == 1) FilterStandard(r);
             else if (r == 2) FilterStandard(r);
+            else if (r == 3) FilterForMax(r);
         }
 
         public static void FilterStandard(int r)
@@ -83,6 +84,7 @@ namespace AudioAnalyzer
             if (r == 0) return TransientPass(r);
             else if (r == 1) return AllPass(r);
             else if (r == 2) return true;
+            else if (r == 3) return AllPass(r);
             else return false;
         }
         

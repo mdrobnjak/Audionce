@@ -13,7 +13,7 @@ namespace AudioAnalyzer
     {
         public const float PI = (float)Math.PI;
 
-        public static IVFX Preset = new Demo();
+        public static IVFX Preset = new SpectrumPreset();
 
         public static void Run()
         {

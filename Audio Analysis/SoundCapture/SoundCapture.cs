@@ -27,7 +27,7 @@ public static class SoundCapture
     static LineSpectrum lineSpectrum;
         
     public static WasapiCapture Capture;
-    public static FftSize FFTSize = FftSize.Fft4096;
+    public static FftSize FFTSize = FftSize.Fft8192;
     static float[] fftBuffer;
 
     static SpectrumProvider spectrumProvider;

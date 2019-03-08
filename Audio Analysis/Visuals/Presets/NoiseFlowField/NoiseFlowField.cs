@@ -225,7 +225,7 @@ namespace AudioAnalyzer
             spectrumYScale = .01 * amplitude;
         }
 
-        public void Trigger4(int index)
+        public void Trigger4(int index, float amplitude = 0.0f)
         {
 
         }

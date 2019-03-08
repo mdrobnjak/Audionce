@@ -60,15 +60,22 @@ namespace AudioAnalyzer
 
         public static void ReadConfig(string filePath)
         {
-            config = System.IO.File.ReadAllLines(filePath);
-
-            //Int32.Parse(config[0]);
-            //Int32.Parse(config[1]);
-            for (int i = 0; i < Range.Count; i++)
+            try
             {
-                Range.Ranges[i].LowCutFreq = Int32.Parse(config[2].Split(',')[i]);
-                Range.Ranges[i].HighCutFreq = Int32.Parse(config[3].Split(',')[i]);
-                Range.Ranges[i].Threshold = Int32.Parse(config[4].Split(',')[i]);
+                config = System.IO.File.ReadAllLines(filePath);
+
+                //Int32.Parse(config[0]);
+                //Int32.Parse(config[1]);
+                for (int i = 0; i < Range.Count; i++)
+                {
+                    Range.Ranges[i].LowCutFreq = Int32.Parse(config[2].Split(',')[i]);
+                    Range.Ranges[i].HighCutFreq = Int32.Parse(config[3].Split(',')[i]);
+                    Range.Ranges[i].Threshold = Int32.Parse(config[4].Split(',')[i]);
+                }
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Could not retrieve configuration of one or more ranges.");
             }
         }
 

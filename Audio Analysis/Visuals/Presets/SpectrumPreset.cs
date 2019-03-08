@@ -56,13 +56,41 @@ namespace AudioAnalyzer
             //scale = .02 * amplitude;
         }
 
-        public void Trigger4(int index)
+        const int bufferSize = 20;
+        int changeBuffer = bufferSize;
+        int currentIndex = 0;
+        //float maxAmplitude = Single.MinValue;
+        public void Trigger4(int index, float amplitude = 0.0f)
         {
-            if (index < 2 || index > 6) return;
+            if (spectrum3D.cubes == null || spectrum3D.cubes.Count == 0) return;
+            if(index != currentIndex)
+            {
+                //if (amplitude > maxAmplitude * 0.99f)
+                //{
+                //    currentIndex = index;
+                //    maxAmplitude = amplitude;
+                //}
+                if(changeBuffer > 0)
+                {
+                    changeBuffer--;
+                    spectrum3D.cubes[currentIndex].RandomizeColor();
+                    return;
+                }
+                else
+                {
+                    currentIndex = index;
+                    changeBuffer = bufferSize;
+                }
+            }
+
+            //if (amplitude > maxAmplitude) maxAmplitude = amplitude;
+
             foreach (Cube c in spectrum3D.cubes)
             {
                 c.SetScale(yScale: 1);
+                c.color = new double[] { 1.0, 1.0, 1.0 };
             }
+            spectrum3D.cubes[index].RandomizeColor();
             spectrum3D.cubes[index].SetScale(yScale:10);
         }
     }

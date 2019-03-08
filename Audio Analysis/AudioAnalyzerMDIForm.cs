@@ -25,6 +25,7 @@ namespace AudioAnalyzer
 
         public AudioAnalyzerMDIForm()
         {
+
             InitializeComponent();
 
             using (System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess())
@@ -45,6 +46,10 @@ namespace AudioAnalyzer
             InitControls();
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
+
+            System.Threading.Tasks.Task.Run(() => Visuals.Run());
+
+            timerFFT.Enabled = true;
         }
 
         private void frmAudioAnalyzerMDI_SizeChanged(object sender, EventArgs e)
@@ -108,9 +113,7 @@ namespace AudioAnalyzer
             for (int r = 0; r < Range.Count; r++)
             {
                 Gate.Filter(r);
-
-                if(!Gate.Pass(0))Visuals.Preset.Trigger4(Gate.GetSub());
-
+                
                 Gate.ApplySubtraction(r);
 
                 Range.Ranges[r].AutoSettings.ApplyAutoSettings();
@@ -133,6 +136,11 @@ namespace AudioAnalyzer
                     {
                         Visuals.Preset.Trigger3(Range.Ranges[r].Audio);
                         //VisualsStaging.Preset.Trigger3(Range.Ranges[r].Audio);
+                    }
+                    else if(r == 3)
+                    {
+                        int subIndex = Gate.GetSub();
+                        Visuals.Preset.Trigger4(subIndex, FFT.transformedData[subIndex]);
                     }
 
                     Arduino.Trigger(r);

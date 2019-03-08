@@ -20,6 +20,6 @@ namespace AudioAnalyzer
 
         void Trigger3(float amplitude);
 
-        void Trigger4(int index);
+        void Trigger4(int index, float amplitude = 0.0f);
     }
 }

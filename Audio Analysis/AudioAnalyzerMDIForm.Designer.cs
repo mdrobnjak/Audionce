@@ -677,7 +677,6 @@
             // 
             // timerFFT
             // 
-            this.timerFFT.Enabled = true;
             this.timerFFT.Interval = 17;
             this.timerFFT.Tick += new System.EventHandler(this.timerFFT_Tick);
             // 
