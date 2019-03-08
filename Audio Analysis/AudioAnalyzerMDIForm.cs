@@ -408,7 +408,7 @@ namespace AudioAnalyzer
 
         void CustomMDILayout()
         {
-            int offset = menuStrip.Height + toolStripMain.Height + toolStripProcessing.Height + statusStrip.Height + 4;
+            int offset = menuStrip.Height + toolStripMain.Height + toolStripProcessing.Height + toolStripVisuals.Height + statusStrip.Height + 4;
             int h = ClientSize.Height - offset;
 
             frmSpectrum.Height = h / 2;
