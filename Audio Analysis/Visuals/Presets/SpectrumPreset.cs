@@ -39,6 +39,7 @@ namespace AudioAnalyzer
         public void PostDraw()
         {
             if (scale >= .20) scale -= 0.20;
+            spectrum3D.cubes[currentIndex].RandomizeColor();
         }
         
         public void Trigger1()
@@ -56,24 +57,25 @@ namespace AudioAnalyzer
             //scale = .02 * amplitude;
         }
 
-        const int bufferSize = 20;
+        const int bufferSize = 0;
         int changeBuffer = bufferSize;
         int currentIndex = 0;
         //float maxAmplitude = Single.MinValue;
         public void Trigger4(int index, float amplitude = 0.0f)
         {
             if (spectrum3D.cubes == null || spectrum3D.cubes.Count == 0) return;
-            if(index != currentIndex)
+
+
+            if (index != currentIndex)
             {
                 //if (amplitude > maxAmplitude * 0.99f)
                 //{
                 //    currentIndex = index;
                 //    maxAmplitude = amplitude;
                 //}
-                if(changeBuffer > 0)
+                if (changeBuffer > 0)
                 {
                     changeBuffer--;
-                    spectrum3D.cubes[currentIndex].RandomizeColor();
                     return;
                 }
                 else
@@ -90,7 +92,6 @@ namespace AudioAnalyzer
                 c.SetScale(yScale: 1);
                 c.color = new double[] { 1.0, 1.0, 1.0 };
             }
-            spectrum3D.cubes[index].RandomizeColor();
             spectrum3D.cubes[index].SetScale(yScale:10);
         }
     }
