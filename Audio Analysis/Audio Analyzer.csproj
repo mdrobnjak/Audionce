@@ -155,12 +155,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arduino.cs" />
-    <Compile Include="Obsolete\AudioIn.cs" />
     <Compile Include="AutoSettings.cs" />
+    <Compile Include="OscilloscopeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OscilloscopeForm.Designer.cs">
+      <DependentUpon>OscilloscopeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GraphicsHelpers\Brushes.cs" />
     <Compile Include="GraphicsHelpers\GraphicsConverter.cs" />
-    <Compile Include="Obsolete\BeatDetector.cs" />
-    <Compile Include="Obsolete\ComplexNumber.cs" />
     <Compile Include="FFT.cs" />
     <Compile Include="Gate.cs" />
     <Compile Include="FileIO.cs" />
@@ -204,8 +207,6 @@
     </Compile>
     <Compile Include="ML\BandSelectionData.cs" />
     <Compile Include="ML\MachineLearning.cs" />
-    <Compile Include="Obsolete\OSD.cs" />
-    <Compile Include="Obsolete\Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
@@ -233,6 +234,9 @@
     <Compile Include="Visuals\Presets\NoiseFlowField\NoiseFlowField.cs" />
     <EmbeddedResource Include="ArduinoForm.resx">
       <DependentUpon>ArduinoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OscilloscopeForm.resx">
+      <DependentUpon>OscilloscopeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GateForm.resx">
       <DependentUpon>GateForm.cs</DependentUpon>

@@ -28,6 +28,7 @@ public static class SoundCapture
         
     public static WasapiCapture Capture;
     public static FftSize FFTSize = FftSize.Fft8192;
+    public static float SingleBlock;
     static float[] fftBuffer;
 
     static SpectrumProvider spectrumProvider;
@@ -83,6 +84,7 @@ public static class SoundCapture
 
     private static void NotificationSource_SingleBlockRead(object sender, SingleBlockReadEventArgs e)
     {
+        SingleBlock = e.Left;
         spectrumProvider.Add(e.Left, e.Right);
     }
 
@@ -101,6 +103,10 @@ public static class SoundCapture
     public static float[] Update()
     {
         return GetFFtData();
+    }
 
+    public static float GetSingleBlock()
+    {
+        return SingleBlock;
     }
 }

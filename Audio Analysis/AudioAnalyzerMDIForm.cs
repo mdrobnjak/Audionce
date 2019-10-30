@@ -19,6 +19,7 @@ namespace AudioAnalyzer
 
         SpectrumForm frmSpectrum;
         ChartForm[] frmChart = new ChartForm[Range.Count];
+        OscilloscopeForm frmOscilloscope = new OscilloscopeForm();
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
@@ -91,6 +92,11 @@ namespace AudioAnalyzer
                 frmChart[i].Show();
             }
 
+            frmOscilloscope = new OscilloscopeForm();
+            frmOscilloscope.MdiParent = this;
+            childFormNumber++;
+            frmOscilloscope.Show();
+
             frmSpectrum = new SpectrumForm();
             frmSpectrum.MdiParent = this;
             childFormNumber++;
@@ -125,22 +131,14 @@ namespace AudioAnalyzer
                     if (r == 0)
                     {
                         Visuals.Preset.Trigger1();
-                        //VisualsStaging.Preset.Trigger1();
                     }
                     else if (r == 1)
                     {
                         Visuals.Preset.Trigger2();
-                        //VisualsStaging.Preset.Trigger2();
                     }
                     else if (r == 2)
                     {
                         Visuals.Preset.Trigger3(Range.Ranges[r].Audio);
-                        //VisualsStaging.Preset.Trigger3(Range.Ranges[r].Audio);
-                    }
-                    else if(r == 3)
-                    {
-                        int subIndex = Gate.GetSub();
-                        Visuals.Preset.Trigger4(subIndex, FFT.transformedData[subIndex]);
                     }
 
                     Arduino.Trigger(r);
@@ -156,6 +154,8 @@ namespace AudioAnalyzer
             Task.Run(() => frmGate.Draw());
 
             foreach (ChartForm chart in frmChart) Task.Run(() => chart.Draw());
+            
+            Task.Run(() => frmOscilloscope.Draw());
 
             Task.Run(() => frmSpectrum.Draw());
 
@@ -170,7 +170,6 @@ namespace AudioAnalyzer
                 AutoSettings.ReadyToProcess = false;
 
                 //Range1
-                //PrintBandAnalysis(Ranges[0].AutoSettings.DoBandAnalysis());
                 Range.Ranges[0].AutoSettings.KickSelector();
 
                 //Range2
@@ -185,7 +184,6 @@ namespace AudioAnalyzer
                 lblStatus.Text = "";
             }
         }
-
 
         #region Visual Studio Generated Code
 
@@ -427,15 +425,19 @@ namespace AudioAnalyzer
             frmSpectrum.Location = new Point(0, h - frmSpectrum.Height);
 
             frmGate.Height = h / 2;
-            frmGate.Width = (ClientSize.Width - 4) / (Range.Count + 1);
+            frmGate.Width = (ClientSize.Width - 4) / (Range.Count + 2);
             frmGate.Location = new Point(0, h - frmGate.Height - frmSpectrum.Height);
-
+            
             for (int i = 0; i < Range.Count; i++)
             {
                 frmChart[i].Height = h / 2;
-                frmChart[i].Width = (ClientSize.Width - 4) / (Range.Count + 1);
+                frmChart[i].Width = (ClientSize.Width - 4) / (Range.Count + 2);
                 frmChart[i].Location = new Point((i + 1) * frmChart[i].Width, h - frmChart[i].Height - frmSpectrum.Height);
             }
+
+            frmOscilloscope.Height = h / 2;
+            frmOscilloscope.Width = (ClientSize.Width - 4) / (Range.Count + 2);
+            frmOscilloscope.Location = new Point((Range.Count + 1) * frmOscilloscope.Width, h - frmOscilloscope.Height - frmSpectrum.Height);
         }
 
         private void performanceModeToolStripMenuItem_Click(object sender, EventArgs e)
