@@ -797,7 +797,7 @@
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "AudioAnalyzerMDIForm";
-            this.Text = "Audio Analyzer";
+            this.Text = "Audionce Forte";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAudioAnalyzerMDI_FormClosing);
             this.Shown += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
             this.menuStrip.ResumeLayout(false);

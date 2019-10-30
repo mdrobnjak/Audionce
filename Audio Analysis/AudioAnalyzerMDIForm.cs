@@ -47,7 +47,7 @@ namespace AudioAnalyzer
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
 
-            System.Threading.Tasks.Task.Run(() => Visuals.Run());
+            //System.Threading.Tasks.Task.Run(() => Visuals.Run());
 
             timerFFT.Enabled = true;
         }

@@ -205,16 +205,18 @@ namespace AudioAnalyzer
         bool jitter = false;
         public void Trigger1()
         {
-            cubeScale = maxCubeScale;
+            //cubeScale = maxCubeScale;
             artScale = maxArtScale;
             jitter = true;
             brightness = maxBrightness;
             spectrumXscale = minSpectrumXScale;
+            moveSpeed = maxMoveSpeed;
         }
 
         public void Trigger2()
         {
-            moveSpeed = maxMoveSpeed;
+            //moveSpeed = maxMoveSpeed;
+            cubeScale = maxCubeScale;
 
             albumArt.position.x = gridSize.X / 2;
             albumArt.position.y = gridSize.Y / 2;

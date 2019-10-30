@@ -33,7 +33,7 @@ namespace AudioAnalyzer
             Active.HighCutAbsolute = Active.LowCutAbsolute + Active.AutoSettings.Bandwidth;
         }
 
-        public const int Count = 4;
+        public const int Count = 3;
 
         int Index;
 
@@ -86,21 +86,21 @@ namespace AudioAnalyzer
                 Color = Color.LightGoldenrodYellow,
                 DarkColor = Color.Gold
             },
-            new Range()
-            {
-                Index = 3,
+            //new Range()
+            //{
+            //    Index = 3,
 
-                LowFreq = 0, HighFreq = 150,
+            //    LowFreq = 0, HighFreq = 150,
 
-                AutoSettings = new AutoSettings()
-                {
-                    Bandwidth = 1,
-                    ThresholdMultiplier = 0.6F
-                },
+            //    AutoSettings = new AutoSettings()
+            //    {
+            //        Bandwidth = 1,
+            //        ThresholdMultiplier = 0.6F
+            //    },
 
-                Color = Color.LightGreen,
-                DarkColor = Color.Lime
-            }
+            //    Color = Color.LightGreen,
+            //    DarkColor = Color.Lime
+            //}
         };
 
         public static ref Range Active
