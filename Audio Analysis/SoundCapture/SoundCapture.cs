@@ -5,6 +5,7 @@ using WinformsVisualization.Visualization;
 using CSCore.DSP;
 using CSCore.Streams;
 using System;
+using System.Collections.Generic;
 
 namespace AudioAnalyzer
 {
@@ -28,8 +29,10 @@ public static class SoundCapture
         
     public static WasapiCapture Capture;
     public static FftSize FFTSize = FftSize.Fft8192;
-    public static float SingleBlock;
     static float[] fftBuffer;
+    
+    public static float SingleBlock;
+    public static List<float> BlocksSinceLastCapture = new List<float>();
 
     static SpectrumProvider spectrumProvider;
 
@@ -39,7 +42,7 @@ public static class SoundCapture
     {
 
         // This uses the wasapi api to get any sound data played by the computer
-        Capture = new WasapiLoopbackCapture(100);
+        Capture = new WasapiLoopbackCapture(0);
 
         Capture.Initialize();
 
@@ -56,6 +59,8 @@ public static class SoundCapture
         // The specific vars of lineSpectrum are changed below in the editor so most of these aren't that important here
         spectrumProvider = new SpectrumProvider(Capture.WaveFormat.Channels,
                     Capture.WaveFormat.SampleRate, FFTSize);
+
+        Console.WriteLine(Capture.WaveFormat.SampleRate);
 
         lineSpectrum = new LineSpectrum(FFTSize)
         {
@@ -81,10 +86,11 @@ public static class SoundCapture
     {
         finalSource.Read(e.Data, e.Offset, e.ByteCount);
     }
-
+    
     private static void NotificationSource_SingleBlockRead(object sender, SingleBlockReadEventArgs e)
     {
-        SingleBlock = e.Left;
+        BlocksSinceLastCapture.Add(e.Left);
+        //SingleBlock = e.Left;
         spectrumProvider.Add(e.Left, e.Right);
     }
 
@@ -105,8 +111,11 @@ public static class SoundCapture
         return GetFFtData();
     }
 
-    public static float GetSingleBlock()
+    static List<float> blocks;
+    public static List<float> GetBlocksSinceLastCapture()
     {
-        return SingleBlock;
+        blocks = BlocksSinceLastCapture.GetRange(0, BlocksSinceLastCapture.Count);
+        BlocksSinceLastCapture = new List<float>();
+        return blocks;
     }
 }

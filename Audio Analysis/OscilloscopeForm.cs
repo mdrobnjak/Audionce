@@ -18,13 +18,13 @@ namespace AudioAnalyzer
 
         public OscilloscopeForm()
         {
-            this.BackColor = Color.White;
+            this.BackColor = Color.Black;
 
             InitializeComponent();
             this.SizeChanged += new System.EventHandler(this.ChartForm_SizeChanged);
 
             DoubleBuffered = true;
-
+            
             InitRectangles();
         }
 
@@ -32,6 +32,11 @@ namespace AudioAnalyzer
 
         public void Draw()
         {
+            if (pauseDrawing)
+            {
+                SoundCapture.GetBlocksSinceLastCapture();
+                return;
+            }
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
@@ -46,8 +51,8 @@ namespace AudioAnalyzer
             }
         }        
 
-        const int XAxis = 200;
-        float[] chartData = new float[XAxis];
+        const int XAxis = 40000;
+        float[] scopeData = new float[XAxis];
         RectangleF[] rects = new RectangleF[XAxis];
 
         private void UpdateRectangles(float[] chartData)
@@ -56,8 +61,18 @@ namespace AudioAnalyzer
 
             for (int i = 0; i < chartData.Length; i++)
             {
-                rects[i].Y = (this.Height) - chartData[i];
-                rects[i].Height = chartData[i];
+                if (chartData[i] > 0)
+                {
+                    rects[i].Y = (this.Height) - chartData[i];
+                    rects[i].Y /= 2;
+                    rects[i].Height = chartData[i];
+                    rects[i].Height /= 2;
+                }
+                else
+                {
+                    rects[i].Y = (this.Height) / 2;
+                    rects[i].Height = -chartData[i] / 2;
+                }
             } 
 
             Invalidate();
@@ -65,39 +80,45 @@ namespace AudioAnalyzer
 
         void InitRectangles()
         {
-            float barWidth = (float)this.Width / chartData.Length;
+            float barWidth = (float)this.Width / scopeData.Length;
 
-            for (int i = 0; i < chartData.Length; i++)
+            for (int i = 0; i < scopeData.Length; i++)
             {
                 rects[i] = new RectangleF(
                     i * barWidth,
-                    this.Height - chartData[i],
+                    this.Height - scopeData[i],
                     barWidth,
-                    chartData[i]);
+                    scopeData[i]);
             }
         }
 
         private void DrawChart()
         {
-            Array.Copy(chartData, 1, chartData, 0, chartData.Length - 1);
-            chartData[chartData.Length - 1] = SoundCapture.GetSingleBlock() * 1000;
+            List<float> blocks = new List<float>(SoundCapture.GetBlocksSinceLastCapture());
+            Array.Copy(scopeData, blocks.Count, scopeData, 0, scopeData.Length - blocks.Count);
+            for (int i = 0; i < blocks.Count; i++)
+            {
+                scopeData[scopeData.Length - (blocks.Count - i)] = blocks[i] * 1000;
+            }
 
-            UpdateRectangles(chartData);
+            UpdateRectangles(scopeData);
         }
 
         private void ChartForm_SizeChanged(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized || this.MdiParent.WindowState == FormWindowState.Minimized) return;
-            InitRectangles();
+            InitRectangles(); 
         }
 
         private void ChartForm_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.FillRectangles(Brushes.blackBrush, rects);
+            e.Graphics.FillRectangles(Brushes.whiteBrush, rects);
         }
 
+        bool pauseDrawing = false;
         private void ChartForm_MouseClick(object sender, MouseEventArgs e)
         {
+            pauseDrawing = !pauseDrawing;
         }
     }
 }

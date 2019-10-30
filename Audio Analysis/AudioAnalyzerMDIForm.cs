@@ -19,7 +19,7 @@ namespace AudioAnalyzer
 
         SpectrumForm frmSpectrum;
         ChartForm[] frmChart = new ChartForm[Range.Count];
-        OscilloscopeForm frmOscilloscope = new OscilloscopeForm();
+        OscilloscopeForm frmOscilloscope;
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
@@ -154,7 +154,7 @@ namespace AudioAnalyzer
             Task.Run(() => frmGate.Draw());
 
             foreach (ChartForm chart in frmChart) Task.Run(() => chart.Draw());
-            
+
             Task.Run(() => frmOscilloscope.Draw());
 
             Task.Run(() => frmSpectrum.Draw());
@@ -473,5 +473,7 @@ namespace AudioAnalyzer
             Visuals.Preset = (IVFX)cboVisualPreset.SelectedItem;
 
         }
+
+
     }
 }
