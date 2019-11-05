@@ -136,10 +136,10 @@ namespace AudioAnalyzer
                     {
                         Visuals.Preset.Trigger2();
                     }
-                    else if (r == 2)
-                    {
-                        Visuals.Preset.Trigger3(Range.Ranges[r].Audio);
-                    }
+                    //else if (r == 2)
+                    //{
+                    //    Visuals.Preset.Trigger3(Range.Ranges[r].Audio);
+                    //}
 
                     Arduino.Trigger(r);
 

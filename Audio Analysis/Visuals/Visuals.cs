@@ -13,7 +13,7 @@ namespace AudioAnalyzer
     {
         public const float PI = (float)Math.PI;
 
-        public static IVFX Preset = new CubeMatrix();
+        public static IVFX Preset = new CubeWave();
 
         public static void Run()
         {

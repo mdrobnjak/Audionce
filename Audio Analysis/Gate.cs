@@ -101,8 +101,8 @@ namespace AudioAnalyzer
 
         public static bool Pass(int r)
         {
-            if (r == 0) return AllPass(r);
-            else if (r == 1) return AllPass(r);
+            if (r == 0) return TransientPass(r);
+            else if (r == 1) return TransientPass(r);
             else if (r == 2) return AllPass(r);
             else return false;
         }
