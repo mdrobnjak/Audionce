@@ -10,13 +10,14 @@ namespace AudioAnalyzer
     class CubeWave : IVFX
     {
         List<Cube> cubes = new List<Cube>();
-        List<double> heightBuffer = new List<double>();
+
+        int size = 101;
 
         public CubeWave()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < size; i++)
             {
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < size; j++)
                 {
                     cubes.Add(new Cube(i, 0, -j));
                     cubes.Last().RandomizeColor();
@@ -29,10 +30,18 @@ namespace AudioAnalyzer
 
         public void PreDraw()
         {
-            GL.Translate(-2,-2.5,-8);
+            double xTranslate = -Math.Floor((double)size / 2);
+            double yTranslate = -(double)size/2;
+            double zTranslate = -size * 2;
+
+            GL.Translate(xTranslate, yTranslate, zTranslate);
+
+            GL.Translate(-xTranslate, 0, xTranslate);
 
             angle += 0.1f;
             GL.Rotate(angle, 0, 1, 0);
+
+            GL.Translate(xTranslate, 0, -xTranslate);
         }
 
         public void Draw()
@@ -53,19 +62,14 @@ namespace AudioAnalyzer
         {
             foreach (Cube c in cubes)
             {
-                if (c.position.y > 0) c.Fall(0.05);
-            }
-
-            for(int i = 0; i < heightBuffer.Count; i++)
-            {
-                heightBuffer[i] -= 0.1;
+                if (c.position.y > 0) c.Fall(0.5);
             }
         }
 
         public void Trigger1()
         {
-            cubes[12].position.y = 2;
-            heightBuffer.Add(3);
+            int centerIndex = size * size / 2;
+            cubes[centerIndex].position.y = 10;
         }
 
         public void Trigger2()

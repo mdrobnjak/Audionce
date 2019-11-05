@@ -63,18 +63,10 @@ namespace AudioAnalyzer
             for (int i = 0; i < Range.Count; i++)
             {
                 cboRange.Items.Add("Range " + (i + 1));
-                cboSubtractor.Items.Add(i + 1);
-                cboSubtractFrom.Items.Add(i + 1);
             }
-            cboSubtractFrom.SelectedIndex = 0;
-            cboSubtractor.SelectedIndex = 1;
             MakeActive(0);
 
-            cboVisualPreset.Items.Add(new CubeMatrix());
-            cboVisualPreset.Items.Add(new NoiseFlowField());
-            cboVisualPreset.Items.Add(new SnakingTiles());
-            cboVisualPreset.Items.Add(new Demo());
-            cboVisualPreset.Items.Add(new SpectrumPreset());
+            cboVisualPreset.Items.Add(new CubeWave());
 
             lblStatus.Text = "";
 
@@ -119,8 +111,6 @@ namespace AudioAnalyzer
             for (int r = 0; r < Range.Count; r++)
             {
                 Gate.Filter(r);
-                
-                Gate.ApplySubtraction(r);
 
                 Range.Ranges[r].AutoSettings.ApplyAutoSettings();
 
@@ -346,13 +336,6 @@ namespace AudioAnalyzer
         private void msAutoRange_Click(object sender, EventArgs e)
         {
             AutoSettings.BeginRanging();
-        }
-
-        private void btnSubtract_CheckStateChanged(object sender, EventArgs e)
-        {
-            Gate.subtractFrom = Convert.ToInt32(cboSubtractFrom.Text) - 1;
-            Gate.subtractor = Convert.ToInt32(cboSubtractor.Text) - 1;
-            Gate.Subtract = btnSubtract.Checked;
         }
 
         //This needs to call a frmChart Method.

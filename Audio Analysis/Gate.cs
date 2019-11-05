@@ -132,19 +132,5 @@ namespace AudioAnalyzer
         {
             return Range.Ranges[r].Audio > Range.Ranges[r].Threshold ? true : false;
         }
-
-        public static bool Subtract = false;
-        public static int subtractor = 1, subtractFrom = 0;
-
-        public static void ApplySubtraction(int r)
-        {
-            if (Subtract)
-            {
-                if (r == subtractFrom)
-                {
-                    Range.Ranges[r].Audio -= Range.Ranges[subtractor].Audio;
-                }
-            }
-        }
     }
 }

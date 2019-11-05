@@ -94,11 +94,6 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerFFT = new System.Windows.Forms.Timer(this.components);
             this.toolStripProcessing = new System.Windows.Forms.ToolStrip();
-            this.btnSubtract = new System.Windows.Forms.ToolStripButton();
-            this.cboSubtractFrom = new System.Windows.Forms.ToolStripComboBox();
-            this.lblWith = new System.Windows.Forms.ToolStripLabel();
-            this.cboSubtractor = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.btnDynamicThreshold = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btnAutoRange = new System.Windows.Forms.ToolStripButton();
@@ -518,7 +513,7 @@
             this.cboRange});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
-            this.toolStripMain.Size = new System.Drawing.Size(1009, 27);
+            this.toolStripMain.Size = new System.Drawing.Size(1009, 25);
             this.toolStripMain.TabIndex = 1;
             this.toolStripMain.Text = "ToolStrip";
             // 
@@ -603,19 +598,19 @@
             this.lblPreset.Image = ((System.Drawing.Image)(resources.GetObject("lblPreset.Image")));
             this.lblPreset.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.lblPreset.Name = "lblPreset";
-            this.lblPreset.Size = new System.Drawing.Size(79, 24);
+            this.lblPreset.Size = new System.Drawing.Size(79, 22);
             this.lblPreset.Text = "Active Preset";
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 25);
             // 
             // cboRange
             // 
             this.cboRange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRange.Name = "cboRange";
-            this.cboRange.Size = new System.Drawing.Size(121, 27);
+            this.cboRange.Size = new System.Drawing.Size(121, 25);
             this.cboRange.SelectedIndexChanged += new System.EventHandler(this.cboRange_SelectedIndexChanged);
             // 
             // statusStrip
@@ -659,51 +654,14 @@
             // 
             this.toolStripProcessing.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStripProcessing.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSubtract,
-            this.cboSubtractFrom,
-            this.lblWith,
-            this.cboSubtractor,
-            this.toolStripSeparator10,
             this.btnDynamicThreshold,
             this.toolStripSeparator11,
             this.btnAutoRange});
-            this.toolStripProcessing.Location = new System.Drawing.Point(0, 51);
+            this.toolStripProcessing.Location = new System.Drawing.Point(0, 49);
             this.toolStripProcessing.Name = "toolStripProcessing";
             this.toolStripProcessing.Size = new System.Drawing.Size(1009, 25);
             this.toolStripProcessing.TabIndex = 6;
             this.toolStripProcessing.Text = "toolStrip1";
-            // 
-            // btnSubtract
-            // 
-            this.btnSubtract.CheckOnClick = true;
-            this.btnSubtract.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnSubtract.Image = ((System.Drawing.Image)(resources.GetObject("btnSubtract.Image")));
-            this.btnSubtract.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSubtract.Name = "btnSubtract";
-            this.btnSubtract.Size = new System.Drawing.Size(55, 22);
-            this.btnSubtract.Text = "Subtract";
-            this.btnSubtract.CheckStateChanged += new System.EventHandler(this.btnSubtract_CheckStateChanged);
-            // 
-            // cboSubtractFrom
-            // 
-            this.cboSubtractFrom.Name = "cboSubtractFrom";
-            this.cboSubtractFrom.Size = new System.Drawing.Size(75, 25);
-            // 
-            // lblWith
-            // 
-            this.lblWith.Name = "lblWith";
-            this.lblWith.Size = new System.Drawing.Size(30, 22);
-            this.lblWith.Text = "with";
-            // 
-            // cboSubtractor
-            // 
-            this.cboSubtractor.Name = "cboSubtractor";
-            this.cboSubtractor.Size = new System.Drawing.Size(75, 25);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 25);
             // 
             // btnDynamicThreshold
             // 
@@ -735,7 +693,7 @@
             // 
             this.toolStripVisuals.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cboVisualPreset});
-            this.toolStripVisuals.Location = new System.Drawing.Point(0, 76);
+            this.toolStripVisuals.Location = new System.Drawing.Point(0, 74);
             this.toolStripVisuals.Name = "toolStripVisuals";
             this.toolStripVisuals.Size = new System.Drawing.Size(1009, 25);
             this.toolStripVisuals.TabIndex = 8;
@@ -837,11 +795,6 @@
         private System.Windows.Forms.ToolStripMenuItem msArduinoCommunicate;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStrip toolStripProcessing;
-        private System.Windows.Forms.ToolStripButton btnSubtract;
-        private System.Windows.Forms.ToolStripComboBox cboSubtractor;
-        private System.Windows.Forms.ToolStripLabel lblWith;
-        private System.Windows.Forms.ToolStripComboBox cboSubtractFrom;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripButton btnDynamicThreshold;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripButton btnAutoRange;
