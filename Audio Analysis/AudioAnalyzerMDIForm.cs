@@ -48,7 +48,7 @@ namespace AudioAnalyzer
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
 
-            //System.Threading.Tasks.Task.Run(() => Visuals.Run());
+            System.Threading.Tasks.Task.Run(() => Visuals.Run());
 
             timerFFT.Enabled = true;
         }
@@ -343,16 +343,6 @@ namespace AudioAnalyzer
             frmSettings.Show();
         }
 
-        private void incrementToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmSpectrum.IncrementRange();
-        }
-
-        private void decrementToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmSpectrum.DecrementRange();
-        }
-
         private void msAutoRange_Click(object sender, EventArgs e)
         {
             AutoSettings.BeginRanging();
@@ -363,11 +353,6 @@ namespace AudioAnalyzer
             Gate.subtractFrom = Convert.ToInt32(cboSubtractFrom.Text) - 1;
             Gate.subtractor = Convert.ToInt32(cboSubtractor.Text) - 1;
             Gate.Subtract = btnSubtract.Checked;
-        }
-
-        private void msThreshold_Click(object sender, EventArgs e)
-        {
-            frmChart[cboRange.SelectedIndex].AutoThreshold();
         }
 
         //This needs to call a frmChart Method.
@@ -471,9 +456,7 @@ namespace AudioAnalyzer
         private void cboVisualPreset_SelectedIndexChanged(object sender, EventArgs e)
         {
             Visuals.Preset = (IVFX)cboVisualPreset.SelectedItem;
-
         }
-
-
+        
     }
 }

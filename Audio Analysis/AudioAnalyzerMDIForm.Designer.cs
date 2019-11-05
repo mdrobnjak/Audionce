@@ -87,8 +87,6 @@
             this.lblPreset = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.cboRange = new System.Windows.Forms.ToolStripComboBox();
-            this.btnDecrement = new System.Windows.Forms.ToolStripButton();
-            this.btnIncrement = new System.Windows.Forms.ToolStripButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -102,7 +100,6 @@
             this.cboSubtractor = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.btnDynamicThreshold = new System.Windows.Forms.ToolStripButton();
-            this.btnAutoSetThreshold = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btnAutoRange = new System.Windows.Forms.ToolStripButton();
             this.toolStripVisuals = new System.Windows.Forms.ToolStrip();
@@ -518,12 +515,10 @@
             this.helpToolStripButton,
             this.lblPreset,
             this.toolStripSeparator14,
-            this.cboRange,
-            this.btnDecrement,
-            this.btnIncrement});
+            this.cboRange});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
-            this.toolStripMain.Size = new System.Drawing.Size(1009, 25);
+            this.toolStripMain.Size = new System.Drawing.Size(1009, 27);
             this.toolStripMain.TabIndex = 1;
             this.toolStripMain.Text = "ToolStrip";
             // 
@@ -608,40 +603,20 @@
             this.lblPreset.Image = ((System.Drawing.Image)(resources.GetObject("lblPreset.Image")));
             this.lblPreset.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.lblPreset.Name = "lblPreset";
-            this.lblPreset.Size = new System.Drawing.Size(79, 22);
+            this.lblPreset.Size = new System.Drawing.Size(79, 24);
             this.lblPreset.Text = "Active Preset";
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 27);
             // 
             // cboRange
             // 
             this.cboRange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRange.Name = "cboRange";
-            this.cboRange.Size = new System.Drawing.Size(121, 25);
+            this.cboRange.Size = new System.Drawing.Size(121, 27);
             this.cboRange.SelectedIndexChanged += new System.EventHandler(this.cboRange_SelectedIndexChanged);
-            // 
-            // btnDecrement
-            // 
-            this.btnDecrement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnDecrement.Image = ((System.Drawing.Image)(resources.GetObject("btnDecrement.Image")));
-            this.btnDecrement.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDecrement.Name = "btnDecrement";
-            this.btnDecrement.Size = new System.Drawing.Size(69, 22);
-            this.btnDecrement.Text = "Decrement";
-            this.btnDecrement.Click += new System.EventHandler(this.decrementToolStripMenuItem_Click);
-            // 
-            // btnIncrement
-            // 
-            this.btnIncrement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnIncrement.Image = ((System.Drawing.Image)(resources.GetObject("btnIncrement.Image")));
-            this.btnIncrement.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnIncrement.Name = "btnIncrement";
-            this.btnIncrement.Size = new System.Drawing.Size(65, 22);
-            this.btnIncrement.Text = "Increment";
-            this.btnIncrement.Click += new System.EventHandler(this.incrementToolStripMenuItem_Click);
             // 
             // statusStrip
             // 
@@ -690,10 +665,9 @@
             this.cboSubtractor,
             this.toolStripSeparator10,
             this.btnDynamicThreshold,
-            this.btnAutoSetThreshold,
             this.toolStripSeparator11,
             this.btnAutoRange});
-            this.toolStripProcessing.Location = new System.Drawing.Point(0, 49);
+            this.toolStripProcessing.Location = new System.Drawing.Point(0, 51);
             this.toolStripProcessing.Name = "toolStripProcessing";
             this.toolStripProcessing.Size = new System.Drawing.Size(1009, 25);
             this.toolStripProcessing.TabIndex = 6;
@@ -742,16 +716,6 @@
             this.btnDynamicThreshold.Text = "Dynamic Thresholds";
             this.btnDynamicThreshold.CheckedChanged += new System.EventHandler(this.btnDynamicThreshold_CheckedChanged);
             // 
-            // btnAutoSetThreshold
-            // 
-            this.btnAutoSetThreshold.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnAutoSetThreshold.Image = ((System.Drawing.Image)(resources.GetObject("btnAutoSetThreshold.Image")));
-            this.btnAutoSetThreshold.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAutoSetThreshold.Name = "btnAutoSetThreshold";
-            this.btnAutoSetThreshold.Size = new System.Drawing.Size(83, 22);
-            this.btnAutoSetThreshold.Text = "Set Threshold";
-            this.btnAutoSetThreshold.Click += new System.EventHandler(this.btnAutoSetThreshold_Click);
-            // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
@@ -771,7 +735,7 @@
             // 
             this.toolStripVisuals.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cboVisualPreset});
-            this.toolStripVisuals.Location = new System.Drawing.Point(0, 74);
+            this.toolStripVisuals.Location = new System.Drawing.Point(0, 76);
             this.toolStripVisuals.Name = "toolStripVisuals";
             this.toolStripVisuals.Size = new System.Drawing.Size(1009, 25);
             this.toolStripVisuals.TabIndex = 8;
@@ -871,8 +835,6 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem msArduino;
         private System.Windows.Forms.ToolStripMenuItem msArduinoCommunicate;
-        private System.Windows.Forms.ToolStripButton btnDecrement;
-        private System.Windows.Forms.ToolStripButton btnIncrement;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStrip toolStripProcessing;
         private System.Windows.Forms.ToolStripButton btnSubtract;
@@ -881,7 +843,6 @@
         private System.Windows.Forms.ToolStripComboBox cboSubtractFrom;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripButton btnDynamicThreshold;
-        private System.Windows.Forms.ToolStripButton btnAutoSetThreshold;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripButton btnAutoRange;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;

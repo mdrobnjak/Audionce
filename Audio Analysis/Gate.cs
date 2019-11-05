@@ -12,6 +12,7 @@ namespace AudioAnalyzer
 
         static float tmpRangeAudio;
         static float max = 0;
+        static float secondMax = 0;
 
         public static void Filter(int r)
         {
@@ -45,6 +46,26 @@ namespace AudioAnalyzer
                     if (FFT.transformedData[i] > max) max = FFT.transformedData[i];
                 }
                 Range.Ranges[r].Audio = tmpRangeAudio - max;
+            }
+        }
+
+        public static void FilterRejectTop2(int r)
+        {
+            if (FFT.transformedData.Count() > Range.Ranges[r].HighCutAbsolute)
+            {
+                tmpRangeAudio = 0;
+                max = 0;
+                secondMax = 0;
+                for (int i = Range.Ranges[r].LowCutAbsolute; i < Range.Ranges[r].HighCutAbsolute; i++)
+                {
+                    tmpRangeAudio += FFT.transformedData[i];
+                    if (FFT.transformedData[i] > max)
+                    {
+                        secondMax = max;
+                        max = FFT.transformedData[i];
+                    }
+                }
+                Range.Ranges[r].Audio = tmpRangeAudio - max - secondMax;
             }
         }
 

@@ -95,18 +95,6 @@ namespace AudioAnalyzer
 
             Invalidate();            
         }
-        
-        public void IncrementRange()
-        {
-            Range.Active.LowCutAbsolute++;
-            Range.Active.HighCutAbsolute++;
-        }
-
-        public void DecrementRange()
-        {
-            Range.Active.LowCutAbsolute--;
-            Range.Active.HighCutAbsolute--;
-        }
 
         private void pnlSpectrum_SizeChanged(object sender, EventArgs e)
         {

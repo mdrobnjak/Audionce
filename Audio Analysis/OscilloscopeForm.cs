@@ -51,7 +51,7 @@ namespace AudioAnalyzer
             }
         }        
 
-        const int XAxis = 40000;
+        const int XAxis = 160000;
         float[] scopeData = new float[XAxis];
         RectangleF[] rects = new RectangleF[XAxis];
 
