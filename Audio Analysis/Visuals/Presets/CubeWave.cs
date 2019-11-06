@@ -37,7 +37,7 @@ namespace AudioAnalyzer
         public void PreDraw()
         {
             double xTranslate = -Math.Floor((double)sideLength / 2);
-            double yTranslate = -(double)sideLength/2 * 0.5;
+            double yTranslate = -(double)sideLength / 2 * 0.5;
             double zTranslate = -sideLength * .5;
 
             //Start drawing from this position relative to the camera...
@@ -74,9 +74,7 @@ namespace AudioAnalyzer
                 if(waveDelayCounter == waveDelayFrames)
                 {
                     waveDelayCounter = 0;
-                    //Pop up each wave in waves.
-                    //Get popup indices for each phase integer.
-                    PopUpTheWaves();
+                    popUpTheWaves();
                 }
                 else
                 {
@@ -85,7 +83,7 @@ namespace AudioAnalyzer
             }
         }
         
-        void PopUpTheWaves()
+        void popUpTheWaves()
         {
             for(int i = 0; i < waves.Count; i++)
             {
@@ -103,14 +101,6 @@ namespace AudioAnalyzer
             }
         }
 
-        public void PostDraw()
-        {
-            foreach (Cube c in cubes)
-            {
-                if (c.position.y > 0) c.Fall(0.2);
-            }
-        }
-
         List<int[]> getIndicesForPhase(int phase)
         {
             List<int[]> indices = new List<int[]>();
@@ -119,7 +109,7 @@ namespace AudioAnalyzer
 
             int x = center;
             int y = center + phase;
-               
+
             //Go to center,center+phase and scroll clockwise.
 
             indices.Add(new int[2] { x, y });
@@ -148,12 +138,18 @@ namespace AudioAnalyzer
             {
                 indices.Add(new int[2] { x, y });
             }
-            
+
             return indices;
         }
 
-
-
+        public void PostDraw()
+        {
+            foreach (Cube c in cubes)
+            {
+                if (c.position.y > 0) c.Fall(0.2);
+            }
+        }
+        
         public void Trigger1()
         {
             waves.Add(0);

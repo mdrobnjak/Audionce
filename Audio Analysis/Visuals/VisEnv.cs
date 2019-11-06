@@ -59,26 +59,26 @@ namespace AudioAnalyzer
             bmp.UnlockBits(texData);
         }
 
-        public static void DoLighting(float diffuseBrightness, float ambientBrightness)
-        {
-            GL.Enable(EnableCap.Lighting);
-            GL.Enable(EnableCap.ColorMaterial);
-            float[] lightPosition = { 0, 0, 100 };
-            float[] diffuseColor = { 1.0f, 1.0f, 1.0f };
-            for (int i = 0; i < 3; i++)
-            {
-                diffuseColor[i] *= diffuseBrightness;
-            }
-            float[] ambientColor = { 1.0f, 1.0f, 1.0f };
-            for (int i = 0; i < 3; i++)
-            {
-                ambientColor[i] *= ambientBrightness;
-            }
-            GL.Light(LightName.Light0, LightParameter.Position, lightPosition);
-            GL.Light(LightName.Light0, LightParameter.Diffuse, diffuseColor);
-            GL.Light(LightName.Light0, LightParameter.Ambient, ambientColor);
-            GL.Enable(EnableCap.Light0);
-        }
+        //public static void DoLighting(float diffuseBrightness, float ambientBrightness)
+        //{
+        //    GL.Enable(EnableCap.Lighting);
+        //    GL.Enable(EnableCap.ColorMaterial);
+        //    float[] lightPosition = { 0, 0, 100 };
+        //    float[] diffuseColor = { 1.0f, 1.0f, 1.0f };
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        diffuseColor[i] *= diffuseBrightness;
+        //    }
+        //    float[] ambientColor = { 1.0f, 1.0f, 1.0f };
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        ambientColor[i] *= ambientBrightness;
+        //    }
+        //    GL.Light(LightName.Light0, LightParameter.Position, lightPosition);
+        //    GL.Light(LightName.Light0, LightParameter.Diffuse, diffuseColor);
+        //    GL.Light(LightName.Light0, LightParameter.Ambient, ambientColor);
+        //    GL.Enable(EnableCap.Light0);
+        //}
 
         public static void DoLighting2(float diffuseBrightness, float ambientBrightness)
         {
@@ -116,9 +116,9 @@ namespace AudioAnalyzer
             GL.LoadIdentity();
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
+            
             Visuals.Preset.PreDraw();
-
+            
             Visuals.Preset.Draw();
 
             Context.SwapBuffers();
