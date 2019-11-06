@@ -137,6 +137,17 @@ namespace AudioAnalyzer
                 Exit();
             }
 
+            if (input.IsKeyDown(Key.Space))
+            {
+                Visuals.Preset.Trigger1();
+                Arduino.Trigger(0);
+            }
+
+            if (input.IsKeyDown(Key.Keypad0))
+            {
+                Visuals.Preset.Trigger2();
+            }
+
             base.OnUpdateFrame(e);
         }
 
