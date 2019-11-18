@@ -216,6 +216,7 @@
     <Compile Include="SoundCapture\SoundCapture.cs" />
     <Compile Include="SoundCapture\SpectrumBase.cs" />
     <Compile Include="Visuals\Components\GeometryShader.cs" />
+    <Compile Include="Visuals\Presets\RotatingMatrix.cs" />
     <Compile Include="Visuals\Presets\CubeMatrix.cs" />
     <Compile Include="Visuals\IVFX.cs" />
     <Compile Include="Visuals\Presets\CubeWave.cs" />
