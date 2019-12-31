@@ -59,5 +59,15 @@ namespace AudioAnalyzer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DreamMachineHallway {
+            get {
+                object obj = ResourceManager.GetObject("DreamMachineHallway", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace AudioAnalyzer
 
         List<int> waves = new List<int>();
 
-        const int waveDelayFrames = 1;
+        const int waveDelayFrames = 0; //1;
         int waveDelayCounter = 0;
 
         public CubeWave()
@@ -38,7 +38,7 @@ namespace AudioAnalyzer
         {
             double xTranslate = -Math.Floor((double)sideLength / 2);
             double yTranslate = -(double)sideLength / 2 * 0.5;
-            double zTranslate = -sideLength * .5;
+            double zTranslate = -sideLength * 1 /*.5*/;
 
             //Start drawing from this position relative to the camera...
             GL.Translate(xTranslate, yTranslate, zTranslate);

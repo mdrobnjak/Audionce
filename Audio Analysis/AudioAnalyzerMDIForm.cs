@@ -23,6 +23,7 @@ namespace AudioAnalyzer
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
+        ImageForm frmImage;
 
         public AudioAnalyzerMDIForm()
         {
@@ -48,7 +49,9 @@ namespace AudioAnalyzer
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
 
-            System.Threading.Tasks.Task.Run(() => Visuals.Run());
+            frmImage = new ImageForm();
+            frmImage.Show();
+            //System.Threading.Tasks.Task.Run(() => Visuals.Run());
 
             timerFFT.Enabled = true;
         }
