@@ -23,7 +23,7 @@ namespace AudioAnalyzer
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
-        ImageForm frmImage;
+        ImageForm2 frmImage;
 
         public AudioAnalyzerMDIForm()
         {
@@ -49,7 +49,7 @@ namespace AudioAnalyzer
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
 
-            frmImage = new ImageForm();
+            frmImage = new ImageForm2();
             frmImage.Show();
             //System.Threading.Tasks.Task.Run(() => Visuals.Run());
 
@@ -123,11 +123,13 @@ namespace AudioAnalyzer
                 {
                     if (r == 0)
                     {
-                        Visuals.Preset.Trigger1();
+                        frmImage.Trigger1();
+                        //Visuals.Preset.Trigger1();
                     }
                     else if (r == 1)
                     {
-                        Visuals.Preset.Trigger2();
+                        frmImage.Trigger2();
+                        //Visuals.Preset.Trigger2();
                     }
 
                     Arduino.Trigger(r);

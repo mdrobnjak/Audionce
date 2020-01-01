@@ -217,12 +217,23 @@
     <Compile Include="SoundCapture\SoundCapture.cs" />
     <Compile Include="SoundCapture\SpectrumBase.cs" />
     <Compile Include="Visuals\Components\GeometryShader.cs" />
-    <Compile Include="Visuals\ImageForm.cs">
+    <Compile Include="Visuals\ImageForm\AsciiFilter.cs" />
+    <Compile Include="Visuals\ImageForm\Extensions.cs" />
+    <Compile Include="Visuals\ImageForm\ImageBlur.cs" />
+    <Compile Include="Visuals\ImageForm\ImageForm1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Visuals\ImageForm.Designer.cs">
-      <DependentUpon>ImageForm.cs</DependentUpon>
+    <Compile Include="Visuals\ImageForm\ImageForm1.Designer.cs">
+      <DependentUpon>ImageForm1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Visuals\ImageForm\ImageForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visuals\ImageForm\ImageForm2.Designer.cs">
+      <DependentUpon>ImageForm2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visuals\ImageForm\Matrix.cs" />
+    <Compile Include="Visuals\Presets\Tube.cs" />
     <Compile Include="Visuals\Presets\RotatingMatrix.cs" />
     <Compile Include="Visuals\Presets\CubeMatrix.cs" />
     <Compile Include="Visuals\IVFX.cs" />
@@ -270,8 +281,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Visuals\ImageForm.resx">
-      <DependentUpon>ImageForm.cs</DependentUpon>
+    <EmbeddedResource Include="Visuals\ImageForm\ImageForm1.resx">
+      <DependentUpon>ImageForm1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visuals\ImageForm\ImageForm2.resx">
+      <DependentUpon>ImageForm2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
@@ -307,6 +321,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\DreamMachineHallway.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vhs.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />
