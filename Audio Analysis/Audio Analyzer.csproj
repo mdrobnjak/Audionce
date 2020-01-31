@@ -232,6 +232,12 @@
     <Compile Include="Visuals\ImageForm\ImageForm2.Designer.cs">
       <DependentUpon>ImageForm2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Visuals\ImageForm\ImageForm3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visuals\ImageForm\ImageForm3.Designer.cs">
+      <DependentUpon>ImageForm3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visuals\ImageForm\Matrix.cs" />
     <Compile Include="Visuals\Presets\Tube.cs" />
     <Compile Include="Visuals\Presets\RotatingMatrix.cs" />
@@ -286,6 +292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visuals\ImageForm\ImageForm2.resx">
       <DependentUpon>ImageForm2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visuals\ImageForm\ImageForm3.resx">
+      <DependentUpon>ImageForm3.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />

@@ -59,7 +59,23 @@ namespace AudioAnalyzer
         {
             float barWidth = (float)this.Width / chartData.Length;
 
-            for (int i = 0; i < chartData.Length; i++)
+            //for (int i = 0; i < chartData.Length; i++)
+            //{
+            //    if (chartData[i] > 0)
+            //    {
+            //        rects[i].Y = (this.Height) - chartData[i];
+            //        rects[i].Y /= 2;
+            //        rects[i].Height = chartData[i];
+            //        rects[i].Height /= 2;
+            //    }
+            //    else
+            //    {
+            //        rects[i].Y = (this.Height) / 2;
+            //        rects[i].Height = -chartData[i] / 2;
+            //    }
+            //} 
+
+            Parallel.For(0, chartData.Length, i =>
             {
                 if (chartData[i] > 0)
                 {
@@ -73,7 +89,7 @@ namespace AudioAnalyzer
                     rects[i].Y = (this.Height) / 2;
                     rects[i].Height = -chartData[i] / 2;
                 }
-            } 
+            });
 
             Invalidate();
         }

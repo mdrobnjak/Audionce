@@ -87,10 +87,10 @@ namespace AudioAnalyzer
                 frmChart[i].Show();
             }
 
-            frmOscilloscope = new OscilloscopeForm();
-            frmOscilloscope.MdiParent = this;
-            childFormNumber++;
-            frmOscilloscope.Show();
+            //frmOscilloscope = new OscilloscopeForm();
+            //frmOscilloscope.MdiParent = this;
+            //childFormNumber++;
+            //frmOscilloscope.Show();
 
             frmSpectrum = new SpectrumForm();
             frmSpectrum.MdiParent = this;
@@ -146,7 +146,7 @@ namespace AudioAnalyzer
 
             foreach (ChartForm chart in frmChart) Task.Run(() => chart.Draw());
 
-            Task.Run(() => frmOscilloscope.Draw());
+            //Task.Run(() => frmOscilloscope.Draw());
 
             Task.Run(() => frmSpectrum.Draw());
 
@@ -404,9 +404,9 @@ namespace AudioAnalyzer
                 frmChart[i].Location = new Point((i + 1) * frmChart[i].Width, h - frmChart[i].Height - frmSpectrum.Height);
             }
 
-            frmOscilloscope.Height = h / 2;
-            frmOscilloscope.Width = (ClientSize.Width - 4) / (Range.Count + 2);
-            frmOscilloscope.Location = new Point((Range.Count + 1) * frmOscilloscope.Width, h - frmOscilloscope.Height - frmSpectrum.Height);
+            //frmOscilloscope.Height = h / 2;
+            //frmOscilloscope.Width = (ClientSize.Width - 4) / (Range.Count + 2);
+            //frmOscilloscope.Location = new Point((Range.Count + 1) * frmOscilloscope.Width, h - frmOscilloscope.Height - frmSpectrum.Height);
         }
 
         private void performanceModeToolStripMenuItem_Click(object sender, EventArgs e)
