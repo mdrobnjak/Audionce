@@ -6,6 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,7 +25,7 @@ namespace AudioAnalyzer
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
-        ImageForm2 frmImage;
+        //ImageForm2 frmImage;
 
         public AudioAnalyzerMDIForm()
         {
@@ -49,11 +51,31 @@ namespace AudioAnalyzer
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
 
-            frmImage = new ImageForm2();
-            frmImage.Show();
+            //frmImage = new ImageForm2();
+            //frmImage.Show();
             //System.Threading.Tasks.Task.Run(() => Visuals.Run());
 
             timerFFT.Enabled = true;
+            
+            //Int32 port = 13000;
+            //TcpClient client = new TcpClient(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(), port);
+            //stream = client.GetStream();
+        }
+
+        NetworkStream stream;
+
+        private void SendToServer(string message)
+        {
+            // Translate the Message into ASCII.
+            Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
+            // Send the message to the connected TcpServer. 
+            stream.Write(data, 0, data.Length);
+            // Bytes Array to receive Server Response.
+            data = new Byte[256];
+            String response = String.Empty;
+            // Read the Tcp Server Response Bytes.
+            Int32 bytes = stream.Read(data, 0, data.Length);
+            response = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
         }
 
         private void frmAudioAnalyzerMDI_SizeChanged(object sender, EventArgs e)
@@ -123,12 +145,14 @@ namespace AudioAnalyzer
                 {
                     if (r == 0)
                     {
-                        frmImage.Trigger1();
+                        //SendToServer("k");
+                        //frmImage.Trigger1();
                         //Visuals.Preset.Trigger1();
                     }
                     else if (r == 1)
                     {
-                        frmImage.Trigger2();
+                        //SendToServer("s");
+                        //frmImage.Trigger2();
                         //Visuals.Preset.Trigger2();
                     }
 

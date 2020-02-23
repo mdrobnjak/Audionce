@@ -87,18 +87,18 @@ namespace AudioAnalyzer
             int bandIndexRelative = 0;
             int bandIndexAbsolute = Spectrum.Full ? 0 : Range.Active.NumBandsBefore;
 
-            //for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
-            //{
-            //    rects[bandIndexRelative].Y = cvter._containerHeight - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
-            //    rects[bandIndexRelative].Height = (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
-            //}
-
-            Parallel.For(bandIndexRelative, Spectrum.DisplayBands, r => 
+            for (; bandIndexRelative < Spectrum.DisplayBands; bandIndexRelative++, bandIndexAbsolute++)
             {
-                rects[r].Y = cvter._containerHeight - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
-                rects[r].Height = (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
-                bandIndexAbsolute++;
-            });
+                rects[bandIndexRelative].Y = cvter._containerHeight - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
+                rects[bandIndexRelative].Height = (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
+            }
+
+            //Parallel.For(bandIndexRelative, Spectrum.DisplayBands, r => 
+            //{
+            //    rects[r].Y = cvter._containerHeight - (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
+            //    rects[r].Height = (data[bandIndexAbsolute] * cvt.MaxScaledY) / 2;
+            //    bandIndexAbsolute++;
+            //});
 
             Invalidate();            
         }
