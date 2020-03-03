@@ -56,10 +56,10 @@ namespace AudioAnalyzer
             //System.Threading.Tasks.Task.Run(() => Visuals.Run());
 
             timerFFT.Enabled = true;
-            
-            //Int32 port = 13000;
-            //TcpClient client = new TcpClient(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(), port);
-            //stream = client.GetStream();
+
+            Int32 port = 13000;
+            TcpClient client = new TcpClient(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(), port);
+            stream = client.GetStream();
         }
 
         NetworkStream stream;
@@ -145,13 +145,13 @@ namespace AudioAnalyzer
                 {
                     if (r == 0)
                     {
-                        //SendToServer("k");
+                        SendToServer("k");
                         //frmImage.Trigger1();
                         //Visuals.Preset.Trigger1();
                     }
                     else if (r == 1)
                     {
-                        //SendToServer("s");
+                        SendToServer("s");
                         //frmImage.Trigger2();
                         //Visuals.Preset.Trigger2();
                     }
