@@ -6,6 +6,7 @@ using CSCore.DSP;
 using CSCore.Streams;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace AudioAnalyzer
 {
@@ -29,14 +30,46 @@ public static class SoundCapture
         
     public static WasapiCapture Capture;
     public static FftSize FFTSize = FftSize.Fft8192;
-    static float[] fftBuffer;
+    public static float[] fftBuffer;
     
     public static float SingleBlock;
     public static List<float> BlocksSinceLastCapture = new List<float>();
 
     static SpectrumProvider spectrumProvider;
 
-    static IWaveSource finalSource;
+    public static IWaveSource finalSource;
+
+    #region Buffer for pitch detection
+
+    static object lockObject = new object();
+    static Queue<float[]> bufferQueue = new Queue<float[]>();
+
+    private static void AddBuffer(float[] buffer)
+    {
+        lock (lockObject)
+        {
+            bufferQueue.Enqueue(buffer);
+
+            Monitor.Pulse(lockObject);
+        }
+    }
+
+    public static float[] GetBuffer()
+    {
+        float[] buffer = new float[0];
+
+        lock (lockObject)
+        {
+            Monitor.Wait(lockObject);
+
+            while (bufferQueue.Count > 0)
+                buffer = bufferQueue.Dequeue();
+        }
+
+        return buffer;
+    }
+
+    #endregion
 
     public static void Init()
     {
@@ -85,6 +118,11 @@ public static class SoundCapture
     private static void Capture_DataAvailable(object sender, DataAvailableEventArgs e)
     {
         finalSource.Read(e.Data, e.Offset, e.ByteCount);
+
+        var audioData = new float[e.Data.Length / 4];
+        Buffer.BlockCopy(e.Data, 0, audioData, 0, e.Data.Length);
+
+        AddBuffer(audioData);
     }
     
     private static void NotificationSource_SingleBlockRead(object sender, SingleBlockReadEventArgs e)

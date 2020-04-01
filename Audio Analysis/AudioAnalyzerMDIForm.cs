@@ -25,7 +25,6 @@ namespace AudioAnalyzer
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
-        //ImageForm2 frmImage;
 
         public AudioAnalyzerMDIForm()
         {
@@ -50,16 +49,14 @@ namespace AudioAnalyzer
             InitControls();
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
-
-            //frmImage = new ImageForm2();
-            //frmImage.Show();
+            
             //System.Threading.Tasks.Task.Run(() => Visuals.Run());
 
             timerFFT.Enabled = true;
 
-            Int32 port = 13000;
-            TcpClient client = new TcpClient(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(), port);
-            stream = client.GetStream();
+            //Int32 port = 13000;
+            //TcpClient client = new TcpClient(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(), port);
+            //stream = client.GetStream();
         }
 
         NetworkStream stream;
@@ -127,11 +124,15 @@ namespace AudioAnalyzer
 
         DateTime BeforeFFT;
 
+        PitchDetector pd = new PitchDetector();
+
         public void timerFFT_Tick(object sender, EventArgs e)
         {
             //BeforeFFT = DateTime.Now;
 
             FFT.transformedData = FFT.LogScale(SoundCapture.Update());
+
+            pd.HandleAudioData();
 
             for (int r = 0; r < Range.Count; r++)
             {
@@ -145,13 +146,13 @@ namespace AudioAnalyzer
                 {
                     if (r == 0)
                     {
-                        SendToServer("k");
+                        //SendToServer("k");
                         //frmImage.Trigger1();
                         //Visuals.Preset.Trigger1();
                     }
                     else if (r == 1)
                     {
-                        SendToServer("s");
+                        //SendToServer("s");
                         //frmImage.Trigger2();
                         //Visuals.Preset.Trigger2();
                     }
