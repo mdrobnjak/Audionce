@@ -90,20 +90,16 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblDelay = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerFFT = new System.Windows.Forms.Timer(this.components);
             this.toolStripProcessing = new System.Windows.Forms.ToolStrip();
             this.btnDynamicThreshold = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btnAutoRange = new System.Windows.Forms.ToolStripButton();
-            this.toolStripVisuals = new System.Windows.Forms.ToolStrip();
-            this.cboVisualPreset = new System.Windows.Forms.ToolStripComboBox();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.toolStripProcessing.SuspendLayout();
-            this.toolStripVisuals.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -618,8 +614,7 @@
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus,
-            this.progressBar,
-            this.lblDelay});
+            this.progressBar});
             this.statusStrip.Location = new System.Drawing.Point(0, 504);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1009, 22);
@@ -638,12 +633,6 @@
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(100, 16);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            // 
-            // lblDelay
-            // 
-            this.lblDelay.Name = "lblDelay";
-            this.lblDelay.Size = new System.Drawing.Size(36, 17);
-            this.lblDelay.Text = "Delay";
             // 
             // timerFFT
             // 
@@ -689,29 +678,11 @@
             this.btnAutoRange.Text = "Auto Range";
             this.btnAutoRange.Click += new System.EventHandler(this.btnAutoRange_Click);
             // 
-            // toolStripVisuals
-            // 
-            this.toolStripVisuals.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cboVisualPreset});
-            this.toolStripVisuals.Location = new System.Drawing.Point(0, 74);
-            this.toolStripVisuals.Name = "toolStripVisuals";
-            this.toolStripVisuals.Size = new System.Drawing.Size(1009, 25);
-            this.toolStripVisuals.TabIndex = 8;
-            this.toolStripVisuals.Text = "toolStripVisuals";
-            // 
-            // cboVisualPreset
-            // 
-            this.cboVisualPreset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboVisualPreset.Name = "cboVisualPreset";
-            this.cboVisualPreset.Size = new System.Drawing.Size(200, 25);
-            this.cboVisualPreset.SelectedIndexChanged += new System.EventHandler(this.cboVisualPreset_SelectedIndexChanged);
-            // 
             // AudioAnalyzerMDIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1009, 526);
-            this.Controls.Add(this.toolStripVisuals);
             this.Controls.Add(this.toolStripProcessing);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStripMain);
@@ -730,8 +701,6 @@
             this.statusStrip.PerformLayout();
             this.toolStripProcessing.ResumeLayout(false);
             this.toolStripProcessing.PerformLayout();
-            this.toolStripVisuals.ResumeLayout(false);
-            this.toolStripVisuals.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -751,7 +720,6 @@
         private System.Windows.Forms.ToolStripMenuItem printSetupToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripStatusLabel lblDelay;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tileHorizontalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileMenu;
@@ -806,8 +774,6 @@
         private System.Windows.Forms.ToolStripButton lblPreset;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripMenuItem btnPerformanceMode;
-        private System.Windows.Forms.ToolStrip toolStripVisuals;
-        private System.Windows.Forms.ToolStripComboBox cboVisualPreset;
     }
 }
 

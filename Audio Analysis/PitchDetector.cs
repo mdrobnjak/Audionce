@@ -55,7 +55,7 @@ namespace AudioAnalyzer
             private static List<Note> stringNotes = new List<Note>();
 
 
-            public static void GenerateNoteFrequencies(double freqA4)
+            static NoteFrequencies()
             {
                 //int indexA4 = Notes.FindIndex(n => n.Name == "A4");
                 //for (int i = 0; i < Notes.Count; i++)
@@ -66,10 +66,114 @@ namespace AudioAnalyzer
 
                 stringNotes.AddRange(new Note[]
                 {
-                Note.BuildNote("G3", 196),
-                Note.BuildNote("D4", 293.66),
-                Note.BuildNote("A4", 440.00),
-                Note.BuildNote("E5", 659.25)
+                    Note.BuildNote("C0",  16.35),
+                    Note.BuildNote("C#0", 17.32),
+                    Note.BuildNote("D0",  18.35),
+                    Note.BuildNote("D#0", 19.45),
+                    Note.BuildNote("E0",  20.60),
+                    Note.BuildNote("F0",  21.83),
+                    Note.BuildNote("F#0", 23.12),
+                    Note.BuildNote("G0",  24.50),
+                    Note.BuildNote("G#0", 25.96),
+                    Note.BuildNote("A0",  27.50),
+                    Note.BuildNote("A#0", 29.14),
+                    Note.BuildNote("B0",  30.87),
+                    Note.BuildNote("C1",  32.70),
+                    Note.BuildNote("C#1", 34.65),
+                    Note.BuildNote("D1",  36.71),
+                    Note.BuildNote("D#1", 38.89),
+                    Note.BuildNote("E1",  41.20),
+                    Note.BuildNote("F1",  43.65),
+                    Note.BuildNote("F#1", 46.25),
+                    Note.BuildNote("G1",  49.00),
+                    Note.BuildNote("G#1", 51.91),
+                    Note.BuildNote("A1",  55.00),
+                    Note.BuildNote("A#1", 58.27),
+                    Note.BuildNote("B1",  61.74),
+                    Note.BuildNote("C2",  65.41),
+                    Note.BuildNote("C#2", 69.30),
+                    Note.BuildNote("D2",  73.42),
+                    Note.BuildNote("D#2", 77.78),
+                    Note.BuildNote("E2",  82.41),
+                    Note.BuildNote("F2",  87.31),
+                    Note.BuildNote("F#2", 92.50),
+                    Note.BuildNote("G2",  98.00 ),
+                    Note.BuildNote("G#2", 103.83),
+                    Note.BuildNote("A2",  110.00),
+                    Note.BuildNote("A#2", 116.54),
+                    Note.BuildNote("B2",  123.47),
+                    Note.BuildNote("C3",  130.81),
+                    Note.BuildNote("C#3", 138.59),
+                    Note.BuildNote("D3",  146.83),
+                    Note.BuildNote("D#3", 155.56),
+                    Note.BuildNote("E3",  164.81),
+                    Note.BuildNote("F3",  174.61),
+                    Note.BuildNote("F#3", 185.00),
+                    Note.BuildNote("G3",  196.00),
+                    Note.BuildNote("G#3", 207.65),
+                    Note.BuildNote("A3",  220.00),
+                    Note.BuildNote("A#3", 233.08),
+                    Note.BuildNote("B3",  246.94),
+                    Note.BuildNote("C4",  261.63),
+                    Note.BuildNote("C#4", 277.18),
+                    Note.BuildNote("D4",  293.66),
+                    Note.BuildNote("D#4", 311.13),
+                    Note.BuildNote("E4",  329.63),
+                    Note.BuildNote("F4",  349.23),
+                    Note.BuildNote("F#4", 369.99),
+                    Note.BuildNote("G4",  392.00),
+                    Note.BuildNote("G#4", 415.30),
+                    Note.BuildNote("A4",  440.00),
+                    Note.BuildNote("A#4", 466.16),
+                    Note.BuildNote("B4",  493.88),
+                    Note.BuildNote("C5",  523.25),
+                    Note.BuildNote("C#5", 554.37),
+                    Note.BuildNote("D5",  587.33),
+                    Note.BuildNote("D#5", 622.25),
+                    Note.BuildNote("E5",  659.25),
+                    Note.BuildNote("F5",  698.46),
+                    Note.BuildNote("F#5", 739.99),
+                    Note.BuildNote("G5",  783.99),
+                    Note.BuildNote("G#5", 830.61),
+                    Note.BuildNote("A5",  880.00),
+                    Note.BuildNote("A#5", 932.33),
+                    Note.BuildNote("B5",  987.77 ),
+                    Note.BuildNote("C6",  1046.50),
+                    Note.BuildNote("C#6", 1108.73),
+                    Note.BuildNote("D6",  1174.66),
+                    Note.BuildNote("D#6", 1244.51),
+                    Note.BuildNote("E6",  1318.51),
+                    Note.BuildNote("F6",  1396.91),
+                    Note.BuildNote("F#6", 1479.98),
+                    Note.BuildNote("G6",  1567.98),
+                    Note.BuildNote("G#6", 1661.22),
+                    Note.BuildNote("A6",  1760.00),
+                    Note.BuildNote("A#6", 1864.66),
+                    Note.BuildNote("B6",  1975.53),
+                    Note.BuildNote("C7",  2093.00),
+                    Note.BuildNote("C#7", 2217.46),
+                    Note.BuildNote("D7",  2349.32),
+                    Note.BuildNote("D#7", 2489.02),
+                    Note.BuildNote("E7",  2637.02),
+                    Note.BuildNote("F7",  2793.83),
+                    Note.BuildNote("F#7", 2959.96),
+                    Note.BuildNote("G7",  3135.96),
+                    Note.BuildNote("G#7", 3322.44),
+                    Note.BuildNote("A7",  3520.00),
+                    Note.BuildNote("A#7", 3729.31),
+                    Note.BuildNote("B7",  3951.07),
+                    Note.BuildNote("C8",  4186.01),
+                    Note.BuildNote("C#8", 4434.92),
+                    Note.BuildNote("D8",  4698.63),
+                    Note.BuildNote("D#8", 4978.03),
+                    Note.BuildNote("E8",  5274.04),
+                    Note.BuildNote("F8",  5587.65),
+                    Note.BuildNote("F#8", 5919.91),
+                    Note.BuildNote("G8",  6271.93),
+                    Note.BuildNote("G#8", 6644.88),
+                    Note.BuildNote("A8",  7040.00),
+                    Note.BuildNote("A#8", 7458.62),
+                    Note.BuildNote("B8",  7902.13 )
                 });
             }
 
@@ -88,8 +192,7 @@ namespace AudioAnalyzer
                                          .Select(i => new Note(i, GetNoteFrequency(note.Frequency, i - note.Semitone)));
                 var minElement = noteList.Select(n => new Note(n.Semitone, Math.Abs(n.Frequency - freq)))
                                          .Aggregate((l, r) => Math.Abs(l.Frequency) < Math.Abs(r.Frequency) ? l : r);
-
-
+                
                 minElement.Frequency = GetNoteFrequency(note.Frequency, minElement.Semitone - note.Semitone);
                 return minElement;
             }
@@ -252,7 +355,7 @@ namespace AudioAnalyzer
         }
 
         const int windowSize = 2646;
-        const int sampleRate = AudioIn.RATE;
+        const int sampleRate = 44100;
         const double maxVal = 2;
         float threshold = 0.0f;
         int notesMemory = 3;
@@ -294,7 +397,7 @@ namespace AudioAnalyzer
                         orderby c.Magnitude descending
                         select c).Take(3).ToList();
 
-            Console.WriteLine("Fourier", $"Fourier maximum at: {freqs[input.ToList().FindIndex(i => i == temp[0])]}, {temp[0].Magnitude} {freqs[input.ToList().FindIndex(i => i == temp[1])]}, {temp[1].Magnitude} {freqs[input.ToList().FindIndex(i => i == temp[2])]}, {temp[2].Magnitude}");
+            //Console.WriteLine("Fourier", $"Fourier maximum at: {freqs[input.ToList().FindIndex(i => i == temp[0])]}, {temp[0].Magnitude} {freqs[input.ToList().FindIndex(i => i == temp[1])]}, {temp[1].Magnitude} {freqs[input.ToList().FindIndex(i => i == temp[2])]}, {temp[2].Magnitude}");
 
             // return to time domain
             MathNet.Numerics.IntegralTransforms.Fourier.Inverse(autocor);
@@ -315,7 +418,7 @@ namespace AudioAnalyzer
                            orderby r descending
                            select r).Take(2).ToList();
 
-            Console.WriteLine("Correlation", $"Correlation maximum at: {1.0 / timeVector[result.ToList().FindIndex(i => i == cortemp[0])]}, {cortemp[0]} {1.0 / timeVector[result.ToList().FindIndex(i => i == cortemp[1])]}, {cortemp[1]}");
+            //Console.WriteLine("Correlation", $"Correlation maximum at: {1.0 / timeVector[result.ToList().FindIndex(i => i == cortemp[0])]}, {cortemp[0]} {1.0 / timeVector[result.ToList().FindIndex(i => i == cortemp[1])]}, {cortemp[1]}");
 
             // calculate autocorrelation maximum
             int max = 0;
@@ -331,17 +434,17 @@ namespace AudioAnalyzer
             double[] p1 = { 1.0 / timeVector[max + 1], result[max + 1] };
 
             double max_freq = QuadraticMaximum(p1, p2, p3);
-            Console.WriteLine(max_freq);
+            //Console.WriteLine(max_freq);
             return max_freq;
         }
 
-        public void HandleAudioData()
+        public void HandleAudioData(float[] temp)
         {
-            float[] temp = SoundCapture.GetBuffer();
+            //float[] temp = SoundCapture.GetBuffer();
             double[] buffer = temp.Select(i => (double)i).ToArray();
 
-            var median = MathNet.Filtering.Median.OnlineMedianFilter.CreateDenoise(7);
-            buffer = median.ProcessSamples(buffer);
+            //var median = MathNet.Filtering.Median.OnlineMedianFilter.CreateDenoise(7);
+            //buffer = median.ProcessSamples(buffer);
 
             double detectedFrequency = DetectPitch(buffer);
             Note noteEstimation;

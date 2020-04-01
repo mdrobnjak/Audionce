@@ -49,8 +49,6 @@ namespace AudioAnalyzer
             InitControls();
 
             this.SizeChanged += new System.EventHandler(this.frmAudioAnalyzerMDI_SizeChanged);
-            
-            //System.Threading.Tasks.Task.Run(() => Visuals.Run());
 
             timerFFT.Enabled = true;
 
@@ -86,14 +84,10 @@ namespace AudioAnalyzer
             {
                 cboRange.Items.Add("Range " + (i + 1));
             }
+
             MakeActive(0);
 
-            cboVisualPreset.Items.Add(new CubeWave());
-
             lblStatus.Text = "";
-
-            //btnDynamicThreshold.Checked = true;
-            //btnDynamicThreshold_CheckedChanged(null, null);
         }
 
         void LoadChildForms()
@@ -121,18 +115,10 @@ namespace AudioAnalyzer
             childFormNumber++;
             frmGate.Show();
         }
-
-        DateTime BeforeFFT;
-
-        PitchDetector pd = new PitchDetector();
-
+        
         public void timerFFT_Tick(object sender, EventArgs e)
         {
-            //BeforeFFT = DateTime.Now;
-
             FFT.transformedData = FFT.LogScale(SoundCapture.Update());
-
-            pd.HandleAudioData();
 
             for (int r = 0; r < Range.Count; r++)
             {
@@ -140,21 +126,15 @@ namespace AudioAnalyzer
 
                 Range.Ranges[r].AutoSettings.ApplyAutoSettings();
 
-                //lblDelay.Text = "Delays: Gate-" + (DateTime.Now - BeforeFFT).TotalMilliseconds + "ms";
-
                 if (Gate.Pass(r))
                 {
                     if (r == 0)
                     {
                         //SendToServer("k");
-                        //frmImage.Trigger1();
-                        //Visuals.Preset.Trigger1();
                     }
                     else if (r == 1)
                     {
                         //SendToServer("s");
-                        //frmImage.Trigger2();
-                        //Visuals.Preset.Trigger2();
                     }
 
                     Arduino.Trigger(r);
@@ -363,8 +343,7 @@ namespace AudioAnalyzer
         {
             AutoSettings.BeginRanging();
         }
-
-        //This needs to call a frmChart Method.
+        
         private void btnDynamicThreshold_CheckedChanged(object sender, EventArgs e)
         {
             for (int i = 0; i < Range.Count; i++)
@@ -411,7 +390,7 @@ namespace AudioAnalyzer
 
         void CustomMDILayout()
         {
-            int offset = menuStrip.Height + toolStripMain.Height + toolStripProcessing.Height + toolStripVisuals.Height + statusStrip.Height + 4;
+            int offset = menuStrip.Height + toolStripMain.Height + toolStripProcessing.Height + statusStrip.Height + 4;
             int h = ClientSize.Height - offset;
 
             frmSpectrum.Height = h / 2;
@@ -460,12 +439,6 @@ namespace AudioAnalyzer
 
                 CustomMDILayout();
             }
-        }
-
-        private void cboVisualPreset_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Visuals.Preset = (IVFX)cboVisualPreset.SelectedItem;
-        }
-        
+        }        
     }
 }

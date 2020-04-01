@@ -31,65 +31,26 @@ public static class SoundCapture
     public static WasapiCapture Capture;
     public static FftSize FFTSize = FftSize.Fft8192;
     public static float[] fftBuffer;
-    
-    public static float SingleBlock;
-    public static List<float> BlocksSinceLastCapture = new List<float>();
 
     static SpectrumProvider spectrumProvider;
 
     public static IWaveSource finalSource;
 
-    #region Buffer for pitch detection
-
-    static object lockObject = new object();
-    static Queue<float[]> bufferQueue = new Queue<float[]>();
-
-    private static void AddBuffer(float[] buffer)
-    {
-        lock (lockObject)
-        {
-            bufferQueue.Enqueue(buffer);
-
-            Monitor.Pulse(lockObject);
-        }
-    }
-
-    public static float[] GetBuffer()
-    {
-        float[] buffer = new float[0];
-
-        lock (lockObject)
-        {
-            Monitor.Wait(lockObject);
-
-            while (bufferQueue.Count > 0)
-                buffer = bufferQueue.Dequeue();
-        }
-
-        return buffer;
-    }
-
-    #endregion
-
     public static void Init()
     {
+        pitchDetector = new AudioAnalyzer.PitchDetector();
 
-        // This uses the wasapi api to get any sound data played by the computer
         Capture = new WasapiLoopbackCapture(0);
 
         Capture.Initialize();
-
-        // Get our capture as a source
+        
         IWaveSource source = new SoundInSource(Capture);
 
 
         // From https://github.com/filoe/cscore/blob/master/Samples/WinformsVisualization/Form1.cs
         
-        // Actual fft data
         fftBuffer = new float[(int)FFTSize];
-
-        // These are the actual classes that give you spectrum data
-        // The specific vars of lineSpectrum are changed below in the editor so most of these aren't that important here
+        
         spectrumProvider = new SpectrumProvider(Capture.WaveFormat.Channels,
                     Capture.WaveFormat.SampleRate, FFTSize);
 
@@ -115,20 +76,21 @@ public static class SoundCapture
         Capture.Start();
     }
 
+    static AudioAnalyzer.PitchDetector pitchDetector;
+    static float[] audioFrame;
+
     private static void Capture_DataAvailable(object sender, DataAvailableEventArgs e)
     {
         finalSource.Read(e.Data, e.Offset, e.ByteCount);
 
-        var audioData = new float[e.Data.Length / 4];
-        Buffer.BlockCopy(e.Data, 0, audioData, 0, e.Data.Length);
+        audioFrame = new float[e.Data.Length / 4];
+        Buffer.BlockCopy(e.Data, 0, audioFrame, 0, e.Data.Length);
 
-        AddBuffer(audioData);
+        pitchDetector.HandleAudioData(audioFrame);
     }
-    
+
     private static void NotificationSource_SingleBlockRead(object sender, SingleBlockReadEventArgs e)
     {
-        BlocksSinceLastCapture.Add(e.Left);
-        //SingleBlock = e.Left;
         spectrumProvider.Add(e.Left, e.Right);
     }
 
@@ -147,13 +109,5 @@ public static class SoundCapture
     public static float[] Update()
     {
         return GetFFtData();
-    }
-
-    static List<float> blocks;
-    public static List<float> GetBlocksSinceLastCapture()
-    {
-        blocks = BlocksSinceLastCapture.GetRange(0, BlocksSinceLastCapture.Count);
-        BlocksSinceLastCapture = new List<float>();
-        return blocks;
     }
 }

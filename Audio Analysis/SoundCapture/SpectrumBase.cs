@@ -164,13 +164,9 @@ namespace WinformsVisualization.Visualization
                         value0 = ((Math.Sqrt(fftBuffer[i])) * ScaleFactorSqr) * actualMaxValue;
                         break;
                 }
-
-                bool recalc = true;
-
+                
                 value = Math.Max(0, Math.Max(value0, value));
-
-                #region Untested Edits
-
+                
                 if(value > maxValue)
                 {
                     value = maxValue;
@@ -179,31 +175,7 @@ namespace WinformsVisualization.Visualization
                 dataPoints.Add(new SpectrumPointData { SpectrumPointIndex = spectrumPointIndex, Value = value });
                 value = 0.0;
                 spectrumPointIndex++;
-
-                #endregion
-
-                //while (spectrumPointIndex <= _spectrumIndexMax.Length - 1 &&
-                //       i ==
-                //       (IsXLogScale
-                //           ? _spectrumLogScaleIndexMax[spectrumPointIndex]
-                //           : _spectrumIndexMax[spectrumPointIndex]))
-                //{
-                //    if (!recalc)
-                //        value = lastValue;
-
-                //    if (value > maxValue)
-                //        value = maxValue;
-
-                //    if (_useAverage && spectrumPointIndex > 0)
-                //        value = (lastValue + value) / 2.0;
-
-                //    dataPoints.Add(new SpectrumPointData {SpectrumPointIndex = spectrumPointIndex, Value = value});
-
-                //    lastValue = value;
-                //    value = 0.0;
-                //    spectrumPointIndex++;
-                //    recalc = false;
-                //}
+                
             }
 
             return dataPoints.ToArray();

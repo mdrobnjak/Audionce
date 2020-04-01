@@ -34,7 +34,7 @@ namespace AudioAnalyzer
         {
             if (pauseDrawing)
             {
-                SoundCapture.GetBlocksSinceLastCapture();
+                //SoundCapture.GetBlocksSinceLastCapture();
                 return;
             }
             // InvokeRequired required compares the thread ID of the
@@ -110,7 +110,7 @@ namespace AudioAnalyzer
 
         private void DrawChart()
         {
-            List<float> blocks = new List<float>(SoundCapture.GetBlocksSinceLastCapture());
+            List<float> blocks = new List<float>(/*SoundCapture.GetBlocksSinceLastCapture()*/);
             Array.Copy(scopeData, blocks.Count, scopeData, 0, scopeData.Length - blocks.Count);
             for (int i = 0; i < blocks.Count; i++)
             {

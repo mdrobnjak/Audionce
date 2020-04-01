@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 namespace WinformsVisualization.Visualization
 {
-    /// <summary>
-    /// BasicSpectrumProvider
-    /// </summary>
     public class SpectrumProvider : FftProvider
     {
         private readonly int _sampleRate;

@@ -16,7 +16,10 @@ namespace AudioAnalyzer
         [STAThread]
         static void Main()
         {
-            using (AudioAnalyzerMDIForm analyzer = new AudioAnalyzerMDIForm())Application.Run(analyzer);
+            using (AudioAnalyzerMDIForm analyzer = new AudioAnalyzerMDIForm())
+            {
+                Application.Run(analyzer);
+            }
         }        
     }
 }
