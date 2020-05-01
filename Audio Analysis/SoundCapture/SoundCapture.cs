@@ -83,10 +83,10 @@ public static class SoundCapture
     {
         finalSource.Read(e.Data, e.Offset, e.ByteCount);
 
-        audioFrame = new float[e.Data.Length / 4];
-        Buffer.BlockCopy(e.Data, 0, audioFrame, 0, e.Data.Length);
+        //audioFrame = new float[e.Data.Length / 4];
+        //Buffer.BlockCopy(e.Data, 0, audioFrame, 0, e.Data.Length);
 
-        pitchDetector.HandleAudioData(audioFrame);
+        //pitchDetector.HandleAudioData(audioFrame);
     }
 
     private static void NotificationSource_SingleBlockRead(object sender, SingleBlockReadEventArgs e)
