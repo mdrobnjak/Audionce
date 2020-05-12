@@ -52,9 +52,9 @@ namespace AudioAnalyzer
 
             timerFFT.Enabled = true;
 
-            //Int32 port = 13000;
-            //TcpClient client = new TcpClient(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(), port);
-            //stream = client.GetStream();
+            Int32 port = 13000;
+            TcpClient client = new TcpClient(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(), port);
+            stream = client.GetStream();
         }
 
         NetworkStream stream;
@@ -130,11 +130,11 @@ namespace AudioAnalyzer
                 {
                     if (r == 0)
                     {
-                        //SendToServer("k");
+                        SendToServer("k");
                     }
                     else if (r == 1)
                     {
-                        //SendToServer("s");
+                        SendToServer("s");
                     }
 
                     Arduino.Trigger(r);
