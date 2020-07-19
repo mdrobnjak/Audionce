@@ -16,51 +16,37 @@ namespace LiveVisualizerAudioInput
     }
 }
 
+/// <summary>
+/// This module is a black box.
+/// </summary>
 public static class SoundCapture
 {
-    public static int minFreq = 0;
-    public static int maxFreq = 20000;
-    public static bool logScale = false;
-    public static bool useAverage = false;
+    private static WasapiCapture capture;
+    private static IWaveSource finalSource;    
+    
+    public static readonly FftSize FFTSize = FftSize.Fft8192;
+    private static float[] fftBuffer;
 
-    public static float highScaleAverage = 2.0f;
-    public static float highScaleNotAverage = 3.0f;
-
-    static LineSpectrum lineSpectrum;
-        
-    public static WasapiCapture Capture;
-    public static FftSize FFTSize = FftSize.Fft8192;
-    public static float[] fftBuffer;
-
-    static SpectrumProvider spectrumProvider;
-
-    public static IWaveSource finalSource;
+    private static LineSpectrum lineSpectrum;
+    private static SpectrumProvider spectrumProvider;
 
     public static void Init()
     {
-        pitchDetector = new LiveVisualizerAudioInput.PitchDetector();
-
-        Capture = new WasapiLoopbackCapture(0);
-
-        Capture.Initialize();
+        capture = new WasapiLoopbackCapture(0);
+        capture.Initialize();
         
-        IWaveSource source = new SoundInSource(Capture);
+        IWaveSource source = new SoundInSource(capture);
 
-
-        // From https://github.com/filoe/cscore/blob/master/Samples/WinformsVisualization/Form1.cs
-        
         fftBuffer = new float[(int)FFTSize];
         
-        spectrumProvider = new SpectrumProvider(Capture.WaveFormat.Channels,
-                    Capture.WaveFormat.SampleRate, FFTSize);
-
-        Console.WriteLine(Capture.WaveFormat.SampleRate);
+        spectrumProvider = new SpectrumProvider(capture.WaveFormat.Channels,
+                    capture.WaveFormat.SampleRate, FFTSize);
 
         lineSpectrum = new LineSpectrum(FFTSize)
         {
             SpectrumProvider = spectrumProvider,
-            UseAverage = useAverage,
-            IsXLogScale = logScale,
+            UseAverage = false,
+            IsXLogScale = false,
             ScalingStrategy = ScalingStrategy.Linear
         };
 
@@ -72,42 +58,29 @@ public static class SoundCapture
         // We use this to request data so it actualy flows through (figuring this out took forever...)
         finalSource = notificationSource.ToWaveSource();
 
-        Capture.DataAvailable += Capture_DataAvailable;
-        Capture.Start();
+        capture.DataAvailable += Capture_DataAvailable;
+        capture.Start();
     }
-
-    static LiveVisualizerAudioInput.PitchDetector pitchDetector;
-    static float[] audioFrame;
-
+    
     private static void Capture_DataAvailable(object sender, DataAvailableEventArgs e)
     {
         finalSource.Read(e.Data, e.Offset, e.ByteCount);
-
-        //audioFrame = new float[e.Data.Length / 4];
-        //Buffer.BlockCopy(e.Data, 0, audioFrame, 0, e.Data.Length);
-
-        //pitchDetector.HandleAudioData(audioFrame);
     }
 
     private static void NotificationSource_SingleBlockRead(object sender, SingleBlockReadEventArgs e)
     {
         spectrumProvider.Add(e.Left, e.Right);
     }
-
-    public static void OnApplicationQuit()
+    
+    public static void StopAndDisposeResources()
     {
-        Capture.Stop();
-        Capture.Dispose();
-    }    
+        capture.Stop();
+        capture.Dispose();
+    }
 
-    public static float[] GetFFtData()
+    public static float[] GetFFTData()
     {
         lineSpectrum.SpectrumProvider.GetFftData(fftBuffer);
         return lineSpectrum.GetSpectrumPoints(100.0f, fftBuffer);
-    }
-
-    public static float[] Update()
-    {
-        return GetFFtData();
     }
 }

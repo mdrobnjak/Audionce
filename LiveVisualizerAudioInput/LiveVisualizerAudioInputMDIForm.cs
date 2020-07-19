@@ -16,29 +16,28 @@ namespace LiveVisualizerAudioInput
 {
     public partial class LiveVisualizerAudioInputMDIForm : Form
     {
-        private int childFormNumber = 0;
-        MdiLayout DefaultLayout = MdiLayout.TileHorizontal;
+        private int childFormCount = 0;
 
+        //Child Forms
         SpectrumForm frmSpectrum;
         ChartForm[] frmChart = new ChartForm[Range.Count];
-        OscilloscopeForm frmOscilloscope;
         GateForm frmGate;
         ArduinoForm frmArduino;
         SettingsForm frmSettings;
+        //OscilloscopeForm frmOscilloscope;
 
         public LiveVisualizerAudioInputMDIForm()
         {
 
             InitializeComponent();
 
+            //Try to give this process priority. Not sure if it improves performance.
             using (System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess())
                 p.PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
 
             Range.Init();
             Brushes.Init();
             ML.InitPaths();
-
-            //Spectrum.SyncBandsAndFreqs();
 
             SoundCapture.Init();
             lblPreset.Text = FileIO.InitPathAndGetPreset();
@@ -49,12 +48,13 @@ namespace LiveVisualizerAudioInput
             InitControls();
 
             this.SizeChanged += new System.EventHandler(this.frmLiveVisualizerAudioInputMDI_SizeChanged);
-
+            
+            //Enable FFT timer after initializing all other components.
             timerFFT.Enabled = true;
 
-            Int32 port = 13000;
-            TcpClient client = new TcpClient(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(), port);
-            stream = client.GetStream();
+            //Int32 port = 13000;
+            //TcpClient client = new TcpClient(Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(), port);
+            //stream = client.GetStream();
         }
 
         NetworkStream stream;
@@ -96,7 +96,7 @@ namespace LiveVisualizerAudioInput
             {
                 frmChart[i] = new ChartForm(i);
                 frmChart[i].MdiParent = this;
-                childFormNumber++;
+                childFormCount++;
                 frmChart[i].Show();
             }
 
@@ -107,18 +107,18 @@ namespace LiveVisualizerAudioInput
 
             frmSpectrum = new SpectrumForm();
             frmSpectrum.MdiParent = this;
-            childFormNumber++;
+            childFormCount++;
             frmSpectrum.Show();
 
             frmGate = new GateForm();
             frmGate.MdiParent = this;
-            childFormNumber++;
+            childFormCount++;
             frmGate.Show();
         }
         
         public void timerFFT_Tick(object sender, EventArgs e)
         {
-            FFT.transformedData = FFT.LogScale(SoundCapture.Update());
+            FFT.transformedData = FFT.LogScale(SoundCapture.GetFFTData());
 
             for (int r = 0; r < Range.Count; r++)
             {
@@ -130,11 +130,11 @@ namespace LiveVisualizerAudioInput
                 {
                     if (r == 0)
                     {
-                        SendToServer("k");
+                        //SendToServer("k");
                     }
                     else if (r == 1)
                     {
-                        SendToServer("s");
+                        //SendToServer("s");
                     }
 
                     Arduino.Trigger(r);
@@ -187,7 +187,7 @@ namespace LiveVisualizerAudioInput
         {
             Form childForm = new Form();
             childForm.MdiParent = this;
-            childForm.Text = "Window " + childFormNumber++;
+            childForm.Text = "Window " + childFormCount++;
             childForm.Show();
         }
 
@@ -303,7 +303,7 @@ namespace LiveVisualizerAudioInput
 
         private void frmLiveVisualizerAudioInputMDI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SoundCapture.OnApplicationQuit();
+            SoundCapture.StopAndDisposeResources();
             if (Arduino.Port.IsOpen) Arduino.Port.Close();
         }
 
@@ -327,7 +327,7 @@ namespace LiveVisualizerAudioInput
         {
             frmArduino = new ArduinoForm();
             frmArduino.MdiParent = this;
-            childFormNumber++;
+            childFormCount++;
             frmArduino.Show();
         }
 
@@ -335,7 +335,7 @@ namespace LiveVisualizerAudioInput
         {
             frmSettings = new SettingsForm();
             frmSettings.MdiParent = this;
-            childFormNumber++;
+            childFormCount++;
             frmSettings.Show();
         }
 
